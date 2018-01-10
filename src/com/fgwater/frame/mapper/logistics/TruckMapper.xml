@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.TruckMapper">
+
+	<select id="query" parameterType="HashMap" resultType="HashMap">
+		select c.id, c.fleetId, c.plateNo, c.carType,c.companyId, c.vehicleOwner, c.tel,
+ 		c.buyDatetime,c.driverId,c.statues,co.company,f.fleetName,ct.modelName,d.driverName
+		from t_archives_car c
+		LEFT  JOIN  t_archives_company co ON c.companyId = co.id
+		LEFT JOIN    t_system_fleet f  ON c.fleetId = f.id
+		LEFT   JOIN t_archives_car_type ct ON c.carType = ct.id
+		LEFT   JOIN t_archives_driver d  ON c.driverId = d.id
+		where 1=1
+	</select>
+
+	<select id="getAll" parameterType="HashMap" resultType="Truck">
+		select id,vehicleManager,driver,tel,plateNumber,truckModel,DWT,
+		truckCargoType,CONVERT(varchar(100), buyingTime, 20) as buyingTime,
+		truckType,gradeID,dispatchers,vehicleCondition
+		 from t_archives_car 
+		 where 1=1 
+		<if test="dispatchers!=null and dispatchers!=''">
+			and dispatchers = '${dispatchers}'
+		</if>			
+		order by dispatchers desc		 
+	</select>
+	
+
+	<insert id="saveTable" parameterType="HashMap">
+		insert into t_archives_car (
+			id,fleetId,plateNo,carType,companyId,vehicleOwner,tel,buyDatetime,driverId,statues
+		) values (
+			#{id},#{fleetId},#{plateNo},#{carType},#{companyId},#{vehicleOwner},#{tel},#{buyDatetime},#{driverId},#{statues}
+
+		)
+	</insert>
+	
+	<update id="updateTable" parameterType="HashMap">
+		update t_archives_car set fleetId=#{fleetId},plateNo=#{plateNo},carType=#{carType}
+		,companyId=#{companyId},vehicleOwner=#{vehicleOwner},tel=#{tel}, buyDatetime=#{buyDatetime}, driverId=#{driverId}, statues=#{statues}
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteTable" parameterType="HashMap">
+		<!-- update t_archives_car set isTwoBs = 0 where id=#{id} -->
+		delete from t_archives_car where id=#{id} 
+	</delete>
+	
+	<select id="checkPlateNumber" parameterType="HashMap" resultType="Integer">
+		select count(*) from t_archives_car where id!=#{id} and plateNo=#{plateNo}
+	</select>	
+
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.CustomerMapper">
+
+	<select id="query" parameterType="HashMap" resultType="HashMap">
+		select d.id, d.driverName, d.companyId, d.statuesId,d.sex,d.drivingExperience, d.peccancyCount, d.mobile,d.address, f.fleetName
+		from   t_archives_driver d   LEFT JOIN t_system_fleet f ON d.fleetId = f.id
+		where 1=1 
+		<if test="driverName!=null and driverName!=''">
+			and driverName like '%${driverName}%'
+		</if>
+		
+		<if test="companyId!=null and companyId!=''">
+			and companyId like '%${companyId}%'
+		</if>		
+		<if test="tel!=null and tel!=''">
+			and tel like '%${tel}%'
+		</if>		
+		<if test="address!=null and address!=''">
+			and address like '%${address}%'
+		</if>
+		
+	</select>
+
+	<select id="getAll" parameterType="HashMap" resultType="Customer">
+		select id,fleetId,driverName,companyId
+		 from   t_archives_driver
+	</select>
+	
+
+	<insert id="saveTable" parameterType="HashMap">
+		insert into   t_archives_driver (
+			id,fleetId,companyId,driverTypeId,driverName,statuesId,sex,drivingExperience,peccancyCount,mobile,address
+		) values (
+			#{id},#{fleetId},#{companyId},#{driverTypeId},#{driverName},#{statuesId},#{sex},#{drivingExperience},#{peccancyCount},#{tel},#{address}
+		)
+	</insert>
+	
+	<update id="updateTable" parameterType="HashMap">
+		update   t_archives_driver set
+		fleetId=#{fleetId},companyId=#{companyId},driverName=#{driverName},statuesId=#{statuesId},sex=#{sex},drivingExperience=#{drivingExperience},
+		peccancyCount=#{peccancyCount},address=#{address}
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteTable" parameterType="HashMap">
+		delete from   t_archives_driver where id=#{id}
+	</delete>
+	
+	<select id="checkName" parameterType="HashMap" resultType="Integer">
+		select count(*) from   t_archives_driver where id!=#{id} and driverName=#{driverName}
+	</select>		
+
+
+</mapper>

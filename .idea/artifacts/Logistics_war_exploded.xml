@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Logistics:war exploded">
+    <output-path>$PROJECT_DIR$/classes/artifacts/Logistics_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Logistics" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="poi-3.10-beta2.jar" module-name="Logistics" />
+          <element id="library" level="module" name="poi-ooxml-3.10-beta2.jar" module-name="Logistics" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="Logistics/web/Web" />
+    </root>
+  </artifact>
+</component>

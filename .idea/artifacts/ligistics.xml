@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ligistics">
+    <output-path>$PROJECT_DIR$/classes/artifacts/ligistics</output-path>
+    <root id="archive" name="ligistics.war" />
+  </artifact>
+</component>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.TruckTypeMapper">
+
+	<select id="query" parameterType="HashMap" resultType="HashMap">
+		SELECT   t.*,f.fleetName
+		FROM      t_archives_car_type t
+		LEFT JOIN t_system_fleet f ON t.fleetId = f.id
+		where 1=1 
+		<if test="modelName!=null and modelName!=''">
+			and modelName like '%${modelName}%'
+		</if>
+		<if test="fleetId!='root'">
+			and t.fleetId =#{fleetId}
+		</if>
+		order by modelName desc
+		
+	</select>
+
+	<select id="getAll" parameterType="HashMap" resultType="TruckType">
+		SELECT   *
+		FROM      t_archives_car_type
+		<if test="fleetId!='root'">
+		WHERE fleetId =#{fleetId}
+	</if>
+
+	 
+	</select>
+	
+
+	<insert id="saveTable" parameterType="HashMap">
+		insert into t_archives_car_type (
+			id,fleetId,modelName,seatNumber,approvedPassengersCapacity,type,remark
+		) values (
+			#{id},#{fleetId},#{modelName},#{seatNumber},#{approvedPassengersCapacity},#{type},#{remark}
+		)
+	</insert>
+	
+	<update id="updateTable" parameterType="HashMap">
+		update t_archives_car_type set 
+		modelName=#{modelName},seatNumber=#{seatNumber},fleetId=#{fleetId}
+		,approvedPassengersCapacity=#{approvedPassengersCapacity},type=#{type},remark=#{remark},modifier=#{modifier},moTime=#{moTime}
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteTable" parameterType="HashMap">
+		<!--  -->
+		delete from t_archives_car_type where id=#{id} 
+	</delete>
+	
+	<select id="checkTruckTypeName" parameterType="HashMap" resultType="Integer">
+		select count(*) from t_archives_car_type where id!=#{id} and modelName=#{modelName}
+	</select>	
+
+
+</mapper>
