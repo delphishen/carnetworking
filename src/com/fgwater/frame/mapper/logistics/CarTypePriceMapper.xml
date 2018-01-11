@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.CarTypePriceMapper">
+
+
+
+
+
+
+	<delete id="deleteTable" parameterType="HashMap">
+		delete from   t_charteredBus_type where id=#{id}
+	</delete>
+
+
+
+
+	<select id="query" parameterType="HashMap" resultType="HashMap">
+		SELECT  l.*, c.company ,t.modelName from t_archives_car_type_price_list l
+		LEFT JOIN t_archives_company c ON l.companyId = c.id
+		LEFT JOIN t_archives_car_type t   ON l.carTtypeId = t.id
+	<if test="fleetId!='root'">
+		where fleetId =#{fleetId}
+	</if>
+</select>
+
+
+
+
+
+
+
+
+
+</mapper>
