@@ -16,4 +16,7 @@ public interface CarTypePriceMapper extends BaseMapper<CarTypePrice> {
     List<Map<String,String>> query(Map<String, String> params);
 
 
+    public void deleteTable(Map<String, String> map);
+
+
 }

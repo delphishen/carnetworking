@@ -329,7 +329,7 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
             root: 'rows',
             totalProperty: 'results',
             fields: ['id', 'fleetId', 'companyId', 'businessType', 'carTtypeId', 'ascription', 'startPrice', 'startKilometres', 'startTime', 'KilometresPrice','timePrice'
-                ,'emptyPrice', 'nighttimePrice', 'nighttimeBegin','nighttimeEnd', 'cancelPrice', 'company','modelName'],
+                ,'emptyPrice', 'nighttimePrice', 'nighttimeBegin','nighttimeEnd', 'cancelPrice', 'company','modelName','fleetName'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -471,12 +471,34 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
         var select = selects[0].data;
         var win = new Ext.driverType.win(this);
         var form = win.form.getForm();
-        win.setTitle('修改车辆信息', 'modify');
+        win.setTitle('修改价格信息', 'modify');
         form.findField('id').setValue(select.id);
         form.findField('fleetId').setValue(select.fleetId);
+        form.findField('companyId').setValue(select.companyId);
+        form.findField('businessType').setValue(select.businessType);
+
+        form.findField('carTtypeId').setValue(select.carTtypeId);
+        form.findField('ascription').setValue(select.ascription);
+        form.findField('startPrice').setValue(select.startPrice);
+        form.findField('startKilometres').setValue(select.startKilometres);
+
+        form.findField('startTime').setValue(select.startTime);
+        form.findField('KilometresPrice').setValue(select.KilometresPrice);
+        form.findField('timePrice').setValue(select.timePrice);
+        form.findField('emptyPrice').setValue(select.emptyPrice);
+
+        form.findField('nighttimePrice').setValue(select.nighttimePrice);
+        form.findField('nighttimeBegin').setValue(select.nighttimeBegin);
+        form.findField('nighttimeEnd').setValue(select.nighttimeEnd);
+        form.findField('cancelPrice').setValue(select.cancelPrice);
+
+
+        form.findField('company').setValue(select.company);
+        form.findField('modelName').setValue(select.modelName);
+
         form.findField('fleetName').setValue(select.fleetName);
 
-        form.findField('driverType').setValue(select.driverType);
+
         win.show();
     },
     onDelete: function () {
@@ -496,8 +518,8 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
         // Ext.ux.Toast.msg("信息", Ext.encode(ary));
         Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function (btn) {
             if (btn == 'yes') {
-                Ext.eu.ajax(path + '/logistics/deletedriverType.do', {
-                    driverTypes: Ext.encode(ary)
+                Ext.eu.ajax(path + '/logistics/deleteCarTypePrice.do', {
+                    carTypePrices: Ext.encode(ary)
                 }, function (resp) {
                     Ext.ux.Toast.msg('信息', '删除成功');
                     this.getStore().reload();

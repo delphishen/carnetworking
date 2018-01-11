@@ -42,6 +42,17 @@ public class CarTypePriceServiceImpl extends BaseServiceImpl implements CarTypeP
 		return this.carTypePriceMapper.query(params);
 	}
 
+	@Override
+	public void deleteTable(List<CarTypePrice> carTypePrices) {
+
+		for (CarTypePrice carTypePrice : carTypePrices) {
+			JSONObject jo = JSONObject.fromObject(carTypePrice);
+			Map<String, String> map = this.toMap(jo);
+			carTypePriceMapper.deleteTable(map);
+		}
+
+	}
+
 
 	@SuppressWarnings("unchecked")
 	private Map<String, String> toMap(JSONObject jo) {

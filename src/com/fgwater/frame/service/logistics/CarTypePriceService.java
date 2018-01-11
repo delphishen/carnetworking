@@ -19,5 +19,7 @@ public interface CarTypePriceService extends BaseService {
 
     public  List<Map<String,String>> query(Map<String, String> params);
 
+    public   void deleteTable(List<CarTypePrice> carTypePrices);
+
 }
 

@@ -48,17 +48,21 @@ public class CarTypePriceController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "queryCarTypePrice.do")
 	public String query() {
-		//	System.out.println("queryTruckType========MOUNT_TYPE_JA===="+this.requestModel.getParams());
-		//this.responseModel.mount(this.driverTypeService.query(this.requestModel
-		//		.getParams()), MOUNT_TYPE_PAGING);
-
-
 
 		this.responseModel.mount(this.carTypePriceService.query(this.requestModel
 				.getParams()), MOUNT_TYPE_PAGING);
 
+		return this.responseModel.serial();
+	}
 
 
+
+
+	@ResponseBody
+	@RequestMapping(value = "deleteCarTypePrice.do")
+	public String delete() {
+		System.out.println("==============deletedriverType============="+this.getCarTypePrices());
+		this.carTypePriceService.deleteTable(this.getCarTypePrices());
 		return this.responseModel.serial();
 	}
 
