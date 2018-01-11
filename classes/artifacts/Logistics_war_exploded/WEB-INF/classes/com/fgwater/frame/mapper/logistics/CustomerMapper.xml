@@ -5,9 +5,11 @@
 <mapper namespace="com.fgwater.frame.mapper.logistics.CustomerMapper">
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		select d.id, d.driverName, d.companyId, d.statuesId,d.sex,d.drivingExperience, d.peccancyCount, d.mobile,d.address, f.fleetName
-		from   t_archives_driver d   LEFT JOIN t_system_fleet f ON d.fleetId = f.id
-		where 1=1 
+		select d.id, d.driverName, d.companyId, d.statuesId,d.sex,d.drivingExperience, d.peccancyCount, d.mobile,d.address, f.fleetName,c.company
+		from   t_archives_driver d
+		LEFT JOIN t_system_fleet f ON d.fleetId = f.id
+		LEFT  join t_archives_company c  ON d.companyId = c.id
+		where 1=1
 		<if test="driverName!=null and driverName!=''">
 			and driverName like '%${driverName}%'
 		</if>

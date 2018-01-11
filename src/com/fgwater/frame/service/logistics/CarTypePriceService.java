@@ -11,6 +11,9 @@ public interface CarTypePriceService extends BaseService {
 
 
 
+
+
+
     public boolean saveOrUpdate(CarTypePrice carTypePrice);
 
 

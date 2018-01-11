@@ -4,6 +4,84 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
 
+        this.kqSelector = new Ext.form.TriggerField({
+            fieldLabel : '单位机构',
+            name : 'company',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new kqSelector(function(id, name) {
+                    this.setValue(name);
+                    Ext.getCmp('companyId').setValue(id);
+                    //	if(Ext.getCmp('loginName').getValue != ''){
+                    //		Ext.getCmp('loginName').setValue(name);
+                    //	}
+
+
+
+                }, true, this);
+            },
+            scope : this
+        });
+
+        this.driverSelector = new Ext.form.TriggerField({
+            fieldLabel : '所属司机',
+            name : 'driverName',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new driverSelector(function(id, name) {
+                    this.setValue(name);
+                    Ext.getCmp('driverId').setValue(id);
+                    //	if(Ext.getCmp('loginName').getValue != ''){
+                    //		Ext.getCmp('loginName').setValue(name);
+                    //	}
+
+
+
+                }, true, this);
+            },
+            scope : this
+        });
+
+
+        this.truckTypeSelector = new Ext.form.TriggerField({
+            fieldLabel : '车辆类型',
+            name : 'modelName',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new truckTypeSelector(function(id, name) {
+                    this.setValue(name);
+                    Ext.getCmp('carType').setValue(id);
+                    //	if(Ext.getCmp('loginName').getValue != ''){
+                    //		Ext.getCmp('loginName').setValue(name);
+                    //	}
+
+
+
+                }, true, this);
+            },
+            scope : this
+        });
+
+
+
+
+
+
 
 
 
@@ -43,83 +121,21 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
                 listeners : {
                     'select' : function(combo, record) {
                         	this.getForm().findField('fleetId').setValue(record.data.id);
-                    },
-                    scope : this
-                }
-            }]
-        }, {
-            columnWidth : 1,
-            labelWidth : 60,
-            items : [{
-                fieldLabel : '所属机构',
-                width : 60,
-                xtype : 'combo',
-                hiddenName : 'companyName',
-                submitValue : false,
-                anchor : '98%',
-                editable : false,
-                autoLoad : true,
-                triggerAction : 'all',
-                mode : 'local',
-                store : Ext.getCmp('companyTypeDS').getStore(),
-                valueField : 'company',
-                displayField : 'company',
-                listeners : {
-                    'select' : function(combo, record) {
-                        this.getForm().findField('companyId').setValue(record.data.id);
-                    },
-                    scope : this
-                }
-            }]
-        }, {
-            columnWidth : 1,
-            labelWidth : 60,
-            items : [{
-                fieldLabel : '所属司机',
-                width : 60,
-                xtype : 'combo',
-                hiddenName : 'driverName',
-                submitValue : false,
-                anchor : '98%',
-                editable : false,
-                autoLoad : true,
-                triggerAction : 'all',
-                mode : 'local',
-                store : Ext.getCmp('driverTypeDS').getStore(),
-                valueField : 'driverName',
-                displayField : 'driverName',
-                listeners : {
-                    'select' : function(combo, record) {
-                        this.getForm().findField('driverId').setValue(record.data.id);
-                    },
-                    scope : this
-                }
-            }]
-        }, {
-            columnWidth : 1,
-            labelWidth : 60,
-            items : [{
-                fieldLabel : '车型',
-                width : 60,
-                xtype : 'combo',
-                hiddenName : 'modelName',
-                submitValue : false,
-                anchor : '98%',
-                editable : false,
-                autoLoad : true,
-                triggerAction : 'all',
-                mode : 'local',
-                store : Ext.getCmp('truckTypeDS').getStore(),
-                valueField : 'modelName',
-                displayField : 'modelName',
-                listeners : {
-                    'select' : function(combo, record) {
-                        this.getForm().findField('carType').setValue(record.data.id);
+                        	basefleedId = record.data.id;
                     },
                     scope : this
                 }
             }]
         },{
+            columnWidth : 1,
+            items : [this.kqSelector]
+        },{
+            columnWidth : 1,
+            items : [this.driverSelector]
+        },{
+            columnWidth : 1,
+            items : [this.truckTypeSelector]
+        }, {
 					columnWidth : 1,
 					labelWidth : 60,
 					items : [{
