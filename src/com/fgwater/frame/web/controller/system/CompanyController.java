@@ -44,6 +44,19 @@ public class CompanyController extends BaseController {
 	}
 
 
+	//获取单位机构树子集
+	@ResponseBody
+	@RequestMapping(value = "getTreechild.do")
+	public String getTreechild() {
+		this.responseModel.mount(this.companyService.getTreechild(this.requestModel.getParams()), MOUNT_TYPE_PAGING);
+
+		System.out.println("buildCompany======"+this.responseModel.serial());
+		return this.responseModel.serial();
+	}
+
+
+
+
 	@ResponseBody
 	@RequestMapping(value = "saveCompany.do")
 	public String save() {

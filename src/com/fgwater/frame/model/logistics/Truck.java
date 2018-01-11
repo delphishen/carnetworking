@@ -30,7 +30,7 @@ public class Truck extends BaseModel {
 	@Column
 	private String tel;
 	@Column
-	private int driverId;
+	private String driverId;
 	@Column
 	private String oilTotal;
 	@Column
@@ -113,11 +113,12 @@ public class Truck extends BaseModel {
 		this.tel = tel;
 	}
 
-	public int getDriverId() {
+
+	public String getDriverId() {
 		return driverId;
 	}
 
-	public void setDriverId(int driverId) {
+	public void setDriverId(String driverId) {
 		this.driverId = driverId;
 	}
 

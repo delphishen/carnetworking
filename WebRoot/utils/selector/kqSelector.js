@@ -6,7 +6,7 @@ Ext.kqSelector.tree = Ext.extend(Ext.tree.TreePanel, {
 				// 菜单根节点
 				this.root = new Ext.tree.AsyncTreeNode({
 							id : '0',
-							text : '指标种类',
+							text : '平台名称',
 							draggable : false
 						});
 
@@ -20,8 +20,9 @@ Ext.kqSelector.tree = Ext.extend(Ext.tree.TreePanel, {
 							rootVisible : true,// 是否显示根节点
 							loader : new Ext.tree.TreeLoader({
 										dataUrl : path
-												+ '/wbb/buildTreeKqSort.do',
-										baseParams : {}
+												+ '/system/getTreeAllCompanyList.do',
+										baseParams : {
+											fleetId: basefleedId}
 									}),
 							listeners : {
 								contextmenu : {
@@ -34,6 +35,7 @@ Ext.kqSelector.tree = Ext.extend(Ext.tree.TreePanel, {
 									scope : this
 								},
 								click : function(node, event) {
+									console.log(node);
 									this.app.grid.sortNode = node;
 									this.app.grid.getStore().load();
 								},
@@ -50,9 +52,9 @@ Ext.kqSelector.form = Ext.extend(Ext.FormPanel, {
 				this.items = [{
 							columnWidth : 1,
 							items : [{
-										fieldLabel : '已选指标',
+										fieldLabel : '已选机构',
 										xtype : 'textarea',
-										name : 'kqChName',
+										name : 'company',
 										anchor : '100%',
 										readOnly : true,
 										style : 'background:#E6E6E6'
@@ -145,12 +147,11 @@ Ext.kqSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 		this.app = app;
 		// 数据源
 		this.ds = new Ext.data.JsonStore({
-					url : path + '/wbb/queryKq.do',
+					url : path + '/system/getTreechild.do',
 					idProperty : 'id',
 					root : 'rows',
 					totalProperty : 'results',
-					fields : ['id', 'sortId', 'sortName', 'chName', 'enName',
-							'unit', 'type', 'remark'],
+					fields : ['id', 'fleetId', 'fleetName', 'fatherId','company','companyNo'],
 					autoDestroy : true,
 					autoLoad : true,
 					baseParams : {
@@ -160,6 +161,7 @@ Ext.kqSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					listeners : {
 						'beforeload' : function() {
 							var sortIds = new Array();
+							console.log("点击事件id"+this.sortNode.id);
 							if (this.sortNode != null) {
 								if (this.sortNode.id != 0) {
 									sortIds.push(this.sortNode.id);
@@ -172,7 +174,7 @@ Ext.kqSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								}
 								str = str.substring(0, str.lastIndexOf(','));
 								Ext.apply(this.getStore().baseParams, {
-											'kqSortId' : str
+											'fatherId' : this.sortNode.id
 										});
 								Ext.apply(this.getStore().baseParams,
 										this.app.queryPanel.getQueryParams());
@@ -182,27 +184,39 @@ Ext.kqSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					}
 				});
 		// 选择框
-		this.sm = new Ext.grid.CheckboxSelectionModel({
-			singleSelect : this.app.app.isSingle,
-			listeners : {
-				'rowselect' : function(sm, index, record) {
-					var win = this.app;
-					if (win.app.isSingle) {
-						win.kq = new mapContainer();
-					}
-					win.kq.put(record.data.id, record.data);
-					win.form.getForm().findField('kqChName')
-							.setValue(Ext.kqSelector.toString(win.kq.values()));
-				},
-				'rowdeselect' : function(sm, index, record) {
-					var win = this.app;
-					win.kq.remove(record.data.id);
-					win.form.getForm().findField('kqChName')
-							.setValue(Ext.kqSelector.toString(win.kq.values()));
-				},
-				scope : this
-			}
-		});
+
+		////////////////////////////////////////////////////////////
+        this.sm = new Ext.grid.CheckboxSelectionModel({
+            singleSelect : this.app.app.isSingle,
+            listeners : {
+                'rowselect' : function(sm, index, record) {
+                    var win = this.app;
+                    if (win.app.isSingle) {
+                        win.companyId = [];
+                        win.companyName = [];
+                    }
+                    if (jQuery.inArray(record.get('id'), win.companyId) < 0) {
+                        win.companyId.push(record.get('id'));
+                        win.companyName.push(record.get('company'));
+                    }
+                    win.form.getForm().findField('company')
+                        .setValue(win.companyName.toString());
+                },
+                'rowdeselect' : function(sm, index, record) {
+                    var win = this.app;
+                    win.companyId.splice(jQuery.inArray(record.get('id'),
+                        win.companyId), 1);
+                    win.companyName.splice(jQuery.inArray(record
+                            .get('name'), win.companyName),
+                        1);
+                    win.form.getForm().findField('company')
+                        .setValue(win.companyName.toString());
+                },
+                scope : this
+            }
+        });
+
+
 		// 列
 		this.cm = new Ext.grid.ColumnModel({
 					defaults : {
@@ -214,15 +228,15 @@ Ext.kqSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								dataIndex : 'id',
 								hidden : true
 							}, {
-								header : 'sortId',
-								dataIndex : 'sortId',
+								header : 'fleetId',
+								dataIndex : 'fleetId',
 								hidden : true
 							}, {
-								header : '指标中文名称',
-								dataIndex : 'chName'
+								header : '机构编号',
+								dataIndex : 'companyNo'
 							}, {
-								header : '指标英文名称',
-								dataIndex : 'enName'
+								header : '机构名称',
+								dataIndex : 'company'
 							}]
 				});
 		// 页码条
@@ -256,7 +270,7 @@ Ext.kqSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 Ext.kqSelector.toString = function(ary) {
 	var str = '';
 	for (var i = 0; i < ary.length; i++) {
-		str += ary[i].chName + ',';
+		str += ary[i].company + ',';
 	}
 	str = str.substring(0, str.lastIndexOf(','));
 	return str;
@@ -271,7 +285,7 @@ Ext.kqSelector.win = Ext.extend(Ext.Window, {
 				this.tree = new Ext.kqSelector.tree(this);
 				this.queryPanel = new Ext.kqSelector.queryPanel(this);
 				Ext.kqSelector.win.superclass.constructor.call(this, {
-							title : '关键指标选择器',
+							title : '单位机构选择器',
 							width : 600,
 							height : 400,
 							plain : true,
@@ -300,14 +314,23 @@ Ext.kqSelector.win = Ext.extend(Ext.Window, {
 									}]
 						});
 			},
+
+
 			onSure : function(btn) {
-				this.app.callback.call(this.app.scope, this.kq.values());
+				this.app.callback.call(this.app.scope, this.companyId.toString(),
+					this.companyName.toString());
 				this.close();
 			},
+
+
+
 			onReset : function(btn) {
 				this.form.getForm().reset();
-				this.kq = new mapContainer();
+				this.companyId = [];
+				this.companyName = [];
 			},
+
+
 			onClose : function() {
 				this.close();
 			}

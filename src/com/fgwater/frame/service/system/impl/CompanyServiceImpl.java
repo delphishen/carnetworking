@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 @Service("companyService")
@@ -54,7 +55,10 @@ public class CompanyServiceImpl extends BaseServiceImpl implements
 		companyMapper.deletePhysicalCascade(company);
 	}
 
-
+	@Override
+	public List<Map<String,String>> getTreechild(Map<String, String> params) {
+		return this.companyMapper.getTreechild(params);
+	}
 
 
 	private JSONArray getByRoot(JSONArray ja, String root, JSONArray res) {

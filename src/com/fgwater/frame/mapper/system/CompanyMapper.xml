@@ -13,4 +13,16 @@
 		</if>
 	</select>
 
+
+
+	<select id="getTreechild"   parameterType="HashMap"  resultType="HashMap">
+
+		SELECT id,fleetId,fleetName,fatherId,company,companyNo FROM t_archives_company WHERE fatherId=#{fatherId}
+
+	</select>
+
+
+
+
+
 </mapper>

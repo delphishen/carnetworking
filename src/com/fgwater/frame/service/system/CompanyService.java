@@ -5,6 +5,7 @@ import com.fgwater.frame.model.system.Company;
 import com.fgwater.frame.model.system.Fleet;
 import net.sf.json.JSONArray;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CompanyService extends BaseService {
@@ -15,4 +16,8 @@ public interface CompanyService extends BaseService {
     public boolean saveOrUpdate(Company company);
 
     public  void  delete(Company company);
+
+    public List<Map<String,String>> getTreechild(Map<String, String> params);
+
+
 }

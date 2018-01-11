@@ -29,12 +29,44 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 		});
 
 
+
+        this.kqSelector = new Ext.form.TriggerField({
+            fieldLabel : '选择平台',
+            name : 'company',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new kqSelector(function(id, name) {
+                    this.setValue(name);
+                    Ext.getCmp('companyId').setValue(id);
+                    //	if(Ext.getCmp('loginName').getValue != ''){
+                    //		Ext.getCmp('loginName').setValue(name);
+                    //	}
+
+
+
+                }, true, this);
+            },
+            scope : this
+        });
+
+
+
+
+
 		this.items = [{
 					xtype : 'hidden',
 					id : 'id'
 				}, {
 					xtype : 'hidden',
 					id : 'empId'
+				},{
+					xtype : 'hidden',
+					id : 'companyId'
 				}, {
 					xtype : 'hidden',
 					id : 'password'
@@ -42,6 +74,9 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 					columnWidth : 1,
 					items : [this.empSelector]
 				}, {
+					columnWidth : 1,
+					items : [this.kqSelector]
+				},{
 					columnWidth : 1,
 					labelWidth : 60,
 					items : [{

@@ -5,20 +5,54 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
         this.app = app;
 
 
-        this.fleetTypeDS = new Ext.data.Store({
-            proxy : new Ext.data.HttpProxy({
-                url : path + '/system/getTreeAllFleetList.do',
-                method : 'POST'
-            }),
-            reader : new Ext.data.JsonReader({},
-                [{name : 'id'}, {name : 'fleetName'}]),
+        this.kqSelector = new Ext.form.TriggerField({
+            fieldLabel : '单位机构',
+            name : 'company',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new kqSelector(function(id, name) {
+                    this.setValue(name);
+                    Ext.getCmp('companyId').setValue(id);
+                    //	if(Ext.getCmp('loginName').getValue != ''){
+                    //		Ext.getCmp('loginName').setValue(name);
+                    //	}
 
-            baseParams : {
-                fleetId:fleedId
-            }
 
+
+                }, true, this);
+            },
+            scope : this
         });
-        this.fleetTypeDS.load();
+
+
+        this.driverTypeSelector = new Ext.form.TriggerField({
+            fieldLabel : '司机类型',
+            name : 'driverType',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new driverTypeSelector(function(id, name) {
+                    this.setValue(name);
+                    Ext.getCmp('driverTypeId').setValue(id);
+                    //	if(Ext.getCmp('loginName').getValue != ''){
+                    //		Ext.getCmp('loginName').setValue(name);
+                    //	}
+
+
+
+                }, true, this);
+            },
+            scope : this
+        });
 
 
 
@@ -35,6 +69,9 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
         },{
             xtype : 'hidden',
             id : 'companyId'
+        },{
+            xtype : 'hidden',
+            id : 'driverTypeId'
         }, {
             columnWidth : 1,
             labelWidth : 60,
@@ -50,48 +87,24 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
                 autoLoad : true,
                 triggerAction : 'all',
                 mode : 'local',
-                store : this.fleetTypeDS,
+                store : new Ext.data.Store( {
+                    proxy : new Ext.data.HttpProxy( {
+                        url : path + '/system/getTreeAllFleetList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'fleetName'}]),
+                    baseParams : {
+                        fleetId:fleedId
+                    },
+                    autoLoad : true
+                }),
                 valueField : 'fleetName',
                 displayField : 'fleetName',
                 listeners : {
                     'select' : function(combo, record) {
                         this.getForm().findField('fleetId').setValue(record.data.id);
-                        this.companyTypeDS = new Ext.data.Store({
-                            proxy : new Ext.data.HttpProxy({
-                                url : path + '/system/getTreeAllCompanyList.do',
-                                method : 'POST'
-                            }),
-                            reader : new Ext.data.JsonReader({},
-                                [{name : 'id'}, {name : 'company'}]),
-
-                            baseParams : {
-                                fleetId:Ext.getCmp('fleetId').getValue()
-                            }
-
-                        });
-
-                        this.companyTypeDS.load();
-                        console.log(this.companyTypeDS);
-                        Ext.getCmp('company').store = this.companyTypeDS;
-
-
-                        //设置司机类型事件
-                        this.driverTypeDS = new Ext.data.Store({
-                            proxy : new Ext.data.HttpProxy({
-                                url : path + '/logistics/getAlldriverType.do',
-                                method : 'POST'
-                            }),
-                            reader : new Ext.data.JsonReader({},
-                                [{name : 'id'}, {name : 'driverType'}]),
-
-                            baseParams : {
-                                fleetId:Ext.getCmp('fleetId').getValue()
-                            }
-
-                        });
-
-                        this.driverTypeDS.load();
-                        Ext.getCmp('driverTypeId').store = this.driverTypeDS;
+                        basefleedId = record.data.id;
 
 
                     },
@@ -100,66 +113,10 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             }]
         },{
             columnWidth : 1,
-            labelWidth : 60,
-            items : [{
-                id:'company',
-                fieldLabel : '所属单位机构',
-                width : 60,
-                xtype : 'combo',
-                hiddenName : 'company',
-                submitValue : false,
-                anchor : '98%',
-                editable : false,
-                autoLoad : true,
-                triggerAction : 'all',
-                mode : 'local',
-                store : this.companyTypeDS,
-                valueField : 'company',
-                displayField : 'company',
-                listeners : {
-                    'select' : function(combo, record) {
-                        console.log(record);
-                        this.getForm().findField('companyId').setValue(record.data.id);
-                    },
-                    'expand': function () {
-
-
-
-                        console.log("展开事件====================");
-                        console.log(Ext.getCmp('company').store);
-
-                        },
-
-                    scope : this
-                }
-            }]
+            items : [this.kqSelector]
         },{
             columnWidth : 1,
-            labelWidth : 60,
-            items : [{
-                id:'driverTypeId',
-                fieldLabel : '司机类型',
-                width : 60,
-                xtype : 'combo',
-                hiddenName : 'driverTypeId',
-                submitValue : false,
-                anchor : '98%',
-                editable : false,
-                autoLoad : true,
-                triggerAction : 'all',
-                mode : 'local',
-                store : this.driverTypeDS,
-                valueField : 'id',
-                displayField : 'driverType',
-                listeners : {
-                    'select' : function(combo, record) {
-                        console.log(record);
-                        //this.getForm().findField('companyId').setValue(record.data.id);
-                    },
-
-                    scope : this
-                }
-            }]
+            items : [this.driverTypeSelector]
         },{
             columnWidth : 1,
             labelWidth : 60,
@@ -345,7 +302,7 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
             idProperty : 'id',
             root : 'rows',
             totalProperty : 'results',
-            fields : ['id', 'driverName', 'companyId', 'statuesId','sex','drivingExperience', 'peccancyCount', 'mobile','address','fleetName'],
+            fields : ['id', 'driverName', 'companyId', 'company','statuesId','sex','drivingExperience', 'peccancyCount', 'mobile','address','fleetName'],
             autoDestroy : true,
             autoLoad : true,
             baseParams : {
@@ -381,8 +338,8 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex : 'driverName'
 
             },  {
-                header : '所属服务平台',
-                dataIndex : 'companyId',
+                header : '所属机构',
+                dataIndex : 'company',
                 hidden : false
             },  {
                 header : '当前状态',

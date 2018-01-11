@@ -105,6 +105,10 @@ App.importJs = {
 
     /** *************************价格管理*************************** */
     carTypePriceView : [path + '/js/logistics/dossier/carTypePriceView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/driverSelector.js',
+        path + '/utils/selector/truckTypeSelector.js',
+
     ],
 
 
@@ -131,7 +135,10 @@ App.importJs = {
 
     /** *************************车辆档案管理*************************** */	
 	truckView : [path + '/js/logistics/dossier/truckView.js',
-	             path + '/utils/selector/empSelector.js'],
+	             path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/driverSelector.js',
+        path + '/utils/selector/truckTypeSelector.js',
+	],
 	
     /** *************************线路档案管理*************************** */		             
 	linesView : [path + '/js/logistics/dossier/linesView.js'],	
@@ -140,7 +147,10 @@ App.importJs = {
 	gradeView : [path + '/js/logistics/dossier/gradeView.js'],	
 	
     /** *************************客户档案管理*************************** */
-    driverView : [path + '/js/logistics/dossier/driverView.js'],
+    driverView : [path + '/js/logistics/dossier/driverView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/driverTypeSelector.js',
+	],
 	
     /** *************************拓扑管理*************************** */
     resultView : [path + '/js/result/resultView.js'],
@@ -185,6 +195,7 @@ App.importJs = {
 	rightView : [path + '/jsLib/ext3/ux/TreeCheckNodeUI.js',
 	             path + '/js/system/rightView.js'],	
 	userView : [path + '/utils/selector/empSelector.js',
+        path + '/utils/selector/kqSelector.js',
 		//		path + '/jsLib/ext3/ux/TreeCheckNodeUI.js',  		
 			path + '/jsLib/columnTreeCheck/ColumnNodeUI.js',
 			path + '/jsLib/columnTreeCheck/ColumnTreeCheckNodeUI.js',

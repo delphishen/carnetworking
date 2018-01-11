@@ -1,5 +1,6 @@
 package com.fgwater.frame.mapper.system;
 
+import com.fgwater.core.annotation.Paging;
 import com.fgwater.core.mapper.BaseMapper;
 import com.fgwater.frame.model.system.Company;
 import com.fgwater.frame.model.system.Fleet;
@@ -12,4 +13,6 @@ public interface CompanyMapper extends BaseMapper<Company> {
     public List<Company> getTreeAll(Map<String, String> params);
 
 
+    @Paging
+    public   List<Map<String,String>> getTreechild(Map<String, String> params);
 }
