@@ -281,10 +281,11 @@ Ext.busTypePrice.win = Ext.extend(Ext.Window, {
     },
     onSave: function (btn) {
         var form = this.form.getForm();
-        console.log("获取表单的值"+form.toString());
+
         if (form.isValid()) {
             btn.setDisabled(true);
             var user = form.getValues();
+            console.log("获取表单的值user"+user);
             Ext.eu.ajax(path + '/logistics/savebusTypePrice.do', {
                 busTypePrice: Ext.encode(user)
             }, function (resp) {

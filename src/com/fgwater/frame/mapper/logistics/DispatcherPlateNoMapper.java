@@ -18,6 +18,6 @@ public interface DispatcherPlateNoMapper extends BaseMapper<DispatcherPlateNo> {
     public void deleteTable(Map<String, String> map);
 
 
-
+    public void savedispatcherPlateNo(DispatcherPlateNo diss);
 
 }

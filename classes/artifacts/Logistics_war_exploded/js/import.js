@@ -104,9 +104,9 @@ App.importJs = {
     ],
 
     /** *************************司机调度************************** */
-    dispatcherPlateNoView : [path + '/js/logistics/dossier/dispatcherPlateNoView.js',
+    dispatcherplateNoView : [path + '/js/logistics/dossier/dispatcherplateNoView.js',
         path + '/utils/selector/userSelector.js',
-        //path + '/utils/selector/truckSelector.js',
+        path + '/utils/selector/truckSelector.js',
     ],
 
 
@@ -140,9 +140,7 @@ App.importJs = {
     ],
 
     /** *************************调度员调度车辆*************************** */
-    dispatcherplateNoView : [path + '/js/logistics/dossier/dispatcherplateNoView.js',
-        path + '/utils/selector/empSelector.js',
-    ],
+
 
 
 

@@ -6,16 +6,16 @@ import com.fgwater.core.utils.UUIDUtils;
 import com.fgwater.frame.mapper.logistics.ApplyTypeMapper;
 import com.fgwater.frame.mapper.logistics.DispatcherPlateNoMapper;
 import com.fgwater.frame.model.logistics.ApplyType;
+import com.fgwater.frame.model.logistics.Customer;
+import com.fgwater.frame.model.logistics.DispatcherPlateNo;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.DispatcherPlateNoService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import javax.persistence.Id;
+import java.util.*;
 
 @Service("dispatcherPlateNoService")
 public class DispatcherPlateNoServiceImpl extends BaseServiceImpl implements DispatcherPlateNoService {
@@ -24,22 +24,27 @@ public class DispatcherPlateNoServiceImpl extends BaseServiceImpl implements Dis
 	private DispatcherPlateNoMapper dispatcherPlateNoMapper;
 
 
+	@Override
+	public boolean savedispatcherPlateNo(DispatcherPlateNo dispatcherPlateNo) {
+
+		String  pid  = dispatcherPlateNo.getPlateNoId();
 
 
+		List<String> dispatcherPlateNos = Arrays.asList(pid.split(","));
 
 
+		for (String dis : dispatcherPlateNos) {
+			DispatcherPlateNo diss = new DispatcherPlateNo();
+			diss.setId(UUIDUtils.getUUID());
+			diss.setUserId(dispatcherPlateNo.getUserId());
+			diss.setPlateNoId(dis);
+
+			this.dispatcherPlateNoMapper.insert(diss);
+		}
 
 
-
-
-
-
-
-
-
-
-
-
+		return true;
+	}
 
 
 	@SuppressWarnings("unchecked")
@@ -52,11 +57,4 @@ public class DispatcherPlateNoServiceImpl extends BaseServiceImpl implements Dis
 		}
 		return map;
 	}
-
-
-
-
-
-
-
 }

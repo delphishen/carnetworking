@@ -40,14 +40,14 @@ Ext.dispatcherPlateNo.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
-                new truckSelector(function(id, name,userFleetId) {
+                new truckSelector(function(id, name) {
                     this.setValue(name);
                     Ext.getCmp('plateNoId').setValue(id);
 
 
 
 
-                }, true, this);
+                }, false, this);
             },
             scope : this
         });
@@ -124,8 +124,10 @@ Ext.dispatcherPlateNo.win = Ext.extend(Ext.Window, {
 				if (form.isValid()) {
 					btn.setDisabled(true);
 					var user = form.getValues();
-					Ext.eu.ajax(path + '/logistics/saveApplyType.do', {
-								applyType : Ext.encode(user)
+					console.log(user);
+					Ext.eu.ajax(path + '/logistics/savedispatcherPlateNo.do', {
+
+                        dispatcherPlateNo : Ext.encode(user)
 							}, function(resp) {
 								var res = Ext.decode(resp.responseText);
 								if (res.label) {
@@ -386,7 +388,7 @@ Ext.dispatcherPlateNo.queryPanel = Ext.extend(Ext.FormPanel, {
  * 
  * @return {}
  */
-var dispatcherPlateNoView = function(params) {
+var dispatcherplateNoView = function(params) {
 	this.queryPanel = new Ext.dispatcherPlateNo.queryPanel(this);
 	this.grid = new Ext.dispatcherPlateNo.grid(this);
 
@@ -395,7 +397,7 @@ var dispatcherPlateNoView = function(params) {
 	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;	
 	
 	return new Ext.Panel({
-				id : 'dispatcherPlateNoView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
+				id : 'dispatcherplateNoView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
 				title : '司机调度',
 				layout : 'border',
 				items : [this.queryPanel, this.grid]
