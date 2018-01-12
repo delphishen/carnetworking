@@ -1,6 +1,6 @@
-Ext.namespace("Ext.truckTypeSelector");
+Ext.namespace("Ext.truckSelector");
 
-Ext.truckTypeSelector.form = Ext.extend(Ext.FormPanel, {
+Ext.truckSelector.form = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 				this.items = [{
@@ -15,7 +15,7 @@ Ext.truckTypeSelector.form = Ext.extend(Ext.FormPanel, {
 									}]
 						}];
 
-				Ext.truckTypeSelector.form.superclass.constructor.call(this, {
+				Ext.truckSelector.form.superclass.constructor.call(this, {
 							region : 'south',
 							height : 75,
 							labelWidth : 60,
@@ -30,7 +30,7 @@ Ext.truckTypeSelector.form = Ext.extend(Ext.FormPanel, {
 			}
 		});
 
-Ext.truckTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
+Ext.truckSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 	constructor : function(app) {
 		this.app = app;
 		// 数据源
@@ -38,11 +38,13 @@ Ext.truckTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 
 
         this.ds = new Ext.data.JsonStore({
-            url : path + '/logistics/queryTruckType.do',
+            url : path + '/logistics/queryTruck.do',
             idProperty : 'id',
             root : 'rows',
             totalProperty : 'results',
-            fields : ['id', 'fleetId', 'modelName','fleetName'],
+            fields : ['id', 'fleetId', 'plateNo', 'carType',
+                'companyId', 'vehicleOwner', 'tel', 'buyDatetime',
+                'driverId','statues','company','fleetName','driverName','modelName'],
             autoDestroy : true,
             autoLoad : true,
             baseParams : {
@@ -75,9 +77,9 @@ Ext.truckTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							}
 							if (jQuery.inArray(record.get('id'), win.empId) < 0) {
 								win.empId.push(record.get('id'));
-								win.empName.push(record.get('modelName'));
+								win.empName.push(record.get('plateNo'));
 							}
-							win.form.getForm().findField('truckType')
+							win.form.getForm().findField('truck')
 									.setValue(win.empName.toString());
 						},
 						'rowdeselect' : function(sm, index, record) {
@@ -85,9 +87,9 @@ Ext.truckTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							win.empId.splice(jQuery.inArray(record.get('id'),
 											win.empId), 1);
 							win.empName.splice(jQuery.inArray(record
-													.get('modelName'), win.empName),
+													.get('plateNo'), win.empName),
 									1);
-							win.form.getForm().findField('truckType')
+							win.form.getForm().findField('truck')
 									.setValue(win.empName.toString());
 						},
 						scope : this
@@ -107,8 +109,14 @@ Ext.truckTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								header : '所属机构',
 								dataIndex : 'fleetName'
 							}, {
+								header : '车牌号',
+								dataIndex : 'modelName'
+							}, {
 								header : '车辆类型',
 								dataIndex : 'modelName'
+							}, {
+								header : '所属司机',
+								dataIndex : 'driverName'
 							}]
 				});
 		// 菜单条
@@ -139,7 +147,7 @@ Ext.truckTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					store : this.ds
 				});
 		// 构造
-		Ext.truckTypeSelector.grid.superclass.constructor.call(this, {
+		Ext.truckSelector.grid.superclass.constructor.call(this, {
 					region : 'center',
 					loadMask : 'loading...',
 					columnLines : true,
@@ -152,14 +160,14 @@ Ext.truckTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 	}
 });
 
-Ext.truckTypeSelector.win = Ext.extend(Ext.Window, {
+Ext.truckSelector.win = Ext.extend(Ext.Window, {
 			constructor : function(app) {
 				this.app = app;
 				this.empId = new Array();
 				this.empName = new Array();
-				this.form = new Ext.truckTypeSelector.form(this);
-				this.grid = new Ext.truckTypeSelector.grid(this);
-				Ext.truckTypeSelector.win.superclass.constructor.call(this, {
+				this.form = new Ext.truckSelector.form(this);
+				this.grid = new Ext.truckSelector.grid(this);
+				Ext.truckSelector.win.superclass.constructor.call(this, {
 							title : '员工选择器',
 							width : 500,
 							height : 400,
@@ -203,10 +211,10 @@ Ext.truckTypeSelector.win = Ext.extend(Ext.Window, {
 			}
 		});
 
-var truckTypeSelector = function(callback, isSingle, scope) {
+var truckSelector = function(callback, isSingle, scope) {
 	this.callback = callback;
 	this.isSingle = isSingle;
 	this.scope = scope;
-	var win = new Ext.truckTypeSelector.win(this);
+	var win = new Ext.truckSelector.win(this);
 	win.show();
 }

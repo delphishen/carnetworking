@@ -30,6 +30,29 @@ Ext.dispatcherPlateNo.form = Ext.extend(Ext.FormPanel, {
         });
 
 
+        this.truckSelector = new Ext.form.TriggerField({
+            fieldLabel : '车牌号',
+            name : 'plateNo',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new truckSelector(function(id, name,userFleetId) {
+                    this.setValue(name);
+                    Ext.getCmp('plateNoId').setValue(id);
+
+
+
+
+                }, true, this);
+            },
+            scope : this
+        });
+
+
 
 
 
@@ -48,26 +71,8 @@ Ext.dispatcherPlateNo.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [this.userSelector]
         },{
-					columnWidth : 1,
-					items : [{
-
-								id:'charteredBusType',
-								fieldLabel : '结算类型名称',
-								xtype : 'textfield',
-								name : 'settlement',
-								anchor : '98%',
-								selectOnFocus : true
-							}]
-				},{
             columnWidth : 1,
-            items : [{
-            	id:'remark',
-                fieldLabel : '备注',
-                xtype : 'textfield',
-                name : 'remark',
-                anchor : '98%',
-                selectOnFocus : true
-            }]
+            items : [this.truckSelector]
         }];
 
 		Ext.dispatcherPlateNo.form.superclass.constructor.call(this, {
