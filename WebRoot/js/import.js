@@ -103,11 +103,27 @@ App.importJs = {
     driverTypeView : [path + '/js/logistics/dossier/driverTypeView.js',
     ],
 
+    /** *************************司机调度************************** */
+    dispatcherPlateNoView : [path + '/js/logistics/dossier/dispatcherPlateNoView.js',
+    ],
+
+
     /** *************************价格管理*************************** */
     carTypePriceView : [path + '/js/logistics/dossier/carTypePriceView.js',
         path + '/utils/selector/kqSelector.js',
         path + '/utils/selector/driverSelector.js',
         path + '/utils/selector/truckTypeSelector.js',
+
+    ],
+
+
+
+    /** *************************包车价格设置*************************** */
+    busTypePriceView : [path + '/js/logistics/dossier/busTypePriceView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/driverSelector.js',
+        path + '/utils/selector/truckTypeSelector.js',
+        path + '/utils/selector/busTypeSelector.js',
 
     ],
 

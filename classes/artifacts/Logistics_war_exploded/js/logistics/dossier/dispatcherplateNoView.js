@@ -1,8 +1,9 @@
-Ext.namespace('Ext.dispatcherplateNo');
+Ext.namespace('Ext.dispatcherPlateNo');
 
-Ext.dispatcherplateNo.form = Ext.extend(Ext.FormPanel, {
+Ext.dispatcherPlateNo.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
+
 
 
         this.empSelector = new Ext.form.TriggerField({
@@ -17,7 +18,7 @@ Ext.dispatcherplateNo.form = Ext.extend(Ext.FormPanel, {
             onTriggerClick : function(e) {
                 new empSelector(function(id, name) {
                     this.setValue(name);
-                    Ext.getCmp('userId').setValue(id);
+                    Ext.getCmp('empId').setValue(id);
                     //	if(Ext.getCmp('loginName').getValue != ''){
                     //		Ext.getCmp('loginName').setValue(name);
                     //	}
@@ -35,58 +36,39 @@ Ext.dispatcherplateNo.form = Ext.extend(Ext.FormPanel, {
 
 
 
-
-
 		this.items = [{
 					xtype : 'hidden',
 					id : 'id'
 				},{
 					xtype : 'hidden',
 					id : 'userId'
-					},{
-					xtype : 'hidden',
-					id : 'plateNoId'
 				},{
-					columnWidth : 1,
-					items : [this.empSelector]
-				},{
-					columnWidth : 1,
-					labelWidth : 60,
-					items : [{
-						id:'plateNo',
-						fieldLabel : '车牌号',
-						width : 60,
-						xtype : 'combo',
-						hiddenName : 'plateNo',
-						submitValue : false,
-						anchor : '98%',
-						editable : false,
-						autoLoad : true,
-						triggerAction : 'all',
-						mode : 'local',
-						store : this.fleetTypeDS,
-						valueField : 'plateNo',
-						displayField : 'plateNo',
-						listeners : {
-							'select' : function(combo, record) {
-								console.log(record);
-								this.getForm().findField('userId').setValue(record.data.id);
-							},
-							scope : this
-						}
-					}]
-				}, {
+            xtype : 'hidden',
+            id : 'plateNoId'
+        }, {
 					columnWidth : 1,
 					items : [{
-								fieldLabel : '类型名称',
+
+								id:'charteredBusType',
+								fieldLabel : '结算类型名称',
 								xtype : 'textfield',
-								name : 'driverType',
+								name : 'settlement',
 								anchor : '98%',
 								selectOnFocus : true
 							}]
-				}];
+				},{
+            columnWidth : 1,
+            items : [{
+            	id:'remark',
+                fieldLabel : '备注',
+                xtype : 'textfield',
+                name : 'remark',
+                anchor : '98%',
+                selectOnFocus : true
+            }]
+        }];
 
-		Ext.dispatcherplateNo.form.superclass.constructor.call(this, {
+		Ext.dispatcherPlateNo.form.superclass.constructor.call(this, {
 					labelWidth : 60,
 					baseCls : 'x-plain',
 					layout : 'column',
@@ -105,11 +87,11 @@ Ext.dispatcherplateNo.form = Ext.extend(Ext.FormPanel, {
 
 });
 
-Ext.dispatcherplateNo.win = Ext.extend(Ext.Window, {
+Ext.dispatcherPlateNo.win = Ext.extend(Ext.Window, {
 			constructor : function(app) {
 				this.app = app;
-				this.form = new Ext.dispatcherplateNo.form(this);
-				Ext.dispatcherplateNo.win.superclass.constructor.call(this, {
+				this.form = new Ext.dispatcherPlateNo.form(this);
+				Ext.dispatcherPlateNo.win.superclass.constructor.call(this, {
 							width : 300,
 							plain : true,
 							showLock : true,
@@ -135,8 +117,8 @@ Ext.dispatcherplateNo.win = Ext.extend(Ext.Window, {
 				if (form.isValid()) {
 					btn.setDisabled(true);
 					var user = form.getValues();
-					Ext.eu.ajax(path + '/logistics/savedriverType.do', {
-								driverType : Ext.encode(user)
+					Ext.eu.ajax(path + '/logistics/saveApplyType.do', {
+								applyType : Ext.encode(user)
 							}, function(resp) {
 								var res = Ext.decode(resp.responseText);
 								if (res.label) {
@@ -155,16 +137,16 @@ Ext.dispatcherplateNo.win = Ext.extend(Ext.Window, {
 			}
 		});
 
-Ext.dispatcherplateNo.grid = Ext.extend(Ext.grid.GridPanel, {
+Ext.dispatcherPlateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 			constructor : function(app) {
 				this.app = app;
 				// 数据源
 				this.ds = new Ext.data.JsonStore({
-							url : path + '/logistics/queryDriverType.do',
+							url : path + '/logistics/queryApplyType.do',
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',							
-							fields : ['id', 'fleetId', 'driverType','modifier','moTime','fleetName'],
+							fields : ['id', 'fleetId', 'settlement','modifier','moTime','remark','fleetName'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -201,8 +183,8 @@ Ext.dispatcherplateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 										dataIndex : 'fleetId',
 										hidden : true
 									},{
-										header : '司机类型',
-										dataIndex : 'driverType'
+										header : '结算类型',
+										dataIndex : 'settlement'
 									}, {
 										header : '修改人',
 										dataIndex : 'modifier'
@@ -212,8 +194,10 @@ Ext.dispatcherplateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 									}, {
 										header : '所属平台',
 										dataIndex : 'fleetName'
-									}
-									]
+									},{
+                                header : '备注',
+                                dataIndex : 'remark'
+                            }]
 						});
 				// 菜单条
 				this.tbar = new Ext.Toolbar([{
@@ -245,7 +229,7 @@ Ext.dispatcherplateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 							store : this.ds
 						});
 				// 构造
-				Ext.dispatcherplateNo.grid.superclass.constructor.call(this, {
+				Ext.dispatcherPlateNo.grid.superclass.constructor.call(this, {
 							region : 'center',
 							loadMask : 'loading...',
 							columnLines : true,
@@ -257,8 +241,8 @@ Ext.dispatcherplateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 			},
 			onAdd : function(btn) {
-				var win = new Ext.dispatcherplateNo.win(this);
-				win.setTitle('添加车辆类别', 'add');
+				var win = new Ext.dispatcherPlateNo.win(this);
+				win.setTitle('添加结算类型', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
@@ -272,14 +256,16 @@ Ext.dispatcherplateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 					return;
 				}
 				var select = selects[0].data;
-				var win = new Ext.dispatcherplateNo.win(this);
+				var win = new Ext.dispatcherPlateNo.win(this);
 				var form = win.form.getForm();
-				win.setTitle('修改车辆信息', 'modify');				
+				win.setTitle('修改结算信息', 'modify');
 				form.findField('id').setValue(select.id);
 				form.findField('fleetId').setValue(select.fleetId);
                 form.findField('fleetName').setValue(select.fleetName);
 
-				form.findField('driverType').setValue(select.driverType);
+				form.findField('settlement').setValue(select.settlement);
+                form.findField('remark').setValue(select.remark);
+
 				win.show();
 			},
 			onDelete : function() {
@@ -299,8 +285,8 @@ Ext.dispatcherplateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 				// Ext.ux.Toast.msg("信息", Ext.encode(ary));
 				Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
 							if (btn == 'yes') {
-								Ext.eu.ajax(path + '/logistics/deletedriverType.do', {
-											driverTypes : Ext.encode(ary)
+								Ext.eu.ajax(path + '/logistics/deleteApplyType.do', {
+											applyTypes : Ext.encode(ary)
 										}, function(resp) {
 											Ext.ux.Toast.msg('信息', '删除成功');
 											this.getStore().reload();
@@ -310,7 +296,7 @@ Ext.dispatcherplateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 			}
 		});
 
-Ext.dispatcherplateNo.queryPanel = Ext.extend(Ext.FormPanel, {
+Ext.dispatcherPlateNo.queryPanel = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
@@ -324,14 +310,13 @@ Ext.dispatcherplateNo.queryPanel = Ext.extend(Ext.FormPanel, {
                         xtype : 'combo',
 						width:60,
                         fieldLabel : '价格类型',
-                        hiddenName : 'statues',
+                        hiddenName : 'charteredBusType',
                         anchor : '98%',
                         typeAhead : true,
                         editable : false,
                         triggerAction : 'all',
                         lazyRender : true,
                         mode : 'local',
-                        value:'常规价格设置',
                         store : new Ext.data.ArrayStore({
                             fields : ['key', 'val'],
                             data : [['常规价格设置', '0'],
@@ -340,7 +325,8 @@ Ext.dispatcherplateNo.queryPanel = Ext.extend(Ext.FormPanel, {
                         valueField : 'val',
                         displayField : 'key'
                     }]
-                }, {
+                },
+					{
 							width : 65,
 							items : [{
 										xtype : 'button',
@@ -366,8 +352,8 @@ Ext.dispatcherplateNo.queryPanel = Ext.extend(Ext.FormPanel, {
 									}]
 						}];
 				// panel定义
-				Ext.dispatcherplateNo.queryPanel.superclass.constructor.call(this, {
-							id : 'driverTypeQueryPanel1',
+				Ext.dispatcherPlateNo.queryPanel.superclass.constructor.call(this, {
+							id : 'driverTypeQueryPanel',
 							region : 'north',
 							height : 40,
 							frame : true,
@@ -393,17 +379,17 @@ Ext.dispatcherplateNo.queryPanel = Ext.extend(Ext.FormPanel, {
  * 
  * @return {}
  */
-var dispatcherplateNoView = function(params) {
-	this.queryPanel = new Ext.dispatcherplateNo.queryPanel(this);
-	this.grid = new Ext.dispatcherplateNo.grid(this);
+var dispatcherPlateNoView = function(params) {
+	this.queryPanel = new Ext.dispatcherPlateNo.queryPanel(this);
+	this.grid = new Ext.dispatcherPlateNo.grid(this);
 
 	Ext.getCmp('buttonAdddriverTypeView').hidden=!params[0].isAdd;
 	Ext.getCmp('buttonModifydriverTypeView').hidden=!params[0].isModify;
 	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;	
 	
 	return new Ext.Panel({
-				id : 'dispatcherplateNoView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '调度员调度车辆',
+				id : 'dispatcherPlateNoView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
+				title : '司机调度',
 				layout : 'border',
 				items : [this.queryPanel, this.grid]
 			})

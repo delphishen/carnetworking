@@ -40,7 +40,6 @@ public class BusTypePrice extends BaseModel {
 	private float  overtimePrice;
 	@Column
 	private int maxMealKilometres;
-
 	@Column
 	private float  maxExcessPrice;
 
