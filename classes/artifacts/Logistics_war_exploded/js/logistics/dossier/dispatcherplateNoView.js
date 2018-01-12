@@ -6,9 +6,9 @@ Ext.dispatcherPlateNo.form = Ext.extend(Ext.FormPanel, {
 
 
 
-        this.empSelector = new Ext.form.TriggerField({
-            fieldLabel : '员工',
-            name : 'empName',
+        this.userSelector = new Ext.form.TriggerField({
+            fieldLabel : '用户',
+            name : 'userName',
             anchor : '98%',
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
@@ -16,12 +16,11 @@ Ext.dispatcherPlateNo.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
-                new empSelector(function(id, name) {
+                new userSelector(function(id, name,userFleetId) {
                     this.setValue(name);
-                    Ext.getCmp('empId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                    Ext.getCmp('userId').setValue(id);
+                    basefleedId = userFleetId;
+
 
 
 
@@ -46,6 +45,9 @@ Ext.dispatcherPlateNo.form = Ext.extend(Ext.FormPanel, {
             xtype : 'hidden',
             id : 'plateNoId'
         }, {
+            columnWidth : 1,
+            items : [this.userSelector]
+        },{
 					columnWidth : 1,
 					items : [{
 

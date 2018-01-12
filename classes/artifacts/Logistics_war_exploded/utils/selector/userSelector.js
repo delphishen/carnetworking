@@ -39,8 +39,9 @@ Ext.userSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					idProperty : 'id',
 					root : 'rows',
 					totalProperty : 'results',
-					fields : ['id', 'userName', 'loginName', 'accountId',
-							'roleId', 'deptName', 'deptId'],
+					fields : ['id','fleetId', 'empId', 'empName', 'loginName',
+                        'password', 'isAdmin', 'email',
+                        'remark'],
 					autoDestroy : true,
 					autoLoad : true,
 					baseParams : {
@@ -68,10 +69,17 @@ Ext.userSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							if (win.app.isSingle) {
 								win.userId = [];
 								win.userName = [];
+                                win.userFleetId = [];
+
 							}
 							if (jQuery.inArray(record.get('id'), win.userId) < 0) {
 								win.userId.push(record.get('id'));
-								win.userName.push(record.get('userName'));
+								win.userName.push(record.get('loginName'));
+
+
+
+                                win.userFleetId.push(record.get('fleetId'));
+
 							}
 							win.form.getForm().findField('user')
 									.setValue(win.userName.toString());
@@ -81,8 +89,13 @@ Ext.userSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							win.userId.splice(jQuery.inArray(record.get('id'),
 											win.userId), 1);
 							win.userName.splice(jQuery.inArray(record
-													.get('userName'),
+													.get('loginName'),
 											win.userName), 1);
+
+                            win.userFleetId.splice(jQuery.inArray(record
+                                    .get('fleetId'),
+                                win.userFleetId), 1);
+
 							win.form.getForm().findField('user')
 									.setValue(win.userName.toString());
 						},
@@ -95,32 +108,31 @@ Ext.userSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 						width : 150,
 						sortable : true
 					},
-					columns : [new Ext.grid.RowNumberer(), this.sm, {
-								header : 'id',
-								dataIndex : 'id',
-								hidden : true
-							}, {
-								header : 'accountId',
-								dataIndex : 'accountId',
-								hidden : true
-							}, {
-								header : '姓名',
-								dataIndex : 'userName'
-							}, {
-								header : '账号',
-								dataIndex : 'loginName'
-							}, {
-								header : '角色',
-								dataIndex : 'roleId',
-								hidden : true
-							}, {
-								header : '部门',
-								dataIndex : 'deptName'
-							}, {
-								header : 'deptId',
-								dataIndex : 'deptId',
-								hidden : true
-							}]
+					columns : [new Ext.grid.RowNumberer(), this.sm,{
+                        header : 'id',
+                        dataIndex : 'id',
+                        hidden : true
+                    }, {
+                        header : 'fleetId',
+                        dataIndex : 'fleetId',
+						hidden:true
+                    }, {
+                        header : '登录用户名',
+                        dataIndex : 'loginName'
+                    },{
+                        header : '管理员',
+                        dataIndex : 'isAdmin',
+                        renderer : function(val) {
+                            if (val == 0) {
+                                return '否';
+                            } else if (val == 1){
+                                return '是';
+                            }
+                        }
+                    }, {
+                        header : '备注',
+                        dataIndex : 'remark'
+                    }]
 				});
 		// 菜单条
 		this.tbar = new Ext.Toolbar(['&nbsp;姓名:', {
@@ -173,6 +185,7 @@ Ext.userSelector.win = Ext.extend(Ext.Window, {
 				this.app = app;
 				this.userId = new Array();
 				this.userName = new Array();
+                this.userFleetId = new Array();
 				this.form = new Ext.userSelector.form(this);
 				this.grid = new Ext.userSelector.grid(this);
 				Ext.userSelector.win.superclass.constructor.call(this, {
@@ -206,13 +219,14 @@ Ext.userSelector.win = Ext.extend(Ext.Window, {
 			},
 			onSure : function(btn) {
 				this.app.callback.call(this.app.scope, this.userId.toString(),
-						this.userName.toString());
+						this.userName.toString(),this.userFleetId.toString());
 				this.close();
 			},
 			onReset : function(btn) {
 				this.form.getForm().reset();
 				this.userId = [];
 				this.userName = [];
+                this.userFleetId = [];
 			},
 			onClose : function() {
 				this.close();

@@ -105,6 +105,7 @@ App.importJs = {
 
     /** *************************司机调度************************** */
     dispatcherPlateNoView : [path + '/js/logistics/dossier/dispatcherPlateNoView.js',
+        path + '/utils/selector/userSelector.js',
     ],
 
 

@@ -34,7 +34,7 @@
 			var isAdmin = '<%=user.getIsAdmin()%>'
 			var loginEmpID = '<%=user.getEmpId()%>'
             var fleedId = '<%=user.getFleetId()%>'
-            var basefleedId = ''
+            var basefleedId = 'root'
 
 		</script>
 
