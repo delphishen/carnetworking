@@ -324,7 +324,7 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
             root: 'rows',
             totalProperty: 'results',
             fields: ['id', 'fleetId', 'companyId', 'carTtypeId', 'charteredBusType', 'ascription', 'cancelPrice', 'setMealPrice', 'setMealKilometres', 'setMealTime','excessPrice'
-                ,'overtimePrice', 'maxMealKilometres', 'maxExcessPrice'],
+                ,'overtimePrice', 'maxMealKilometres', 'maxExcessPrice','company','modelName','fleetName'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -372,6 +372,15 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
                 header: 'charteredBusType',
                 dataIndex: 'charteredBusType',
                 hidden: true
+            },{
+                header: '所属平台',
+                dataIndex: 'fleetName'
+            }, {
+                header: '所属机构',
+                dataIndex: 'company'
+            }, {
+                header: '车型',
+                dataIndex: 'modelName'
             }, {
                 header: '取消订单费用',
                 dataIndex: 'cancelPrice'
@@ -505,7 +514,7 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
         Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function (btn) {
             if (btn == 'yes') {
                 Ext.eu.ajax(path + '/logistics/deleteBusTypePrice.do', {
-                    carTypePrices: Ext.encode(ary)
+                    busTypePrices: Ext.encode(ary)
                 }, function (resp) {
                     Ext.ux.Toast.msg('信息', '删除成功');
                     this.getStore().reload();

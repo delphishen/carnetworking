@@ -10,7 +10,7 @@
 
 
 	<delete id="deleteTable" parameterType="HashMap">
-		delete from   t_charteredBus_type where id=#{id}
+		delete from   t_archives_car_type_chartered_bus_price_list where id=#{id}
 	</delete>
 
 
