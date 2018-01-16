@@ -22,9 +22,8 @@
 		LEFT JOIN t_archives_company c ON l.companyId = c.id
 		LEFT JOIN t_archives_car_type t   ON l.carTtypeId = t.id
 		LEFT JOIN t_system_fleet f ON l.fleetId = f.id
-
 		<if test="fleetId!='root'">
-			where fleetId =#{fleetId}
+			where l.fleetId =#{fleetId}
 		</if>
 	</select>
 

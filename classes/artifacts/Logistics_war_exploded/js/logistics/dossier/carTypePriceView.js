@@ -1,6 +1,6 @@
-Ext.namespace('Ext.driverType');
+Ext.namespace('Ext.carTypePrice');
 
-Ext.driverType.form = Ext.extend(Ext.FormPanel, {
+Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
     constructor: function (app) {
         this.app = app;
 
@@ -250,7 +250,7 @@ Ext.driverType.form = Ext.extend(Ext.FormPanel, {
             }]
         },];
 
-        Ext.driverType.form.superclass.constructor.call(this, {
+        Ext.carTypePrice.carform.superclass.constructor.call(this, {
             labelWidth: 60,
             baseCls: 'x-plain',
             layout: 'column',
@@ -269,11 +269,18 @@ Ext.driverType.form = Ext.extend(Ext.FormPanel, {
 
 });
 
-Ext.driverType.win = Ext.extend(Ext.Window, {
+
+
+
+
+
+
+
+Ext.carTypePrice.carwin = Ext.extend(Ext.Window, {
     constructor: function (app) {
         this.app = app;
-        this.form = new Ext.driverType.form(this);
-        Ext.driverType.win.superclass.constructor.call(this, {
+        this.form = new Ext.carTypePrice.carform(this);
+        Ext.carTypePrice.carwin.superclass.constructor.call(this, {
             width: 300,
             plain: true,
             showLock: true,
@@ -319,7 +326,11 @@ Ext.driverType.win = Ext.extend(Ext.Window, {
     }
 });
 
-Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
+
+
+
+
+Ext.carTypePrice.cargrid = Ext.extend(Ext.grid.GridPanel, {
     constructor: function (app) {
         this.app = app;
         // 数据源
@@ -414,21 +425,21 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
         });
         // 菜单条
         this.tbar = new Ext.Toolbar([{
-            id: 'buttonAdddriverTypeView',
+            id: 'buttonAddcarTypePriceView',
             xtype: 'button',
             iconCls: 'add',
             text: '新增',
             handler: this.onAdd,
             scope: this
         }, {
-            id: 'buttonModifydriverTypeView',
+            id: 'buttonModifycarTypePriceView',
             xtype: 'button',
             iconCls: 'modify',
             text: '修改',
             handler: this.onModify,
             scope: this
         }, {
-            id: 'buttonDeldriverTypeView',
+            id: 'buttonDelcarTypePriceView',
             xtype: 'button',
             iconCls: 'delete',
             text: '删除',
@@ -442,7 +453,7 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
             store: this.ds
         });
         // 构造
-        Ext.driverType.grid.superclass.constructor.call(this, {
+        Ext.carTypePrice.cargrid.superclass.constructor.call(this, {
             region: 'center',
             loadMask: 'loading...',
             columnLines: true,
@@ -454,7 +465,7 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
         });
     },
     onAdd: function (btn) {
-        var win = new Ext.driverType.win(this);
+        var win = new Ext.carTypePrice.carwin(this);
         win.setTitle('添加车辆类别', 'add');
         win.show();
     },
@@ -469,7 +480,7 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var select = selects[0].data;
-        var win = new Ext.driverType.win(this);
+        var win = new Ext.carTypePrice.carwin(this);
         var form = win.form.getForm();
         win.setTitle('修改价格信息', 'modify');
         form.findField('id').setValue(select.id);
@@ -529,7 +540,7 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
     }
 });
 
-Ext.driverType.queryPanel = Ext.extend(Ext.FormPanel, {
+Ext.carTypePrice.carqueryPanel = Ext.extend(Ext.FormPanel, {
     constructor: function (app) {
         this.app = app;
 
@@ -583,8 +594,8 @@ Ext.driverType.queryPanel = Ext.extend(Ext.FormPanel, {
             }]
         }];
         // panel定义
-        Ext.driverType.queryPanel.superclass.constructor.call(this, {
-            id: 'driverTypeQueryPanel',
+        Ext.carTypePrice.carqueryPanel.superclass.constructor.call(this, {
+            id: 'carTypePriceQueryPanel',
             region: 'north',
             height: 40,
             frame: true,
@@ -611,17 +622,45 @@ Ext.driverType.queryPanel = Ext.extend(Ext.FormPanel, {
  * @return {}
  */
 var carTypePriceView = function (params) {
-    this.queryPanel = new Ext.driverType.queryPanel(this);
-    this.grid = new Ext.driverType.grid(this);
+    this.queryPanel = new Ext.carTypePrice.carqueryPanel(this);
+    this.cargrid = new Ext.carTypePrice.cargrid(this);
 
-    Ext.getCmp('buttonAdddriverTypeView').hidden = !params[0].isAdd;
-    Ext.getCmp('buttonModifydriverTypeView').hidden = !params[0].isModify;
-    Ext.getCmp('buttonDeldriverTypeView').hidden = !params[0].isDel;
+    this.busqueryPanel = new Ext.cqEvaRate.queryPanel(this);
+    this.cqEvaRateGrid = new Ext.cqEvaRate.grid(this);
+
+
+    this.tabs = new Ext.TabPanel({
+        region : 'center',
+        deferredRender : true,
+        enableTabScroll : true,
+        tabPosition : 'top',
+        activeTab : 0, // first tab initially active,
+        defaults : {
+            autoScroll : true,
+            closable : false
+        },
+        items : [{
+            title : '常规价格设置',
+            layout : 'border',
+            items : [this.queryPanel,this.cargrid]
+        }, {
+            title : '包车价格设置',
+            layout : 'border',
+            items : [this.busqueryPanel,this.cqEvaRateGrid]
+        }]
+    })
+
+
+
+
+    Ext.getCmp('buttonAddcarTypePriceView').hidden = !params[0].isAdd;
+    Ext.getCmp('buttonModifycarTypePriceView').hidden = !params[0].isModify;
+    Ext.getCmp('buttonDelcarTypePriceView').hidden = !params[0].isDel;
 
     return new Ext.Panel({
         id: 'carTypePriceView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
         title: '价格管理',
         layout: 'border',
-        items: [this.queryPanel, this.grid]
+        items: [this.tabs]
     })
 }

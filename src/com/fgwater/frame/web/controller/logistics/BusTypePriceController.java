@@ -38,6 +38,9 @@ public class BusTypePriceController extends BaseController {
 	@RequestMapping(value = "queryBusTypePrice.do")
 	public String query() {
 
+
+		System.out.println("=================params==========="+this.requestModel.getParams());
+
 		this.responseModel.mount(this.busTypePriceService.query(this.requestModel
 				.getParams()), MOUNT_TYPE_PAGING);
 

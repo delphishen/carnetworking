@@ -43,7 +43,7 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 	public boolean saveOrUpdate(Customer customer) {
 		JSONObject jo = JSONObject.fromObject(customer);
 		Map<String, String> map = this.toMap(jo);
-		//int count = this.customerMapper.checkName(map);
+		int count = this.customerMapper.checkName(map);
 		//if (count == 0) {
 			if (StrUtils.isNullOrEmpty(map.get("id"))) {
 				map.put("id", UUIDUtils.getUUID());

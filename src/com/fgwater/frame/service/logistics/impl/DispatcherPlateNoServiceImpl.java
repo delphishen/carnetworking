@@ -12,6 +12,7 @@ import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.DispatcherPlateNoService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.annotation.Resource;
 import javax.persistence.Id;
@@ -30,20 +31,54 @@ public class DispatcherPlateNoServiceImpl extends BaseServiceImpl implements Dis
 		String  pid  = dispatcherPlateNo.getPlateNoId();
 
 
-		List<String> dispatcherPlateNos = Arrays.asList(pid.split(","));
+		int count = this.dispatcherPlateNoMapper.check(dispatcherPlateNo, "plateNoId");
 
 
-		for (String dis : dispatcherPlateNos) {
-			DispatcherPlateNo diss = new DispatcherPlateNo();
-			diss.setId(UUIDUtils.getUUID());
-			diss.setUserId(dispatcherPlateNo.getUserId());
-			diss.setPlateNoId(dis);
+		System.out.println("=================count==================="+count);
 
-			this.dispatcherPlateNoMapper.insert(diss);
+
+
+
+		if (StrUtils.isNullOrEmpty(dispatcherPlateNo.getId())){
+			System.out.println("=====================id为空=============");
+
+			List<String> dispatcherPlateNos = Arrays.asList(pid.split(","));
+			for (String dis : dispatcherPlateNos) {
+				DispatcherPlateNo diss = new DispatcherPlateNo();
+				diss.setId(UUIDUtils.getUUID());
+				diss.setUserId(dispatcherPlateNo.getUserId());
+				diss.setPlateNoId(dis);
+				this.dispatcherPlateNoMapper.insert(diss);
+			}
+		}else {
+			System.out.println("====================id不为空！！！！！===================");
+			this.dispatcherPlateNoMapper.update(dispatcherPlateNo);
 		}
 
 
+
+
+
+
 		return true;
+	}
+
+	@Override
+	public List<Map<String, String>> query(Map<String, String> params) {
+
+		return this.dispatcherPlateNoMapper.query(params);
+	}
+
+	@Override
+	public void deleteTable(List<DispatcherPlateNo> dispatcherPlateNos) {
+
+
+		for (DispatcherPlateNo dispatcherPlateNo : dispatcherPlateNos) {
+			JSONObject jo = JSONObject.fromObject(dispatcherPlateNo);
+			Map<String, String> map = this.toMap(jo);
+			dispatcherPlateNoMapper.deleteTable(map);
+		}
+
 	}
 
 

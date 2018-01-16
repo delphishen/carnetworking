@@ -47,6 +47,30 @@ public class DispatcherPlateNoController extends BaseController {
 	}
 
 
+	@ResponseBody
+	@RequestMapping(value = "queryispatcherPlateNo.do")
+	public String query() {
+
+
+		this.responseModel.mount(this.dispatcherPlateNoService.query(this.requestModel
+				.getParams()), MOUNT_TYPE_PAGING);
+
+
+
+		return this.responseModel.serial();
+	}
+
+
+
+	@ResponseBody
+	@RequestMapping(value = "deletedispatcherPlateNo.do")
+	public String delete() {
+		System.out.println("==============删除车辆调度信息============="+this.getDispatcherPlateNos());
+		this.dispatcherPlateNoService.deleteTable(this.getDispatcherPlateNos());
+		return this.responseModel.serial();
+	}
+
+
 
 
 

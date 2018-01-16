@@ -111,7 +111,7 @@ Ext.vehicleScheduling.calendarPanel = Ext.extend(Ext.ensible.cal.CalendarPanel, 
 	showMonthView : true,
 	showNavBar : true,
 	showTodayText : false,
-	enableDD : false,// 是否支持拖拽效果
+	enableDD : true,// 是否支持拖拽效果
 	showTime : true,
 	showDayView:false,
 	enableEditDetails : false, //2017.08.06 隐藏编辑事件
@@ -231,22 +231,18 @@ Ext.vehicleScheduling.grid = Ext.extend(Ext.grid.GridPanel, {
 	constructor : function(app) {
 		this.app = app;
 		this.ds = new Ext.data.JsonStore({
-			url : path + '/logistics/queryTaskList.do',
+			url : path + '/logistics/queryCustomer.do',
 			idProperty : 'id',
 			root : 'rows',
 			totalProperty : 'results',
-			fields : [ 'id', 'taskID', 'dateBegin', 'dateEnd',
-				'customerID', 'customerName', 'loadingPoint', 'loadingPointID', 'unloadingPoint', 'unloadingPointID', 'cargoType',
-				'shipName', 'contract', 'trafficVolume', 'residualQuantity',
-				'freight', 'isYN', 'receivablesMethod', 'salesmanID', 'salesman', 'taskCondition' ],
+			fields : ['id', 'driverName', 'companyId', 'company','statuesId','sex','drivingExperience', 'peccancyCount', 'mobile','address','fleetName'],
 			autoDestroy : true,
 			autoLoad : true,
-			baseParams : {
-				taskCondition:'正常',
-				isPaging : true,
-				start : 0,
-				limit : 80
-			},
+            baseParams : {
+                isPaging : true,
+                start : 0,
+                limit : 40
+            },
 			listeners : {
 				'beforeload' : function() {
 					//alert(this.getStore().baseParams);
@@ -316,47 +312,56 @@ Ext.vehicleScheduling.grid = Ext.extend(Ext.grid.GridPanel, {
 
 
 		// 列
-		this.cm = new Ext.grid.ColumnModel({
-			defaults : {
-				width : 150,
-				sortable : true
-			},
-			columns : [ new Ext.grid.RowNumberer(), this.sm, {
-				header : 'id',
-				dataIndex : 'id',
-				hidden : true
-			}, {
-				header : '任务单号',
-				dataIndex : 'taskID',
-				hidden : true
-			}, {
-				header : '截止时间',
-				dataIndex : 'dateEnd'
-			}, {
-				header : '货主',
-				dataIndex : 'customerName'
-			}, {
-				header : '装货点',
-				dataIndex : 'loadingPoint'
-			}, {
-				header : '卸货点',
-				dataIndex : 'unloadingPoint'
-			}, {
-				header : '货物',
-				dataIndex : 'cargoType'
-			}, {
-				header : '运输合同量',
-				dataIndex : 'contract'
-			}, {
-				header : '运输量/天',
-				dataIndex : 'trafficVolume'
-			}, {
-				header : '剩余量',
-				dataIndex : 'residualQuantity'
-			}
 
-			]
-		});
+        this.cm = new Ext.grid.ColumnModel({
+            defaults : {
+                width : 150,
+                sortable : true
+            },
+            columns : [new Ext.grid.RowNumberer(), this.sm, {
+                header : 'id',
+                dataIndex : 'id',
+                hidden : true
+            },{
+                header : '司机姓名',
+                dataIndex : 'driverName'
+
+            },  {
+                header : '所属机构',
+                dataIndex : 'company',
+                hidden : false
+            },  {
+                header : '当前状态',
+                dataIndex : 'statuesId',
+                hidden : false
+            },  {
+                header : '性别',
+                dataIndex : 'sex',
+                hidden : false
+            },  {
+                header : '驾龄',
+                dataIndex : 'drivingExperience',
+                hidden : false
+            }, {
+                header : '违章次数',
+                dataIndex : 'peccancyCount',
+                hidden : false
+            },{
+                header : '电话',
+                dataIndex : 'mobile',
+                hidden : false
+            },{
+                header : '联系地址',
+                dataIndex : 'address',
+                hidden : false
+            },{
+                header : '所属平台名称',
+                dataIndex : 'fleetName',
+                hidden : false
+            },
+
+            ]
+        });
 
 		// 页码条
 		this.bbar = new Ext.PagingToolbar({

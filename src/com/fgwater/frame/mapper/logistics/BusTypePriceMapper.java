@@ -20,7 +20,4 @@ public interface BusTypePriceMapper extends BaseMapper<BusTypePrice> {
 
 
 
-
-
-
 }

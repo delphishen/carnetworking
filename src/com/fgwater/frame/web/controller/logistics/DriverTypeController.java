@@ -52,10 +52,6 @@ public class DriverTypeController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "queryDriverType.do")
 	public String query() {
-		//	System.out.println("queryTruckType========MOUNT_TYPE_JA===="+this.requestModel.getParams());
-		//this.responseModel.mount(this.driverTypeService.query(this.requestModel
-		//		.getParams()), MOUNT_TYPE_PAGING);
-
 
 
 		this.responseModel.mount(this.driverTypeService.query(this.requestModel

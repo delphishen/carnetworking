@@ -279,7 +279,7 @@ var cqView = function() {
 				region : 'center',
 				deferredRender : true,
 				enableTabScroll : true,
-				tabPosition : 'bottom',
+				tabPosition : 'top',
 				activeTab : 0, // first tab initially active,
 				defaults : {
 					autoScroll : true,

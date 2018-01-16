@@ -8,7 +8,7 @@ Ext.busTypeSelector.form = Ext.extend(Ext.FormPanel, {
 							items : [{
 										fieldLabel : '已选类型',
 										xtype : 'textarea',
-										id : 'charteredBusType',
+										id : 'charteredBusTypeName',
 										anchor : '100%',
 										readOnly : true,
 										style : 'background:#E6E6E6'
@@ -77,7 +77,7 @@ Ext.busTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								win.empId.push(record.get('id'));
 								win.empName.push(record.get('charteredBusType'));
 							}
-							win.form.getForm().findField('charteredBusType')
+							win.form.getForm().findField('charteredBusTypeName')
 									.setValue(win.empName.toString());
 						},
 						'rowdeselect' : function(sm, index, record) {
@@ -87,7 +87,7 @@ Ext.busTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							win.empName.splice(jQuery.inArray(record
 													.get('charteredBusType'), win.empName),
 									1);
-							win.form.getForm().findField('charteredBusType')
+							win.form.getForm().findField('charteredBusTypeName')
 									.setValue(win.empName.toString());
 						},
 						scope : this

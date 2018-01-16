@@ -151,11 +151,11 @@ Ext.dispatcherPlateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 				this.app = app;
 				// 数据源
 				this.ds = new Ext.data.JsonStore({
-							url : path + '/logistics/queryApplyType.do',
+							url : path + '/logistics/queryispatcherPlateNo.do',
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',							
-							fields : ['id', 'fleetId', 'settlement','modifier','moTime','remark','fleetName'],
+							fields : ['id',  'userId','plateNoId','loginName','plateNo'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -188,25 +188,20 @@ Ext.dispatcherPlateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 										dataIndex : 'id',
 										hidden : true
 									}, {
-										header : 'fleetId',
-										dataIndex : 'fleetId',
+										header : 'userId',
+										dataIndex : 'userId',
+										hidden : true
+									}, {
+										header : 'plateNoId',
+										dataIndex : 'plateNoId',
 										hidden : true
 									},{
-										header : '结算类型',
-										dataIndex : 'settlement'
+										header : '用户名',
+										dataIndex : 'loginName'
 									}, {
-										header : '修改人',
-										dataIndex : 'modifier'
-									}, {
-										header : '修改时间',
-										dataIndex : 'moTime'
-									}, {
-										header : '所属平台',
-										dataIndex : 'fleetName'
-									},{
-                                header : '备注',
-                                dataIndex : 'remark'
-                            }]
+										header : '车牌号',
+										dataIndex : 'plateNo'
+									}]
 						});
 				// 菜单条
 				this.tbar = new Ext.Toolbar([{
@@ -269,11 +264,11 @@ Ext.dispatcherPlateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 				var form = win.form.getForm();
 				win.setTitle('修改结算信息', 'modify');
 				form.findField('id').setValue(select.id);
-				form.findField('fleetId').setValue(select.fleetId);
-                form.findField('fleetName').setValue(select.fleetName);
+				form.findField('userId').setValue(select.userId);
+                form.findField('plateNoId').setValue(select.plateNoId);
 
-				form.findField('settlement').setValue(select.settlement);
-                form.findField('remark').setValue(select.remark);
+				form.findField('userName').setValue(select.loginName);
+                form.findField('plateNo').setValue(select.plateNo);
 
 				win.show();
 			},
@@ -294,8 +289,8 @@ Ext.dispatcherPlateNo.grid = Ext.extend(Ext.grid.GridPanel, {
 				// Ext.ux.Toast.msg("信息", Ext.encode(ary));
 				Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
 							if (btn == 'yes') {
-								Ext.eu.ajax(path + '/logistics/deleteApplyType.do', {
-											applyTypes : Ext.encode(ary)
+								Ext.eu.ajax(path + '/logistics/deletedispatcherPlateNo.do', {
+                                    		dispatcherPlateNos : Ext.encode(ary)
 										}, function(resp) {
 											Ext.ux.Toast.msg('信息', '删除成功');
 											this.getStore().reload();
@@ -398,7 +393,7 @@ var dispatcherplateNoView = function(params) {
 	
 	return new Ext.Panel({
 				id : 'dispatcherplateNoView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '司机调度',
+				title : '车辆调度',
 				layout : 'border',
 				items : [this.queryPanel, this.grid]
 			})

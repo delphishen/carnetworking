@@ -10,17 +10,16 @@
 
 
 	<delete id="deleteTable" parameterType="HashMap">
-		delete from   t_car_apply_settlement where id=#{id}
+		delete from   t_archives_dispatcher_plateNo where id=#{id}
 	</delete>
 
 
 
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		SELECT t.*, f.fleetName
-		FROM t_car_apply_settlement t
-		LEFT JOIN t_system_fleet f
-		ON t.fleetId = f.id
+		SELECT dp.*, u.loginName,c.plateNo FROM t_archives_dispatcher_plateNo  dp
+		LEFT JOIN  t_system_user u ON u.id = dp.userId
+		LEFT JOIN t_archives_car  c ON c.id = dp.plateNoId
 		<if test="fleetId!='root'">
 			where fleetId =#{fleetId}
 		</if>

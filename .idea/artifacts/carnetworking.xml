@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="carnetworking">
+    <output-path>$PROJECT_DIR$/classes/artifacts/carnetworking</output-path>
+    <root id="archive" name="carnetworking.war">
+      <element id="dir-copy" path="$PROJECT_DIR$/../Logistics20171105/Logistics/WebRoot" />
+    </root>
+  </artifact>
+</component>

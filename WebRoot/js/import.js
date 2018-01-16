@@ -104,6 +104,13 @@ App.importJs = {
     ],
 
     /** *************************司机调度************************** */
+    dispatcherdriverView : [path + '/js/logistics/dossier/dispatcherdriverView.js',
+        path + '/utils/selector/userSelector.js',
+        path + '/utils/selector/driverSelector.js',
+    ],
+
+
+    /** *************************车辆调度************************** */
     dispatcherplateNoView : [path + '/js/logistics/dossier/dispatcherplateNoView.js',
         path + '/utils/selector/userSelector.js',
         path + '/utils/selector/truckSelector.js',
@@ -115,6 +122,10 @@ App.importJs = {
         path + '/utils/selector/kqSelector.js',
         path + '/utils/selector/driverSelector.js',
         path + '/utils/selector/truckTypeSelector.js',
+        path + '/utils/selector/busTypeSelector.js',
+        path + '/js/wbb/cq/cqEvaRateGrid.js',
+        path + '/utils/expansion/treeCombo.js',
+        path + '/js/wbb/cq/cqTree.js',
 
     ],
 

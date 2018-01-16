@@ -12,5 +12,10 @@ public interface DispatcherPlateNoService extends BaseService {
 
     public boolean savedispatcherPlateNo(DispatcherPlateNo dispatcherPlateNo);
 
+    public List<Map<String,String>> query(Map<String, String> params);
+
+
+    public void deleteTable(List<DispatcherPlateNo> dispatcherPlateNos);
+
 }
 
