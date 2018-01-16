@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.ApproveCompanyMapper">
+
+
+
+
+
+
+	<delete id="deleteTable" parameterType="HashMap">
+		delete from   t_archives_approve_company where id=#{id}
+	</delete>
+
+
+
+
+	<select id="query" parameterType="HashMap" resultType="HashMap">
+		SELECT a.*,u.loginName,c.company FROM t_archives_approve_company a
+		LEFT JOIN t_system_user u ON u.id = a.userId
+		LEFT JOIN t_archives_company  c ON c.id = a.companyId
+		<if test="fleetId!='root'">
+			where fleetId =#{fleetId}
+		</if>
+</select>
+
+
+
+
+
+
+
+
+
+</mapper>

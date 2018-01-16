@@ -99,6 +99,23 @@ App.importJs = {
 	truckTypeView : [path + '/js/logistics/dossier/truckTypeView.js',
 	             ],
 
+
+
+    /** ***********************司机排班管理*************************** */
+    driverRotaView : [path + '/js/logistics/dossier/driverRotaView.js',
+        path + '/utils/selector/driverSelector.js'
+
+    ],
+
+
+
+    /** ***********************审核员权限管理*************************** */
+    approveCompanyView : [path + '/js/logistics/dossier/approveCompanyView.js',
+        path + '/utils/selector/userSelector.js',
+        path + '/utils/selector/kqSelector.js',
+
+    ],
+
     /** *************************司机类别管理*************************** */
     driverTypeView : [path + '/js/logistics/dossier/driverTypeView.js',
     ],

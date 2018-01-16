@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.DriverRotaMapper">
+
+
+
+
+
+
+	<delete id="deleteTable" parameterType="HashMap">
+		delete from   t_driver_rota where id=#{id}
+	</delete>
+
+
+
+
+	<select id="query" parameterType="HashMap" resultType="HashMap">
+		SELECT r.*, f.fleetName,d.driverName FROM t_driver_rota r
+		LEFT JOIN t_system_fleet f ON r.fleetId = f.id
+		LEFT JOIN t_archives_driver d ON r.driverId = d.id
+		<if test="fleetId!='root'">
+			where fleetId =#{fleetId}
+		</if>
+</select>
+
+
+
+
+
+
+
+
+
+</mapper>

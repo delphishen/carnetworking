@@ -258,8 +258,11 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 							region : 'center',
 							enableSort : false,// 禁用排序，不然的话咧，管你后台排序多正常，前台都要按照名称再排一遍，乱序了吧，吃瘪了吧
 							loader : new Ext.tree.TreeLoader({
-										url : path + '/system/getTreeAllFleetList.do'
-									}),
+										url : path + '/system/getTreeAllFleetList.do',
+										baseParams: {
+											fleetId: fleedId
+										}}),
+
 							listeners : {
 								contextmenu : {
 									fn : function(node, event) {
