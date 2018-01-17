@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.CarApplyMapper">
+
+
+
+
+
+    <select id="query" parameterType="HashMap" resultType="HashMap">
+        SELECT a.*, f.fleetName,u.loginName,c.company,d.driverName ,ct.modelName FROM t_car_apply a
+        LEFT JOIN t_system_fleet f ON a.fleetId = f.id
+        LEFT JOIN t_system_user u ON a.userId = u.id
+        LEFT JOIN t_archives_company c ON a.comapnyId = c.id
+        LEFT JOIN t_archives_driver d ON a.driverId = d.id
+        LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
+        WHERE a.statuesId = '0'
+
+        <if test="fleetId!='root'">
+            AND fleetId =#{fleetId}
+        </if>
+    </select>
+
+
+
+    <select id="queryinsanity" parameterType="HashMap" resultType="HashMap">
+        SELECT a.*, f.fleetName,u.loginName,c.company,d.driverName ,ct.modelName FROM t_car_apply a
+        LEFT JOIN t_system_fleet f ON a.fleetId = f.id
+        LEFT JOIN t_system_user u ON a.userId = u.id
+        LEFT JOIN t_archives_company c ON a.comapnyId = c.id
+        LEFT JOIN t_archives_driver d ON a.driverId = d.id
+        LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
+        WHERE a.statuesId = '1'
+
+        <if test="fleetId!='root'">
+            AND fleetId =#{fleetId}
+        </if>
+    </select>
+
+    <select id="queryapproveLog" parameterType="HashMap" resultType="HashMap">
+        SELECT l.*,u.loginName ,f.fleetName FROM  t_car_approve_log l
+        LEFT JOIN t_system_user u  ON l.userId = u.id
+        LEFT JOIN t_system_fleet f ON l.fleetId = f.id
+
+        <if test="fleetId!='root'">
+            WHERE fleetId =#{fleetId}
+        </if>
+    </select>
+
+
+
+
+
+    <update id="updateTable" parameterType="CarApply">
+
+      UPDATE t_car_apply
+      SET statuesId = '1'
+      WHERE carApplyNo=#{carApplyNo}
+
+
+    </update>
+
+    <insert id="insertlog" parameterType="HashMap">
+
+        INSERT INTO t_car_approve_log(
+        fleetId,id,carApplyNo,activityId,statues,remark,userId,approveDatetime)
+         VALUES(#{fleetId},#{id},#{carApplyNo},#{activityId},#{statues},NULL ,#{userId},#{approveDatetime})
+
+
+    </insert>
+
+
+
+
+
+
+
+
+
+</mapper>

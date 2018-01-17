@@ -446,7 +446,7 @@ Ext.driverRota.queryPanel = Ext.extend(Ext.FormPanel, {
 						}];
 				// panel定义
 				Ext.driverRota.queryPanel.superclass.constructor.call(this, {
-							id : 'driverTypeQueryPanel',
+							id : 'driverRotaQueryPanel',
 							region : 'north',
 							height : 40,
 							frame : true,

@@ -134,6 +134,10 @@ App.importJs = {
     ],
 
 
+    /** *************************审核记录管理************************** */
+    approveLogView : [path + '/js/logistics/dossier/approveLogView.js'],
+
+
     /** *************************价格管理*************************** */
     carTypePriceView : [path + '/js/logistics/dossier/carTypePriceView.js',
         path + '/utils/selector/kqSelector.js',
@@ -141,6 +145,24 @@ App.importJs = {
         path + '/utils/selector/truckTypeSelector.js',
         path + '/utils/selector/busTypeSelector.js',
         path + '/js/wbb/cq/cqEvaRateGrid.js',
+        path + '/utils/expansion/treeCombo.js',
+        path + '/js/wbb/cq/cqTree.js',
+
+    ],
+
+
+
+
+
+    /** *************************价格管理*************************** */
+    carApplyView : [path + '/js/logistics/dossier/carApplyView.js',
+        path + '/js/logistics/dossier/driverRotaView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/driverSelector.js',
+        path + '/utils/selector/truckTypeSelector.js',
+        path + '/utils/selector/busTypeSelector.js',
+        path + '/js/logistics/dossier/insanityGrid.js',
+        path + '/js/logistics/dossier/insanitydriverGrid.js',
         path + '/utils/expansion/treeCombo.js',
         path + '/js/wbb/cq/cqTree.js',
 

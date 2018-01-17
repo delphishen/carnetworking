@@ -357,7 +357,7 @@ Ext.dispatcherPlateNo.queryPanel = Ext.extend(Ext.FormPanel, {
 						}];
 				// panel定义
 				Ext.dispatcherPlateNo.queryPanel.superclass.constructor.call(this, {
-							id : 'driverTypeQueryPanel',
+							id : 'dispatcherPlateNoQueryPanel',
 							region : 'north',
 							height : 40,
 							frame : true,
