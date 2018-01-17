@@ -20,8 +20,15 @@
 		SELECT r.*, f.fleetName,d.driverName FROM t_driver_rota r
 		LEFT JOIN t_system_fleet f ON r.fleetId = f.id
 		LEFT JOIN t_archives_driver d ON r.driverId = d.id
+		WHERE  1=1
+		<if test="driverId!=null and driverId!=''">
+			AND driverId = '${driverId}'
+		</if>
+		<if test="clockIn!=null and clockIn!=''">
+			AND clockIn like '%${clockIn}%'
+		</if>
 		<if test="fleetId!='root'">
-			where fleetId =#{fleetId}
+			AND fleetId =#{fleetId}
 		</if>
 </select>
 

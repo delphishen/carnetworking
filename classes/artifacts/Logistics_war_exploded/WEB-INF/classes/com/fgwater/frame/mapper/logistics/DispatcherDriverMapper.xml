@@ -20,8 +20,12 @@
 		SELECT d.*,u.loginName,dr.driverName FROM t_archives_dispatcher_driver d
 		LEFT JOIN t_system_user  u ON u.id= d.userId
 		LEFT JOIN t_archives_driver dr ON  dr.id = d.driverId
+		where 1=1
+		<if test="userId!=null and userId!=''">
+			and userId = '${userId}'
+		</if>
 		<if test="fleetId!='root'">
-			where fleetId =#{fleetId}
+			AND fleetId =#{fleetId}
 		</if>
 </select>
 

@@ -304,31 +304,48 @@ Ext.dispatcherPlateNo.queryPanel = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
+                this.userDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getAllUser.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'loginName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+                });
+                this.userDS.load();
 
 
 
                 // 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
-					width:180,
+                    width : 280,
                     items : [{
+                        id:'dispatcherPlateNouserName',
+                        fieldLabel : '调度员姓名',
+                        width : 100,
                         xtype : 'combo',
-						width:60,
-                        fieldLabel : '价格类型',
-                        hiddenName : 'charteredBusType',
-                        anchor : '98%',
-                        typeAhead : true,
-                        editable : false,
+                        hiddenName : 'userId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
                         triggerAction : 'all',
-                        lazyRender : true,
                         mode : 'local',
-                        store : new Ext.data.ArrayStore({
-                            fields : ['key', 'val'],
-                            data : [['常规价格设置', '0'],
-                                ['包车价格设置', '1']]
-                        }),
-                        valueField : 'val',
-                        displayField : 'key'
+                        store : this.userDS,
+                        valueField : 'id',
+                        displayField : 'loginName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                //	this.getForm().findField('linesName').setValue(record.data.id);
+                            },
+                            scope : this
+                        }
                     }]
+
                 },
 					{
 							width : 65,
@@ -367,7 +384,7 @@ Ext.dispatcherPlateNo.queryPanel = Ext.extend(Ext.FormPanel, {
 							labelAlign : 'right',
 							defaults : {
 								layout : 'form',
-								labelWidth : 60
+								labelWidth : 80
 							}
 						});
 			},

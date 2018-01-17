@@ -395,29 +395,64 @@ Ext.driverRota.queryPanel = Ext.extend(Ext.FormPanel, {
 
 
 
+                this.driverDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/logistics/getAllCustomer.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'driverName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+                });
+                this.driverDS.load();
+
+
+
 
                 // 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
-					width:180,
+                    width : 280,
                     items : [{
+                        id:'driverName',
+                        fieldLabel : '司机姓名',
+                        width : 100,
                         xtype : 'combo',
-						width:60,
-                        fieldLabel : '价格类型',
-                        hiddenName : 'charteredBusType',
-                        anchor : '98%',
-                        typeAhead : true,
-                        editable : false,
+                        hiddenName : 'driverId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
                         triggerAction : 'all',
-                        lazyRender : true,
                         mode : 'local',
-                        store : new Ext.data.ArrayStore({
-                            fields : ['key', 'val'],
-                            data : [['常规价格设置', '0'],
-                                ['包车价格设置', '1']]
-                        }),
-                        valueField : 'val',
-                        displayField : 'key'
+                        store : this.driverDS,
+                        valueField : 'id',
+                        displayField : 'driverName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                //	this.getForm().findField('linesName').setValue(record.data.id);
+                            },
+                            scope : this
+                        }
                     }]
+
+                },{
+                    width : 280,
+                    items : [{
+                        id:'clockIn',
+                        fieldLabel : '上班时间',
+                        width : 100,
+                        xtype : 'datefield',
+                        hiddenName : 'clockIn',
+                        format : 'Y-m-d',
+                        editable : false,
+                        submitValue : true,
+                        anchor : '90%',
+
+                    }]
+
                 },
 					{
 							width : 65,
