@@ -138,6 +138,9 @@ App.importJs = {
     approveLogView : [path + '/js/logistics/dossier/approveLogView.js'],
 
 
+    /** *************************调度记录管理************************** */
+    dispatchLogView : [path + '/js/logistics/dossier/dispatchLogView.js'],
+
     /** *************************价格管理*************************** */
     carTypePriceView : [path + '/js/logistics/dossier/carTypePriceView.js',
         path + '/utils/selector/kqSelector.js',
@@ -154,7 +157,7 @@ App.importJs = {
 
 
 
-    /** *************************价格管理*************************** */
+    /** *************************用车审核管理*************************** */
     carApplyView : [path + '/js/logistics/dossier/carApplyView.js',
         path + '/js/logistics/dossier/driverRotaView.js',
         path + '/utils/selector/kqSelector.js',
@@ -162,6 +165,20 @@ App.importJs = {
         path + '/utils/selector/truckTypeSelector.js',
         path + '/utils/selector/busTypeSelector.js',
         path + '/js/logistics/dossier/insanityGrid.js',
+        path + '/js/logistics/dossier/insanitydriverGrid.js',
+        path + '/utils/expansion/treeCombo.js',
+        path + '/js/wbb/cq/cqTree.js',
+
+    ],
+
+    /** *************************调度管理*************************** */
+    driverApplyView : [path + '/js/logistics/dossier/driverApplyView.js',
+        path + '/js/logistics/dossier/driverRotaView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/driverSelector.js',
+        path + '/utils/selector/truckSelector.js',
+        path + '/utils/selector/busTypeSelector.js',
+        path + '/js/logistics/dossier/dispatchGrid.js',
         path + '/js/logistics/dossier/insanitydriverGrid.js',
         path + '/utils/expansion/treeCombo.js',
         path + '/js/wbb/cq/cqTree.js',

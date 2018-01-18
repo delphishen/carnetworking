@@ -50,7 +50,7 @@ public class CarApply extends BaseModel {
 	@Column
 	private  String remark;
 	@Column
-	private String  plateNumberId;
+	private String  plateNoId;
 	@Column
 	private String  driverId;
 	@Column
@@ -204,12 +204,12 @@ public class CarApply extends BaseModel {
 		this.remark = remark;
 	}
 
-	public String getPlateNumberId() {
-		return plateNumberId;
+	public String getPlateNoId() {
+		return plateNoId;
 	}
 
-	public void setPlateNumberId(String plateNumberId) {
-		this.plateNumberId = plateNumberId;
+	public void setPlateNoId(String plateNoId) {
+		this.plateNoId = plateNoId;
 	}
 
 	public String getDriverId() {

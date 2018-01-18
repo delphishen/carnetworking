@@ -326,7 +326,7 @@ Ext.dispatcherdriver.queryPanel = Ext.extend(Ext.FormPanel, {
 				this.items = [{
                     width : 280,
                     items : [{
-                        id:'userName',
+                        id:'dispatcherdriveruserName',
                         fieldLabel : '调度员姓名',
                         width : 100,
                         xtype : 'combo',

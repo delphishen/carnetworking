@@ -49,6 +49,18 @@ public class CarApplyController extends BaseController {
 
 
 	@ResponseBody
+	@RequestMapping(value = "querydispatchLog.do")
+	public String querydispatchLog() {
+
+
+
+		this.responseModel.mount(this.applyService.querydispatchLog(this.requestModel
+				.getParams()), MOUNT_TYPE_PAGING);
+
+		return this.responseModel.serial();
+	}
+
+	@ResponseBody
 	@RequestMapping(value = "queryapproveLog.do")
 	public String queryapproveLog() {
 
@@ -71,6 +83,30 @@ public class CarApplyController extends BaseController {
 				.getParams()), MOUNT_TYPE_PAGING);
 
 		return this.responseModel.serial();
+	}
+	@ResponseBody
+	@RequestMapping(value = "querydispatch.do")
+	public String querydispatch() {
+
+
+
+		this.responseModel.mount(this.applyService.querydispatch(this.requestModel
+				.getParams()), MOUNT_TYPE_PAGING);
+
+		return this.responseModel.serial();
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "savecarApply.do")
+	public String savebusType() {
+
+		System.out.println("===========获取结算类型============"+this.getCarApply());
+		JSONObject jo = new JSONObject();
+		jo.element("success", true);
+		jo.element("label", this.applyService.savecarApply(this.getCarApply()));
+
+		return jo.toString();
 	}
 
 

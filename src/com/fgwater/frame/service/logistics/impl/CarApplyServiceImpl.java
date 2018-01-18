@@ -76,6 +76,38 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 		return this.applyMapper.queryapproveLog(params);
 	}
 
+	@Override
+	public boolean savecarApply(CarApply carApply) {
+
+		this.applyMapper.savecarApply(carApply);
+		Map<String,String> map =  new HashMap<String, String>();
+		map.put("id",UUIDUtils.getUUID());
+		map.put("fleetId",carApply.getFleetId());
+		map.put("carApplyNo",carApply.getCarApplyNo());
+		map.put("plateNoId",carApply.getPlateNoId());
+		map.put("driverId",carApply.getDriverId());
+		map.put("employeeId",SessionUtils.getCurrUserId());
+		map.put("dispatchDatetime",StrUtils.getCurrFormatTime());
+
+
+		System.out.println("=============添加调度日志map=========="+map);
+
+		this.applyMapper.insertdispatchlog(map);
+
+
+		return true;
+	}
+
+	@Override
+	public List<Map<String, String>> querydispatchLog(Map<String, String> params) {
+		return this.applyMapper.querydispatchLog(params);
+	}
+
+	@Override
+	public List<Map<String, String>> querydispatch(Map<String, String> params) {
+		return this.applyMapper.querydispatch(params);
+	}
+
 
 	@SuppressWarnings("unchecked")
 	private Map<String, String> toMap(JSONObject jo) {

@@ -416,7 +416,7 @@ Ext.driverRota.queryPanel = Ext.extend(Ext.FormPanel, {
 				this.items = [{
                     width : 280,
                     items : [{
-                        id:'driverName',
+                        id:'driverRotadriverName',
                         fieldLabel : '司机姓名',
                         width : 100,
                         xtype : 'combo',

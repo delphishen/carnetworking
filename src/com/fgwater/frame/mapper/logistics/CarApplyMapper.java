@@ -25,4 +25,15 @@ public interface CarApplyMapper extends BaseMapper<CarApply> {
     List<Map<String,String>> queryapproveLog(Map<String, String> params);
 
 
+    public void savecarApply(CarApply carApply);
+
+    public  void insertdispatchlog(Map<String, String> map);
+
+    @Paging
+    public List<Map<String,String>> querydispatchLog(Map<String, String> params);
+
+
+    @Paging
+    public List<Map<String,String>> querydispatch(Map<String, String> params);
+
 }

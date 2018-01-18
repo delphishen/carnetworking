@@ -18,5 +18,11 @@ public interface CarApplyService extends BaseService {
 
     public List<Map<String,String>> queryapproveLog(Map<String, String> params);
 
+    public   boolean savecarApply(CarApply carApply);
+
+    public List<Map<String,String>> querydispatchLog(Map<String, String> params);
+
+    public List<Map<String,String>> querydispatch(Map<String, String> params);
+
 }
 
