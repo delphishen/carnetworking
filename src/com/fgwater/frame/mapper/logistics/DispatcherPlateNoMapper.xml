@@ -20,14 +20,18 @@
 		SELECT dp.*, u.loginName,c.plateNo FROM t_archives_dispatcher_plateNo  dp
 		LEFT JOIN  t_system_user u ON u.id = dp.userId
 		LEFT JOIN t_archives_car  c ON c.id = dp.plateNoId
+
+		<if test="fleetId!='root'">
+			INNER JOIN (SELECT * FROM t_system_user WHERE fleetId = #{fleetId}) fu ON fu.id =  dp.userId
+		</if>
+
+
 		WHERE  1=1
 		<if test="userId!=null and userId!=''">
 			AND userId = '${userId}'
 		</if>
-		<if test="fleetId!='root'">
-			AND fleetId =#{fleetId}
-		</if>
-</select>
+
+	</select>
 
 
 

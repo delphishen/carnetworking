@@ -19,7 +19,7 @@
         WHERE a.statuesId = #{statuesId}
 
         <if test="fleetId!='root'">
-            AND fleetId =#{fleetId}
+            AND a.fleetId =#{fleetId}
         </if>
     </select>
 
@@ -35,7 +35,7 @@
         WHERE a.statuesId = '1'
 
         <if test="fleetId!='root'">
-            AND fleetId =#{fleetId}
+            AND a.fleetId =#{fleetId}
         </if>
     </select>
 
@@ -49,7 +49,7 @@
         WHERE a.statuesId = '2'
 
         <if test="fleetId!='root'">
-            AND fleetId =#{fleetId}
+            AND a.fleetId =#{fleetId}
         </if>
     </select>
 
@@ -59,7 +59,7 @@
         LEFT JOIN t_system_fleet f ON l.fleetId = f.id
 
         <if test="fleetId!='root'">
-            WHERE fleetId =#{fleetId}
+            WHERE l.fleetId =#{fleetId}
         </if>
     </select>
 
@@ -72,7 +72,7 @@
         LEFT JOIN t_system_user u ON dl.employeeId = u.id
 
         <if test="fleetId!='root'">
-            WHERE fleetId =#{fleetId}
+            WHERE dl.fleetId =#{fleetId}
         </if>
     </select>
 
