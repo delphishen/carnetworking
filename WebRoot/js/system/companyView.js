@@ -366,7 +366,14 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 														id : node.id
 													})
 										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
+                                    		var res = Ext.decode(resp.responseText);
+                                    		if(res.msg =='999'){
+                                                Ext.ux.Toast.msg('信息', '该部门不能删除，存在外键关联！！！');
+
+											}else {
+                                                Ext.ux.Toast.msg('信息', '删除成功');
+											}
+
 											this.getRootNode().reload();// 刷新当前树
 											refreshSysMenu();
 										}, this);

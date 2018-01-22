@@ -11,8 +11,12 @@
   	FROM t_driver_type d
 	LEFT JOIN t_system_fleet f
 	ON d.fleetId = f.id
+		WHERE  1=1
+		<if test="driverType!=null and driverType!=''">
+			and d.driverType like '%${driverType}%'
+		</if>
 		<if test="fleetId!='root'">
-			where fleetId =#{fleetId}
+			AND fleetId =#{fleetId}
 		</if>
 	</select>
 

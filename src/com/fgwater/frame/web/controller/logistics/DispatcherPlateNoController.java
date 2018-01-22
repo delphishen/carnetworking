@@ -38,7 +38,7 @@ public class DispatcherPlateNoController extends BaseController {
 	@RequestMapping(value = "savedispatcherPlateNo.do")
 	public String savebusType() {
 
-		System.out.println("===========保存调度司机信息============"+this.getDispatcherPlateNo().getPlateNoId());
+		System.out.println("===========保存调度车辆信息============"+this.getDispatcherPlateNo().getPlateNoId());
 		JSONObject jo = new JSONObject();
 		jo.element("success", true);
 		jo.element("label", this.dispatcherPlateNoService.savedispatcherPlateNo(this.getDispatcherPlateNo()));

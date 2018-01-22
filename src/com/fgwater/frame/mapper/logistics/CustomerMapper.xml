@@ -5,23 +5,24 @@
 <mapper namespace="com.fgwater.frame.mapper.logistics.CustomerMapper">
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		select d.id, d.driverName, d.companyId, d.statuesId,d.sex,d.drivingExperience, d.peccancyCount, d.mobile,d.address, f.fleetName,c.company
+		select d.*, f.fleetName,c.company,t.driverType
 		from   t_archives_driver d
 		LEFT JOIN t_system_fleet f ON d.fleetId = f.id
 		LEFT  join t_archives_company c  ON d.companyId = c.id
+		LEFT join  t_driver_type t ON d.driverTypeId = t.id
 		where 1=1
 		<if test="driverName!=null and driverName!=''">
-			and driverName like '%${driverName}%'
+			and d.driverName like '%${driverName}%'
 		</if>
 		
 		<if test="companyId!=null and companyId!=''">
-			and companyId like '%${companyId}%'
+			and d.companyId like '%${companyId}%'
 		</if>		
 		<if test="tel!=null and tel!=''">
-			and tel like '%${tel}%'
+			and d.mobile like '%${tel}%'
 		</if>		
 		<if test="address!=null and address!=''">
-			and address like '%${address}%'
+			and d.address like '%${address}%'
 		</if>
 		
 	</select>
@@ -43,7 +44,7 @@
 	<update id="updateTable" parameterType="HashMap">
 		update   t_archives_driver set
 		fleetId=#{fleetId},companyId=#{companyId},driverName=#{driverName},statuesId=#{statuesId},sex=#{sex},drivingExperience=#{drivingExperience},
-		peccancyCount=#{peccancyCount},address=#{address}
+		peccancyCount=#{peccancyCount},address=#{address},driverTypeId=#{driverTypeId}
 		where id=#{id}
 	</update>
 	

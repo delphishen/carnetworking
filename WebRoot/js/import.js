@@ -116,6 +116,15 @@ App.importJs = {
 
     ],
 
+
+    /** ***********************车辆违章信息管理*************************** */
+    carPeccancyView : [path + '/js/logistics/dossier/carPeccancyView.js',
+        path + '/utils/selector/driverSelector.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/truckSelector.js',
+
+    ],
+
     /** *************************司机类别管理*************************** */
     driverTypeView : [path + '/js/logistics/dossier/driverTypeView.js',
     ],

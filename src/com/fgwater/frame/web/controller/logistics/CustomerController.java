@@ -74,7 +74,17 @@ public class CustomerController extends BaseController {
 	@RequestMapping(value = "deleteCustomer.do")
 	public String delete() {
 	//	System.out.println(this.getTrucks());
-		this.customerService.delete(this.getCustomers());
+		try {
+			this.customerService.delete(this.getCustomers());
+
+
+		}catch (Exception e ){
+			System.out.println(e.getMessage());
+			JSONObject jo = new JSONObject();
+			jo.put("success", true);
+			jo.put("msg", "999");
+			return jo.toString();
+		}
 		
 		return this.responseModel.serial();
 	}

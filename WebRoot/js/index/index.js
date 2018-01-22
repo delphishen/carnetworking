@@ -69,6 +69,12 @@ Ext.main.viewport = Ext.extend(Ext.Viewport, {
 				autoScroll : true,
 				closable : true
 			},
+            listeners : {
+                'beforeshow' : function() {
+                    console.log("11111");
+
+                },
+            },
 			items : [ {
 				xtype : 'panel',
 				id : 'homePanel',
@@ -82,7 +88,9 @@ Ext.main.viewport = Ext.extend(Ext.Viewport, {
 					+ path
 					//	+ '/jsLib/extensible-1.0.2/examples/calendar/test-app.jsp></iframe>'
 					+ '/page/home/home.jsp></iframe>'
-			} ]
+			} ],
+
+
 		});
 		// 定义
 		Ext.main.viewport.superclass.constructor.call(this, {

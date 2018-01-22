@@ -73,7 +73,19 @@ public class CompanyController extends BaseController {
 	@RequestMapping(value = "deleteCompany.do")
 	public String delete() {
 		System.out.println("==============deleteCompany============="+this.getCompany());
-		this.companyService.delete(this.getCompany());
+
+		try {
+			this.companyService.delete(this.getCompany());
+
+		}catch (Exception e){
+			JSONObject jo = new JSONObject();
+			jo.put("success", true);
+			jo.put("msg", "999");
+			return jo.toString();
+
+
+		}
+
 		return this.responseModel.serial();
 	}
 

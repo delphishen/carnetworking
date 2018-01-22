@@ -292,41 +292,30 @@ Ext.driverType.queryPanel = Ext.extend(Ext.FormPanel, {
 
 
 
-                this.truckTypeDS = new Ext.data.Store({
+                this.fleetTypeDS = new Ext.data.Store({
                     proxy : new Ext.data.HttpProxy({
-                        url : path + '/logistics/getAllTruckType.do',
+                        url : path + '/system/getTreeAllFleetList.do',
                         method : 'POST'
                     }),
                     reader : new Ext.data.JsonReader({},
-                        [{name : 'id'}, {name : 'truckTypeName'}])
+                        [{name : 'id'}, {name : 'fleetName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
                 });
+                this.fleetTypeDS.load();
 
                 // 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
                     width : 180,
                     items : [{
-                        id:'truckTypeSelect',
-                        fieldLabel : '类别',
-                        width : 60,
-                        xtype : 'combo',
-                        hiddenName : 'driverType',
-                        submitValue : false,
-                        anchor : '90%',
-                        editable : true,
-                        autoLoad : true,
-                        triggerAction : 'all',
-                        mode : 'local',
-                        store : this.truckTypeDS,
-                        valueField : 'truckTypeName',
-                        displayField : 'truckTypeName',
-                        listeners : {
-                            'select' : function(combo, record) {
-                                //	this.getForm().findField('linesName').setValue(record.data.id);
-                            },
-                            scope : this
-                        }
+                        xtype : 'textfield',
+                        fieldLabel : '类型名称',
+                        id : 'driverType',
+                        anchor : '90%'
                     }]
-
                 },{
 							width : 65,
 							items : [{

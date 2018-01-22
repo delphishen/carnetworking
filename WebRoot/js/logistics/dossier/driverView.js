@@ -15,16 +15,25 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
-                new kqSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('companyId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                console.log("=================="+val);
+
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new kqSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('companyId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
 
-                }, true, this);
+                    }, true, this);
+
+                }
+
             },
             scope : this
         });
@@ -40,16 +49,21 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
-                new driverTypeSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('driverTypeId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                if(val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+
+                } else {
+                    new driverTypeSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('driverTypeId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
+                    }, true, this);
+                }
 
 
-
-                }, true, this);
             },
             scope : this
         });
@@ -104,6 +118,11 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
                 listeners : {
                     'select' : function(combo, record) {
                         this.getForm().findField('fleetId').setValue(record.data.id);
+                        this.getForm().findField('driverType').setValue(null);
+                        this.getForm().findField('company').setValue(null);
+                        this.getForm().findField('companyId').setValue(null);
+                        this.getForm().findField('driverTypeId').setValue(null);
+
                         basefleedId = record.data.id;
 
 
@@ -271,6 +290,16 @@ Ext.customer.win = Ext.extend(Ext.Window, {
         if (form.isValid()) {
             btn.setDisabled(true);
             var user = form.getValues();
+            console.log(user);
+            if(user.companyId == ""){
+                Ext.ux.Toast.msg('提示', '请选择所属机构！！！');
+                return;
+            }
+
+            if(user.driverTypeId == ""){
+                Ext.ux.Toast.msg('提示', '请选择司机类型！！！');
+                return;
+            }
             //user.isAdmin = user.isAdmin == 1 ? 1 : 0;
             //	Ext.ux.Toast.msg('信息', Ext.encode(user));
             Ext.eu.ajax(path + '/logistics/saveCustomer.do', {
@@ -302,7 +331,7 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
             idProperty : 'id',
             root : 'rows',
             totalProperty : 'results',
-            fields : ['id', 'driverName', 'companyId', 'company','statuesId','sex','drivingExperience', 'peccancyCount', 'mobile','address','fleetName'],
+            fields : ['id', 'driverName', 'fleetId','companyId','driverTypeId', 'company','driverType','statuesId','sex','drivingExperience', 'peccancyCount', 'mobile','address','fleetName'],
             autoDestroy : true,
             autoLoad : true,
             baseParams : {
@@ -334,12 +363,28 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex : 'id',
                 hidden : true
             },{
+                header : 'fleetId',
+                dataIndex : 'fleetId',
+                hidden : true
+            },{
+                header : 'companyId',
+                dataIndex : 'companyId',
+                hidden : true
+            },{
+                header : 'driverTypeId',
+                dataIndex : 'driverTypeId',
+                hidden : true
+            },{
                 header : '司机姓名',
                 dataIndex : 'driverName'
 
             },  {
                 header : '所属机构',
                 dataIndex : 'company',
+                hidden : false
+            }, {
+                header : '司机类型',
+                dataIndex : 'driverType',
                 hidden : false
             },  {
                 header : '当前状态',
@@ -416,7 +461,7 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
     },
     onAdd : function(btn) {
         var win = new Ext.customer.win(this);
-        win.setTitle('添加客户', 'add');
+        win.setTitle('添加司机', 'add');
         win.show();
     },
     onModify : function(btn) {
@@ -433,9 +478,14 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
         //Ext.ux.Toast.msg("信息", select.buyingTime);
         var win = new Ext.customer.win(this);
         var form = win.form.getForm();
-        win.setTitle('修改客户', 'modify');
+        basefleedId = select.fleetId;
+        win.setTitle('修改司机信息', 'modify');
         form.findField('id').setValue(select.id);
         form.findField('fleetId').setValue(select.fleetId);
+        form.findField('driverTypeId').setValue(select.driverTypeId);
+        form.findField('driverType').setValue(select.driverType);
+
+
         form.findField('fleetName').setValue(select.fleetName);
         form.findField('company').setValue(select.company);
 
@@ -471,7 +521,15 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
                 Ext.eu.ajax(path + '/logistics/deleteCustomer.do', {
                     customers : Ext.encode(ary)
                 }, function(resp) {
-                    Ext.ux.Toast.msg('信息', '删除成功');
+                    console.log(resp);
+                    var res = Ext.decode(resp.responseText);
+                    if(res.msg == '999'){
+                        Ext.ux.Toast.msg('信息', '该司机不能删除，存在外键关联');
+
+                    }else {
+                        Ext.ux.Toast.msg('信息', '删除成功！！！');
+                    }
+
                     this.getStore().reload();
                 }, this);
             }
@@ -482,6 +540,22 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
 Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
     constructor : function(app) {
         this.app = app;
+
+        this.companyTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/system/getTreeAllCompanyList.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'company'}]),
+
+            baseParams : {
+                fleetId:'root'
+            }
+
+        });
+        this.companyTypeDS.load();
+
         // 在column布局的制约下，从左至右每个元素依次进行form布局
         this.items = [{
             width : 250,
@@ -494,12 +568,29 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
         }, {
             width : 250,
             items : [{
-                xtype : 'textfield',
+                id:'companyTypeDS',
                 fieldLabel : '所属机构',
-                id : 'companyId',
-                anchor : '90%'
+                width : 60,
+                xtype : 'combo',
+                hiddenName : 'companyId',
+                submitValue : false,
+                anchor : '90%',
+                editable : true,
+                autoLoad : true,
+                triggerAction : 'all',
+                mode : 'local',
+                store : this.companyTypeDS,
+                valueField : 'id',
+                displayField : 'company',
+                listeners : {
+                    'select' : function(combo, record) {
+                        //	this.getForm().findField('linesName').setValue(record.data.id);
+                    },
+                    scope : this
+                }
             }]
-        }, {
+
+        },{
             width : 250,
             items : [{
                 xtype : 'textfield',
@@ -508,14 +599,6 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
                 anchor : '90%'
             }]
         }, {
-            width : 250,
-            items : [{
-                xtype : 'textfield',
-                fieldLabel : '地址',
-                id : 'address',
-                anchor : '90%'
-            }]
-        },  {
             width : 65,
             items : [{
                 xtype : 'button',

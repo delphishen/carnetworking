@@ -28,7 +28,7 @@
 			AND clockIn like '%${clockIn}%'
 		</if>
 		<if test="fleetId!='root'">
-			AND fleetId =#{fleetId}
+			AND r.fleetId =#{fleetId}
 		</if>
 </select>
 

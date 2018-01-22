@@ -420,29 +420,27 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 					return;
 				}
 				var select = selects[0].data;
+				console.log(select);
 				//Ext.ux.Toast.msg("信息", select.buyingTime);
 				var win = new Ext.truck.win(this);
 				var form = win.form.getForm();
 				win.setTitle('修改车辆信息', 'modify');				
 				form.findField('id').setValue(select.id);
-				form.findField('vehicleManager').setValue(select.vehicleManager);
-				form.findField('driver').setValue(select.driver);
-				form.findField('tel').setValue(select.tel);
-				form.findField('plateNumber').setValue(select.plateNumber);
-				form.findField('truckModel').setValue(select.truckModel);				
-				form.findField('DWT').setValue(select.DWT);
-				form.findField('truckCargoType').setValue(select.truckCargoType);
-				form.findField('buyingTime').setValue(select.buyingTime);
+				form.findField('fleetId').setValue(select.fleetId);
+				form.findField('companyId').setValue(select.companyId);
+				form.findField('carType').setValue(select.carType);
+				form.findField('buyDatetime').setValue(select.buyDatetime);
+				form.findField('company').setValue(select.company);
+				form.findField('driverId').setValue(select.driverId);
+				form.findField('driverName').setValue(select.driverName);
+				form.findField('fleetName').setValue(select.fleetName);
 	
-				form.findField('truckType').setValue(select.truckType);
-				form.findField('gradeID').setValue(select.gradeID);
+				form.findField('modelName').setValue(select.modelName);
+				form.findField('plateNo').setValue(select.plateNo);
 				//调度员
-				form.findField('dispatchersName').setValue(select.dispatchersName);
-				form.findField('dispatchers').setValue(select.dispatchers);
-				form.findField('vehicleCondition').setValue(select.vehicleCondition);
-				if(isAdmin == 0 ){
-					form.findField('dispatchersName').readOnly=true;
-				}					
+				form.findField('statues').setValue(select.statues);
+				form.findField('tel').setValue(select.tel);
+				form.findField('vehicleOwner').setValue(select.vehicleOwner);
 				
 				win.show();
 			},

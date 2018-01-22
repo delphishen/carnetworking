@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.CarPeccancyMapper">
+
+
+    <select id="queryeccancy" parameterType="HashMap" resultType="HashMap">
+        SELECT p.*, f.fleetName ,c.company,d.driverName,ac.plateNo FROM t_car_peccancy p
+        LEFT JOIN t_system_fleet f ON f.id = p.fleetId
+        LEFT JOIN t_archives_company c ON c.id = p.companyId
+        LEFT JOIN t_archives_driver d ON d.id = p.driverId
+        LEFT join t_archives_car ac ON ac.id = p.plateNoId
+        WHERE  1=1
+
+        <if test="driverId!=null and driverId!=''">
+            and p.driverId = '${driverId}'
+        </if>
+        <if test="fleetId!='root'">
+            AND p.fleetId =#{fleetId}
+        </if>
+    </select>
+
+    <delete id="deleteTable" parameterType="HashMap">
+        delete from  t_car_peccancy where id=#{id}
+    </delete>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

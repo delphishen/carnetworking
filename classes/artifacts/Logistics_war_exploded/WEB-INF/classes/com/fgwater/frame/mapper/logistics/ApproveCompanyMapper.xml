@@ -21,8 +21,9 @@
 		LEFT JOIN t_system_user u ON u.id = a.userId
 		LEFT JOIN t_archives_company  c ON c.id = a.companyId
 		<if test="fleetId!='root'">
-			where fleetId =#{fleetId}
+			INNER JOIN (SELECT * FROM t_system_user WHERE fleetId = #{fleetId}) fu ON fu.id =  a.userId
 		</if>
+
 </select>
 
 
