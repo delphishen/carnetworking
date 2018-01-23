@@ -19,4 +19,6 @@ public interface FleetService extends BaseService {
    /* public void  delete(Fleet fleet);*/
     public  void  delete(Fleet fleet);
 
+    public  JSONArray  getTreeFleetList(Map<String, String> params);
+
 }

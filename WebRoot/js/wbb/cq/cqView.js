@@ -6,13 +6,11 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 		this.app = app;
 		// 数据源
 		this.ds = new Ext.data.JsonStore({
-					url : path + '/wbb/queryCq.do',
+					url : path + '/logistics/queryapproveCompany.do',
 					idProperty : 'id',
 					root : 'rows',
 					totalProperty : 'results',
-					fields : ['id', 'kqId', 'kqSortId', 'kqEvolveId',
-							'kqSortName', 'name', 'type', 'showFormula',
-							'realFormula'],
+					fields : ['id',  'userId','companyId','loginName','company'],
 					autoDestroy : true,
 					autoLoad : true,
 					baseParams : {
@@ -21,24 +19,33 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 					},
 					listeners : {
 						'beforeload' : function() {
-							var sortIds = new Array();
-							if (this.sortNode != null) {
-								if (this.sortNode.id != 0) {
-									sortIds.push(this.sortNode.id);
-									sortIds = this.getChildrenIds(sortIds,
-											this.sortNode, this);
-								}
-							}
-							var str = "";
-							for (var i = 0; i < sortIds.length; i++) {
-								str += "'" + sortIds[i] + "',"
-							}
-							str = str.substring(0, str.lastIndexOf(','));
-							Ext.apply(this.getStore().baseParams, {
-										'kqSortId' : str
-									});
-							Ext.apply(this.getStore().baseParams,
-									this.app.queryPanel.getQueryParams());
+                            var bfleetId = null;
+                            var userId  = null;
+
+
+                            if (this.sortNode == null){
+                                bfleetId = fleedId;
+                                Ext.apply(this.getStore().baseParams, {
+                                    'fleetId' : bfleetId
+                                });
+                            }else {
+                                if(!this.sortNode.leaf){
+                                    bfleetId = this.sortNode.id;
+                                    Ext.apply(this.getStore().baseParams, {
+                                        'fleetId' : bfleetId,
+                                        'userId' : null
+                                    });
+                                }else {
+                                    userId = this.sortNode.id
+                                    Ext.apply(this.getStore().baseParams, {
+                                        'userId' : userId,
+                                        'fleetId' : 'root',
+                                    });
+                                }
+                            }
+
+                            Ext.apply(this.getStore().baseParams,
+                                this.app.queryPanel.getQueryParams());
 						},
 						scope : this
 					}
@@ -48,56 +55,31 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 					singleSelect : false
 				});
 		// 列
-		this.cm = new Ext.grid.ColumnModel({
-					defaults : {
-						width : 150,
-						sortable : true
-					},
-					/**
-					 * 'id', 'kqId', 'kqSortId', 'kqSortName', 'name', 'type',
-					 * 'showFormula', 'realFormula'
-					 */
-					columns : [new Ext.grid.RowNumberer(), this.sm, {
-								header : 'id',
-								dataIndex : 'id',
-								hidden : true
-							}, {
-								header : 'kqId',
-								dataIndex : 'kqId',
-								hidden : true
-							}, {
-								header : 'kqEvolveId',
-								dataIndex : 'kqEvolveId',
-								hidden : true
-							}, {
-								header : 'kqSortId',
-								dataIndex : 'kqSortId',
-								hidden : true
-							}, {
-								header : 'realFormula',
-								dataIndex : 'realFormula',
-								hidden : true
-							}, {
-								header : '结果指标',
-								dataIndex : 'name'
-							}, {
-								header : '指标种类',
-								dataIndex : 'kqSortName'
-							}, {
-								header : '进出口',
-								dataIndex : 'type',
-								renderer : function(val) {
-									if (val == 1) {
-										return '进口';
-									} else {
-										return '出口';
-									}
-								}
-							}, {
-								header : '计算关系',
-								dataIndex : 'showFormula'
-							}]
-				});
+        this.cm = new Ext.grid.ColumnModel({
+            defaults : {
+                width : 150,
+                sortable : true
+            },
+            columns : [new Ext.grid.RowNumberer(), this.sm, {
+                header : 'id',
+                dataIndex : 'id',
+                hidden : true
+            }, {
+                header : 'userId',
+                dataIndex : 'userId',
+                hidden : true
+            }, {
+                header : 'companyId',
+                dataIndex : 'companyId',
+                hidden : true
+            },{
+                header : '用户名',
+                dataIndex : 'loginName'
+            }, {
+                header : '单位机构',
+                dataIndex : 'company'
+            }]
+        });
 		// 菜单条
 		this.tbar = new Ext.Toolbar([{
 					xtype : 'button',
@@ -274,35 +256,16 @@ var cqView = function() {
 	this.queryPanel = new Ext.cq.queryPanel(this);
 	this.sortTree = new Ext.cqTree.tree(this);
 	this.grid = new Ext.cq.grid(this);
-	this.cqEvaRateGrid = new Ext.cqEvaRate.grid(this);
-	this.tabs = new Ext.TabPanel({
-				region : 'center',
-				deferredRender : true,
-				enableTabScroll : true,
-				tabPosition : 'top',
-				activeTab : 0, // first tab initially active,
-				defaults : {
-					autoScroll : true,
-					closable : false
-				},
-				items : [{
-							title : '一般指标',
-							layout : 'border',
-							items : [this.sortTree, {
-										region : 'center',
-										layout : 'border',
-										items : [this.queryPanel, this.grid]
-									}]
-						}, {
-							title : '内置指标',
-							layout : 'border',
-							items : [this.cqEvaRateGrid]
-						}]
-			})
 	return new Ext.Panel({
 				id : 'cqView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
 				title : '计算指标管理',
 				layout : 'border',
-				items : [this.tabs]
+				items : [this.sortTree, {
+					region : 'center',
+					layout : 'border',
+					items : [this.queryPanel, this.grid]
+				}]
 			})
+
+
 }

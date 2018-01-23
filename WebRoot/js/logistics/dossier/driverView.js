@@ -101,7 +101,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
                 autoLoad : true,
                 triggerAction : 'all',
                 mode : 'local',
-                store : new Ext.data.Store( {
+                store : new Ext.data.Store({
                     proxy : new Ext.data.HttpProxy( {
                         url : path + '/system/getTreeAllFleetList.do',
                         method : 'POST'

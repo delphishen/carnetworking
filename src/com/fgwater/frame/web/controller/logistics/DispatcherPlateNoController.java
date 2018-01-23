@@ -6,6 +6,7 @@ import com.fgwater.frame.model.logistics.ApplyType;
 import com.fgwater.frame.model.logistics.DispatcherPlateNo;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.DispatcherPlateNoService;
+import com.fgwater.frame.service.system.FleetService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +27,17 @@ public class DispatcherPlateNoController extends BaseController {
 	private DispatcherPlateNoService dispatcherPlateNoService;
 
 
+	@Resource
+	private FleetService fleetService;
+
+
 	@Injection
 	private  List<DispatcherPlateNo>  dispatcherPlateNos;
 
 	@Injection
 	private  DispatcherPlateNo dispatcherPlateNo;
+
+
 
 
 
@@ -67,6 +74,17 @@ public class DispatcherPlateNoController extends BaseController {
 	public String delete() {
 		System.out.println("==============删除车辆调度信息============="+this.getDispatcherPlateNos());
 		this.dispatcherPlateNoService.deleteTable(this.getDispatcherPlateNos());
+		return this.responseModel.serial();
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "getTreeFleetList.do")
+	public String getTreeFleetList() {
+
+		this.responseModel.mount(this.fleetService.getTreeFleetList(this.requestModel.getParams()), MOUNT_TYPE_JA);
+
+		//System.out.println("buildFleet======"+this.responseModel.serial());
 		return this.responseModel.serial();
 	}
 

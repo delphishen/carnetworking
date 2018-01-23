@@ -6,12 +6,11 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
 				this.app = app;
 				// 数据源
 				this.ds = new Ext.data.JsonStore({
-							url : path + '/wbb/queryQp.do',
+							url : path + '/logistics/queryispatcherDriver.do',
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',
-							fields : ['id', 'sortId', 'sortName', 'name',
-									'showFormula', 'realFormula', 'remark'],
+							fields : ['id',  'userId','driverId','loginName','driverName'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -20,67 +19,68 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
 							},
 							listeners : {
 								'beforeload' : function() {
-									var sortIds = new Array();
-									if (this.sortNode != null) {
-										if (this.sortNode.id != 0) {
-											sortIds.push(this.sortNode.id);
-											sortIds = this.getChildrenIds(
-													sortIds, this.sortNode,
-													this);
-										}
-									}
-									var str = "";
-									for (var i = 0; i < sortIds.length; i++) {
-										str += "'" + sortIds[i] + "',"
-									}
-									str = str
-											.substring(0, str.lastIndexOf(','));
-									Ext.apply(this.getStore().baseParams, {
-												'qpSortId' : str
-											});
-									Ext.apply(this.getStore().baseParams,
-											this.app.queryPanel
-													.getQueryParams());
+
+                                    var bfleetId = null;
+                                    var userId  = null;
+
+
+                                    if (this.sortNode == null){
+                                        bfleetId = fleedId;
+                                        Ext.apply(this.getStore().baseParams, {
+                                            'fleetId' : bfleetId
+                                        });
+                                    }else {
+                                        if(!this.sortNode.leaf){
+                                            bfleetId = this.sortNode.id;
+                                            Ext.apply(this.getStore().baseParams, {
+                                                'fleetId' : bfleetId,
+                                                'userId' : null
+                                            });
+                                        }else {
+                                            userId = this.sortNode.id
+                                            Ext.apply(this.getStore().baseParams, {
+                                                'userId' : userId,
+                                                'fleetId' : 'root',
+                                            });
+                                        }
+                                    }
+
+                                    Ext.apply(this.getStore().baseParams,
+                                        this.app.queryPanel.getQueryParams());
 								},
 								scope : this
 							}
 						});
 				// 选择框
 				this.sm = new Ext.grid.CheckboxSelectionModel({
-							singleSelect : true
+							singleSelect : false
 						});
 				// 列
-				this.cm = new Ext.grid.ColumnModel({
-							defaults : {
-								width : 150,
-								sortable : true
-							},
-							columns : [new Ext.grid.RowNumberer(), this.sm, {
-										header : 'id',
-										dataIndex : 'id',
-										hidden : true
-									}, {
-										header : 'sortId',
-										dataIndex : 'sortId',
-										hidden : true
-									}, {
-										header : 'realFormula',
-										dataIndex : 'realFormula',
-										hidden : true
-									}, {
-										header : '参数名称',
-										dataIndex : 'name'
-									}, {
-										header : '参数类别',
-										dataIndex : 'sortName'
-									}, {
-										header : '计算关系',
-										dataIndex : 'showFormula'
-									}, {
-										header : '备注',
-										dataIndex : 'remark'
-									}]
-						});
+                this.cm = new Ext.grid.ColumnModel({
+                    defaults : {
+                        width : 150,
+                        sortable : true
+                    },
+                    columns : [new Ext.grid.RowNumberer(), this.sm, {
+                        header : 'id',
+                        dataIndex : 'id',
+                        hidden : true
+                    }, {
+                        header : 'userId',
+                        dataIndex : 'userId',
+                        hidden : true
+                    }, {
+                        header : 'driverId',
+                        dataIndex : 'driverId',
+                        hidden : true
+                    },{
+                        header : '用户名',
+                        dataIndex : 'loginName'
+                    }, {
+                        header : '司机姓名',
+                        dataIndex : 'driverName'
+                    }]
+                });
 				// 菜单条
 				this.tbar = new Ext.Toolbar([{
 							xtype : 'button',
@@ -126,13 +126,8 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
 			},
 			onAdd : function(btn) {
 				var win = new Ext.qp.win(this);
-				win.setTitle('添加指标参数', 'add');
-				var node = this.sortNode;
-				if (node != null) {
-					win.form.getForm().findField('sortName')
-							.setValue(node.text);
-					win.form.getForm().findField('sortId').setValue(node.id);
-				}
+				win.setTitle('添加司机调度信息', 'add');
+
 				win.show();
 			},
 			onModify : function(btn) {
@@ -148,45 +143,40 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
 				this.qp = selects[0].data;
 				var win = new Ext.qp.win(this);
 				win.form.getForm().findField('id').setValue(this.qp.id);
-				win.form.getForm().findField('sortId').setValue(this.qp.sortId);
-				win.form.getForm().findField('sortName')
-						.setValue(this.qp.sortName);
-				win.form.getForm().findField('name').setValue(this.qp.name);
-				win.form.getForm().findField('realFormula')
-						.setValue(this.qp.realFormula);
-				win.form.getForm().findField('showFormula')
-						.setValue(this.qp.showFormula);
-				win.form.getForm().findField('remark').setValue(this.qp.remark);
-				win.setTitle('修改指标参数', 'modify');
+				win.form.getForm().findField('userId').setValue(this.qp.userId);
+				win.form.getForm().findField('plateNoId').setValue(this.qp.plateNoId);
+				win.form.getForm().findField('userName').setValue(this.qp.userName);
+				win.form.getForm().findField('plateNo').setValue(this.qp.plateNo);
+
+
 				win.show();
 			},
-			onDelete : function() {
-				var selects = Ext.eu.getSelects(this);
-				if (selects.length == 0) {
-					Ext.ux.Toast.msg("信息", "请选择要删除的记录！");
-					return;
-				}
-				var qp = {
-					id : selects[0].data.id
-				}
-				Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
-							if (btn == 'yes') {
-								Ext.eu.ajax(path + '/wbb/deleteQp.do', {
-											qp : Ext.encode(qp)
-										}, function(resp) {
-											var res = Ext
-													.decode(resp.responseText);
-											if (res.label) {
-												Ext.ux.Toast.msg('信息', '删除成功');
-												this.getStore().reload();
-											} else {
-												Ext.ux.Toast.msg('信息',
-														'删除的记录存在被引用关系，不允许删除');
-											}
-										}, this);
-							}
-						}, this);
-			},
+		onDelete : function() {
+        var selects = Ext.eu.getSelects(this);
+        if (selects.length == 0) {
+            Ext.ux.Toast.msg("信息", "请选择要删除的记录！");
+            return;
+        }
+        var ary = Array();
+        for (var i = 0; i < selects.length; i++) {
+            var user = {
+                id : selects[i].data.id
+            }
+            ary.push(user);
+        }
+
+        // Ext.ux.Toast.msg("信息", Ext.encode(ary));
+        Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
+            if (btn == 'yes') {
+                Ext.eu.ajax(path + '/logistics/deletedispatcherDriver.do', {
+                    dispatcherDrivers : Ext.encode(ary)
+                }, function(resp) {
+                    Ext.ux.Toast.msg('信息', '删除成功');
+                    this.getStore().reload();
+                }, this);
+            }
+        }, this);
+    },
 			getChildrenIds : function(arr, node, scope) {
 				if (node.hasChildNodes()) {
 					node.eachChild(function(child) {

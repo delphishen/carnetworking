@@ -26,6 +26,8 @@ public interface UserMapper extends BaseMapper<User> {
 
 	public void deleteUser(Map<String, String> params);
 	
-	public void resetPassword(Map<String, String> params);	
+	public void resetPassword(Map<String, String> params);
+
+	public List<User> getUserById(String id);
 
 }

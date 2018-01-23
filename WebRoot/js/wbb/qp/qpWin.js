@@ -4,121 +4,73 @@ Ext.qp.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
 
-		// 种类下拉树
-		this.sortCombo = new Ext.ex.TreeCombo({
-					fieldLabel : '指标种类',
-					name : 'sortName',
-					submitValue : false,
-					allowBlank : false,
-					anchor : '100%',
-					rootId : '0',
-					url : path + '/wbb/buildTreeQpSort.do',
-					listeners : {
-						'expand' : function(combo) {
-							var sortId = this.getForm().findField('sortId').value;
-							if (typeof(sortId) != 'undefined') {
-								combo.selectNode(sortId);
-							}
-							combo.renderTree();
-						},
-						'select' : function(combo, node) {
-							if (node.attributes.type == 0) {
-								return false;
-							} else {
-								this.getForm().findField('sortId')
-										.setValue(node.id);
-								this.getForm().findField('sortName')
-										.setValue(node.text);
-								combo.collapse();
-							}
-						},
-						scope : this
-					}
-				});
 
-		this.items = [{
-					xtype : 'hidden',
-					id : 'id'
-				}, {
-					xtype : 'hidden',
-					id : 'sortId'
-				}, {
-					xtype : 'hidden',
-					id : 'realFormula'
-				}, {
-					columnWidth : .8,
-					labelWidth : 60,
-					items : [{
-								fieldLabel : '参数名称',
-								xtype : 'textfield',
-								name : 'name',
-								anchor : '98%',
-								allowBlank : false
-							}]
-				}, {
-					columnWidth : .2,
-					items : [{
-						xtype : 'button',
-						text : '引用',
-						iconCls : 'cog',
-						anchor : '100%',
-						listeners : {
-							'click' : function() {
-								new kqEvolveSelector(function(ary) {
-											this.getForm().findField('name')
-													.setValue(ary[0].chName);
-										}, true, this);
-							},
-							scope : this
-						}
-					}]
-				}, {
-					columnWidth : 1,
-					labelWidth : 60,
-					items : [this.sortCombo]
-				}, {
-					columnWidth : .8,
-					labelWidth : 60,
-					items : [{
-								fieldLabel : '计算关系',
-								xtype : 'textfield',
-								name : 'showFormula',
-								readOnly : true,
-								style : 'background:#E6E6E6',
-								anchor : '98%'
-							}]
-				}, {
-					columnWidth : .2,
-					items : [{
-						xtype : 'button',
-						text : '配置',
-						iconCls : 'cog',
-						anchor : '100%',
-						listeners : {
-							'click' : function() {
-								new calculator(function(showFormula,
-												realFormula) {
-											this.getForm()
-													.findField('showFormula')
-													.setValue(showFormula);
-											this.getForm()
-													.findField('realFormula')
-													.setValue(realFormula);
-										}, this, 'qp')
-							},
-							scope : this
-						}
-					}]
-				}, {
-					columnWidth : 1,
-					labelWidth : 60,
-					items : [{
-								fieldLabel : '备注',
-								xtype : 'textarea',
-								name : 'remark',
-								anchor : '100%'
-							}]
-				}];
+        this.userSelector = new Ext.form.TriggerField({
+            fieldLabel : '用户',
+            name : 'userName',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new userSelector(function(id, name,userFleetId) {
+                    this.setValue(name);
+                    Ext.getCmp('userId').setValue(id);
+                    basefleedId = userFleetId;
+
+
+
+
+                }, true, this);
+            },
+            scope : this
+        });
+
+
+
+        this.driverSelector = new Ext.form.TriggerField({
+            fieldLabel : '司机',
+            name : 'driverName',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : false,
+            onTriggerClick : function(e) {
+                new driverSelector(function(id, name) {
+                    this.setValue(name);
+                    Ext.getCmp('driverId').setValue(id);
+
+
+
+
+                }, false, this);
+            },
+            scope : this
+        });
+
+        this.items = [{
+            xtype : 'hidden',
+            id : 'id'
+        },{
+            xtype : 'hidden',
+            id : 'userId'
+        },{
+            xtype : 'hidden',
+            id : 'driverId'
+        }, {
+            columnWidth : 1,
+            items : [this.userSelector]
+        },{
+            columnWidth : 1,
+            items : [this.driverSelector]
+        }];
+
+
+
 
 		Ext.qp.form.superclass.constructor.call(this, {
 					region : 'center',
@@ -140,7 +92,7 @@ Ext.qp.win = Ext.extend(Ext.Window, {
 				this.app = app;
 				this.form = new Ext.qp.form(this);
 				Ext.qp.win.superclass.constructor.call(this, {
-							width : 500,
+							width : 300,
 							plain : true,
 							showLock : true,
 							modal : true,
@@ -160,26 +112,29 @@ Ext.qp.win = Ext.extend(Ext.Window, {
 									}]
 						});
 			},
-			onSave : function(btn) {
-				var form = this.form.getForm();
-				if (form.isValid()) {
-					btn.setDisabled(true);
-					var qp = form.getValues();
-					Ext.eu.ajax(path + '/wbb/saveQp.do', {
-								qp : Ext.encode(qp)
-							}, function(resp) {
-								var res = Ext.decode(resp.responseText);
-								if (res.label) {
-									Ext.ux.Toast.msg('信息', '保存成功');
-									this.app.getStore().reload();
-									this.close();
-								} else {
-									Ext.ux.Toast.msg('提示', '保存的记录存在重名');
-									btn.setDisabled(false);
-								}
-							}, this);
-				}
-			},
+
+    onSave : function(btn) {
+        var form = this.form.getForm();
+        if (form.isValid()) {
+            btn.setDisabled(true);
+            var user = form.getValues();
+            console.log(user);
+            Ext.eu.ajax(path + '/logistics/savedispatcherDriver.do', {
+
+                dispatcherDriver : Ext.encode(user)
+            }, function(resp) {
+                var res = Ext.decode(resp.responseText);
+                if (res.label) {
+                    Ext.ux.Toast.msg('信息', '保存成功');
+                    this.app.getStore().reload();
+                    this.close();
+                } else {
+                    Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+                    btn.setDisabled(false);
+                }
+            }, this);
+        }
+    },
 			onClose : function() {
 				this.close();
 			}

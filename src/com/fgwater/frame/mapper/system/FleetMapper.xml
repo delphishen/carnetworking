@@ -15,4 +15,14 @@
 
 	</select>
 
+	<select id="getTreeFleetList"  parameterType="HashMap" resultType="Fleet">
+
+		SELECT id,fatherId,fleetName as text,contacts,mobile,tel, carCount,passengerCount FROM t_system_fleet
+
+		<if test="fleetId!='root'">
+			where id =#{fleetId}
+		</if>
+
+	</select>
+
 </mapper>

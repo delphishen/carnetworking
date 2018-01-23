@@ -37,6 +37,10 @@ public class User extends BaseModel {
 
 	@Column
 	private String remark;
+	@Column
+	private String text;
+
+
 
 	public User() {
 
@@ -105,5 +109,13 @@ public class User extends BaseModel {
 
 	public void setFleetId(String fleetId) {
 		this.fleetId = fleetId;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 }

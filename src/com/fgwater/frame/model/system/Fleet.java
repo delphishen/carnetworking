@@ -39,6 +39,8 @@ public class Fleet extends BaseModel {
 	private String startDate;
 	@Column
 	private String status;
+	@Column
+	private  String text;
 
 
 	public String getId() {
@@ -119,5 +121,13 @@ public class Fleet extends BaseModel {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 }

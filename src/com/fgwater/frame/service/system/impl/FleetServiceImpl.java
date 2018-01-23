@@ -6,6 +6,7 @@ import com.fgwater.core.utils.StrUtils;
 import com.fgwater.core.utils.UUIDUtils;
 import com.fgwater.frame.mapper.system.EmployeeMapper;
 import com.fgwater.frame.mapper.system.FleetMapper;
+import com.fgwater.frame.mapper.system.UserMapper;
 import com.fgwater.frame.model.system.Employee;
 import com.fgwater.frame.model.system.Fleet;
 import com.fgwater.frame.model.system.Menu;
@@ -29,8 +30,12 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 	@Resource
 	private FleetMapper fleetMapper;
 
+	@Resource
+	private UserMapper userMapper;
 
-		public List<Fleet> getTreeAll(Map<String, String> params) {
+
+
+	public List<Fleet> getTreeAll(Map<String, String> params) {
 			JSONArray ja = JSONArray.fromObject(this.fleetMapper.getTreeAll(params));
 			System.out.println("-----------fleetservice======"+ja);
 			System.out.println("============getboot======="+this.getByRoot(ja, "0", new JSONArray()));
@@ -58,8 +63,39 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 		fleetMapper.deletePhysicalCascade(fleet);
 	}
 
+	@Override
+	public JSONArray getTreeFleetList(Map<String, String> params) {
 
 
+			JSONArray ja = JSONArray.fromObject(this.fleetMapper.getTreeFleetList(params));
+			System.out.println("==========================ja=============="+ja);
+			return this.getchildren(ja,params, new JSONArray());
+	}
+
+	private JSONArray getchildren(JSONArray ja,Map<String, String> params, JSONArray jsonArray) {
+
+			for (int i =0; i<ja.size();i++){
+				JSONObject jo = ja.getJSONObject(i);
+				JSONArray children = new JSONArray();
+				List<User> userList = this.userMapper.getUserById(jo.getString("id"));
+				for (int j=0;j<userList.size();j++){
+					JSONObject cjo = JSONObject.fromObject(userList.get(j));
+					cjo.put("leaf",true);
+					children.add(cjo);
+
+				}
+
+				jo.put("leaf",false);
+				jo.put("expanded",true);
+				jo.put("children",children);
+
+
+				jsonArray.add(jo);
+
+			}
+
+			return  jsonArray;
+	}
 
 
 	private JSONArray getByRoot(JSONArray ja, String root, JSONArray res) {

@@ -6,13 +6,11 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 				this.app = app;
 				// 数据源
 				this.ds = new Ext.data.JsonStore({
-							url : path + '/wbb/queryKq.do',
+							url : path + '/logistics/queryispatcherPlateNo.do',
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',
-							fields : ['id', 'sortId', 'sortName', 'chName',
-									'enName', 'unit', 'errorRate', 'type',
-									'remark'],
+							fields : ['id',  'userId','plateNoId','loginName','plateNo'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -21,117 +19,94 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 							},
 							listeners : {
 								'beforeload' : function() {
-									var sortIds = new Array();
-									if (this.sortNode != null) {
-										if (this.sortNode.id != 0) {
-											sortIds.push(this.sortNode.id);
-											sortIds = this.getChildrenIds(
-													sortIds, this.sortNode,
-													this);
+									// var sortIds = new Array();
+									// if (this.sortNode != null) {
+									// 	if (this.sortNode.id != 0) {
+									// 		sortIds.push(this.sortNode.id);
+									// 		sortIds = this.getChildrenIds(
+									// 				sortIds, this.sortNode,
+									// 				this);
+									// 	}
+									// }
+									// var str = "";
+									// for (var i = 0; i < sortIds.length; i++) {
+									// 	str += "'" + sortIds[i] + "',"
+									// }
+									// str = str.substring(0, str.lastIndexOf(','));
+									// Ext.apply(this.getStore().baseParams, {
+									// 			'kqSortId' : str
+									// 		});
+									// Ext.apply(this.getStore().baseParams,
+									// 		this.app.queryPanel
+									// 				.getQueryParams());
+
+									var bfleetId = null;
+									var userId  = null;
+
+
+									if (this.sortNode == null){
+                                        bfleetId = fleedId;
+                                        Ext.apply(this.getStore().baseParams, {
+                                             			'fleetId' : bfleetId
+                                             		});
+									}else {
+										if(!this.sortNode.leaf){
+                                            bfleetId = this.sortNode.id;
+                                            Ext.apply(this.getStore().baseParams, {
+                                                'fleetId' : bfleetId,
+                                                'userId' : null
+                                            });
+										}else {
+											userId = this.sortNode.id
+                                            Ext.apply(this.getStore().baseParams, {
+                                                'userId' : userId,
+                                                'fleetId' : 'root',
+                                            });
 										}
 									}
-									var str = "";
-									for (var i = 0; i < sortIds.length; i++) {
-										str += "'" + sortIds[i] + "',"
-									}
-									str = str.substring(0, str.lastIndexOf(','));
-									Ext.apply(this.getStore().baseParams, {
-												'kqSortId' : str
-											});
-									Ext.apply(this.getStore().baseParams,
-											this.app.queryPanel
-													.getQueryParams());
+
+                                     Ext.apply(this.getStore().baseParams,
+                                     		this.app.queryPanel.getQueryParams());
+
+									// var userinfo = Ext.encode(this.sortNode);
+                                    //
+									// console.log("=========="+userinfo);
 								},
 								scope : this
 							}
 						});
 				// 选择框
-				this.sm = new Ext.grid.CheckboxSelectionModel({
-							singleSelect : false,
-							listeners : {
-								rowdeselect : function(model, index, record) {
-									var selects = Ext.eu.getSelects(this);
-									if (selects.length == 0) {
-										Ext.getCmp('modifyKq').disable();
-										Ext.getCmp('deleteKq').disable();
-									} else if (selects.length == 1) {
-										Ext.getCmp('modifyKq').enable();
-										Ext.getCmp('deleteKq').enable();
-									} else {
-										Ext.getCmp('deleteKq').enable();
-									}
-									for (var i = 0; i < selects.length; i++) {
-										if (selects[i].data.id == water.id) {
-											Ext.getCmp('deleteKq').disable();
-											Ext.getCmp('modifyKq').disable();
-											break;
-										}
-									}
-								},
-								rowselect : function(model, index, record) {
-									var selects = Ext.eu.getSelects(this);
-									if (selects.length == 1) {
-										Ext.getCmp('modifyKq').enable();
-										Ext.getCmp('deleteKq').enable();
-									} else if (selects.length > 1) {
-										Ext.getCmp('modifyKq').disable();
-										Ext.getCmp('deleteKq').enable();
-									}
-									for (var i = 0; i < selects.length; i++) {
-										if (selects[i].data.sortId == water.sortId) {
-											Ext.getCmp('deleteKq').disable();
-											Ext.getCmp('modifyKq').disable();
-											break;
-										}
-									}
-								},
-								scope : this
-							}
-						});
-				// 列
-				this.cm = new Ext.grid.ColumnModel({
-							defaults : {
-								width : 150,
-								sortable : true
-							},
-							columns : [new Ext.grid.RowNumberer(), this.sm, {
-										header : 'id',
-										dataIndex : 'id',
-										hidden : true
-									}, {
-										header : 'sortId',
-										dataIndex : 'sortId',
-										hidden : true
-									}, {
-										header : '指标中文名称',
-										dataIndex : 'chName'
-									}, {
-										header : '指标英文名称',
-										dataIndex : 'enName'
-									}, {
-										header : '指标种类',
-										dataIndex : 'sortName'
-									}, {
-										header : '归属类别',
-										dataIndex : 'type',
-										renderer : function(val) {
-											if (val == 1) {
-												return '进出口关系';
-											} else if (val == 2) {
-												return '进出口固定值';
-											}
-										}
-									}, {
-										header : '单位',
-										dataIndex : 'unit'
-									}, {
-										header : '误差率',
-										dataIndex : 'errorRate'
-									}, {
-										header : '备注',
-										dataIndex : 'remark'
-									}]
-						});
+                this.sm = new Ext.grid.CheckboxSelectionModel({
+                    singleSelect : false
+                });
+
+
+                this.cm = new Ext.grid.ColumnModel({
+                    defaults : {
+                        width : 150,
+                        sortable : true
+                    },
+                    columns : [new Ext.grid.RowNumberer(), this.sm, {
+                        header : 'id',
+                        dataIndex : 'id',
+                        hidden : true
+                    }, {
+                        header : 'userId',
+                        dataIndex : 'userId',
+                        hidden : true
+                    }, {
+                        header : 'plateNoId',
+                        dataIndex : 'plateNoId',
+                        hidden : true
+                    },{
+                        header : '用户名',
+                        dataIndex : 'loginName'
+                    }, {
+                        header : '车牌号',
+                        dataIndex : 'plateNo'
+                    }]
+                });
+
 				// 菜单条
 				this.tbar = new Ext.Toolbar([{
 							xtype : 'button',
@@ -154,18 +129,6 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 							text : '删除',
 							handler : this.onDelete,
 							scope : this
-						}, '->', {
-							xtype : 'button',
-							iconCls : 'add',
-							text : '合并到一期',
-							handler : this.onMerge,
-							scope : this
-						}, {
-							xtype : 'button',
-							iconCls : 'add',
-							text : '引用指标',
-							handler : this.onImport,
-							scope : this
 						}]);
 				// 页码条
 				this.bbar = new Ext.PagingToolbar({
@@ -185,16 +148,9 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 			},
 			onAdd : function(btn) {
-				this.kq = new Object();
-				this.kq.enName = '';
+
 				var win = new Ext.kq.win(this);
-				win.setTitle('添加关键指标', 'add');
-				var node = this.sortNode;
-				if (node != null) {
-					win.form.getForm().findField('sortName')
-							.setValue(node.text);
-					win.form.getForm().findField('sortId').setValue(node.id);
-				}
+				win.setTitle('添加车辆调度', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
@@ -209,17 +165,14 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 				}
 				this.kq = selects[0].data;
 				var win = new Ext.kq.win(this);
-				win.form.getForm().findField('id').setValue(this.kq.id);
-				win.form.getForm().findField('chName').setValue(this.kq.chName);
-				win.form.getForm().findField('unit').setValue(this.kq.unit);
-				win.form.radio.setValue(this.kq.type);
-				win.form.getForm().findField('remark').setValue(this.kq.remark);
-				win.form.getForm().findField('errorRate')
-						.setValue(this.kq.errorRate);
-				win.form.getForm().findField('sortName')
-						.setValue(this.kq.sortName);
-				win.form.getForm().findField('sortId').setValue(this.kq.sortId);
-				win.setTitle('修改关键指标', 'modify');
+                var form = win.form.getForm();
+                form.findField('id').setValue(this.kq.id);
+                form.findField('userId').setValue(this.kq.userId);
+                form.findField('plateNoId').setValue(this.kq.plateNoId);
+
+                form.findField('userName').setValue(this.kq.loginName);
+                form.findField('plateNo').setValue(this.kq.plateNo);
+				win.setTitle('修改调度信息', 'modify');
 				win.show();
 			},
 			onDelete : function() {
@@ -228,47 +181,25 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 					Ext.ux.Toast.msg("信息", "请选择要删除的记录！");
 					return;
 				}
-				var kqs = Array();
+				var ary = Array();
 				for (var i = 0; i < selects.length; i++) {
-					if (selects[i].data.id != water.id) {
-						var kq = {
-							id : selects[i].data.id
-						}
-						kqs.push(kq);
-					} else {
-						Ext.ux.Toast.msg("信息", "所选记录存在水量，不允许删除！");
-						return;
+					var user = {
+						id : selects[i].data.id
 					}
+					ary.push(user);
 				}
+
+				// Ext.ux.Toast.msg("信息", Ext.encode(ary));
 				Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
-							if (btn == 'yes') {
-								Ext.eu.ajax(path + '/wbb/deleteKq.do', {
-											kqs : Ext.encode(kqs)
-										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
-											this.getStore().reload();
-										}, this);
-							}
+					if (btn == 'yes') {
+						Ext.eu.ajax(path + '/logistics/deletedispatcherPlateNo.do', {
+							dispatcherPlateNos : Ext.encode(ary)
+						}, function(resp) {
+							Ext.ux.Toast.msg('信息', '删除成功');
+							this.getStore().reload();
 						}, this);
-			},
-			onMerge : function(btn) {
-				Ext.Msg.show({
-							buttons : Ext.Msg.CANCEL,
-							icon : Ext.Msg.INFO,
-							title : '信息',
-							msg : '功能暂未开放ssm！'
-						});
-			},
-			onImport : function(btn) {
-				Ext.Msg.show({
-							buttons : Ext.Msg.CANCEL,
-							icon : Ext.Msg.INFO,
-							title : '信息',
-							msg : '功能暂未开放ssm！'
-						});
-				// var win = new Ext.quota.importWin(this);
-				// win.setTitle('引用指标', 'modify');
-				// win.show();
+					}
+				}, this);
 			},
 			getChildrenIds : function(arr, node, scope) {
 				if (node.hasChildNodes()) {
@@ -285,26 +216,10 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 Ext.kq.queryPanel = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
+
+
 		// 在column布局的制约下，从左至右每个元素依次进行form布局
-		this.items = [{
-					width : 200,
-					labelWidth : 60,
-					items : [{
-								xtype : 'textfield',
-								fieldLabel : '中文名称',
-								id : 'kqChName',
-								anchor : '90%'
-							}]
-				}, {
-					width : 200,
-					labelWidth : 60,
-					items : [{
-								xtype : 'textfield',
-								fieldLabel : '英文名称',
-								id : 'kqEnName',
-								anchor : '90%'
-							}]
-				}, {
+		this.items = [ {
 					width : 200,
 					labelWidth : 60,
 					items : [{
@@ -382,7 +297,7 @@ var kqView = function() {
 	this.grid = new Ext.kq.grid(this);
 	return new Ext.Panel({
 				id : 'kqView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '关键指标管理',
+				title : '车辆调度',
 				layout : 'border',
 				items : [this.sortTree, {
 							region : 'center',
