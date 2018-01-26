@@ -686,18 +686,19 @@ var modifyPassword = function() {
 						return false;
 					}
 				}
-			}); //这段是必要的		
+			}); //这段是必要的
 
 			this.items = [
 				{
 					columnWidth : 1,
 					items : [ {
 						fieldLabel : '旧密码',
-						xtype : 'textfield',
+                        allowBlank : false,
+                        name : 'oldPass',
 						id : 'oldPass',
-						maxLength : 16,
-						inputType : 'password',
-						allowBlank : false
+						inputType : 'text',
+                        xtype : 'textfield',
+
 					} ]
 				}, {
 					columnWidth : 1,
@@ -709,7 +710,7 @@ var modifyPassword = function() {
 						allowBlank : false,
 						minLength : 6,
 						maxLength : 30,
-						inputType : 'password'
+						inputType : 'text'
 					} ]
 				}, {
 					columnWidth : 1,
@@ -720,7 +721,7 @@ var modifyPassword = function() {
 						name : 'surepassword',
 						minLength : 6,
 						maxLength : 30,
-						inputType : 'password',
+						inputType : 'text',
 						vtype : 'password',
 						vtypeText : "两次密码不一致！",
 						confirmTo : 'password1',
@@ -800,6 +801,7 @@ var modifyPassword = function() {
 							Ext.ux.Toast.msg('信息', '密码修改成功');
 						}, this);
 					//	btn.setDisabled(false);
+						this.close();
 					}
 				}, this);
 			}

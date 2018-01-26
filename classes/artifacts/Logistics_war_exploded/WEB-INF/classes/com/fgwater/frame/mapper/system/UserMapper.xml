@@ -54,7 +54,7 @@
 	<update id="resetPassword" parameterType="HashMap">
 		update  t_system_user set 
 		password=#{password}
-		where id=#{id}
+		where empId=#{id}
 	</update>	
 	
 	<delete id="deleteUser" parameterType="HashMap">

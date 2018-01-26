@@ -458,7 +458,7 @@ Ext.carPeccancy.queryPanel = Ext.extend(Ext.FormPanel, {
 				this.items = [{
                     width : 180,
                     items : [{
-                        id:'driverTypeDS',
+                        id:'carPeccancyViewdriverTypeDS',
                         fieldLabel : '司机姓名',
                         width : 60,
                         xtype : 'combo',

@@ -109,7 +109,7 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
 					columnWidth : 1,
 					items : [{
 
-								id:'clockIn',
+								id:'clockin',
 								fieldLabel : '上班时间',
 								xtype : 'timefield',
                         		format:'G:i:s',
@@ -355,7 +355,7 @@ Ext.driverRota.grid = Ext.extend(Ext.grid.GridPanel, {
                 form.findField('fleetName').setValue(select.fleetName);
 
                 form.findField('date').setValue(date);
-                form.findField('clockIn').setValue(datein);
+                form.findField('clockin').setValue(datein);
                 form.findField('clockOut').setValue(dateout);
                 form.findField('orderBy').setValue(select.orderBy);
 

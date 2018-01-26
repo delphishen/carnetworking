@@ -223,6 +223,11 @@ App.importJs = {
     applyTypeView : [path + '/js/logistics/dossier/applyTypeView.js',
     ],
 
+
+    /** *************************乘客点评管理*************************** */
+    passengerCommentView : [path + '/js/logistics/dossier/passengerCommentView.js',
+    ],
+
     /** *************************调度员调度车辆*************************** */
 
 

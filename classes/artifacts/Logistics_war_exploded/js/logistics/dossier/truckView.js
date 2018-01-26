@@ -550,7 +550,7 @@ Ext.truck.queryPanel = Ext.extend(Ext.FormPanel, {
 				this.items = [{
                     width : 180,
                     items : [{
-                        id:'fleetTypeDS',
+                        id:'truckViewfleetTypeDS',
                         fieldLabel : '所属平台',
                         width : 60,
                         xtype : 'combo',
@@ -575,7 +575,7 @@ Ext.truck.queryPanel = Ext.extend(Ext.FormPanel, {
                 },{
                     width : 180,
                     items : [{
-                        id:'companyTypeDS',
+                        id:'truckViewcompanyTypeDS',
                         fieldLabel : '所属机构',
                         width : 60,
                         xtype : 'combo',
@@ -600,7 +600,7 @@ Ext.truck.queryPanel = Ext.extend(Ext.FormPanel, {
                 },{
                     width : 180,
                     items : [{
-                        id:'driverTypeDS',
+                        id:'truckViewdriverTypeDS',
                         fieldLabel : '所属司机',
                         width : 60,
                         xtype : 'combo',
@@ -625,7 +625,7 @@ Ext.truck.queryPanel = Ext.extend(Ext.FormPanel, {
                 },{
                     width : 180,
                     items : [{
-                        id:'truckTypeDS',
+                        id:'truckViewtruckTypeDS',
                         fieldLabel : '车型',
                         width : 60,
                         xtype : 'combo',

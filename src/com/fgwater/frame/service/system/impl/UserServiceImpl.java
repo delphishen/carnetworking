@@ -49,7 +49,13 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public boolean saveOrUpdate(User user) {
 		JSONObject jo = JSONObject.fromObject(user);
 		Map<String, String> map = this.toMap(jo);
-		int count = this.userMapper.checkName(map);
+		int count = 0;
+
+		count = this.userMapper.check(user,"empId");
+		if(count == 0){
+			count = this.userMapper.checkName(map);
+		}
+
 		if (count == 0) {
 			if (StrUtils.isNullOrEmpty(map.get("id"))) {
 				map.put("id", UUIDUtils.getUUID());

@@ -568,7 +568,7 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
         }, {
             width : 250,
             items : [{
-                id:'companyTypeDS',
+                id:'driverViewcompanyTypeDS',
                 fieldLabel : '所属机构',
                 width : 60,
                 xtype : 'combo',

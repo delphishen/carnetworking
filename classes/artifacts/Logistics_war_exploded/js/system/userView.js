@@ -391,7 +391,7 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 					return;
 				}
 				var user = {
-					id : selects[0].data.id,
+					id : selects[0].data.empId,
 					password : '123456'
 				}
 				Ext.Msg.confirm('重置密码', '确定为所选记录重置密码吗?', function(btn) {

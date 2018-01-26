@@ -143,7 +143,7 @@
 			<div id="support"
 				style="float: left; width: 32%; margin-top: 4; margin-left: 10;">
 				技术支持：
-				<a href="#" style='text-decoration: none'>QQ:5666057</a>
+				<a  style='text-decoration: none'>QQ:5666057</a>
 			</div>
 			<div id="copyright"
 				style="float: left; width: 36%; text-align: center; margin-top: 4;">
@@ -152,7 +152,7 @@
 			<div id="version"
 				style="float: right; margin-top: 4; margin-right: 10;">
 				版本：
-				<a href="#" style='text-decoration: none'>SSM_alpha_V1.0.0</a>
+				<a style='text-decoration: none'>SSM_alpha_V1.0.0</a>
 			</div>
 		</div>
 	</body>

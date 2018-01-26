@@ -234,7 +234,7 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
 			},
 			onAdd : function(btn) {
 				var win = new Ext.driverType.win(this);
-				win.setTitle('添加车辆类别', 'add');
+				win.setTitle('添加司机类型', 'add');
 				win.show();
 			},
 			onModify : function(btn) {

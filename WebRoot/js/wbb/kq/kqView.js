@@ -65,8 +65,6 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 										}
 									}
 
-                                     Ext.apply(this.getStore().baseParams,
-                                     		this.app.queryPanel.getQueryParams());
 
 									// var userinfo = Ext.encode(this.sortNode);
                                     //
@@ -302,7 +300,7 @@ var kqView = function() {
 				items : [this.sortTree, {
 							region : 'center',
 							layout : 'border',
-							items : [this.queryPanel, this.grid]
+							items : [this.grid]
 						}]
 			})
 }

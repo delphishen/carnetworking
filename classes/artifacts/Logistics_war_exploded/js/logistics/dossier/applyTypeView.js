@@ -365,7 +365,7 @@ Ext.busType.queryPanel = Ext.extend(Ext.FormPanel, {
 						}];
 				// panel定义
 				Ext.busType.queryPanel.superclass.constructor.call(this, {
-							id : 'driverTypeQueryPanel',
+							id : 'applyTypeViewQueryPanel',
 							region : 'north',
 							height : 40,
 							frame : true,

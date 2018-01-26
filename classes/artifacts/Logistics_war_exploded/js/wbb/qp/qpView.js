@@ -45,8 +45,6 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
                                         }
                                     }
 
-                                    Ext.apply(this.getStore().baseParams,
-                                        this.app.queryPanel.getQueryParams());
 								},
 								scope : this
 							}
@@ -141,12 +139,15 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
 					return;
 				}
 				this.qp = selects[0].data;
+
+				console.log(this.qp);
+
 				var win = new Ext.qp.win(this);
 				win.form.getForm().findField('id').setValue(this.qp.id);
 				win.form.getForm().findField('userId').setValue(this.qp.userId);
-				win.form.getForm().findField('plateNoId').setValue(this.qp.plateNoId);
-				win.form.getForm().findField('userName').setValue(this.qp.userName);
-				win.form.getForm().findField('plateNo').setValue(this.qp.plateNo);
+				win.form.getForm().findField('driverId').setValue(this.qp.driverId);
+				win.form.getForm().findField('userName').setValue(this.qp.loginName);
+				win.form.getForm().findField('driverName').setValue(this.qp.driverName);
 
 
 				win.show();
@@ -257,12 +258,12 @@ var qpView = function() {
 	this.grid = new Ext.qp.grid(this);
 	return new Ext.Panel({
 				id : 'qpView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '指标参数管理',
+				title : '司机调度管理',
 				layout : 'border',
 				items : [this.sortTree, {
 							region : 'center',
 							layout : 'border',
-							items : [this.queryPanel, this.grid]
+							items : [ this.grid]
 						}]
 			})
 }

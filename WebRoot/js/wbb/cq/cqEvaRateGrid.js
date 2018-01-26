@@ -67,7 +67,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
 
                     console.log(id+"=============="+name);
                     this.setValue(name);
-                    Ext.getCmp('charteredBusType').setValue(id);
+                    Ext.getCmp('charteredBusTypeId').setValue(id);
                     //	if(Ext.getCmp('loginName').getValue != ''){
                     //		Ext.getCmp('loginName').setValue(name);
                     //	}
@@ -93,7 +93,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
             id: 'carTtypeId'
         }, {
             xtype: 'hidden',
-            id: 'charteredBusType'
+            id: 'charteredBusTypeId'
         },{
             columnWidth: 1,
             labelWidth: 60,
@@ -323,7 +323,7 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
             idProperty: 'id',
             root: 'rows',
             totalProperty: 'results',
-            fields: ['id', 'fleetId', 'companyId', 'carTtypeId', 'charteredBusType', 'ascription', 'cancelPrice', 'setMealPrice', 'setMealKilometres', 'setMealTime','excessPrice'
+            fields: ['id', 'fleetId', 'companyId', 'carTtypeId', 'charteredBusTypeId', 'ascription', 'cancelPrice', 'setMealPrice', 'setMealKilometres', 'setMealTime','excessPrice'
                 ,'overtimePrice', 'maxMealKilometres', 'maxExcessPrice','company','modelName','fleetName'],
             autoDestroy: true,
             autoLoad: true,
@@ -369,8 +369,8 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'carTtypeId',
                 hidden: true
             },{
-                header: 'charteredBusType',
-                dataIndex: 'charteredBusType',
+                header: 'charteredBusTypeId',
+                dataIndex: 'charteredBusTypeId',
                 hidden: true
             },{
                 header: '所属平台',
@@ -471,6 +471,7 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('fleetId').setValue(select.fleetId);
         form.findField('companyId').setValue(select.companyId);
         form.findField('businessType').setValue(select.businessType);
+        form.findField('charteredBusTypeId').setValue(select.charteredBusTypeId);
 
         form.findField('carTtypeId').setValue(select.carTtypeId);
         form.findField('ascription').setValue(select.ascription);

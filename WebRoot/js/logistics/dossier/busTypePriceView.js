@@ -90,7 +90,7 @@ Ext.busTypePrice.form = Ext.extend(Ext.FormPanel, {
             id: 'carTtypeId'
         }, {
             xtype: 'hidden',
-            id: 'charteredBusType'
+            id: 'charteredBusTypeId'
         },{
             columnWidth: 1,
             labelWidth: 60,

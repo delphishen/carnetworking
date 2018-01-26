@@ -44,8 +44,6 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
                                 }
                             }
 
-                            Ext.apply(this.getStore().baseParams,
-                                this.app.queryPanel.getQueryParams());
 						},
 						scope : this
 					}
@@ -143,16 +141,12 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 		this.cq = selects[0].data;
 		var win = new Ext.cq.win(this);
 		win.form.getForm().findField('id').setValue(this.cq.id);
-		win.form.getForm().findField('kqId').setValue(this.cq.kqId);
-		win.form.getForm().findField('kqEvolveId').setValue(this.cq.kqEvolveId);
-		win.form.getForm().findField('kqSortId').setValue(this.cq.kqSortId);
-		win.form.radio.setValue(this.cq.type);
-		win.form.getForm().findField('name').setValue(this.cq.name);
-		win.form.getForm().findField('realFormula')
-				.setValue(this.cq.realFormula);
-		win.form.getForm().findField('showFormula')
-				.setValue(this.cq.showFormula);
-		win.setTitle('修改计算指标', 'modify');
+		win.form.getForm().findField('userId').setValue(this.cq.userId);
+		win.form.getForm().findField('companyId').setValue(this.cq.companyId);
+		win.form.getForm().findField('userName').setValue(this.cq.loginName);
+		win.form.getForm().findField('company').setValue(this.cq.company);
+
+		win.setTitle('修改权限管理', 'modify');
 		win.show();
 	},
 	onDelete : function() {
@@ -258,12 +252,12 @@ var cqView = function() {
 	this.grid = new Ext.cq.grid(this);
 	return new Ext.Panel({
 				id : 'cqView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '计算指标管理',
+				title : '审核员权限管理',
 				layout : 'border',
 				items : [this.sortTree, {
 					region : 'center',
 					layout : 'border',
-					items : [this.queryPanel, this.grid]
+					items : [ this.grid]
 				}]
 			})
 

@@ -21,7 +21,7 @@ public class BusTypePrice extends BaseModel {
 	@Column
 	private String  companyId;
 	@Column
-	private String  charteredBusType;
+	private String  charteredBusTypeId;
 	@Column
 	private  String carTtypeId;
 	@Column
@@ -68,12 +68,12 @@ public class BusTypePrice extends BaseModel {
 		this.companyId = companyId;
 	}
 
-	public String getCharteredBusType() {
-		return charteredBusType;
+	public String getCharteredBusTypeId() {
+		return charteredBusTypeId;
 	}
 
-	public void setCharteredBusType(String charteredBusType) {
-		this.charteredBusType = charteredBusType;
+	public void setCharteredBusTypeId(String charteredBusTypeId) {
+		this.charteredBusTypeId = charteredBusTypeId;
 	}
 
 	public String getCarTtypeId() {

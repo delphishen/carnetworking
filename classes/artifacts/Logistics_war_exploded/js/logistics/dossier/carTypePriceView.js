@@ -657,6 +657,16 @@ var carTypePriceView = function (params) {
     Ext.getCmp('buttonModifycarTypePriceView').hidden = !params[0].isModify;
     Ext.getCmp('buttonDelcarTypePriceView').hidden = !params[0].isDel;
 
+
+    Ext.getCmp('buttonAdddriverTypeView').hidden = !params[0].isAdd;
+    Ext.getCmp('buttonModifydriverTypeView').hidden = !params[0].isModify;
+    Ext.getCmp('buttonDeldriverTypeView').hidden = !params[0].isDel;
+
+
+
+
+
+
     return new Ext.Panel({
         id: 'carTypePriceView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
         title: '价格管理',

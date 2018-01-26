@@ -113,6 +113,14 @@ Ext.kqTree.tree = Ext.extend(Ext.tree.TreePanel, {
 
 				});
 
+        // 菜单条
+        this.tbar = new Ext.Toolbar([{
+            text : '刷新',
+            iconCls : 'refresh',
+            handler : this.onRefresh,
+            scope : this
+        }]);
+
 
 		Ext.kqTree.tree.superclass.constructor.call(this, {
 					region : 'west',
@@ -140,6 +148,12 @@ Ext.kqTree.tree = Ext.extend(Ext.tree.TreePanel, {
 				});
 		this.expandAll();
 	},
+
+
+    onRefresh : function() {
+        this.getRootNode().reload();
+        this.expandAll();
+    },
 
 
 
