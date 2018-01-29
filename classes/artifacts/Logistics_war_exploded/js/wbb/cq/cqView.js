@@ -125,7 +125,7 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 	},
 	onAdd : function(btn) {
 		var win = new Ext.cq.win(this);
-		win.setTitle('添加计算指标', 'add');
+		win.setTitle('添加审核员权限', 'add');
 		win.show();
 	},
 	onModify : function(btn) {
@@ -164,8 +164,8 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 		}
 		Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
 					if (btn == 'yes') {
-						Ext.eu.ajax(path + '/wbb/deleteCq.do', {
-									cqs : Ext.encode(cqs)
+						Ext.eu.ajax(path + '/logistics/deleteapproveCompany.do', {
+                            approveCompanies : Ext.encode(cqs)
 								}, function(resp) {
 									Ext.ux.Toast.msg('信息', '删除成功');
 									this.getStore().reload();

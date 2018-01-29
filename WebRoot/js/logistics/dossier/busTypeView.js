@@ -138,7 +138,7 @@ Ext.busType.win = Ext.extend(Ext.Window, {
 									this.app.getStore().reload();
 									this.close();
 								} else {
-									Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+									Ext.ux.Toast.msg('提示', '该信息已经存在！！！');
 									btn.setDisabled(false);
 								}
 							}, this);
@@ -254,7 +254,7 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 			},
 			onAdd : function(btn) {
 				var win = new Ext.busType.win(this);
-				win.setTitle('添加车辆类别', 'add');
+				win.setTitle('添加包车业务类型', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
@@ -270,7 +270,7 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 				var select = selects[0].data;
 				var win = new Ext.busType.win(this);
 				var form = win.form.getForm();
-				win.setTitle('修改车辆信息', 'modify');				
+				win.setTitle('修改包车业务类型', 'modify');
 				form.findField('id').setValue(select.id);
 				form.findField('fleetId').setValue(select.fleetId);
                 form.findField('fleetName').setValue(select.fleetName);
@@ -401,7 +401,7 @@ var busTypeView = function(params) {
 	
 	return new Ext.Panel({
 				id : 'busTypeView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '业务类型管理',
+				title : '包车业务类型管理',
 				layout : 'border',
 				items : [this.queryPanel, this.grid]
 			})

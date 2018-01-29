@@ -129,7 +129,7 @@ Ext.cq.win = Ext.extend(Ext.Window, {
                     this.app.getStore().reload();
                     this.close();
                 } else {
-                    Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+                    Ext.ux.Toast.msg('提示', '该信息已经存在！！！');
                     btn.setDisabled(false);
                 }
             }, this);

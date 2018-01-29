@@ -20,4 +20,7 @@ public interface DispatcherDriverMapper extends BaseMapper<DispatcherDriver> {
 
     public void savedispatcherPlateNo(DispatcherPlateNo diss);
 
+    public int checkName(DispatcherDriver dispatcherDriver1);
+
+
 }

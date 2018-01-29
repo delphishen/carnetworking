@@ -49,9 +49,6 @@ public class PassengerCommentController extends BaseController {
 
 
 
-
-
-
 	public List<PassengerComment> getPassengerComments() {
 		return passengerComments;
 	}

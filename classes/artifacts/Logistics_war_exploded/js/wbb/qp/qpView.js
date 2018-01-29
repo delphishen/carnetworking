@@ -148,7 +148,7 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
 				win.form.getForm().findField('driverId').setValue(this.qp.driverId);
 				win.form.getForm().findField('userName').setValue(this.qp.loginName);
 				win.form.getForm().findField('driverName').setValue(this.qp.driverName);
-
+                win.setTitle('修改司机调度信息', 'modify');
 
 				win.show();
 			},

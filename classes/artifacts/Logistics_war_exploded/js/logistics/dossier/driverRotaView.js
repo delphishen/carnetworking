@@ -205,7 +205,7 @@ Ext.driverRota.win = Ext.extend(Ext.Window, {
 									this.app.getStore().reload();
 									this.close();
 								} else {
-									Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+									Ext.ux.Toast.msg('提示', '该司机已设置排班日期！！！');
 									btn.setDisabled(false);
 								}
 							}, this);
@@ -348,7 +348,7 @@ Ext.driverRota.grid = Ext.extend(Ext.grid.GridPanel, {
                 console.log(datein);
 				var win = new Ext.driverRota.win(this);
 				var form = win.form.getForm();
-				win.setTitle('修改结算信息', 'modify');
+				win.setTitle('修改司机排班信息', 'modify');
 				form.findField('id').setValue(select.id);
 				form.findField('fleetId').setValue(select.fleetId);
                 form.findField('driverId').setValue(select.driverId);

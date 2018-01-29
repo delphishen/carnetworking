@@ -30,6 +30,20 @@
 </select>
 
 
+	<select id="checkName" parameterType="DispatcherDriver" resultType="int">
+		SELECT  COUNT(*) FROM t_archives_dispatcher_driver
+		 WHERE userId = #{userId}
+		 AND driverId = #{driverId}
+
+
+	</select>
+
+
+
+
+
+
+
 
 
 

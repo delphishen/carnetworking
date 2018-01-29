@@ -250,7 +250,7 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
 				var select = selects[0].data;
 				var win = new Ext.driverType.win(this);
 				var form = win.form.getForm();
-				win.setTitle('修改车辆信息', 'modify');				
+				win.setTitle('修改司机类型', 'modify');
 				form.findField('id').setValue(select.id);
 				form.findField('fleetId').setValue(select.fleetId);
                 form.findField('fleetName').setValue(select.fleetName);

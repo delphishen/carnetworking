@@ -129,7 +129,7 @@ Ext.qp.win = Ext.extend(Ext.Window, {
                     this.app.getStore().reload();
                     this.close();
                 } else {
-                    Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+                    Ext.ux.Toast.msg('提示', '已添加该司机，不能在添加！！！');
                     btn.setDisabled(false);
                 }
             }, this);

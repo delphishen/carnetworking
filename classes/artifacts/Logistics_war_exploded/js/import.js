@@ -224,6 +224,12 @@ App.importJs = {
     ],
 
 
+    /** *************************乘客端管理*************************** */
+    passengerView : [path + '/js/logistics/dossier/passengerView.js',
+        path + '/utils/selector/kqSelector.js',
+    ],
+
+
     /** *************************乘客点评管理*************************** */
     passengerCommentView : [path + '/js/logistics/dossier/passengerCommentView.js',
     ],

@@ -450,7 +450,7 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
     },
     onAdd: function (btn) {
         var win = new Ext.cqEvaRate.win(this);
-        win.setTitle('添加车辆类别', 'add');
+        win.setTitle('添加包车价格', 'add');
         win.show();
     },
     onModify: function (btn) {
@@ -470,29 +470,26 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('id').setValue(select.id);
         form.findField('fleetId').setValue(select.fleetId);
         form.findField('companyId').setValue(select.companyId);
-        form.findField('businessType').setValue(select.businessType);
         form.findField('charteredBusTypeId').setValue(select.charteredBusTypeId);
 
         form.findField('carTtypeId').setValue(select.carTtypeId);
         form.findField('ascription').setValue(select.ascription);
-        form.findField('startPrice').setValue(select.startPrice);
-        form.findField('startKilometres').setValue(select.startKilometres);
-
-        form.findField('startTime').setValue(select.startTime);
-        form.findField('KilometresPrice').setValue(select.KilometresPrice);
-        form.findField('timePrice').setValue(select.timePrice);
-        form.findField('emptyPrice').setValue(select.emptyPrice);
-
-        form.findField('nighttimePrice').setValue(select.nighttimePrice);
-        form.findField('nighttimeBegin').setValue(select.nighttimeBegin);
-        form.findField('nighttimeEnd').setValue(select.nighttimeEnd);
         form.findField('cancelPrice').setValue(select.cancelPrice);
+        form.findField('setMealPrice').setValue(select.setMealPrice);
 
+        form.findField('setMealKilometres').setValue(select.setMealKilometres);
+        form.findField('setMealTime').setValue(select.setMealTime);
+        form.findField('excessPrice').setValue(select.excessPrice);
+        form.findField('overtimePrice').setValue(select.overtimePrice);
 
+        form.findField('maxMealKilometres').setValue(select.maxMealKilometres);
+        form.findField('maxExcessPrice').setValue(select.maxExcessPrice);
         form.findField('company').setValue(select.company);
         form.findField('modelName').setValue(select.modelName);
 
+
         form.findField('fleetName').setValue(select.fleetName);
+
 
 
         win.show();

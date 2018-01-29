@@ -113,8 +113,8 @@
     <insert id="insertdispatchlog" parameterType="HashMap">
 
         INSERT INTO t_car_dispatch_log(
-        fleetId,id,carApplyNo,plateNoId,driverId,employeeId,dispatchDatetime)
-        VALUES(#{fleetId},#{id},#{carApplyNo},#{plateNoId},#{driverId},#{employeeId},#{dispatchDatetime})
+        fleetId,id,carApplyNo,plateNoId,driverId,userId,dispatchDatetime)
+        VALUES(#{fleetId},#{id},#{carApplyNo},#{plateNoId},#{driverId},#{userId},#{dispatchDatetime})
 
 
     </insert>

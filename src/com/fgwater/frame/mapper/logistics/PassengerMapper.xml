@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.logistics.PassengerMapper">
+
+
+
+
+
+
+	<delete id="deleteTable" parameterType="HashMap">
+		delete from   t_archives_passenger where id=#{id}
+	</delete>
+
+
+
+
+	<select id="query" parameterType="HashMap" resultType="HashMap">
+		SELECT p.*,f.fleetName,c.company from t_archives_passenger p
+		left join t_system_fleet f ON f.id = p.fleetId
+		left join t_archives_company c ON c.id = p.companyId
+		WHERE  1=1
+		<if test="fleetId!='root'">
+			AND p.fleetId =#{fleetId}
+		</if>
+		<if test="passengerName!=null and passengerName!=''">
+			AND p.passengerName like '%${passengerName}%'
+		</if>
+</select>
+
+
+
+
+
+
+
+
+
+</mapper>

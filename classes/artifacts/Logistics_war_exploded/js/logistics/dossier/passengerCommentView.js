@@ -138,7 +138,7 @@ Ext.passengerComment.win = Ext.extend(Ext.Window, {
 									this.app.getStore().reload();
 									this.close();
 								} else {
-									Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+									Ext.ux.Toast.msg('提示', '信息已经存在！！！');
 									btn.setDisabled(false);
 								}
 							}, this);
@@ -266,7 +266,7 @@ Ext.passengerComment.grid = Ext.extend(Ext.grid.GridPanel, {
 			},
 			onAdd : function(btn) {
 				var win = new Ext.passengerComment.win(this);
-				win.setTitle('添加结算类型', 'add');
+				win.setTitle('添加乘客点评信息', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
@@ -282,7 +282,7 @@ Ext.passengerComment.grid = Ext.extend(Ext.grid.GridPanel, {
 				var select = selects[0].data;
 				var win = new Ext.passengerComment.win(this);
 				var form = win.form.getForm();
-				win.setTitle('修改结算信息', 'modify');
+				win.setTitle('修改乘客点评信息', 'modify');
 				form.findField('id').setValue(select.id);
 				form.findField('fleetId').setValue(select.fleetId);
                 form.findField('fleetName').setValue(select.fleetName);

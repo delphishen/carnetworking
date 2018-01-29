@@ -115,7 +115,7 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
                 autoLoad : true,
                 triggerAction : 'all',
                 mode : 'local',
-                store : Ext.getCmp('fleetTypeDS').getStore(),
+                store : Ext.getCmp('truckViewfleetTypeDS').getStore(),
                 valueField : 'fleetName',
                 displayField : 'fleetName',
                 listeners : {

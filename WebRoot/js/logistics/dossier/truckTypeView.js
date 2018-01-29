@@ -156,7 +156,7 @@ Ext.truckType.win = Ext.extend(Ext.Window, {
 									this.app.getStore().reload();
 									this.close();
 								} else {
-									Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+									Ext.ux.Toast.msg('提示', '车辆类型名称已经存在！！！');
 									btn.setDisabled(false);
 								}
 							}, this);
@@ -276,7 +276,7 @@ Ext.truckType.grid = Ext.extend(Ext.grid.GridPanel, {
 			},
 			onAdd : function(btn) {
 				var win = new Ext.truckType.win(this);
-				win.setTitle('添加车辆类别', 'add');
+				win.setTitle('添加车辆类型', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
@@ -292,7 +292,7 @@ Ext.truckType.grid = Ext.extend(Ext.grid.GridPanel, {
 				var select = selects[0].data;
 				var win = new Ext.truckType.win(this);
 				var form = win.form.getForm();
-				win.setTitle('修改车辆信息', 'modify');				
+				win.setTitle('修改车辆类型信息', 'modify');
 				form.findField('id').setValue(select.id);
 				form.findField('fleetId').setValue(select.fleetName);
 				form.findField('modelName').setValue(select.modelName);

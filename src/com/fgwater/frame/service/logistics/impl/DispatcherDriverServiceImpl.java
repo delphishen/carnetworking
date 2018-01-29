@@ -37,16 +37,20 @@ public class DispatcherDriverServiceImpl extends BaseServiceImpl implements Disp
 				dispatcherDriver1.setId(UUIDUtils.getUUID());
 				dispatcherDriver1.setUserId(dispatcherDriver.getUserId());
 				dispatcherDriver1.setDriverId(dis);
-				this.dispatcherDriverMapper.insert(dispatcherDriver1);
+
+				int count =  this.dispatcherDriverMapper.checkName(dispatcherDriver1);
+				if(count == 0){
+					this.dispatcherDriverMapper.insert(dispatcherDriver1);
+				}else {
+					return  false;
+				}
+
+
 			}
 		}else {
 			System.out.println("====================id不为空！！！！！===================");
 			this.dispatcherDriverMapper.update(dispatcherDriver);
 		}
-
-
-
-
 
 
 		return true;

@@ -86,7 +86,7 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 		map.put("carApplyNo",carApply.getCarApplyNo());
 		map.put("plateNoId",carApply.getPlateNoId());
 		map.put("driverId",carApply.getDriverId());
-		map.put("employeeId",SessionUtils.getCurrUserId());
+		map.put("userId",SessionUtils.getCurrUserId());
 		map.put("dispatchDatetime",StrUtils.getCurrFormatTime());
 
 
