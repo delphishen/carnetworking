@@ -160,7 +160,7 @@ Ext.driverTypeSelector.win = Ext.extend(Ext.Window, {
 				this.form = new Ext.driverTypeSelector.form(this);
 				this.grid = new Ext.driverTypeSelector.grid(this);
 				Ext.driverTypeSelector.win.superclass.constructor.call(this, {
-							title : '员工选择器',
+							title : '司机类型选择器',
 							width : 500,
 							height : 400,
 							plain : true,

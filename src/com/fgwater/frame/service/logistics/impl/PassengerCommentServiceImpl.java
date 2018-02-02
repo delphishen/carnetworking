@@ -6,6 +6,7 @@ import com.fgwater.core.utils.UUIDUtils;
 import com.fgwater.frame.mapper.logistics.ApplyTypeMapper;
 import com.fgwater.frame.mapper.logistics.PassengerCommentMapper;
 import com.fgwater.frame.model.logistics.ApplyType;
+import com.fgwater.frame.model.logistics.PassengerComment;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.PassengerCommentService;
 import net.sf.json.JSONObject;
@@ -46,5 +47,14 @@ public class PassengerCommentServiceImpl extends BaseServiceImpl implements Pass
 	@Override
 	public List<Map<String, String>> query(Map<String, String> params) {
 		return this.passengerCommentMapper.query(params);
+	}
+
+	@Override
+	public void deleteTable(List<PassengerComment> passengerComments) {
+		for (PassengerComment passengerComment : passengerComments) {
+			JSONObject jo = JSONObject.fromObject(passengerComment);
+			Map<String, String> map = this.toMap(jo);
+			this.passengerCommentMapper.deleteTable(map);
+		}
 	}
 }

@@ -224,21 +224,7 @@ Ext.passengerComment.grid = Ext.extend(Ext.grid.GridPanel, {
 									}]
 						});
 				// 菜单条
-				this.tbar = new Ext.Toolbar([{
-							id:'buttonAdddriverTypeView',
-							xtype : 'button',
-							iconCls : 'add',
-							text : '新增',
-							handler : this.onAdd,
-							scope : this
-						}, {
-							id:'buttonModifydriverTypeView',
-							xtype : 'button',
-							iconCls : 'modify',
-							text : '修改',
-							handler : this.onModify,
-							scope : this
-						}, {
+				this.tbar = new Ext.Toolbar([ {
 							id:'buttonDeldriverTypeView',
 							xtype : 'button',
 							iconCls : 'delete',
@@ -309,8 +295,8 @@ Ext.passengerComment.grid = Ext.extend(Ext.grid.GridPanel, {
 				// Ext.ux.Toast.msg("信息", Ext.encode(ary));
 				Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
 							if (btn == 'yes') {
-								Ext.eu.ajax(path + '/logistics/deleteApplyType.do', {
-											applyTypes : Ext.encode(ary)
+								Ext.eu.ajax(path + '/logistics/deletePassengerComment.do', {
+										passengerComments : Ext.encode(ary)
 										}, function(resp) {
 											Ext.ux.Toast.msg('信息', '删除成功');
 											this.getStore().reload();
@@ -329,27 +315,23 @@ Ext.passengerComment.queryPanel = Ext.extend(Ext.FormPanel, {
 
                 // 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
-					width:180,
+                    width : 250,
                     items : [{
-                        xtype : 'combo',
-						width:60,
-                        fieldLabel : '价格类型',
-                        hiddenName : 'charteredBusType',
-                        anchor : '98%',
-                        typeAhead : true,
-                        editable : false,
-                        triggerAction : 'all',
-                        lazyRender : true,
-                        mode : 'local',
-                        store : new Ext.data.ArrayStore({
-                            fields : ['key', 'val'],
-                            data : [['常规价格设置', '0'],
-                                ['包车价格设置', '1']]
-                        }),
-                        valueField : 'val',
-                        displayField : 'key'
+                        xtype : 'textfield',
+                        fieldLabel : '司机姓名',
+                        id : 'driverName',
+                        anchor : '90%'
                     }]
                 },
+                    {
+                        width : 250,
+                        items : [{
+                            xtype : 'textfield',
+                            fieldLabel : '车牌号',
+                            id : 'plateNo',
+                            anchor : '90%'
+                        }]
+                    },
 					{
 							width : 65,
 							items : [{
@@ -407,8 +389,6 @@ var passengerCommentView = function(params) {
 	this.queryPanel = new Ext.passengerComment.queryPanel(this);
 	this.grid = new Ext.passengerComment.grid(this);
 
-	Ext.getCmp('buttonAdddriverTypeView').hidden=!params[0].isAdd;
-	Ext.getCmp('buttonModifydriverTypeView').hidden=!params[0].isModify;
 	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;	
 	
 	return new Ext.Panel({

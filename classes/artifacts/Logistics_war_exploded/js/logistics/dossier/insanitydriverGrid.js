@@ -4,7 +4,7 @@ Ext.namespace('Ext.insanitydriver');
 
 
 
-Ext.insanitydriver.grid = Ext.extend(Ext.grid.GridPanel, {
+Ext.insanitydriver.insanitydrivergrid = Ext.extend(Ext.grid.GridPanel, {
     constructor: function (app) {
         this.app = app;
         // 数据源
@@ -21,12 +21,16 @@ Ext.insanitydriver.grid = Ext.extend(Ext.grid.GridPanel, {
                 start: 0,
                 limit: 80,
                 fleetId: fleedId,
-                statuesId:1
+
             },
             listeners: {
                 'beforeload': function () {
-                    Ext.apply(this.getStore().baseParams,
-                        this.app.queryPanel.getQueryParams());
+
+                    // this.qu = new Ext.insanitydriver.queryPanel;
+                    // Ext.apply(this.getStore().baseParams,
+                    //     this.qu.getQueryParams());
+
+
 
                 },
                 scope: this
@@ -79,7 +83,7 @@ Ext.insanitydriver.grid = Ext.extend(Ext.grid.GridPanel, {
             store: this.ds
         });
         // 构造
-        Ext.insanitydriver.grid.superclass.constructor.call(this, {
+        Ext.insanitydriver.insanitydrivergrid.superclass.constructor.call(this, {
             region: 'center',
             loadMask: 'loading...',
             columnLines: true,
@@ -103,26 +107,12 @@ Ext.insanitydriver.queryPanel = Ext.extend(Ext.FormPanel, {
 
         // 在column布局的制约下，从左至右每个元素依次进行form布局
         this.items = [{
-            width: 180,
-            items: [{
-                xtype: 'combo',
-                width: 60,
-                fieldLabel: '价格类型',
-                hiddenName: 'statuesId2',
-                anchor: '98%',
-                typeAhead: true,
-                editable: false,
-                triggerAction: 'all',
-                lazyRender: true,
-                mode: 'local',
-                value: '1',
-                store: new Ext.data.ArrayStore({
-                    fields: ['key', 'val'],
-                    data: [['常规价格设置', '0'],
-                        ['包车价格设置', '1']]
-                }),
-                valueField: 'val',
-                displayField: 'key'
+            width : 250,
+            items : [{
+                xtype : 'textfield',
+                fieldLabel : '司机姓名',
+                id : 'driverName',
+                anchor : '90%'
             }]
         }, {
             width: 65,
@@ -132,7 +122,9 @@ Ext.insanitydriver.queryPanel = Ext.extend(Ext.FormPanel, {
                 text: '查询',
                 iconCls: 'query',
                 handler: function () {
-                    this.app.grid.getStore().load();
+                    Ext.apply(this.app.insanitydriverGrid.getStore().baseParams,
+                        this.app.insanitydriverPanel.getQueryParams());
+                    this.app.insanitydriverGrid.getStore().load();
                 },
                 scope: this
             }]

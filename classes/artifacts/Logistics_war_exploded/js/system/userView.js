@@ -4,6 +4,23 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
 
+        this.fleetTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/system/getTreeAllFleetList.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'fleetName'}]),
+
+            baseParams : {
+                fleetId:fleedId
+            }
+
+        });
+        this.fleetTypeDS.load();
+
+
+
 		this.empSelector = new Ext.form.TriggerField({
 			fieldLabel : '员工',
 			name : 'empName',
@@ -14,45 +31,29 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 			allowBlank : true,
 			editable : false,
 			onTriggerClick : function(e) {
-				new empSelector(function(id, name) {
-					this.setValue(name);
-					Ext.getCmp('empId').setValue(id);
-				//	if(Ext.getCmp('loginName').getValue != ''){
-				//		Ext.getCmp('loginName').setValue(name);
-				//	}
+                var val = Ext.getCmp("fleetName").value;
+                console.log("=================="+val);
+
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new empSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('empId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
 
-						}, true, this);
+                    }, true, this);
+				}
+
+
 			},
 			scope : this
 		});
 
-
-
-        this.kqSelector = new Ext.form.TriggerField({
-            fieldLabel : '选择平台',
-            name : 'company',
-            anchor : '98%',
-            triggerClass : 'x-form-search-trigger',
-            selectOnFocus : true,
-            submitValue : false,
-            allowBlank : true,
-            editable : false,
-            onTriggerClick : function(e) {
-                new kqSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('companyId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
-
-
-
-                }, true, this);
-            },
-            scope : this
-        });
 
 
 
@@ -66,21 +67,45 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 					id : 'empId'
 				},{
 					xtype : 'hidden',
-					id : 'companyId'
+					id : 'fleetId'
 				}, {
 					xtype : 'hidden',
 					id : 'password'
 				}, {
 					columnWidth : 1,
+					labelWidth : 60,
+					items : [{
+                        id:'fleetName',
+						fieldLabel : '所属平台',
+						width : 60,
+						xtype : 'combo',
+						hiddenName : 'fleetName',
+						submitValue : false,
+						anchor : '98%',
+						editable : false,
+						autoLoad : true,
+						allowBlank : false,
+						triggerAction : 'all',
+						mode : 'local',
+						store : this.fleetTypeDS,
+						valueField : 'fleetName',
+						displayField : 'fleetName',
+						listeners : {
+							'select' : function(combo, record) {
+								this.getForm().findField('fleetId').setValue(record.data.id);
+								basefleedId = record.data.id;
+							},
+							scope : this
+						}
+					}]
+				},{
+					columnWidth : 1,
 					items : [this.empSelector]
 				}, {
 					columnWidth : 1,
-					items : [this.kqSelector]
-				},{
-					columnWidth : 1,
 					labelWidth : 60,
 					items : [{
-								fieldLabel : '用户名',
+								fieldLabel : '登录用户名',
 								xtype : 'textfield',
 								id : 'loginName',
 								anchor : '98%',

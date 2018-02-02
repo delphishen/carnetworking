@@ -414,6 +414,9 @@ Ext.carTypePrice.cargrid = Ext.extend(Ext.grid.GridPanel, {
             },{
                 header: '取消订单费用',
                 dataIndex: 'cancelPrice'
+            },{
+                header: '所属平台',
+                dataIndex: 'fleetName'
             }, {
                 header: '所属公司',
                 dataIndex: 'company'
@@ -544,31 +547,55 @@ Ext.carTypePrice.carqueryPanel = Ext.extend(Ext.FormPanel, {
     constructor: function (app) {
         this.app = app;
 
+        this.truckTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/logistics/getAllTruckType.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'modelName'}]),
+            baseParams : {
+                fleetId:fleedId
+            }
+        });
+        this.truckTypeDS.load();
+
 
         // 在column布局的制约下，从左至右每个元素依次进行form布局
-        this.items = [{
-            width: 180,
-            items: [{
-                xtype: 'combo',
-                width: 60,
-                fieldLabel: '价格类型',
-                hiddenName: 'statuesId',
-                anchor: '98%',
-                typeAhead: true,
-                editable: false,
-                triggerAction: 'all',
-                lazyRender: true,
-                mode: 'local',
-                value: '常规价格设置',
-                store: new Ext.data.ArrayStore({
-                    fields: ['key', 'val'],
-                    data: [['常规价格设置', '0'],
-                        ['包车价格设置', '1']]
-                }),
-                valueField: 'val',
-                displayField: 'key'
+        this.items = [ {
+            width : 180,
+            items : [{
+                id:'carTypePricecarTtype',
+                fieldLabel : '车辆类型',
+                width : 60,
+                xtype : 'combo',
+                hiddenName : 'carTtypeId',
+                submitValue : false,
+                anchor : '90%',
+                editable : true,
+                autoLoad : true,
+                triggerAction : 'all',
+                mode : 'local',
+                store : this.truckTypeDS,
+                valueField : 'id',
+                displayField : 'modelName',
+                listeners : {
+                    'select' : function(combo, record) {
+                        //	this.getForm().findField('linesName').setValue(record.data.id);
+                    },
+                    scope : this
+                }
             }]
-        }, {
+
+        },{
+            width : 180,
+            items : [{
+                xtype : 'textfield',
+                fieldLabel : '业务类型',
+                id : 'businessType',
+                anchor : '90%'
+            }]
+        },{
             width: 65,
             items: [{
                 xtype: 'button',
@@ -576,7 +603,7 @@ Ext.carTypePrice.carqueryPanel = Ext.extend(Ext.FormPanel, {
                 text: '查询',
                 iconCls: 'query',
                 handler: function () {
-                    this.app.grid.getStore().load();
+                    this.app.cargrid.getStore().load();
                 },
                 scope: this
             }]

@@ -43,6 +43,15 @@ public class PassengerCommentController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "deletePassengerComment.do")
+	public String delete() {
+
+		this.passengerCommentService.deleteTable(this.getPassengerComments());
+		return this.responseModel.serial();
+	}
+
+
 
 
 

@@ -44,7 +44,9 @@ Ext.empSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					autoLoad : true,
 					baseParams : {
 						start : 0,
-						limit : 20
+						limit : 20,
+						fleetId:basefleedId
+
 					},
 					listeners : {
 						'beforeload' : function() {

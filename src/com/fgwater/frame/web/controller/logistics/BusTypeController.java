@@ -6,6 +6,7 @@ import com.fgwater.frame.model.logistics.BusType;
 import com.fgwater.frame.model.logistics.DriverType;
 import com.fgwater.frame.service.logistics.BusTypeService;
 import com.fgwater.frame.service.logistics.DriverTypeService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,19 @@ public class BusTypeController extends BaseController {
 		this.responseModel.mount(this.busTypeService.query(this.requestModel
 				.getParams()), MOUNT_TYPE_PAGING);
 
+		return this.responseModel.serial();
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "getAllBusType.do")
+	public String getAll() {
+		this.responseModel.mount(this.busTypeService.getAll(this.requestModel
+				.getParams()), MOUNT_TYPE_JA);
+
+
+		//	System.out.println(this.requestModel.getParams());
+		//	System.out.println(this.responseModel.serial());
 		return this.responseModel.serial();
 	}
 

@@ -17,7 +17,7 @@ Ext.kqSelector.tree = Ext.extend(Ext.tree.TreePanel, {
 							autoScroll : true,
 							enableDD : false,// 是否支持拖拽效果
 							containerScroll : true,// 是否支持滚动条
-							rootVisible : true,// 是否显示根节点
+							rootVisible : false,// 是否显示根节点
 							loader : new Ext.tree.TreeLoader({
 										dataUrl : path
 												+ '/system/getTreeAllCompanyList.do',

@@ -324,7 +324,7 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
             root: 'rows',
             totalProperty: 'results',
             fields: ['id', 'fleetId', 'companyId', 'carTtypeId', 'charteredBusTypeId', 'ascription', 'cancelPrice', 'setMealPrice', 'setMealKilometres', 'setMealTime','excessPrice'
-                ,'overtimePrice', 'maxMealKilometres', 'maxExcessPrice','company','modelName','fleetName'],
+                ,'overtimePrice', 'maxMealKilometres', 'maxExcessPrice','company','modelName','fleetName','charteredBusType'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -335,8 +335,8 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
             },
             listeners: {
                 'beforeload': function () {
-                    Ext.apply(this.getStore().baseParams,
-                        this.app.queryPanel.getQueryParams());
+                    // Ext.apply(this.getStore().baseParams,
+                    //     this.app.queryPanel.getQueryParams());
 
                 },
                 scope: this
@@ -382,6 +382,9 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
                 header: '车型',
                 dataIndex: 'modelName'
             }, {
+                header: '业务类型',
+                dataIndex: 'charteredBusType'
+            },{
                 header: '取消订单费用',
                 dataIndex: 'cancelPrice'
             }, {
@@ -528,31 +531,86 @@ Ext.cqEvaRate.queryPanel = Ext.extend(Ext.FormPanel, {
     constructor: function (app) {
         this.app = app;
 
+        this.truckTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/logistics/getAllTruckType.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'modelName'}]),
+            baseParams : {
+                fleetId:fleedId
+            }
+        });
+        this.truckTypeDS.load();
+
+
+        this.busTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/logistics/getAllBusType.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'charteredBusType'}]),
+            baseParams : {
+                fleetId:fleedId
+            }
+        });
+        this.busTypeDS.load();
+
 
         // 在column布局的制约下，从左至右每个元素依次进行form布局
         this.items = [{
-            width: 180,
-            items: [{
-                xtype: 'combo',
-                width: 60,
-                fieldLabel: '价格类型',
-                hiddenName: 'statuesId',
-                anchor: '98%',
-                typeAhead: true,
-                editable: false,
-                triggerAction: 'all',
-                lazyRender: true,
-                mode: 'local',
-                value: '常规价格设置',
-                store: new Ext.data.ArrayStore({
-                    fields: ['key', 'val'],
-                    data: [['常规价格设置', '0'],
-                        ['包车价格设置', '1']]
-                }),
-                valueField: 'val',
-                displayField: 'key'
+            width : 180,
+            items : [{
+                id:'cqEvaRatecarTtype',
+                fieldLabel : '车辆类型',
+                width : 60,
+                xtype : 'combo',
+                hiddenName : 'carTtypeId',
+                submitValue : false,
+                anchor : '90%',
+                editable : true,
+                autoLoad : true,
+                triggerAction : 'all',
+                mode : 'local',
+                store : this.truckTypeDS,
+                valueField : 'id',
+                displayField : 'modelName',
+                listeners : {
+                    'select' : function(combo, record) {
+                        //	this.getForm().findField('linesName').setValue(record.data.id);
+                    },
+                    scope : this
+                }
             }]
+
         }, {
+            width : 180,
+            items : [{
+                id:'cqEvaRatebusTtype',
+                fieldLabel : '业务类型',
+                width : 60,
+                xtype : 'combo',
+                hiddenName : 'charteredBusTypeId',
+                submitValue : false,
+                anchor : '90%',
+                editable : true,
+                autoLoad : true,
+                triggerAction : 'all',
+                mode : 'local',
+                store : this.busTypeDS,
+                valueField : 'id',
+                displayField : 'charteredBusType',
+                listeners : {
+                    'select' : function(combo, record) {
+                        //	this.getForm().findField('linesName').setValue(record.data.id);
+                    },
+                    scope : this
+                }
+            }]
+
+        },{
             width: 65,
             items: [{
                 xtype: 'button',
@@ -560,7 +618,9 @@ Ext.cqEvaRate.queryPanel = Ext.extend(Ext.FormPanel, {
                 text: '查询',
                 iconCls: 'query',
                 handler: function () {
-                    this.app.grid.getStore().load();
+                    Ext.apply(this.app.cqEvaRateGrid.getStore().baseParams,
+                        this.app.busqueryPanel.getQueryParams());
+                    this.app.cqEvaRateGrid.getStore().load();
                 },
                 scope: this
             }]

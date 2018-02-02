@@ -13,10 +13,21 @@
 		LEFT JOIN t_archives_company c ON l.companyId = c.id
 		LEFT JOIN t_archives_car_type t   ON l.carTtypeId = t.id
 		LEFT JOIN t_system_fleet f ON l.fleetId = f.id
+		WHERE  1=1
 
-	<if test="fleetId!='root'">
-		where fleetId =#{fleetId}
-	</if>
+		<if test="fleetId!='root'">
+			AND l.fleetId =#{fleetId}
+		</if>
+		<if test="businessType!=null and businessType!=''">
+			AND l.businessType like '%${businessType}%'
+		</if>
+		<if test="carTtypeId!=null and carTtypeId!=''">
+			AND l.carTtypeId  = #{carTtypeId}
+		</if>
+
+
+
+
 </select>
 
 

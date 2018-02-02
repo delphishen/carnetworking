@@ -70,7 +70,10 @@ Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
 										xtype : 'textfield',
 										id : 'mobile',
 										anchor : '100%',
-										selectOnFocus : true
+										selectOnFocus : true,
+                                		regex:/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/,
+                                		regexText:'请输入正确的手机号码',
+                                		allowBlank : false
 									}]
 						}, {
                     columnWidth : 1,

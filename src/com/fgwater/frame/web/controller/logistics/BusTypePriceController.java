@@ -48,6 +48,8 @@ public class BusTypePriceController extends BaseController {
 	}
 
 
+
+
 	@ResponseBody
 	@RequestMapping(value = "deleteBusTypePrice.do")
 	public String delete() {

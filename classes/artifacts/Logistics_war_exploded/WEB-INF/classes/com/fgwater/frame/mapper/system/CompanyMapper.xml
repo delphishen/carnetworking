@@ -7,7 +7,7 @@
 
 	<select id="getTreeAll"   parameterType="HashMap"  resultType="Company">
 
-		SELECT * FROM  t_archives_company
+		SELECT id,fleetId,fleetName,fatherId,company as text,companyNo,address,company,tel FROM  t_archives_company
 		<if test="fleetId!='root'">
 			WHERE fleetId =#{fleetId}
 		</if>

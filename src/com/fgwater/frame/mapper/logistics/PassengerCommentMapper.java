@@ -15,5 +15,7 @@ public interface PassengerCommentMapper extends BaseMapper<PassengerComment> {
     public List<Map<String,String>> query(Map<String, String> params);
 
 
+    public void deleteTable(Map<String, String> map);
+
 
 }

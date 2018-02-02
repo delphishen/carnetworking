@@ -51,7 +51,6 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 		if (count == 0)  {
 			if (StrUtils.isNullOrEmpty(map.get("id"))) {
 				map.put("id", UUIDUtils.getUUID());
-				map.put("fleetId","7a24510633ca4c58b21fb24ba0fdf85f");
 				this.employeeMapper.saveEmployee(this.buildInsert(map));
 			} else {
 				this.employeeMapper.updateEmployee(this.buildUpdate(map));

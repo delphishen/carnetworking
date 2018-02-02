@@ -43,10 +43,10 @@ public class BusTypeServiceImpl extends BaseServiceImpl implements BusTypeServic
 		}
 	}
 
-
-
-
-
+	@Override
+	public List<BusType> getAll(Map<String, String> params) {
+		return this.busTypeMapper.getAll(params);
+	}
 
 
 	public boolean saveOrUpdateBusType(BusType busType) {

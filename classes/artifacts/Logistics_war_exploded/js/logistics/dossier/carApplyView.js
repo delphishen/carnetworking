@@ -4,7 +4,7 @@ Ext.namespace('Ext.carApply');
 
 
 
-Ext.carApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
+Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
     constructor: function (app) {
         this.app = app;
         // 数据源
@@ -141,7 +141,7 @@ Ext.carApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             store: this.ds
         });
         // 构造
-        Ext.carApply.cargrid.superclass.constructor.call(this, {
+        Ext.carApply.carApplygrid.superclass.constructor.call(this, {
             region: 'center',
             loadMask: 'loading...',
             columnLines: true,
@@ -186,7 +186,7 @@ Ext.carApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
     }
 });
 
-Ext.carApply.carqueryPanel = Ext.extend(Ext.FormPanel, {
+Ext.carApply.carApplyqueryPanel = Ext.extend(Ext.FormPanel, {
     constructor: function (app) {
         this.app = app;
 
@@ -229,7 +229,7 @@ Ext.carApply.carqueryPanel = Ext.extend(Ext.FormPanel, {
                 text: '查询',
                 iconCls: 'query',
                 handler: function () {
-                    this.app.grid.getStore().load();
+                    this.app.cargrid.getStore().load();
                 },
                 scope: this
             }]
@@ -247,7 +247,7 @@ Ext.carApply.carqueryPanel = Ext.extend(Ext.FormPanel, {
             }]
         }];
         // panel定义
-        Ext.carApply.carqueryPanel.superclass.constructor.call(this, {
+        Ext.carApply.carApplyqueryPanel.superclass.constructor.call(this, {
             id: 'carApplyQueryPanel',
             region: 'north',
             height: 40,
@@ -276,14 +276,16 @@ Ext.carApply.carqueryPanel = Ext.extend(Ext.FormPanel, {
  * @return {}
  */
 var carApplyView = function (params) {
-    this.queryPanel = new Ext.carApply.carqueryPanel(this);
-    this.cargrid = new Ext.carApply.cargrid(this);
+    this.queryPanel = new Ext.carApply.carApplyqueryPanel(this);
+    this.cargrid = new Ext.carApply.carApplygrid(this);
 
     this.busqueryPanel = new Ext.insanity.queryPanel(this);
     this.cqEvaRateGrid = new Ext.insanity.grid(this);
 
     this.insanitydriverPanel = new Ext.insanitydriver.queryPanel(this);
-    this.insanitydriverGrid = new Ext.insanitydriver.grid(this);
+    this.insanitydriverGrid = new Ext.insanitydriver.insanitydrivergrid(this);
+
+    console.log('----------------------------------');
 
 
 

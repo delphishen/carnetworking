@@ -18,12 +18,21 @@
 
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		SELECT  l.*, c.company ,t.modelName,f.fleetName from t_archives_car_type_chartered_bus_price_list l
+		SELECT  l.*, c.company ,t.modelName,f.fleetName,bt.charteredBusType from t_archives_car_type_chartered_bus_price_list l
 		LEFT JOIN t_archives_company c ON l.companyId = c.id
 		LEFT JOIN t_archives_car_type t   ON l.carTtypeId = t.id
 		LEFT JOIN t_system_fleet f ON l.fleetId = f.id
+		LEFT JOIN t_charteredBus_type bt  ON l.charteredBusTypeId = bt.id
+		WHERE  1=1
 		<if test="fleetId!='root'">
-			where l.fleetId =#{fleetId}
+			AND l.fleetId =#{fleetId}
+		</if>
+
+		<if test="carTtypeId!=null and carTtypeId!=''">
+			AND l.carTtypeId  = #{carTtypeId}
+		</if>
+		<if test="charteredBusTypeId!=null and charteredBusTypeId!=''">
+			AND l.charteredBusTypeId  = #{charteredBusTypeId}
 		</if>
 	</select>
 

@@ -10,7 +10,7 @@
 
 
 	<delete id="deleteTable" parameterType="HashMap">
-		delete from   t_car_apply_settlement where id=#{id}
+		delete from t_passenger_comment where id=#{id}
 	</delete>
 
 
@@ -21,9 +21,18 @@
 		LEFT JOIN t_system_fleet f ON f.id = pc.fleetId
 		LEFT JOIN t_archives_driver d ON d.id = pc.driverId
 		LEFT JOIN t_archives_car c ON c.id = pc.plateNoId
+		WHERE  1=1
 		<if test="fleetId!='root'">
-			where fleetId =#{fleetId}
+			AND fleetId =#{fleetId}
 		</if>
+		<if test="driverName!=null and driverName!=''">
+			AND pc.driverId  in (SELECT id FROM t_archives_driver WHERE driverName LIKE '%${driverName}%')
+		</if>
+		<if test="plateNo!=null and plateNo!=''">
+			AND pc.plateNoId  in (SELECT id FROM t_archives_car WHERE plateNo LIKE '%${plateNo}%')
+		</if>
+
+
 </select>
 
 

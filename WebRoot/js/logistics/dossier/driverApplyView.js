@@ -615,7 +615,7 @@ var driverApplyView = function (params) {
     this.cqEvaRateGrid = new Ext.dispatch.grid(this);
 
     this.insanitydriverPanel = new Ext.insanitydriver.queryPanel(this);
-    this.insanitydriverGrid = new Ext.insanitydriver.grid(this);
+    this.insanitydriverGrid = new Ext.insanitydriver.insanitydrivergrid(this);
 
 
 

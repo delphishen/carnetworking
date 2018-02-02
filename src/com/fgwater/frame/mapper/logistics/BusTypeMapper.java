@@ -18,9 +18,6 @@ public interface BusTypeMapper extends BaseMapper<BusType> {
     public void deleteTable(Map<String, String> map);
 
 
-
-
-
-
+    public List<BusType> getAll(Map<String, String> params);
 
 }

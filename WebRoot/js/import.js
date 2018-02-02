@@ -224,6 +224,10 @@ App.importJs = {
     ],
 
 
+    /** *************************订单管理*************************** */
+    orderView : [path + '/js/logistics/dossier/orderView.js',
+    ],
+
     /** *************************乘客端管理*************************** */
     passengerView : [path + '/js/logistics/dossier/passengerView.js',
         path + '/utils/selector/kqSelector.js',
@@ -302,7 +306,14 @@ App.importJs = {
 			path + '/js/system/menuView.js'],
 	attachView : [path + '/jsLib/ext3/ux/uploadDialog/UploadDialog.js',
 			path + '/js/system/attachView.js'],
-	employeeView : [path + '/js/system/employeeView.js'],
+
+    /** *************************员工管理*************************** */
+	employeeView : [path + '/js/system/employeeView.js',
+                    path + '/utils/selector/kqSelector.js',],
+
+
+
+
 	rightView : [path + '/jsLib/ext3/ux/TreeCheckNodeUI.js',
 	             path + '/js/system/rightView.js'],	
 	userView : [path + '/utils/selector/empSelector.js',

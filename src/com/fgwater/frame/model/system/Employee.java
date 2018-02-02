@@ -21,6 +21,17 @@ public class Employee extends BaseModel {
 	private String name;
 
 	@Column
+	private String fleetId;
+
+	@Column
+	private String company;
+	@Column
+	private String email;
+
+
+
+
+	@Column
 	private int isAdmin;
 
 	@Column
@@ -92,5 +103,27 @@ public class Employee extends BaseModel {
 		this.sex = sex;
 	}
 
+	public String getFleetId() {
+		return fleetId;
+	}
 
+	public void setFleetId(String fleetId) {
+		this.fleetId = fleetId;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

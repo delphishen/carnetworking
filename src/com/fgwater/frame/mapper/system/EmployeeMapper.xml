@@ -5,15 +5,19 @@
 <mapper namespace="com.fgwater.frame.mapper.system.EmployeeMapper">
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		select id,name,isAdmin,phone,remark from  t_system_employee
+		select e.*,f.fleetName from  t_system_employee e
+		LEFT JOIN t_system_fleet f ON f.id = e.fleetId
 		where  1=1 and flag = 1
 		<if test="empName!=null and empName!=''">
-			and name like '%${empName}%'
+			and e.name like '%${empName}%'
 		</if>
 		<if test="isAdmin!=null and isAdmin!=''">
-			and isAdmin =${isAdmin}
+			and e.isAdmin =#{isAdmin}
 		</if>
-		order by crTime desc
+		<if test="fleetId!='root'">
+			and e.fleetId =#{fleetId}
+		</if>
+		order by e.crTime desc
 	</select>
 	
 	
@@ -27,15 +31,16 @@
 	<insert id="saveEmployee" parameterType="HashMap">
 		insert into  t_system_employee (
 			id,fleetId,name,isAdmin,remark,phone,sex,creator
-			,crTime,modifier,moTime,flag
+			,crTime,modifier,moTime,flag,email,address,company
 		) values(
-			#{id},#{fleetId},#{name},#{isAdmin},#{remark},#{phone},#{sex},#{creator},#{crTime},#{modifier},#{moTime},#{flag}
+			#{id},#{fleetId},#{name},#{isAdmin},#{remark},#{phone},#{sex},#{creator},#{crTime},#{modifier},#{moTime},#{flag},#{email},#{address},#{company}
 		)
 	</insert>
 	
 	<update id="updateEmployee" parameterType="HashMap">
 		update  t_system_employee set name=#{name},remark=#{remark}
 		,phone=#{phone},sex=#{sex},isAdmin=#{isAdmin}, modifier=#{modifier},moTime=#{moTime}
+		,fleetId=#{fleetId}, email=#{email},company=#{company}, address=#{address}
 		where id=#{id}
 	</update>
 	

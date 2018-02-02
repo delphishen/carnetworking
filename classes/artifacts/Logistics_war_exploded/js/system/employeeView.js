@@ -4,10 +4,88 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
+                this.fleetTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getTreeAllFleetList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'fleetName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
+                });
+                this.fleetTypeDS.load();
+
+
+                this.kqSelector = new Ext.form.TriggerField({
+                    fieldLabel : '单位机构',
+                    name : 'company',
+                    anchor : '98%',
+                    triggerClass : 'x-form-search-trigger',
+                    selectOnFocus : true,
+                    submitValue : true,
+                    allowBlank : false,
+                    editable : false,
+                    onTriggerClick : function(e) {
+                        new kqSelector(function(id, name) {
+                            this.setValue(name);
+                            Ext.getCmp('companyId').setValue(id);
+                            //	if(Ext.getCmp('loginName').getValue != ''){
+                            //		Ext.getCmp('loginName').setValue(name);
+                            //	}
+
+
+
+                        }, true, this);
+                    },
+                    scope : this
+                });
+
+
+
 				this.items = [{
 							xtype : 'hidden',
 							id : 'id'
 						}, {
+							xtype : 'hidden',
+							id : 'fleetId'
+						}, {
+							xtype : 'hidden',
+							id : 'companyId'
+						},{
+							columnWidth : 1,
+							labelWidth : 60,
+							items : [{
+								fieldLabel : '所属平台',
+								width : 60,
+								xtype : 'combo',
+								hiddenName : 'fleetName',
+								submitValue : false,
+								anchor : '98%',
+								editable : false,
+								autoLoad : true,
+                                allowBlank : false,
+								triggerAction : 'all',
+								mode : 'local',
+								store : this.fleetTypeDS,
+								valueField : 'fleetName',
+								displayField : 'fleetName',
+								listeners : {
+									'select' : function(combo, record) {
+										this.getForm().findField('fleetId').setValue(record.data.id);
+										basefleedId = record.data.id;
+									},
+									scope : this
+								}
+							}]
+						},{
+							columnWidth : 1,
+							items : [this.kqSelector]
+
+						},{
 							columnWidth : 1,
 							items : [{
 										fieldLabel : '名称',
@@ -23,8 +101,30 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
 							columnWidth : 1,
 							labelWidth : 60,
 							items : [{
+								xtype : 'combo',
+								fieldLabel : '性别',
+								hiddenName : 'sex',
+								anchor : '98%',
+								typeAhead : true,
+								editable : false,
+								triggerAction : 'all',
+								lazyRender : true,
+								mode : 'local',
+								store : new Ext.data.ArrayStore({
+									fields : ['key', 'val'],
+									data : [['男', '男'],
+										['女', '女']
+									]
+								}),
+								valueField : 'val',
+								displayField : 'key'
+							}]
+						},{
+							columnWidth : 1,
+							labelWidth : 60,
+							items : [{
 										xtype : 'combo',
-										fieldLabel : '员工类型',
+										fieldLabel : '备注',
 										hiddenName : 'remark',
 										anchor : '98%',
 										typeAhead : true,
@@ -51,55 +151,47 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
 										xtype : 'numberfield',
 										name : 'phone',
 										anchor : '98%',
-										selectOnFocus : true
-									}]
+										selectOnFocus : true,
+                                		regex:/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/,
+                                		regexText:'请输入正确的手机号码',
+                                		allowBlank : false
+                            }]
 						}, {
-                    columnWidth : 1,
-                    labelWidth : 60,
-                    items : [{
-                        xtype : 'combo',
-                        fieldLabel : '性别',
-                        hiddenName : 'sex',
-                        anchor : '98%',
-                        typeAhead : true,
-                        editable : false,
-                        triggerAction : 'all',
-                        lazyRender : true,
-                        mode : 'local',
-                        store : new Ext.data.ArrayStore({
-                            fields : ['key', 'val'],
-                            data : [['男', '男'],
-                                ['女', '女']
+								columnWidth : 1,
+								labelWidth : 60,
+								items : [{
+									fieldLabel : '邮箱地址',
+									xtype : 'textfield',
+                                    name: 'email',
+                                    vtype:'email',
+									anchor : '98%',
+                                    allowBlank : false
 
-                            ]
-                        }),
-                        valueField : 'val',
-                        displayField : 'key'
-                    }]
-                },{
-                    columnWidth : 1,
-                    labelWidth : 60,
-                    items : [{
-                        xtype : 'combo',
-                        fieldLabel : '是否管理员',
-                        hiddenName : 'isAdmin',
-                        anchor : '98%',
-                        typeAhead : true,
-                        editable : false,
-                        triggerAction : 'all',
-                        lazyRender : true,
-                        mode : 'local',
-                        store : new Ext.data.ArrayStore({
-                            fields : ['key', 'val'],
-                            data : [['是', 1],
-                                ['否',0]
+								}]
+							}, {
+							columnWidth : 1,
+							labelWidth : 60,
+							items : [{
+								xtype : 'combo',
+								fieldLabel : '是否管理员',
+								hiddenName : 'isAdmin',
+								anchor : '98%',
+								typeAhead : true,
+								editable : false,
+								triggerAction : 'all',
+								lazyRender : true,
+								mode : 'local',
+								store : new Ext.data.ArrayStore({
+									fields : ['key', 'val'],
+									data : [['是', 1],
+										['否',0]
 
-                            ]
-                        }),
-                        valueField : 'val',
-                        displayField : 'key'
-                    }]
-                }];
+									]
+								}),
+								valueField : 'val',
+								displayField : 'key'
+							}]
+						}];
 
 				Ext.employee.form.superclass.constructor.call(this, {
 							labelWidth : 60,
@@ -176,8 +268,8 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',
-							fields : ['id', 'name', 'isAdmin', 'type', 'phone',
-									'remark'],
+							fields : ['id', 'name', 'isAdmin', 'type', 'phone', 'remark',
+								'fleetId', 'fleetName', 'company', 'sex', 'email'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -209,7 +301,11 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 										header : 'id',
 										dataIndex : 'id',
 										hidden : true
-									},  {
+									}, {
+                                header : 'fleetId',
+                                dataIndex : 'fleetId',
+                                hidden : true
+                            },  {
 										header : '姓名',
 										dataIndex : 'name'
 									},{
@@ -228,6 +324,18 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 									}, {
 										header : '备注',
 										dataIndex : 'remark'
+											}, {
+										header : '性别',
+										dataIndex : 'sex'
+									}, {
+										header : '邮箱',
+										dataIndex : 'email'
+									}, {
+										header : '所属机构',
+										dataIndex : 'company'
+									}, {
+										header : '所属平台',
+										dataIndex : 'fleetName'
 									}]
 						});
 				// 菜单条
@@ -295,6 +403,13 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 				form.findField('isAdmin').setValue(select.isAdmin);
 				form.findField('phone').setValue(select.phone);
 				form.findField('remark').setValue(select.remark);
+
+                form.findField('fleetId').setValue(select.fleetId);
+                form.findField('fleetName').setValue(select.fleetName);
+                form.findField('companyId').setValue(select.companyId);
+                form.findField('company').setValue(select.company);
+                form.findField('sex').setValue(select.sex);
+                form.findField('email').setValue(select.email);
 				win.show();
 			},
 			onDelete : function() {

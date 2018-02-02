@@ -414,30 +414,13 @@ Ext.driverRota.queryPanel = Ext.extend(Ext.FormPanel, {
 
                 // 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
-                    width : 280,
+                    width : 250,
                     items : [{
-                        id:'driverRotadriverName',
+                        xtype : 'textfield',
                         fieldLabel : '司机姓名',
-                        width : 100,
-                        xtype : 'combo',
-                        hiddenName : 'driverId',
-                        submitValue : false,
-                        anchor : '90%',
-                        editable : true,
-                        autoLoad : true,
-                        triggerAction : 'all',
-                        mode : 'local',
-                        store : this.driverDS,
-                        valueField : 'id',
-                        displayField : 'driverName',
-                        listeners : {
-                            'select' : function(combo, record) {
-                                //	this.getForm().findField('linesName').setValue(record.data.id);
-                            },
-                            scope : this
-                        }
+                        id : 'driverName',
+                        anchor : '90%'
                     }]
-
                 },{
                     width : 280,
                     items : [{

@@ -37,6 +37,7 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
 
                 if(val ==null && val == undefined){
                     Ext.ux.Toast.msg("信息", "请先选择所属平台");
+
                 }else {
                     new kqSelector(function(id, name) {
                         this.setValue(name);
