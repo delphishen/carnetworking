@@ -8,7 +8,7 @@ Ext.driverSelector.form = Ext.extend(Ext.FormPanel, {
 							items : [{
 										fieldLabel : '已选司机',
 										xtype : 'textarea',
-										id : 'driverName',
+										id : 'driverName1',
 										anchor : '100%',
 										readOnly : true,
 										style : 'background:#E6E6E6'
@@ -77,7 +77,7 @@ Ext.driverSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								win.empId.push(record.get('id'));
 								win.empName.push(record.get('driverName'));
 							}
-							win.form.getForm().findField('driverName')
+							win.form.getForm().findField('driverName1')
 									.setValue(win.empName.toString());
 						},
 						'rowdeselect' : function(sm, index, record) {
@@ -87,7 +87,7 @@ Ext.driverSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							win.empName.splice(jQuery.inArray(record
 													.get('driverName'), win.empName),
 									1);
-							win.form.getForm().findField('driverName')
+							win.form.getForm().findField('driverName1')
 									.setValue(win.empName.toString());
 						},
 						scope : this

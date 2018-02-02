@@ -13,6 +13,9 @@
 		LEFT   JOIN t_archives_car_type ct ON c.carType = ct.id
 		LEFT   JOIN t_archives_driver d  ON c.driverId = d.id
 		where 1=1
+		<if test="fleetId!='root'">
+			and c.fleetId = #{fleetId}
+		</if>
 	</select>
 
 	<select id="getAll" parameterType="HashMap" resultType="Truck">

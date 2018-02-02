@@ -337,7 +337,8 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
             baseParams : {
                 isPaging : true,
                 start : 0,
-                limit : 40
+                limit : 40,
+                fleetId:fleedId
             },
             listeners : {
                 'beforeload' : function() {
@@ -565,31 +566,6 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
                 id : 'driverName',
                 anchor : '90%'
             }]
-        }, {
-            width : 250,
-            items : [{
-                id:'driverViewcompanyTypeDS',
-                fieldLabel : '所属机构',
-                width : 60,
-                xtype : 'combo',
-                hiddenName : 'companyId',
-                submitValue : false,
-                anchor : '90%',
-                editable : true,
-                autoLoad : true,
-                triggerAction : 'all',
-                mode : 'local',
-                store : this.companyTypeDS,
-                valueField : 'id',
-                displayField : 'company',
-                listeners : {
-                    'select' : function(combo, record) {
-                        //	this.getForm().findField('linesName').setValue(record.data.id);
-                    },
-                    scope : this
-                }
-            }]
-
         },{
             width : 250,
             items : [{

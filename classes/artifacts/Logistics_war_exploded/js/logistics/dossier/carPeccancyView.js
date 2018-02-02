@@ -446,7 +446,7 @@ Ext.carPeccancy.queryPanel = Ext.extend(Ext.FormPanel, {
                         [{name : 'id'}, {name : 'driverName'}]),
 
                     baseParams : {
-                        fleetId:'root'
+                        fleetId:fleedId
                     }
                 });
                 this.driverTypeDS.load();

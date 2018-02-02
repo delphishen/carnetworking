@@ -4,6 +4,22 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
 
+        this.fleetTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/system/getTreeAllFleetList.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'fleetName'}]),
+
+            baseParams : {
+                fleetId:fleedId
+            }
+
+        });
+        this.fleetTypeDS.load();
+
+
         this.kqSelector = new Ext.form.TriggerField({
             fieldLabel : '单位机构',
             name : 'company',
@@ -115,7 +131,7 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
                 autoLoad : true,
                 triggerAction : 'all',
                 mode : 'local',
-                store : Ext.getCmp('truckViewfleetTypeDS').getStore(),
+                store : this.fleetTypeDS,
                 valueField : 'fleetName',
                 displayField : 'fleetName',
                 listeners : {
@@ -286,7 +302,8 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 							baseParams : {
 								isPaging : true,
 								start : 0,
-								limit : 80
+								limit : 80,
+                                fleetId:fleedId
 							},
 							listeners : {
 								'beforeload' : function() {
@@ -548,31 +565,6 @@ Ext.truck.queryPanel = Ext.extend(Ext.FormPanel, {
 			
 				// 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
-                    width : 180,
-                    items : [{
-                        id:'truckViewfleetTypeDS',
-                        fieldLabel : '所属平台',
-                        width : 60,
-                        xtype : 'combo',
-                        hiddenName : 'fleetId',
-                        submitValue : false,
-                        anchor : '90%',
-                        editable : true,
-                        autoLoad : true,
-                        triggerAction : 'all',
-                        mode : 'local',
-                        store : this.fleetTypeDS,
-                        valueField : 'id',
-                        displayField : 'fleetName',
-                        listeners : {
-                            'select' : function(combo, record) {
-                                //	this.getForm().findField('linesName').setValue(record.data.id);
-                            },
-                            scope : this
-                        }
-                    }]
-
-                },{
                     width : 180,
                     items : [{
                         id:'truckViewcompanyTypeDS',

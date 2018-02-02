@@ -48,7 +48,6 @@ public class TruckTypeServiceImp extends BaseServiceImpl implements TruckTypeSer
 		if (count == 0) {		
 			if (StrUtils.isNullOrEmpty(map.get("id"))) {
 				map.put("id", UUIDUtils.getUUID());
-				map.put("fleetId","7a24510633ca4c58b21fb24ba0fdf85f");
 				truckTypeMapper.saveTable(this.buildInsert(map));
 			} else {
 				truckTypeMapper.updateTable(this.buildUpdate(map));

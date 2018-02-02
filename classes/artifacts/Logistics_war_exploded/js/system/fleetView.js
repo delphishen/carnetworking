@@ -274,14 +274,24 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 										event.preventDefault();
 										node.select();
 										if (node.attributes.isBtn) {
-											this.btnMenu.showAt(event.getXY());
+											if(fleedId == 'root'){
+                                                this.btnMenu.showAt(event.getXY());
+											}
+
 										} else {
 											if (node.attributes.fatherId !='0') {
-												this.leafMenu.showAt(event
-														.getXY());
+												if (fleedId =='root'){
+                                                    this.leafMenu.showAt(event
+                                                        .getXY());
+												}
+
 											} else {
-												this.fatherMenu.showAt(event
-														.getXY());
+												if(fleedId =='root'){
+                                                    this.fatherMenu.showAt(event
+                                                        .getXY());
+												}
+
+
 											}
 										}
 									},

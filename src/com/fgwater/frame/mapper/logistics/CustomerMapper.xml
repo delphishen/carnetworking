@@ -24,6 +24,9 @@
 		<if test="address!=null and address!=''">
 			and d.address like '%${address}%'
 		</if>
+		<if test="fleetId!='root'">
+		and d.fleetId  = #{fleetId}
+		</if>
 		
 	</select>
 

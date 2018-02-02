@@ -5,14 +5,15 @@
 <mapper namespace="com.fgwater.frame.mapper.system.UserMapper">
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		select u.*,e.name as empName from  t_system_user u
+		select u.*,e.name as empName,f.fleetName from  t_system_user u
 		left join  t_system_employee e on u.empId = e.id
-		where  u.flag = 1 and u.loginName!='root'
+		LEFT JOIN t_system_fleet f ON u.fleetId = f.id
+		WHERE u.loginName!='root'
 		<if test="userName!=null and userName!=''">
 			and u.loginName like '%${userName}%'
 		</if>
-		<if test="isAdmin!=null and isAdmin!=''">
-			and u.isAdmin = ${isAdmin}
+		<if test="fleetId!='root'">
+		and u.fleetId = #{fleetId}
 		</if>
 		order by u.crTime desc
 	</select>
@@ -46,8 +47,8 @@
 	</insert>
 	
 	<update id="updateUser" parameterType="HashMap">
-		update  t_system_user set loginName=#{loginName},empId=#{empId},isAdmin=#{isAdmin}
-		,email=#{email},remark=#{remark}, modifier=#{modifier}, moTime=#{moTime} 
+		update  t_system_user set loginName=#{loginName},empId=#{empId},isAdmin=#{isAdmin},flag=#{flag}
+		,email=#{email},remark=#{remark}, modifier=#{modifier}, moTime=#{moTime} ,fleetId=#{fleetId},password=#{password}
 		where id=#{id}
 	</update>
 	

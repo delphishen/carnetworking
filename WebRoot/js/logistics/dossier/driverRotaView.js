@@ -18,16 +18,24 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
-                new driverSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('driverId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                basefleedId = Ext.getCmp('fleetId').getValue();
+                var val = Ext.getCmp("fleetName").value;
+
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new driverSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('driverId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
 
-                }, true, this);
+                    }, true, this);
+				}
+                
             },
             scope : this
         });
@@ -84,6 +92,9 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
                     'select' : function(combo, record) {
                         console.log(record);
                         this.getForm().findField('fleetId').setValue(record.data.id);
+                        this.getForm().findField('driverName').setValue(null);
+                        this.getForm().findField('driverId').setValue(null);
+                        basefleedId = record.data.id;
                     },
                     scope : this
                 }

@@ -285,14 +285,26 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 										event.preventDefault();
 										node.select();
 										if (node.attributes.isBtn) {
-											this.btnMenu.showAt(event.getXY());
+											console.log('-------是否是管理员-----'+isAdmin)
+											if(isAdmin =='1'){
+                                                this.btnMenu.showAt(event.getXY());
+											}
+
 										} else {
 											if (node.attributes.fatherId !='0') {
-												this.leafMenu.showAt(event
-														.getXY());
+                                                console.log('-------是否是管理员-----'+isAdmin)
+												if(isAdmin =='1'){
+                                                    this.leafMenu.showAt(event
+                                                        .getXY());
+												}
+
 											} else {
-												this.fatherMenu.showAt(event
-														.getXY());
+                                                console.log('-------是否是管理员-----'+isAdmin)
+												if(isAdmin =='1'){
+                                                    this.fatherMenu.showAt(event
+                                                        .getXY());
+												}
+
 											}
 										}
 									},

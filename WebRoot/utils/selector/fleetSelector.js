@@ -167,7 +167,7 @@ Ext.fleetSelector.win = Ext.extend(Ext.Window, {
 				this.form = new Ext.fleetSelector.form(this);
 				this.grid = new Ext.fleetSelector.grid(this);
 				Ext.fleetSelector.win.superclass.constructor.call(this, {
-							title : '员工选择器',
+							title : '平台选择器',
 							width : 500,
 							height : 400,
 							plain : true,

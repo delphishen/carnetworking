@@ -28,11 +28,12 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 			triggerClass : 'x-form-search-trigger',
 			selectOnFocus : true,
 			submitValue : false,
-			allowBlank : true,
+			allowBlank : false,
 			editable : false,
 			onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
                 console.log("=================="+val);
+                basefleedId = Ext.getCmp('fleetId').getValue();
 
                 if(val ==null && val == undefined){
                     Ext.ux.Toast.msg("信息", "请先选择所属平台");
@@ -93,6 +94,8 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 						listeners : {
 							'select' : function(combo, record) {
 								this.getForm().findField('fleetId').setValue(record.data.id);
+                                this.getForm().findField('empId').setValue(null);
+                                this.getForm().findField('empName').setValue(null);
 								basefleedId = record.data.id;
 							},
 							scope : this
@@ -146,13 +149,28 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 							}]
 				}, {
 					columnWidth : 1,
+					labelWidth : 60,
 					items : [{
-								fieldLabel : '备注',
-								xtype : 'textarea',
-								name : 'remark',
-								anchor : '98%',
-								selectOnFocus : true
-							}]
+						xtype : 'combo',
+						fieldLabel : '备注',
+						hiddenName : 'remark',
+						anchor : '98%',
+						typeAhead : true,
+						editable : false,
+						triggerAction : 'all',
+						lazyRender : true,
+						mode : 'local',
+						store : new Ext.data.ArrayStore({
+							fields : ['key', 'val'],
+							data : [['管理员', '管理员'],
+								['调度员', '调度员'],
+								['审核员', '审核员'],
+								['其它', '其它']
+							]
+						}),
+						valueField : 'val',
+						displayField : 'key'
+					}]
 				}];
 
 		Ext.user.form.superclass.constructor.call(this, {
@@ -237,13 +255,15 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 							totalProperty : 'results',
 							fields : ['id', 'empId', 'empName', 'loginName',
 									'password', 'isAdmin', 'email',
-									'remark'],
+									'remark','fleetName', 'fleetId',],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
 								isPaging : true,
 								start : 0,
-								limit : 20
+								limit : 20,
+								fleetId:fleedId
+
 							},
 							listeners : {
 								'beforeload' : function() {
@@ -271,6 +291,10 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 										header : 'empId',
 										dataIndex : 'empId',
 										hidden : true
+									},{
+                                		header : 'fleetId',
+										dataIndex : 'fleetId',
+										hidden : true
 									}, {
 										header : '员工',
 										dataIndex : 'empName'
@@ -296,6 +320,9 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 									}, {
 										header : '备注',
 										dataIndex : 'remark'
+									}, {
+										header : '所属平台',
+										dataIndex : 'fleetName'
 									}]
 						});
 				// 菜单条
@@ -372,6 +399,8 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 				var form = win.form.getForm();
 				win.setTitle('修改用户', 'modify');
 				form.findField('id').setValue(select.id);
+                form.findField('fleetId').setValue(select.fleetId);
+                form.findField('fleetName').setValue(select.fleetName);
 				form.findField('empId').setValue(select.empId);
 				form.findField('password').setValue(select.password);
 				form.findField('empName').setValue(select.empName);

@@ -11,9 +11,6 @@
 		<if test="empName!=null and empName!=''">
 			and e.name like '%${empName}%'
 		</if>
-		<if test="isAdmin!=null and isAdmin!=''">
-			and e.isAdmin =#{isAdmin}
-		</if>
 		<if test="fleetId!='root'">
 			and e.fleetId =#{fleetId}
 		</if>

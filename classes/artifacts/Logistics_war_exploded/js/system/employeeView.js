@@ -30,16 +30,26 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
                     allowBlank : false,
                     editable : false,
                     onTriggerClick : function(e) {
-                        new kqSelector(function(id, name) {
-                            this.setValue(name);
-                            Ext.getCmp('companyId').setValue(id);
-                            //	if(Ext.getCmp('loginName').getValue != ''){
-                            //		Ext.getCmp('loginName').setValue(name);
-                            //	}
+                    	console.log('平台id值-------'+Ext.getCmp("fleetId").getValue());
+                        basefleedId = Ext.getCmp('fleetId').getValue();
+                        var val = Ext.getCmp("fleetName").value;
+
+                        if(val ==null && val == undefined){
+                            Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                        }else {
+                            new kqSelector(function(id, name) {
+                                this.setValue(name);
+                                Ext.getCmp('companyId').setValue(id);
+                                //	if(Ext.getCmp('loginName').getValue != ''){
+                                //		Ext.getCmp('loginName').setValue(name);
+                                //	}
 
 
 
-                        }, true, this);
+                            }, true, this);
+
+						}
+
                     },
                     scope : this
                 });
@@ -59,6 +69,7 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
 							columnWidth : 1,
 							labelWidth : 60,
 							items : [{
+                                id:'fleetName',
 								fieldLabel : '所属平台',
 								width : 60,
 								xtype : 'combo',
@@ -76,7 +87,11 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
 								listeners : {
 									'select' : function(combo, record) {
 										this.getForm().findField('fleetId').setValue(record.data.id);
+                                        this.getForm().findField('company').setValue(null);
+                                        this.getForm().findField('companyId').setValue(null);
 										basefleedId = record.data.id;
+
+
 									},
 									scope : this
 								}
