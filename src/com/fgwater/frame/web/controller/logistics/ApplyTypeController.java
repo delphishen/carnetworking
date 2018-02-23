@@ -7,6 +7,8 @@ import com.fgwater.frame.model.logistics.BusType;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.BusTypeService;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +23,12 @@ import java.util.List;
 通过简单的注解，就可以将其解析为Servlet类来响应用户的请求
 */
 public class ApplyTypeController extends BaseController {
+
+
+
+
+
+
 
 	@Resource
 	private ApplyTypeService applyTypeService;

@@ -10,7 +10,7 @@
 		LEFT JOIN t_system_fleet f ON t.fleetId = f.id
 		where 1=1 
 		<if test="modelName!=null and modelName!=''">
-			and modelName like '%${modelName}%'
+			and t.modelName like '%${modelName}%'
 		</if>
 		<if test="fleetId!='root'">
 			and t.fleetId =#{fleetId}

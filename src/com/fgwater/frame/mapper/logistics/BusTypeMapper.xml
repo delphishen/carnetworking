@@ -24,6 +24,9 @@
 	<if test="fleetId!='root'">
 		where fleetId =#{fleetId}
 	</if>
+		<if test="charteredBusType!=null and charteredBusType!=''">
+			and t.charteredBusType like '%${charteredBusType}%'
+		</if>
 	</select>
 
 	<select id="getAll" parameterType="HashMap" resultType="BusType">

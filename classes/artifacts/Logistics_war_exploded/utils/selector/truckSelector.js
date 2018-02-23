@@ -168,7 +168,7 @@ Ext.truckSelector.win = Ext.extend(Ext.Window, {
 				this.form = new Ext.truckSelector.form(this);
 				this.grid = new Ext.truckSelector.grid(this);
 				Ext.truckSelector.win.superclass.constructor.call(this, {
-							title : '员工选择器',
+							title : '车辆选择器',
 							width : 500,
 							height : 400,
 							plain : true,

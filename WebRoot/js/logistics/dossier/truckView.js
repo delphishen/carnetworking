@@ -567,28 +567,11 @@ Ext.truck.queryPanel = Ext.extend(Ext.FormPanel, {
 				this.items = [{
                     width : 180,
                     items : [{
-                        id:'truckViewcompanyTypeDS',
-                        fieldLabel : '所属机构',
-                        width : 60,
-                        xtype : 'combo',
-                        hiddenName : 'companyId',
-                        submitValue : false,
-                        anchor : '90%',
-                        editable : true,
-                        autoLoad : true,
-                        triggerAction : 'all',
-                        mode : 'local',
-                        store : this.companyTypeDS,
-                        valueField : 'id',
-                        displayField : 'company',
-                        listeners : {
-                            'select' : function(combo, record) {
-                                //	this.getForm().findField('linesName').setValue(record.data.id);
-                            },
-                            scope : this
-                        }
+                        xtype : 'textfield',
+                        fieldLabel : '车牌号',
+                        id : 'plateNo',
+                        anchor : '90%'
                     }]
-
                 },{
                     width : 180,
                     items : [{

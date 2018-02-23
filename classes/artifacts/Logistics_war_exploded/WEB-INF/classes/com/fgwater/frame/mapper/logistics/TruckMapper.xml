@@ -16,6 +16,9 @@
 		<if test="fleetId!='root'">
 			and c.fleetId = #{fleetId}
 		</if>
+		<if test="plateNo!=null and plateNo!=''">
+			and c.plateNo like '%${plateNo}%'
+		</if>
 	</select>
 
 	<select id="getAll" parameterType="HashMap" resultType="Truck">

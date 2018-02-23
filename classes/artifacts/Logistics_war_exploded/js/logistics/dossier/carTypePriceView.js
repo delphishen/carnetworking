@@ -565,31 +565,6 @@ Ext.carTypePrice.carqueryPanel = Ext.extend(Ext.FormPanel, {
         this.items = [ {
             width : 180,
             items : [{
-                id:'carTypePricecarTtype',
-                fieldLabel : '车辆类型',
-                width : 60,
-                xtype : 'combo',
-                hiddenName : 'carTtypeId',
-                submitValue : false,
-                anchor : '90%',
-                editable : true,
-                autoLoad : true,
-                triggerAction : 'all',
-                mode : 'local',
-                store : this.truckTypeDS,
-                valueField : 'id',
-                displayField : 'modelName',
-                listeners : {
-                    'select' : function(combo, record) {
-                        //	this.getForm().findField('linesName').setValue(record.data.id);
-                    },
-                    scope : this
-                }
-            }]
-
-        },{
-            width : 180,
-            items : [{
                 xtype : 'textfield',
                 fieldLabel : '业务类型',
                 id : 'businessType',

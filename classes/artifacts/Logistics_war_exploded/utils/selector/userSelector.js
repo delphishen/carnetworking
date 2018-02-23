@@ -46,7 +46,8 @@ Ext.userSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					autoLoad : true,
 					baseParams : {
 						start : 0,
-						limit : 20
+						limit : 20,
+						fleetId:fleedId
 					},
 					listeners : {
 						'beforeload' : function() {
@@ -189,7 +190,7 @@ Ext.userSelector.win = Ext.extend(Ext.Window, {
 				this.form = new Ext.userSelector.form(this);
 				this.grid = new Ext.userSelector.grid(this);
 				Ext.userSelector.win.superclass.constructor.call(this, {
-							title : '人员选择器',
+							title : '用户选择器',
 							width : 500,
 							height : 400,
 							plain : true,

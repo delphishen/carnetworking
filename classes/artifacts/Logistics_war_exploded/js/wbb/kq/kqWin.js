@@ -5,6 +5,26 @@ Ext.kq.form = Ext.extend(Ext.FormPanel, {
 		this.app = app;
 
 
+
+        this.fleetTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/system/getTreeAllFleetList.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'fleetName'}]),
+
+            baseParams : {
+                fleetId:fleedId
+            }
+
+        });
+        this.fleetTypeDS.load();
+
+
+
+
+
         this.userSelector = new Ext.form.TriggerField({
             fieldLabel : '用户',
             name : 'userName',
@@ -58,10 +78,39 @@ Ext.kq.form = Ext.extend(Ext.FormPanel, {
             id : 'id'
         },{
             xtype : 'hidden',
+            id : 'fleetId'
+        },{
+            xtype : 'hidden',
             id : 'userId'
         },{
             xtype : 'hidden',
             id : 'plateNoId'
+        },{
+            columnWidth : 1,
+            labelWidth : 60,
+            items : [{
+            	id:'fleetName',
+                fieldLabel : '所属平台',
+                width : 60,
+                xtype : 'combo',
+                hiddenName : 'fleetName',
+                submitValue : false,
+                anchor : '98%',
+                editable : false,
+                autoLoad : true,
+                triggerAction : 'all',
+                mode : 'local',
+                store : this.fleetTypeDS,
+                valueField : 'fleetName',
+                displayField : 'fleetName',
+                listeners : {
+                    'select' : function(combo, record) {
+                        this.getForm().findField('fleetId').setValue(record.data.id);
+                        basefleedId = record.data.id;
+                    },
+                    scope : this
+                }
+            }]
         }, {
             columnWidth : 1,
             items : [this.userSelector]

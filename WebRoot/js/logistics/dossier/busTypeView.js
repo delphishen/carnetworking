@@ -317,28 +317,14 @@ Ext.busType.queryPanel = Ext.extend(Ext.FormPanel, {
 
                 // 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
-					width:180,
+                    width : 180,
                     items : [{
-                        xtype : 'combo',
-						width:60,
-                        fieldLabel : '价格类型',
-                        hiddenName : 'charteredBusType',
-                        anchor : '98%',
-                        typeAhead : true,
-                        editable : false,
-                        triggerAction : 'all',
-                        lazyRender : true,
-                        mode : 'local',
-                        store : new Ext.data.ArrayStore({
-                            fields : ['key', 'val'],
-                            data : [['常规价格设置', '0'],
-                                ['包车价格设置', '1']]
-                        }),
-                        valueField : 'val',
-                        displayField : 'key'
+                        xtype : 'textfield',
+                        fieldLabel : '车牌号',
+                        id : 'plateNo',
+                        anchor : '90%'
                     }]
-                },
-					{
+                },{
 							width : 65,
 							items : [{
 										xtype : 'button',
