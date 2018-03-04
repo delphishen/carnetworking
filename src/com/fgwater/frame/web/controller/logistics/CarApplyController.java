@@ -73,28 +73,6 @@ public class CarApplyController extends BaseController {
 	}
 
 
-	@ResponseBody
-	@RequestMapping(value = "queryinsanity.do")
-	public String queryinsanity() {
-
-
-
-		this.responseModel.mount(this.applyService.queryinsanity(this.requestModel
-				.getParams()), MOUNT_TYPE_PAGING);
-
-		return this.responseModel.serial();
-	}
-	@ResponseBody
-	@RequestMapping(value = "querydispatch.do")
-	public String querydispatch() {
-
-
-
-		this.responseModel.mount(this.applyService.querydispatch(this.requestModel
-				.getParams()), MOUNT_TYPE_PAGING);
-
-		return this.responseModel.serial();
-	}
 
 
 	@ResponseBody

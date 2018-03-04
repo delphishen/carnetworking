@@ -13,18 +13,24 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
             triggerClass: 'x-form-search-trigger',
             selectOnFocus: true,
             submitValue: false,
-            allowBlank: true,
+            allowBlank: false,
             editable: false,
             onTriggerClick: function (e) {
-                new kqSelector(function (id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('companyId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new kqSelector(function (id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('companyId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
-                }, true, this);
+                    }, true, this);
+                }
+
             },
             scope: this
         });
@@ -37,18 +43,23 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
             triggerClass: 'x-form-search-trigger',
             selectOnFocus: true,
             submitValue: false,
-            allowBlank: true,
+            allowBlank: false,
             editable: false,
             onTriggerClick: function (e) {
-                new truckTypeSelector(function (id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('carTtypeId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new truckTypeSelector(function (id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('carTtypeId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
-                }, true, this);
+                    }, true, this);
+                }
             },
             scope: this
         });
@@ -60,20 +71,25 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
             triggerClass: 'x-form-search-trigger',
             selectOnFocus: true,
             submitValue: false,
-            allowBlank: true,
+            allowBlank: false,
             editable: false,
             onTriggerClick: function (e) {
-                new busTypeSelector(function (id, name) {
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                        new busTypeSelector(function (id, name) {
 
-                    console.log(id+"=============="+name);
-                    this.setValue(name);
-                    Ext.getCmp('charteredBusTypeId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                        console.log(id + "==============" + name);
+                        this.setValue(name);
+                        Ext.getCmp('charteredBusTypeId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
-                }, true, this);
+                    }, true, this);
+                }
             },
             scope: this
         });
@@ -107,6 +123,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 anchor: '98%',
                 editable: false,
                 autoLoad: true,
+                allowBlank: false,
                 triggerAction: 'all',
                 mode: 'local',
                 store: new Ext.data.Store({
@@ -127,6 +144,13 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                     'select': function (combo, record) {
                         this.getForm().findField('fleetId').setValue(record.data.id);
                         basefleedId = record.data.id;
+
+                        this.getForm().findField('company').setValue(null);
+                        this.getForm().findField('companyId').setValue(null);
+                        this.getForm().findField('modelName').setValue(null);
+                        this.getForm().findField('carTtypeId').setValue(null);
+                        this.getForm().findField('charteredBusTypeName').setValue(null);
+                        this.getForm().findField('charteredBusTypeId').setValue(null);
 
 
                     },
@@ -489,6 +513,9 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('maxExcessPrice').setValue(select.maxExcessPrice);
         form.findField('company').setValue(select.company);
         form.findField('modelName').setValue(select.modelName);
+
+        form.findField('charteredBusTypeName').setValue(select.charteredBusType);
+
 
 
         form.findField('fleetName').setValue(select.fleetName);

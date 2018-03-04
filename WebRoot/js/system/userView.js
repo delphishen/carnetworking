@@ -74,11 +74,11 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 					id : 'password'
 				}, {
 					columnWidth : 1,
-					labelWidth : 60,
+					labelWidth : 80,
 					items : [{
                         id:'fleetName',
 						fieldLabel : '所属平台',
-						width : 60,
+						width : 80,
 						xtype : 'combo',
 						hiddenName : 'fleetName',
 						submitValue : false,
@@ -91,6 +91,7 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 						store : this.fleetTypeDS,
 						valueField : 'fleetName',
 						displayField : 'fleetName',
+                        selectOnFocus : true,
 						listeners : {
 							'select' : function(combo, record) {
 								this.getForm().findField('fleetId').setValue(record.data.id);
@@ -106,7 +107,7 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 					items : [this.empSelector]
 				}, {
 					columnWidth : 1,
-					labelWidth : 60,
+					labelWidth : 80,
 					items : [{
 								fieldLabel : '登录用户名',
 								xtype : 'textfield',
@@ -117,29 +118,7 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 							}]
 				}, {
 					columnWidth : 1,
-					labelWidth : 60,
-					items : [{
-						xtype : 'combo',
-						fieldLabel : '管理员',
-						hiddenName : 'isAdmin',
-						anchor : '98%',
-						typeAhead : true,
-						editable : false,
-						triggerAction : 'all',
-						lazyRender : true,
-						mode : 'local',
-						value:'1',
-						store : new Ext.data.ArrayStore({
-										fields : ['key', 'val'],
-										data : [['是', '1'],
-												['否', '0']]
-									}),
-						valueField : 'val',
-						displayField : 'key'
-					  }					         
-					         ]
-				},{
-					columnWidth : 1,
+            		labelWidth : 80,
 					items : [{
 								fieldLabel : '邮箱',
 								xtype : 'textfield',
@@ -149,7 +128,7 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 							}]
 				}, {
 					columnWidth : 1,
-					labelWidth : 60,
+					labelWidth : 80,
 					items : [{
 						xtype : 'combo',
 						fieldLabel : '备注',
@@ -174,7 +153,7 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 				}];
 
 		Ext.user.form.superclass.constructor.call(this, {
-					labelWidth : 60,
+					labelWidth : 80,
 					baseCls : 'x-plain',
 					layout : 'column',
 					style : 'padding : 5',
@@ -222,7 +201,7 @@ Ext.user.win = Ext.extend(Ext.Window, {
 				if (form.isValid()) {
 					btn.setDisabled(true);
 					var user = form.getValues();
-					user.isAdmin = user.isAdmin == 1 ? 1 : 0;
+					//user.isAdmin = user.isAdmin == 1 ? 1 : 0;
 				//	alert(Ext.encode(user));
 					Ext.eu.ajax(path + '/system/saveUser.do', {
 								user : Ext.encode(user)
@@ -404,7 +383,6 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 				form.findField('empId').setValue(select.empId);
 				form.findField('password').setValue(select.password);
 				form.findField('empName').setValue(select.empName);
-				form.findField('isAdmin').setValue(select.isAdmin);
 				form.findField('loginName').setValue(select.loginName);
 				form.findField('email').setValue(select.email);
 				form.findField('remark').setValue(select.remark);

@@ -36,6 +36,7 @@ Ext.driverType.form = Ext.extend(Ext.FormPanel, {
                 hiddenName : 'fleetName',
                 submitValue : false,
                 anchor : '98%',
+                allowBlank : false,
                 editable : false,
                 autoLoad : true,
                 triggerAction : 'all',
@@ -58,6 +59,7 @@ Ext.driverType.form = Ext.extend(Ext.FormPanel, {
 								xtype : 'textfield',
 								name : 'driverType',
 								anchor : '98%',
+                        		allowBlank : false,
 								selectOnFocus : true
 							}]
 				}];

@@ -26,10 +26,6 @@ public class ApplyTypeController extends BaseController {
 
 
 
-
-
-
-
 	@Resource
 	private ApplyTypeService applyTypeService;
 

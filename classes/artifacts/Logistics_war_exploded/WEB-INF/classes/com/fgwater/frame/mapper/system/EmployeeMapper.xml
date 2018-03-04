@@ -7,7 +7,7 @@
 	<select id="query" parameterType="HashMap" resultType="HashMap">
 		select e.*,f.fleetName from  t_system_employee e
 		LEFT JOIN t_system_fleet f ON f.id = e.fleetId
-		where  1=1 and flag = 1
+		where  1=1
 		<if test="empName!=null and empName!=''">
 			and e.name like '%${empName}%'
 		</if>

@@ -136,28 +136,14 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
 							}]
 						},{
 							columnWidth : 1,
-							labelWidth : 60,
 							items : [{
-										xtype : 'combo',
-										fieldLabel : '备注',
-										hiddenName : 'remark',
-										anchor : '98%',
-										typeAhead : true,
-										editable : false,
-										triggerAction : 'all',
-										lazyRender : true,
-										mode : 'local',
-										store : new Ext.data.ArrayStore({
-													fields : ['key', 'val'],
-													data : [['调度员', '调度员'],
-															['业务员', '业务员'],
-															['经理', '经理'],
-															['其它', '其它']
-															]
-												}),
-										valueField : 'val',
-										displayField : 'key'
-									}]
+								fieldLabel : '备注',
+								xtype : 'textfield',
+								name : 'remark',
+								anchor : '98%',
+								selectOnFocus : true,
+								allowBlank : true
+							}]
 						}, {
 							columnWidth : 1,
 							labelWidth : 60,
@@ -180,33 +166,10 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
                                     name: 'email',
                                     vtype:'email',
 									anchor : '98%',
-                                    allowBlank : false
+                                    allowBlank : true
 
 								}]
-							}, {
-							columnWidth : 1,
-							labelWidth : 60,
-							items : [{
-								xtype : 'combo',
-								fieldLabel : '是否管理员',
-								hiddenName : 'isAdmin',
-								anchor : '98%',
-								typeAhead : true,
-								editable : false,
-								triggerAction : 'all',
-								lazyRender : true,
-								mode : 'local',
-								store : new Ext.data.ArrayStore({
-									fields : ['key', 'val'],
-									data : [['是', 1],
-										['否',0]
-
-									]
-								}),
-								valueField : 'val',
-								displayField : 'key'
-							}]
-						}];
+							}];
 
 				Ext.employee.form.superclass.constructor.call(this, {
 							labelWidth : 60,
@@ -283,7 +246,7 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',
-							fields : ['id', 'name', 'isAdmin', 'type', 'phone', 'remark',
+							fields : ['id', 'name',  'type', 'phone', 'remark',
 								'fleetId', 'fleetName', 'company', 'sex', 'email'],
 							autoDestroy : true,
 							autoLoad : true,
@@ -323,16 +286,6 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
                             },  {
 										header : '姓名',
 										dataIndex : 'name'
-									},{
-										header : '是否管理员',
-										dataIndex : 'isAdmin',
-										renderer : function(val) {
-											if (val == 1) {
-												return '是';
-											} else if (val == 0){
-												return '否';
-											}
-										}
 									},  {
 										header : '联系电话',
 										dataIndex : 'phone'
@@ -415,7 +368,6 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 				win.setTitle('修改员工', 'modify');
 				form.findField('id').setValue(select.id);
 				form.findField('name').setValue(select.name);
-				form.findField('isAdmin').setValue(select.isAdmin);
 				form.findField('phone').setValue(select.phone);
 				form.findField('remark').setValue(select.remark);
 

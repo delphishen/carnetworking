@@ -32,7 +32,7 @@ public class Truck extends BaseModel {
 	@Column
 	private String driverId;
 	@Column
-	private String oilTotal;
+	private float oilTotal;
 	@Column
 	private String buyDatetime;
 	@Column
@@ -122,11 +122,11 @@ public class Truck extends BaseModel {
 		this.driverId = driverId;
 	}
 
-	public String getOilTotal() {
+	public float getOilTotal() {
 		return oilTotal;
 	}
 
-	public void setOilTotal(String oilTotal) {
+	public void setOilTotal(float oilTotal) {
 		this.oilTotal = oilTotal;
 	}
 
@@ -234,4 +234,7 @@ public class Truck extends BaseModel {
 	public void setFleetId(String fleetId) {
 		this.fleetId = fleetId;
 	}
+
+
+
 }

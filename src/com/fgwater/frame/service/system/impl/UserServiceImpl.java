@@ -57,6 +57,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		}
 
 		if (count == 0) {
+			if(user.getRemark().equals("管理员")){
+				System.out.println(user.getRemark()+"111111111111111111");
+				map.put("isAdmin","1");
+
+			}else {
+				System.out.println(user.getRemark()+"00000000000000000");
+				map.put("isAdmin","0");
+			}
 			if (StrUtils.isNullOrEmpty(map.get("id"))) {
 				map.put("id", UUIDUtils.getUUID());
 				String num = "";

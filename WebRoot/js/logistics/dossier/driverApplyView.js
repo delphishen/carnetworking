@@ -16,6 +16,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
+                basefleedId = Ext.getCmp("fleetId").value;
                 new driverSelector(function(id, name) {
                     this.setValue(name);
                     Ext.getCmp('driverId').setValue(id);
@@ -42,6 +43,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
+                basefleedId = Ext.getCmp("fleetId").value;
                 new truckSelector(function(id, name) {
                     this.setValue(name);
                     Ext.getCmp('plateNoId').setValue(id);
@@ -70,7 +72,31 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
         }, {
             xtype : 'hidden',
             id : 'plateNoId'
-        },  {
+        }, {
+            columnWidth : 1,
+            items : [{
+
+                id:'fleetName',
+                fieldLabel : '所属平台',
+                xtype : 'textfield',
+                readOnly : true,
+                name : 'fleetName',
+                anchor : '98%',
+                selectOnFocus : true
+            }]
+        }, {
+            columnWidth : 1,
+            items : [{
+
+                id:'company',
+                fieldLabel : '所属机构',
+                xtype : 'textfield',
+                readOnly : true,
+                name : 'company',
+                anchor : '98%',
+                selectOnFocus : true
+            }]
+        },{
             columnWidth : 1,
             items : [{
 
@@ -367,7 +393,10 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'plateNoId',
                 hidden: true
             },{
-                header: '用乘车用户',
+                header: '订单编号',
+                dataIndex: 'carApplyNo'
+            },{
+                header: '乘车用户',
                 dataIndex: 'loginName'
             },{
                 header: '业务类型',
@@ -482,6 +511,8 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
 
         form.findField('driverName').setValue(select.driverName);
         form.findField('plateNo').setValue(select.plateNo);
+        form.findField('fleetName').setValue(select.fleetName);
+        form.findField('company').setValue(select.company);
         win.show();
     },
 
@@ -532,28 +563,15 @@ Ext.driverApply.carqueryPanel = Ext.extend(Ext.FormPanel, {
                 value:'1'
             }]
         },{
-            width: 180,
-            items: [{
-                xtype: 'combo',
-                width: 60,
-                fieldLabel: '价格类型',
-                hiddenName: 'dgs',
-                anchor: '98%',
-                typeAhead: true,
-                editable: false,
-                triggerAction: 'all',
-                lazyRender: true,
-                mode: 'local',
-                value: '0',
-                store: new Ext.data.ArrayStore({
-                    fields: ['key', 'val'],
-                    data: [['常规价格设置', '0'],
-                        ['包车价格设置', '1']]
-                }),
-                valueField: 'val',
-                displayField: 'key'
+            width : 180,
+            items : [{
+                xtype : 'textfield',
+                fieldLabel : '订单编号',
+                id : 'carApplyNoapply',
+                name:'carApplyNo',
+                anchor : '90%'
             }]
-        }, {
+        },  {
             width: 65,
             items: [{
                 xtype: 'button',
@@ -561,7 +579,7 @@ Ext.driverApply.carqueryPanel = Ext.extend(Ext.FormPanel, {
                 text: '查询',
                 iconCls: 'query',
                 handler: function () {
-                    this.app.grid.getStore().load();
+                    this.app.cargrid.getStore().load();
                 },
                 scope: this
             }]
@@ -642,7 +660,14 @@ var driverApplyView = function (params) {
             title : '查看司机排班',
             layout : 'border',
             items : [this.insanitydriverPanel, this.insanitydriverGrid]
-        }]
+        }],
+        listeners : {
+            'tabchange' : function(t, n) {
+                this.cargrid.getStore().reload();
+                this.cqEvaRateGrid.getStore().reload();
+            },
+            scope: this
+        },
     })
 
 

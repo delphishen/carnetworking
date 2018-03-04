@@ -27,19 +27,25 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
-                new kqSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('companyId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new kqSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('companyId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
 
-                }, true, this);
+                    }, true, this);
+				}
+
             },
             scope : this
         });
@@ -51,19 +57,25 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
-                new driverSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('driverId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else{
+                    new driverSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('driverId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
 
-                }, true, this);
+                    }, true, this);
+				}
+
             },
             scope : this
         });
@@ -76,27 +88,28 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
-                new truckTypeSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('carType').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new truckTypeSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('carType').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
 
-                }, true, this);
+                    }, true, this);
+				}
+
             },
             scope : this
         });
-
-
-
-
-
 
 
 
@@ -121,6 +134,7 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             labelWidth : 60,
             items : [{
+                id:'fleetName',
                 fieldLabel : '所属平台',
                 width : 60,
                 xtype : 'combo',
@@ -138,6 +152,13 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
                     'select' : function(combo, record) {
                         	this.getForm().findField('fleetId').setValue(record.data.id);
                         	basefleedId = record.data.id;
+
+                        this.getForm().findField('company').setValue(null);
+                        this.getForm().findField('companyId').setValue(null);
+                        this.getForm().findField('driverName').setValue(null);
+                        this.getForm().findField('driverId').setValue(null);
+                        this.getForm().findField('modelName').setValue(null);
+                        this.getForm().findField('carType').setValue(null);
                     },
                     scope : this
                 }
@@ -170,6 +191,15 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 								anchor : '98%',
 								selectOnFocus : true
 							}]
+				},{
+					columnWidth : 1,
+					items : [{
+						fieldLabel : '累计加油量',
+						xtype : 'textfield',
+						name : 'oilTotal',
+						anchor : '98%',
+						selectOnFocus : true
+					}]
 				}, {
 					columnWidth : 1,
 					items : [{
@@ -180,6 +210,42 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 								selectOnFocus : true
 							}]
 				}, {
+					columnWidth : 1,
+					items : [{
+						fieldLabel : '违章次数',
+						xtype : 'textfield',
+						name : 'peccancyCount',
+						anchor : '98%',
+						selectOnFocus : true
+					}]
+				},{
+					columnWidth : 1,
+					items : [{
+						fieldLabel : '联系地址',
+						xtype : 'textfield',
+						name : 'address',
+						anchor : '98%',
+						selectOnFocus : true
+					}]
+				},{
+					columnWidth : 1,
+					items : [{
+						fieldLabel : '车辆识别代码',
+						xtype : 'textfield',
+						name : 'VIN',
+						anchor : '98%',
+						selectOnFocus : true
+					}]
+				},{
+					columnWidth : 1,
+					items : [{
+						fieldLabel : '品牌型号',
+						xtype : 'textfield',
+						name : 'model',
+						anchor : '98%',
+						selectOnFocus : true
+					}]
+				},{
 					columnWidth : 1,
 					items : [{
 								fieldLabel : '购车时间',
@@ -207,7 +273,8 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 									store : new Ext.data.ArrayStore({
 												fields : ['key', 'val'],
 												data : [['正常', '正常'],
-														['不可用', '不可用']]
+														['维修', '维修'],
+                                                    	['报废', '报废']]
 											}),
 									valueField : 'val',
 									displayField : 'key'
@@ -296,7 +363,8 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 							totalProperty : 'results',							
 							fields : ['id', 'fleetId', 'plateNo', 'carType',
 									'companyId', 'vehicleOwner', 'tel', 'buyDatetime',
-									'driverId','statues','company','fleetName','driverName','modelName'],
+									'driverId','statues','company','fleetName','driverName','modelName',
+                                	'oilTotal','peccancyCount','address','VIN','model'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -366,14 +434,29 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 										header : '购车时间',
 										dataIndex : 'driverId'
 									}, {
-										header : '服务平台',
-										dataIndex : 'fleetName'
+										header : '累计加油量',
+										dataIndex : 'oilTotal'
+									},{
+										header : '违章次数',
+										dataIndex : 'peccancyCount'
 									}, {
+										header : '联系地址',
+										dataIndex : 'address'
+									},{
+										header : '车辆识别代码',
+										dataIndex : 'VIN'
+									},{
+										header : '品牌型号',
+										dataIndex : 'model'
+									},{
 										header : '状态',
 										dataIndex : 'statues'
-									}
-									
-									]
+									},{
+										header : '服务平台',
+										dataIndex : 'fleetName'
+									},
+
+                            ]
 						});
 				// 菜单条
 				this.tbar = new Ext.Toolbar([{
@@ -458,6 +541,11 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 				form.findField('statues').setValue(select.statues);
 				form.findField('tel').setValue(select.tel);
 				form.findField('vehicleOwner').setValue(select.vehicleOwner);
+                form.findField('oilTotal').setValue(select.oilTotal);
+                form.findField('peccancyCount').setValue(select.peccancyCount);
+                form.findField('address').setValue(select.address);
+                form.findField('VIN').setValue(select.VIN);
+                form.findField('model').setValue(select.model);
 				
 				win.show();
 			},

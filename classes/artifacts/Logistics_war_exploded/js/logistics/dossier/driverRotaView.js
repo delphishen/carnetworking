@@ -15,7 +15,7 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp('fleetId').getValue();
@@ -82,6 +82,7 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
                 submitValue : false,
                 anchor : '98%',
                 editable : false,
+                allowBlank : false,
                 autoLoad : true,
                 triggerAction : 'all',
                 mode : 'local',
@@ -106,11 +107,12 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
 
-                id:'date',
-                fieldLabel : '选择日期',
+                id:'clockindate',
+                fieldLabel : '上班日期',
                 xtype : 'datefield',
                 format : 'Y-m-d',
-                name : 'date',
+                allowBlank : false,
+                name : 'clockindate',
                 anchor : '98%',
                 selectOnFocus : true,
 
@@ -123,6 +125,7 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
 								id:'clockin',
 								fieldLabel : '上班时间',
 								xtype : 'timefield',
+								allowBlank : false,
                         		format:'G:i:s',
 								name : 'clockIn',
 								anchor : '98%',
@@ -131,9 +134,25 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
 				},{
             columnWidth : 1,
             items : [{
+
+                id:'clockOutdate',
+                fieldLabel : '下班日期',
+                xtype : 'datefield',
+                format : 'Y-m-d',
+                allowBlank : false,
+                name : 'clockOutdate',
+                anchor : '98%',
+                selectOnFocus : true,
+
+
+            }]
+        },{
+            columnWidth : 1,
+            items : [{
             	id:'clockOut',
                 fieldLabel : '下班时间',
                 xtype : 'timefield',
+                allowBlank : false,
                 format:'G:i:s',
                 name : 'clockOut',
                 anchor : '98%',
@@ -145,6 +164,7 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
                 id:'orderBy',
                 fieldLabel : '排班顺序',
                 xtype : 'textfield',
+                allowBlank : true,
                 name : 'orderBy',
                 anchor : '98%',
                 selectOnFocus : true
@@ -201,10 +221,11 @@ Ext.driverRota.win = Ext.extend(Ext.Window, {
 					btn.setDisabled(true);
 					var user = form.getValues();
 
-                    user.clockIn = user.date+" "+user.clockIn;
-                    user.clockOut = user.date+" "+user.clockOut;
+                    user.clockIn = user.clockindate+" "+user.clockIn;
+                    user.clockOut = user.clockOutdate+" "+user.clockOut;
 
-					console.log(user.date);
+					console.log(user.clockindate);
+                    console.log(user.clockOutdate);
                     console.log(user.clockIn);
                     console.log(user.clockOut);
 					Ext.eu.ajax(path + '/logistics/saveDriverRota.do', {
@@ -351,11 +372,12 @@ Ext.driverRota.grid = Ext.extend(Ext.grid.GridPanel, {
 					return;
 				}
 				var select = selects[0].data;
-                var date = select.clockIn.substring(0,10);
+                var clockindate = select.clockIn.substring(0,10);
+                var clockOutdate = select.clockOut.substring(0,10);
+
                 var datein = select.clockIn.substring(11,19);
                 var dateout = select.clockOut.substring(11,19);
 
-                console.log(date);
                 console.log(datein);
 				var win = new Ext.driverRota.win(this);
 				var form = win.form.getForm();
@@ -364,8 +386,11 @@ Ext.driverRota.grid = Ext.extend(Ext.grid.GridPanel, {
 				form.findField('fleetId').setValue(select.fleetId);
                 form.findField('driverId').setValue(select.driverId);
                 form.findField('fleetName').setValue(select.fleetName);
+                form.findField('driverName').setValue(select.driverName);
 
-                form.findField('date').setValue(date);
+                form.findField('clockindate').setValue(clockindate);
+                form.findField('clockOutdate').setValue(clockOutdate);
+
                 form.findField('clockin').setValue(datein);
                 form.findField('clockOut').setValue(dateout);
                 form.findField('orderBy').setValue(select.orderBy);
@@ -429,7 +454,8 @@ Ext.driverRota.queryPanel = Ext.extend(Ext.FormPanel, {
                     items : [{
                         xtype : 'textfield',
                         fieldLabel : '司机姓名',
-                        id : 'driverName',
+                        id : 'driverNameRota',
+						name:'driverName',
                         anchor : '90%'
                     }]
                 },{

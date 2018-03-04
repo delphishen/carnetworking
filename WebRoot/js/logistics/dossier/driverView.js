@@ -12,7 +12,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
@@ -46,7 +46,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
@@ -97,10 +97,12 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
                 hiddenName : 'fleetName',
                 submitValue : false,
                 anchor : '98%',
+                allowBlank : false,
                 editable : false,
                 autoLoad : true,
                 triggerAction : 'all',
                 mode : 'local',
+                selectOnFocus : true,
                 store : new Ext.data.Store({
                     proxy : new Ext.data.HttpProxy( {
                         url : path + '/system/getTreeAllFleetList.do',
@@ -331,7 +333,7 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
             idProperty : 'id',
             root : 'rows',
             totalProperty : 'results',
-            fields : ['id', 'driverName', 'fleetId','companyId','driverTypeId', 'company','driverType','statuesId','sex','drivingExperience', 'peccancyCount', 'mobile','address','fleetName'],
+            fields : ['id', 'driverName', 'fleetId','companyId','driverTypeId', 'company','driverType','statuesId','sex','drivingExperience', 'peccancyCount', 'mobile','address','fleetName','score'],
             autoDestroy : true,
             autoLoad : true,
             baseParams : {
@@ -410,6 +412,10 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
             },{
                 header : '联系地址',
                 dataIndex : 'address',
+                hidden : false
+            },{
+                header : '最近评分',
+                dataIndex : 'score',
                 hidden : false
             },{
                 header : '所属平台名称',
@@ -494,6 +500,9 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('driverName').setValue(select.driverName);
         form.findField('statuesId').setValue(select.statuesId);
         form.findField('sex').setValue(select.sex);
+        form.findField('score').setValue(select.score);
+        form.findField('tel').setValue(select.mobile);
+        form.findField('address').setValue(select.address);
 
 
         form.findField('drivingExperience').setValue(select.drivingExperience);

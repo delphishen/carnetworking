@@ -19,7 +19,10 @@
         WHERE a.statuesId = #{statuesId}
 
         <if test="fleetId!='root'">
-            AND a.fleetId =#{fleetId}
+            AND a.fleetId ='0'
+        </if>
+        <if test="carApplyNo!=null and carApplyNo!=''">
+            AND   a.carApplyNo like '%${carApplyNo}%'
         </if>
     </select>
 
@@ -37,6 +40,9 @@
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
         </if>
+        <if test="insanitycarApplyNo!=null and insanitycarApplyNo!=''">
+            AND   a.carApplyNo like '%${insanitycarApplyNo}%'
+        </if>
     </select>
 
     <select id="querydispatch" parameterType="HashMap" resultType="HashMap">
@@ -50,6 +56,9 @@
 
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
+        </if>
+        <if test="carApplyNo!=null and carApplyNo!=''">
+            AND   a.carApplyNo like '%${carApplyNo}%'
         </if>
     </select>
 

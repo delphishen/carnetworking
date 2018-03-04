@@ -12,18 +12,25 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
             triggerClass: 'x-form-search-trigger',
             selectOnFocus: true,
             submitValue: false,
-            allowBlank: true,
+            allowBlank: false,
             editable: false,
             onTriggerClick: function (e) {
-                new kqSelector(function (id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('companyId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new kqSelector(function (id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('companyId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
-                }, true, this);
+                    }, true, this);
+                }
+
+
             },
             scope: this
         });
@@ -36,7 +43,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
             triggerClass: 'x-form-search-trigger',
             selectOnFocus: true,
             submitValue: false,
-            allowBlank: true,
+            allowBlank: false,
             editable: false,
             onTriggerClick: function (e) {
                 new truckTypeSelector(function (id, name) {
@@ -77,6 +84,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 submitValue: false,
                 anchor: '98%',
                 editable: false,
+                allowBlank: false,
                 autoLoad: true,
                 triggerAction: 'all',
                 mode: 'local',
@@ -98,6 +106,10 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                     'select': function (combo, record) {
                         this.getForm().findField('fleetId').setValue(record.data.id);
                         basefleedId = record.data.id;
+                        this.getForm().findField('company').setValue(null);
+                        this.getForm().findField('companyId').setValue(null);
+                        this.getForm().findField('modelName').setValue(null);
+                        this.getForm().findField('carTtypeId').setValue(null);
 
 
                     },

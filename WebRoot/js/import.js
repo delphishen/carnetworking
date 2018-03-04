@@ -9,6 +9,10 @@ Ext.namespace('App');
 App.importJs = {
 	/** *************************基础管理*************************** */
 	infoView : [path + '/js/info/infoView.js'],
+
+
+    mapView : [path + '/js/logistics/dossier/mapView.js'],
+
 	iconView : [path + '/jsLib/ext3/ux/uploadDialog/UploadDialog.js',
 			path + '/js/basic/iconView.js'],
 	/** *************************水平衡基础管理*************************** */

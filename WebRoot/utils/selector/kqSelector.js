@@ -176,8 +176,6 @@ Ext.kqSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								Ext.apply(this.getStore().baseParams, {
 											'fatherId' : this.sortNode.id
 										});
-								Ext.apply(this.getStore().baseParams,
-										this.app.queryPanel.getQueryParams());
 							}
 						},
 						scope : this
@@ -283,7 +281,7 @@ Ext.kqSelector.win = Ext.extend(Ext.Window, {
 				this.form = new Ext.kqSelector.form(this);
 				this.grid = new Ext.kqSelector.grid(this);
 				this.tree = new Ext.kqSelector.tree(this);
-				this.queryPanel = new Ext.kqSelector.queryPanel(this);
+				//this.queryPanel = new Ext.kqSelector.queryPanel(this);
 				Ext.kqSelector.win.superclass.constructor.call(this, {
 							title : '单位机构选择器',
 							width : 600,
@@ -294,8 +292,7 @@ Ext.kqSelector.win = Ext.extend(Ext.Window, {
 							resizable : false,
 							buttonAlign : 'center',
 							layout : 'border',
-							items : [this.form, this.grid, this.tree,
-									this.queryPanel],
+							items : [this.form, this.grid, this.tree],
 							buttons : [{
 										text : '确定所选',
 										iconCls : 'tick',

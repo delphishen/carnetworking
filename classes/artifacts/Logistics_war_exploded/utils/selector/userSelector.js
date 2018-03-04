@@ -47,7 +47,8 @@ Ext.userSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					baseParams : {
 						start : 0,
 						limit : 20,
-						fleetId:fleedId
+						fleetId:basefleedId,
+
 					},
 					listeners : {
 						'beforeload' : function() {

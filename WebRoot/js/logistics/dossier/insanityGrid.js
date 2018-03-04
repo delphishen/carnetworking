@@ -6,7 +6,7 @@ Ext.namespace('Ext.insanity');
 
 Ext.insanity.grid = Ext.extend(Ext.grid.GridPanel, {
     constructor: function (app) {
-        this.app = app;
+        this.app2 = app;
         // 数据源
         this.ds = new Ext.data.JsonStore({
             url: path + '/logistics/queryinsanity.do',
@@ -27,7 +27,7 @@ Ext.insanity.grid = Ext.extend(Ext.grid.GridPanel, {
             listeners: {
                 'beforeload': function () {
                     Ext.apply(this.getStore().baseParams,
-                        this.app.queryPanel.getQueryParams());
+                        this.app2.queryPanel.getQueryParams());
 
                 },
                 scope: this
@@ -142,31 +142,17 @@ Ext.insanity.grid = Ext.extend(Ext.grid.GridPanel, {
 
 Ext.insanity.queryPanel = Ext.extend(Ext.FormPanel, {
     constructor: function (app) {
-        this.app = app;
+        this.app2 = app;
 
 
         // 在column布局的制约下，从左至右每个元素依次进行form布局
         this.items = [{
-            width: 180,
-            items: [{
-                xtype: 'combo',
-                width: 60,
-                fieldLabel: '价格类型',
-                hiddenName: 'statuesId2',
-                anchor: '98%',
-                typeAhead: true,
-                editable: false,
-                triggerAction: 'all',
-                lazyRender: true,
-                mode: 'local',
-                value: '1',
-                store: new Ext.data.ArrayStore({
-                    fields: ['key', 'val'],
-                    data: [['常规价格设置', '0'],
-                        ['包车价格设置', '1']]
-                }),
-                valueField: 'val',
-                displayField: 'key'
+            width : 180,
+            items : [{
+                xtype : 'textfield',
+                fieldLabel : '订单编号',
+                id : 'insanitycarApplyNo',
+                anchor : '90%'
             }]
         }, {
             width: 65,
@@ -176,7 +162,8 @@ Ext.insanity.queryPanel = Ext.extend(Ext.FormPanel, {
                 text: '查询',
                 iconCls: 'query',
                 handler: function () {
-                    this.app.grid.getStore().load();
+                    //this.insanity.grid.getStore().load();
+                    this.app2.grid.getState().load();
                 },
                 scope: this
             }]

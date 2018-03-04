@@ -5,8 +5,7 @@
 <mapper namespace="com.fgwater.frame.mapper.logistics.TruckMapper">
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		select c.id, c.fleetId, c.plateNo, c.carType,c.companyId, c.vehicleOwner, c.tel,
- 		c.buyDatetime,c.driverId,c.statues,co.company,f.fleetName,ct.modelName,d.driverName
+		select c.*,co.company,f.fleetName,ct.modelName,d.driverName
 		from t_archives_car c
 		LEFT  JOIN  t_archives_company co ON c.companyId = co.id
 		LEFT JOIN    t_system_fleet f  ON c.fleetId = f.id
@@ -36,9 +35,9 @@
 
 	<insert id="saveTable" parameterType="HashMap">
 		insert into t_archives_car (
-			id,fleetId,plateNo,carType,companyId,vehicleOwner,tel,buyDatetime,driverId,statues
+			id,fleetId,plateNo,carType,companyId,vehicleOwner,tel,buyDatetime,driverId,statues,oilTotal,peccancyCount,address,VIN,model
 		) values (
-			#{id},#{fleetId},#{plateNo},#{carType},#{companyId},#{vehicleOwner},#{tel},#{buyDatetime},#{driverId},#{statues}
+			#{id},#{fleetId},#{plateNo},#{carType},#{companyId},#{vehicleOwner},#{tel},#{buyDatetime},#{driverId},#{statues},#{oilTotal},#{peccancyCount},#{address},#{VIN},#{model}
 
 		)
 	</insert>
@@ -46,6 +45,7 @@
 	<update id="updateTable" parameterType="HashMap">
 		update t_archives_car set fleetId=#{fleetId},plateNo=#{plateNo},carType=#{carType}
 		,companyId=#{companyId},vehicleOwner=#{vehicleOwner},tel=#{tel}, buyDatetime=#{buyDatetime}, driverId=#{driverId}, statues=#{statues}
+		,oilTotal=#{oilTotal},peccancyCount=#{peccancyCount},address=#{address},VIN=#{VIN},model=#{model}
 		where id=#{id}
 	</update>
 	

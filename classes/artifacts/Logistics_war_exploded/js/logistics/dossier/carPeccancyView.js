@@ -13,18 +13,24 @@ Ext.carPeccancy.form = Ext.extend(Ext.FormPanel, {
             triggerClass: 'x-form-search-trigger',
             selectOnFocus: true,
             submitValue: false,
-            allowBlank: true,
+            allowBlank: false,
             editable: false,
             onTriggerClick: function (e) {
-                new kqSelector(function (id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('companyId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new kqSelector(function (id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('companyId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
-                }, true, this);
+                    }, true, this);
+				}
+
             },
             scope: this
         });
@@ -38,14 +44,20 @@ Ext.carPeccancy.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
-                new driverSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('driverId').setValue(id);
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new driverSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('driverId').setValue(id);
 
-                }, true, this);
+                    }, true, this);
+				}
+
             },
             scope : this
         });
@@ -58,17 +70,23 @@ Ext.carPeccancy.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
-                new truckSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('plateNoId').setValue(id);
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new truckSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('plateNoId').setValue(id);
 
 
 
 
-                }, true, this);
+                    }, true, this);
+				}
+
             },
             scope : this
         });
@@ -107,6 +125,7 @@ Ext.carPeccancy.form = Ext.extend(Ext.FormPanel, {
 						anchor: '98%',
 						editable: false,
 						autoLoad: true,
+                        allowBlank : false,
 						triggerAction: 'all',
 						mode: 'local',
 						store: new Ext.data.Store({
@@ -127,6 +146,14 @@ Ext.carPeccancy.form = Ext.extend(Ext.FormPanel, {
 							'select': function (combo, record) {
 								this.getForm().findField('fleetId').setValue(record.data.id);
 								basefleedId = record.data.id;
+
+
+                                this.getForm().findField('company').setValue(null);
+                                this.getForm().findField('companyId').setValue(null);
+                                this.getForm().findField('driverName').setValue(null);
+                                this.getForm().findField('driverId').setValue(null);
+                                this.getForm().findField('plateNo').setValue(null);
+                                this.getForm().findField('plateNoId').setValue(null);
 
 
 							},

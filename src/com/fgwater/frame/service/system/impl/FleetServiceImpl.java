@@ -77,7 +77,7 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 			for (int i =0; i<ja.size();i++){
 				JSONObject jo = ja.getJSONObject(i);
 				JSONArray children = new JSONArray();
-				List<User> userList = this.userMapper.getUserById(jo.getString("id"));
+				List<User> userList = this.userMapper.getUserByRemark(jo.getString("id"));
 				for (int j=0;j<userList.size();j++){
 					JSONObject cjo = JSONObject.fromObject(userList.get(j));
 					cjo.put("leaf",true);

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MongoConfiguration">
+    <option name="serverConfigurations">
+      <list>
+        <ServerConfiguration>
+          <option name="authenticationDatabase" value="admin" />
+          <option name="authenticationMechanism" value="SCRAM-SHA-1" />
+          <option name="connectOnIdeStartup" value="true" />
+          <option name="label" value="test" />
+          <option name="password" value="123456" />
+          <option name="serverUrls">
+            <list>
+              <option value="dds-uf6b59d69175d6c41991-pub.mongodb.rds.aliyuncs.com:3717" />
+            </list>
+          </option>
+          <option name="sshTunnelingConfiguration">
+            <SshTunnelingConfiguration />
+          </option>
+          <option name="username" value="root" />
+        </ServerConfiguration>
+        <ServerConfiguration>
+          <option name="authenticationDatabase" value="admin" />
+          <option name="authenticationMechanism" value="SCRAM-SHA-1" />
+          <option name="connectOnIdeStartup" value="true" />
+          <option name="password" value="123456" />
+          <option name="serverUrls">
+            <list>
+              <option value="39.106.212.59:27017" />
+            </list>
+          </option>
+          <option name="sshTunnelingConfiguration">
+            <SshTunnelingConfiguration />
+          </option>
+          <option name="username" value="root" />
+        </ServerConfiguration>
+      </list>
+    </option>
+    <option name="shellPath" value="mongo  39.106.212.59:27017" />
+  </component>
+</project>

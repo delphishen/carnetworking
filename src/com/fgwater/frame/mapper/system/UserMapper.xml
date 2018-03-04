@@ -25,6 +25,9 @@
 	<select id="getUserById" parameterType="String" resultType="User">
 		select id,empId,loginName as text,isAdmin,remark,fleetId from  t_system_user where isAdmin != 1 AND  fleetId = #{id}
 	</select>
+	<select id="getUserByRemark" parameterType="String" resultType="User">
+		select id,empId,loginName as text,isAdmin,remark,fleetId from  t_system_user where  fleetId = #{id} AND remark = '调度员'
+	</select>
 	
 	<select id="findByEmpId" parameterType="HashMap" resultType="User">
 		select id,empId,loginName,password,isAdmin,email,remark 

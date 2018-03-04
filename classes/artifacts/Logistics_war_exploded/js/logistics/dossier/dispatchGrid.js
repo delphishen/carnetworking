@@ -23,14 +23,14 @@ Ext.dispatch.grid = Ext.extend(Ext.grid.GridPanel, {
                 limit: 80,
                 fleetId: fleedId
             },
-            listeners: {
-                'beforeload': function () {
-                    Ext.apply(this.getStore().baseParams,
-                        this.app.queryPanel.getQueryParams());
-
-                },
-                scope: this
-            }
+            // listeners: {
+            //     'beforeload': function () {
+            //         Ext.apply(this.getStore().baseParams,
+            //             this.app.busqueryPanel.getQueryParams());
+            //
+            //     },
+            //     scope: this
+            // }
         });
         // 选择框
         this.sm = new Ext.grid.CheckboxSelectionModel({
@@ -67,7 +67,10 @@ Ext.dispatch.grid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'statuesId',
                 hidden: true
             },{
-                header: '用乘车用户',
+                header: '订单编号',
+                dataIndex: 'carApplyNo'
+            },{
+                header: '乘车用户',
                 dataIndex: 'loginName'
             },{
                 header: '业务类型',
@@ -146,26 +149,13 @@ Ext.dispatch.queryPanel = Ext.extend(Ext.FormPanel, {
 
         // 在column布局的制约下，从左至右每个元素依次进行form布局
         this.items = [{
-            width: 180,
-            items: [{
-                xtype: 'combo',
-                width: 60,
-                fieldLabel: '价格类型',
-                hiddenName: 'statuesId2',
-                anchor: '98%',
-                typeAhead: true,
-                editable: false,
-                triggerAction: 'all',
-                lazyRender: true,
-                mode: 'local',
-                value: '1',
-                store: new Ext.data.ArrayStore({
-                    fields: ['key', 'val'],
-                    data: [['常规价格设置', '0'],
-                        ['包车价格设置', '1']]
-                }),
-                valueField: 'val',
-                displayField: 'key'
+            width : 180,
+            items : [{
+                xtype : 'textfield',
+                fieldLabel : '订单编号',
+                id : 'carApplyNodispatch',
+                name:'carApplyNo',
+                anchor : '90%'
             }]
         }, {
             width: 65,
@@ -175,7 +165,9 @@ Ext.dispatch.queryPanel = Ext.extend(Ext.FormPanel, {
                 text: '查询',
                 iconCls: 'query',
                 handler: function () {
-                    this.app.grid.getStore().load();
+                    Ext.apply(this.app.cqEvaRateGrid.getStore().baseParams,
+                                     this.app.busqueryPanel.getQueryParams());
+                    this.app.cqEvaRateGrid.getStore().load();
                 },
                 scope: this
             }]

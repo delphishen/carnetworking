@@ -96,9 +96,12 @@
 		<script type="text/javascript"
 			src="<%=basePath%>utils/mapContainerUtils.js"></script>
 
+		<!--引入百度api-->
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=uN6GyxboIGRK7dPypkw1ZbhDnFOHolnn"></script>
 
 
-		
+
+
 	</head>
 
 	<body>

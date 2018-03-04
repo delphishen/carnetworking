@@ -30,4 +30,6 @@ public interface UserMapper extends BaseMapper<User> {
 
 	public List<User> getUserById(String id);
 
+	public List<User> getUserByRemark(String id);
+
 }
