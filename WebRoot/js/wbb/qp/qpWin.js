@@ -15,6 +15,7 @@ Ext.qp.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
+                basefleedId = Ext.getCmp("fleetId").value;
                 new userSelector(function(id, name,userFleetId) {
                     this.setValue(name);
                     Ext.getCmp('userId').setValue(id);
