@@ -10,7 +10,7 @@ public interface CustomerService extends BaseService {
 
 	public List<Map<String, String>> query(Map<String, String> m);
 
-	public List<Customer> getAll();
+	public List<Customer> getAll(Map<String, String> m);
 
 	public boolean saveOrUpdate(Customer customer);
 

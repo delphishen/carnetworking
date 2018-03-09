@@ -14,10 +14,8 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service("carApplyService")
 public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyService {
@@ -79,20 +77,36 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 	@Override
 	public boolean savecarApply(CarApply carApply) {
 
-		this.applyMapper.savecarApply(carApply);
-		Map<String,String> map =  new HashMap<String, String>();
-		map.put("id",UUIDUtils.getUUID());
-		map.put("fleetId",carApply.getFleetId());
-		map.put("carApplyNo",carApply.getCarApplyNo());
-		map.put("plateNoId",carApply.getPlateNoId());
-		map.put("driverId",carApply.getDriverId());
-		map.put("userId",SessionUtils.getCurrUserId());
-		map.put("dispatchDatetime",StrUtils.getCurrFormatTime());
 
 
-		System.out.println("=============添加调度日志map=========="+map);
+		if(StrUtils.isNullOrEmpty(carApply.getCarApplyNo())){
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		this.applyMapper.insertdispatchlog(map);
+			Date date = new Date();
+			String datatime = simpleDateFormat.format(date);
+			carApply.setCarApplyNo(datatime);
+			carApply.setOrderFrom("1");
+			carApply.setStatuesId("0");
+			this.applyMapper.insert(carApply);
+
+		}else {
+			this.applyMapper.savecarApply(carApply);
+			Map<String,String> map =  new HashMap<String, String>();
+			map.put("id",UUIDUtils.getUUID());
+			map.put("fleetId",carApply.getFleetId());
+			map.put("carApplyNo",carApply.getCarApplyNo());
+			map.put("plateNoId",carApply.getPlateNoId());
+			map.put("driverId",carApply.getDriverId());
+			map.put("userId",SessionUtils.getCurrUserId());
+			map.put("dispatchDatetime",StrUtils.getCurrFormatTime());
+
+
+			System.out.println("=============添加调度日志map=========="+map);
+
+			this.applyMapper.insertdispatchlog(map);
+		}
+
+
 
 
 		return true;
@@ -106,6 +120,11 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 	@Override
 	public List<Map<String, String>> querydispatch(Map<String, String> params) {
 		return this.applyMapper.querydispatch(params);
+	}
+
+	@Override
+	public List<Map<String, String>> queryAllCarApply(Map<String, String> params) {
+		return this.applyMapper.queryAllCarApply(params);
 	}
 
 

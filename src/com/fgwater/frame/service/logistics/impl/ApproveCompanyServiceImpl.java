@@ -37,6 +37,7 @@ public class ApproveCompanyServiceImpl extends BaseServiceImpl implements Approv
 				approveCompany1.setId(UUIDUtils.getUUID());
 				approveCompany1.setUserId(approveCompany.getUserId());
 				approveCompany1.setCompanyId(dis);
+				approveCompany1.setFleetId(approveCompany.getFleetId());
 				this.approveCompanyMapper.insert(approveCompany1);
 			}
 		}else {

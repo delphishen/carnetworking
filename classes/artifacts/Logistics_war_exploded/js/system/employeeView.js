@@ -398,7 +398,14 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 										{
 											employees : Ext.encode(employees)
 										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
+                                        var res = Ext.decode(resp.responseText);
+											console.log(res.success);
+											if(res.success){
+                                                Ext.ux.Toast.msg('信息', '删除成功');
+											}else {
+                                                Ext.ux.Toast.msg('信息', '该用户存在外键引用，不能删除');
+											}
+
 											this.getStore().reload();
 										}, this);
 							}

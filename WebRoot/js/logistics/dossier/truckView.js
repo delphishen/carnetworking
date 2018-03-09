@@ -195,7 +195,7 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 					columnWidth : 1,
 					items : [{
 						fieldLabel : '累计加油量',
-						xtype : 'textfield',
+						xtype : 'numberfield',
 						name : 'oilTotal',
 						anchor : '98%',
 						selectOnFocus : true
@@ -204,7 +204,7 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 					columnWidth : 1,
 					items : [{
 								fieldLabel : '车辆所有人电话',
-								xtype : 'textfield',
+								xtype : 'numberfield',
 								name : 'tel',
 								anchor : '98%',
 								selectOnFocus : true
@@ -213,7 +213,7 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 					columnWidth : 1,
 					items : [{
 						fieldLabel : '违章次数',
-						xtype : 'textfield',
+						xtype : 'numberfield',
 						name : 'peccancyCount',
 						anchor : '98%',
 						selectOnFocus : true
@@ -432,7 +432,7 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 										dataIndex : 'company'
 									}, {
 										header : '购车时间',
-										dataIndex : 'driverId'
+										dataIndex : 'buyDatetime'
 									}, {
 										header : '累计加油量',
 										dataIndex : 'oilTotal'
@@ -625,7 +625,7 @@ Ext.truck.queryPanel = Ext.extend(Ext.FormPanel, {
                         [{name : 'id'}, {name : 'driverName'}]),
 
                     baseParams : {
-                        fleetId:'root'
+                        fleetId:fleedId
                     }
                 });
                 this.driverTypeDS.load();
@@ -677,31 +677,6 @@ Ext.truck.queryPanel = Ext.extend(Ext.FormPanel, {
                         store : this.driverTypeDS,
                         valueField : 'id',
                         displayField : 'driverName',
-                        listeners : {
-                            'select' : function(combo, record) {
-                                //	this.getForm().findField('linesName').setValue(record.data.id);
-                            },
-                            scope : this
-                        }
-                    }]
-
-                },{
-                    width : 180,
-                    items : [{
-                        id:'truckViewtruckTypeDS',
-                        fieldLabel : '车型',
-                        width : 60,
-                        xtype : 'combo',
-                        hiddenName : 'carType',
-                        submitValue : false,
-                        anchor : '90%',
-                        editable : true,
-                        autoLoad : true,
-                        triggerAction : 'all',
-                        mode : 'local',
-                        store : this.truckTypeDS,
-                        valueField : 'id',
-                        displayField : 'modelName',
                         listeners : {
                             'select' : function(combo, record) {
                                 //	this.getForm().findField('linesName').setValue(record.data.id);
@@ -773,7 +748,7 @@ var truckView = function(params) {
 	
 	return new Ext.Panel({
 				id : 'truckView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '车辆档案',
+				title : '车辆档案管理',
 				layout : 'border',
 				items : [this.queryPanel, this.grid]
 			})

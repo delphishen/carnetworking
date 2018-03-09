@@ -18,6 +18,9 @@
 		<if test="plateNo!=null and plateNo!=''">
 			and c.plateNo like '%${plateNo}%'
 		</if>
+		<if test="driverId!=null and driverId!=''">
+			and c.driverId like '%${driverId}%'
+		</if>
 	</select>
 
 	<select id="getAll" parameterType="HashMap" resultType="Truck">
@@ -56,6 +59,9 @@
 	
 	<select id="checkPlateNumber" parameterType="HashMap" resultType="Integer">
 		select count(*) from t_archives_car where id!=#{id} and plateNo=#{plateNo}
+		<if test="id!=null and id!=''">
+			and id !=#{id}
+		</if>
 	</select>	
 
 

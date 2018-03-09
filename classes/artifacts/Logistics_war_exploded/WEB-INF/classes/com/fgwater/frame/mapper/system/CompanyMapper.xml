@@ -5,7 +5,7 @@
 <mapper namespace="com.fgwater.frame.mapper.system.CompanyMapper">
 
 
-	<select id="getTreeAll"   parameterType="HashMap"  resultType="Company">
+	<select id="getTreeAll"   parameterType="HashMap"  resultType="HashMap">
 
 		SELECT id,fleetId,fleetName,fatherId,company as text,companyNo,address,company,tel FROM  t_archives_company
 		<if test="fleetId!='root'">

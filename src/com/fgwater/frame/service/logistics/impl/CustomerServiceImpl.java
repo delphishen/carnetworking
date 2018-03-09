@@ -30,13 +30,13 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 		return this.customerMapper.query(m);
 	}
 
-	public List<Customer> getAll() {
+	public List<Customer> getAll(Map<String, String> m) {
 		
 		//	JSONArray ja = JSONArray.fromObject(truckMapper.getAll(params));
 		//	Object swap = ja;	
 		//	System.out.println(swap.toString());
 
-		return customerMapper.getAll();
+		return customerMapper.getAll(m);
 	}
 
 	

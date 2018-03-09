@@ -17,15 +17,16 @@
 
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		SELECT a.*,u.loginName,c.company FROM t_archives_approve_company a
+		SELECT a.*,u.loginName,c.company,f.fleetName FROM t_archives_approve_company a
 		LEFT JOIN t_system_user u ON u.id = a.userId
 		LEFT JOIN t_archives_company  c ON c.id = a.companyId
-		<if test="fleetId!='root'">
-			INNER JOIN (SELECT * FROM t_system_user WHERE fleetId = #{fleetId}) fu ON fu.id =  a.userId
-		</if>
+		LEFT JOIN t_system_fleet f ON f.id = a.fleetId
 		where 1=1
 		<if test="userId!=null and userId!=''">
 			AND userId = '${userId}'
+		</if>
+		<if test="fleetId!='root'">
+			AND a.fleetId =#{fleetId}
 		</if>
 
 </select>

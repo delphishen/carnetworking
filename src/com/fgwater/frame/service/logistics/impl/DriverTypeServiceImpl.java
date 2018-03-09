@@ -37,7 +37,8 @@ public class DriverTypeServiceImpl extends BaseServiceImpl implements DriverType
 
 
 	public boolean saveOrUpdate(DriverType driverType) {
-		int count = this.driverTypeMapper.check(driverType, "driverType");
+		//int count = this.driverTypeMapper.check(driverType, "driverType");
+		 int count = driverTypeMapper.checkByFleetId(driverType);
 		if (count == 0) {
 			if (StrUtils.isNullOrEmpty(driverType.getId())) {
 				driverType.setId(UUIDUtils.getUUID());

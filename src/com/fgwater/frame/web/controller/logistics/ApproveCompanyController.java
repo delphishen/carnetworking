@@ -6,6 +6,7 @@ import com.fgwater.frame.model.logistics.ApproveCompany;
 import com.fgwater.frame.model.logistics.DispatcherDriver;
 import com.fgwater.frame.service.logistics.ApproveCompanyService;
 import com.fgwater.frame.service.logistics.DispatcherDriverService;
+import com.fgwater.frame.service.system.FleetService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,9 @@ public class ApproveCompanyController extends BaseController {
 
 	@Resource
 	private ApproveCompanyService approveCompanyService;
+
+	@Resource
+	private FleetService fleetService;
 
 
 	@Injection
@@ -67,6 +71,17 @@ public class ApproveCompanyController extends BaseController {
 	public String delete() {
 		System.out.println("==============保存审核员权限信息============="+this.getApproveCompanies());
 		this.approveCompanyService.deleteTable(this.getApproveCompanies());
+		return this.responseModel.serial();
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "getTreeFleetApprove.do")
+	public String getTreeFleetApprove() {
+
+		this.responseModel.mount(this.fleetService.getTreeFleetApprove(this.requestModel.getParams()), MOUNT_TYPE_JA);
+
+		//System.out.println("buildFleet======"+this.responseModel.serial());
 		return this.responseModel.serial();
 	}
 

@@ -220,7 +220,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
 
-                id:'businessType',
+                id:'businessType2',
                 fieldLabel : '业务类型',
                 xtype : 'textfield',
                 readOnly : true,
@@ -333,7 +333,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             totalProperty: 'results',
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                 , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
-                , 'remark','businessType', 'statuesId', 'activityId','orderFrom','driverApplyNo', 'fleetName', 'loginName'
+                , 'remark','businessType', 'statuesId', 'activityId','orderFrom','driverApplyNo', 'fleetName', 'passengerName'
                 ,'company','driverName','modelName','plateNoId','plateNo'],
             autoDestroy: true,
             autoLoad: true,
@@ -341,7 +341,8 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 isPaging: true,
                 start: 0,
                 limit: 80,
-                fleetId: fleedId
+                fleetId: fleedId,
+                activityId:'1'
             },
             listeners: {
                 'beforeload' : function() {
@@ -397,7 +398,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'carApplyNo'
             },{
                 header: '乘车用户',
-                dataIndex: 'loginName'
+                dataIndex: 'passengerName'
             },{
                 header: '业务类型',
                 dataIndex: 'businessType'
@@ -507,7 +508,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('kilometres').setValue(select.kilometres);
         form.findField('content').setValue(select.content);
         form.findField('remark').setValue(select.remark);
-        form.findField('businessType').setValue(select.businessType);
+        form.findField('businessType2').setValue(select.businessType);
 
         form.findField('driverName').setValue(select.driverName);
         form.findField('plateNo').setValue(select.plateNo);
@@ -556,13 +557,6 @@ Ext.driverApply.carqueryPanel = Ext.extend(Ext.FormPanel, {
 
         // 在column布局的制约下，从左至右每个元素依次进行form布局
         this.items = [{
-            width : 180,
-            items : [{
-                xtype : 'hidden',
-                id : 'statuesId',
-                value:'1'
-            }]
-        },{
             width : 180,
             items : [{
                 xtype : 'textfield',

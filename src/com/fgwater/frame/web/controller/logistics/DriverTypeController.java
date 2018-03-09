@@ -95,8 +95,16 @@ public class DriverTypeController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "deletedriverType.do")
 	public String delete() {
-		System.out.println("==============deletedriverType============="+this.getDriverTypes());
-		this.driverTypeService.deleteTable(this.getDriverTypes());
+		try {
+			this.driverTypeService.deleteTable(this.getDriverTypes());
+		}catch (Exception e){
+
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("success", false);
+			jsonObject.put("msg", "ok");
+			return  jsonObject.toString();
+		}
+
 		return this.responseModel.serial();
 	}
 

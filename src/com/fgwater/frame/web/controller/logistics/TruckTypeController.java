@@ -72,7 +72,16 @@ public class TruckTypeController extends BaseController {
 	@RequestMapping(value = "deleteTruckType.do")
 	public String delete() {
 	//	System.out.println(this.getTrucks());
-		this.truckTypeService.delete(this.getTruckTypes());
+		try {
+			this.truckTypeService.delete(this.getTruckTypes());
+		}catch (Exception e) {
+			JSONObject jo = new JSONObject();
+			jo.put("success", false);
+			jo.put("msg", "ok");
+			return jo.toString();
+
+		}
+
 		
 		return this.responseModel.serial();
 	}

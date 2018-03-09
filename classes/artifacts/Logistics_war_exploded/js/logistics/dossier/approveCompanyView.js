@@ -155,7 +155,7 @@ Ext.approveCompany.grid = Ext.extend(Ext.grid.GridPanel, {
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',							
-							fields : ['id',  'userId','companyId','loginName','company'],
+							fields : ['id',  'userId','companyId','loginName','company','fleetId','fleetName'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -196,11 +196,18 @@ Ext.approveCompany.grid = Ext.extend(Ext.grid.GridPanel, {
 										dataIndex : 'companyId',
 										hidden : true
 									},{
+                                		header : 'fleetId',
+										dataIndex : 'fleetId',
+										hidden : true
+									},{
 										header : '用户名',
 										dataIndex : 'loginName'
 									}, {
 										header : '单位机构',
 										dataIndex : 'company'
+									}, {
+										header : '所属平台',
+										dataIndex : 'fleetName'
 									}]
 						});
 				// 菜单条
@@ -269,6 +276,8 @@ Ext.approveCompany.grid = Ext.extend(Ext.grid.GridPanel, {
 
 				form.findField('userName').setValue(select.loginName);
                 form.findField('plateNo').setValue(select.plateNo);
+                form.findField('fleetId').setValue(select.fleetId);
+                form.findField('fleetName').setValue(select.fleetName);
 
 				win.show();
 			},

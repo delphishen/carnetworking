@@ -36,15 +36,21 @@ Ext.kq.form = Ext.extend(Ext.FormPanel, {
             editable : false,
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp("fleetId").value;
-                new userSelector(function(id, name,userFleetId) {
-                    this.setValue(name);
-                    Ext.getCmp('userId').setValue(id);
-                    basefleedId = userFleetId;
+                var val = Ext.getCmp("fleetName").value;
+
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new userSelector(function(id, name,userFleetId) {
+                        this.setValue(name);
+                        Ext.getCmp('userId').setValue(id);
+                        basefleedId = userFleetId;
 
 
 
 
-                }, true, this);
+                    }, true, this);
+                }
             },
             scope : this
         });
@@ -61,14 +67,21 @@ Ext.kq.form = Ext.extend(Ext.FormPanel, {
             allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
-                new truckSelector(function(id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('plateNoId').setValue(id);
+                basefleedId = Ext.getCmp("fleetId").value;
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new truckSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('plateNoId').setValue(id);
 
 
 
 
-                }, false, this);
+                    }, false, this);
+                }
+
             },
             scope : this
         });

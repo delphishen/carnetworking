@@ -38,7 +38,7 @@
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://110.88.208.246:12201/carnetworking" />
+			value="jdbc:mysql://118.31.47.117:13306/carnetworking" />
 		<property name="username" value="root" />
 		<property name="password" value="123456" />
 

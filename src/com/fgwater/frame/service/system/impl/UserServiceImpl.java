@@ -100,6 +100,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		return true;
 }
 
+	@Override
+	public List<User> getUserByFleetId(Map<String, String> params) {
+		return this.userMapper.getUserByFleetId(params);
+	}
+
 
 	public void delete(List<User> users) {
 		for (User user : users) {

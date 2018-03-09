@@ -59,6 +59,15 @@ public class UserController extends BaseController {
 	}
 
 	@ResponseBody
+	@RequestMapping(value = "getUserByFleetId.do")
+	public String getUserByFleetId() {
+		this.responseModel.mount(this.userService.getUserByFleetId(this.requestModel
+				.getParams()), MOUNT_TYPE_JA);
+		return this.responseModel.serial();
+	}
+
+
+	@ResponseBody
 	@RequestMapping(value = "saveUser.do")
 	public String save() {
 		

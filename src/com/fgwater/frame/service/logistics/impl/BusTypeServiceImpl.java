@@ -31,6 +31,7 @@ public class BusTypeServiceImpl extends BaseServiceImpl implements BusTypeServic
 
 	@Override
 	public List<Map<String, String>>  query(Map<String, String> params) {
+		System.out.println("-----------参数输出----------"+params);
 		return busTypeMapper.query(params);
 	}
 

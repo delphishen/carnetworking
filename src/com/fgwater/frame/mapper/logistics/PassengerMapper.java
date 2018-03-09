@@ -17,4 +17,7 @@ public interface PassengerMapper extends BaseMapper<Passenger> {
 
     public void deleteTable(Map<String, String> map);
 
+    @Paging
+    public List<Map<String,String>> queryPassengerById(Map<String, String> params);
+
 }

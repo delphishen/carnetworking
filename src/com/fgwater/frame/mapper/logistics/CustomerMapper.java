@@ -12,7 +12,7 @@ public interface CustomerMapper extends BaseMapper<Customer> {
 	@Paging
 	public List<Map<String, String>> query(Map<String, String> params);
 
-	public List<Customer> getAll();
+	public List<Customer> getAll(Map<String, String> params);
 
 	public void saveTable(Map<String, String> params);
 

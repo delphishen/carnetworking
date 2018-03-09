@@ -26,7 +26,7 @@ Ext.cqTree.tree = Ext.extend(Ext.tree.TreePanel, {
 							containerScroll : true,// 是否支持滚动条
 							rootVisible : true,// 是否显示根节点
 							loader : new Ext.tree.TreeLoader({
-								dataUrl : path + '/logistics/getTreeFleetList.do',
+								dataUrl : path + '/logistics/getTreeFleetApprove.do',
 								baseParams : {
 									fleetId:fleedId,
 								}

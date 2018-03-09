@@ -32,6 +32,15 @@
 	</select>
 
 
+	<select id="checkByFleetId" parameterType="DriverType" resultType="int">
+		SELECT COUNT(*) FROM  t_driver_type WHERE  fleetId = #{fleetId}  AND driverType = #{driverType}
+		<if test="id!=null and id!=''">
+			and id !=#{id}
+		</if>
+
+	</select>
+
+
 
 
 </mapper>

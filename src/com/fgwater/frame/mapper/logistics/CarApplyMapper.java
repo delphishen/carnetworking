@@ -36,4 +36,7 @@ public interface CarApplyMapper extends BaseMapper<CarApply> {
     @Paging
     public List<Map<String,String>> querydispatch(Map<String, String> params);
 
+    @Paging
+    public List<Map<String,String>> queryAllCarApply(Map<String, String> params);
+
 }

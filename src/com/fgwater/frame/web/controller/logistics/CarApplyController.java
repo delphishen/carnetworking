@@ -48,6 +48,21 @@ public class CarApplyController extends BaseController {
 	}
 
 
+
+	@ResponseBody
+	@RequestMapping(value = "queryAllCarApply.do")
+	public String queryAllCarApply() {
+
+
+
+		this.responseModel.mount(this.applyService.queryAllCarApply(this.requestModel
+				.getParams()), MOUNT_TYPE_PAGING);
+
+		return this.responseModel.serial();
+	}
+
+
+
 	@ResponseBody
 	@RequestMapping(value = "querydispatchLog.do")
 	public String querydispatchLog() {

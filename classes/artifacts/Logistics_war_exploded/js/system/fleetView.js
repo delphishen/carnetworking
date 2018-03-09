@@ -1,6 +1,6 @@
-Ext.namespace('Ext.menu');
+Ext.namespace('Ext.fleet');
 
-Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
+Ext.fleet.menuForm = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
@@ -60,14 +60,20 @@ Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
 										selectOnFocus : true,
 										allowBlank : false
 									}]
-						},{
-							columnWidth : 1,
-							items : [this.empSelector]
 						}, {
+                    columnWidth : 1,
+                    items : [{
+                        fieldLabel : '负责人',
+                        xtype : 'textfield',
+                        id : 'contacts',
+                        anchor : '100%',
+                        selectOnFocus : true
+                    }]
+                },{
 							columnWidth : 1,
 							items : [{
 										fieldLabel : '负责人电话',
-										xtype : 'textfield',
+										xtype : 'numberfield',
 										id : 'mobile',
 										anchor : '100%',
 										selectOnFocus : true,
@@ -79,8 +85,9 @@ Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
                     columnWidth : 1,
                     items : [{
                         fieldLabel : '服务热线',
-                        xtype : 'textfield',
-                        id : 'tel',
+                        xtype : 'numberfield',
+                        id : 'fleettel',
+						name:'tel',
                         anchor : '100%',
                         selectOnFocus : true
                     }]
@@ -104,7 +111,7 @@ Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
                     }]
                 }];
 
-				Ext.menu.menuForm.superclass.constructor.call(this, {
+				Ext.fleet.menuForm.superclass.constructor.call(this, {
 							labelWidth : 60,
 							baseCls : 'x-plain',
 							layout : 'column',
@@ -119,11 +126,11 @@ Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
 
 
 
-Ext.menu.menuWin = Ext.extend(Ext.Window, {
+Ext.fleet.menuWin = Ext.extend(Ext.Window, {
 			constructor : function(app) {
 				this.app = app;
-				this.form = new Ext.menu.menuForm(this);
-				Ext.menu.menuWin.superclass.constructor.call(this, {
+				this.form = new Ext.fleet.menuForm(this);
+				Ext.fleet.menuWin.superclass.constructor.call(this, {
 							width : 500,
 							plain : true,
 							showLock : true,
@@ -172,42 +179,42 @@ Ext.menu.menuWin = Ext.extend(Ext.Window, {
 		});
 
 
-Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
+Ext.fleet.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 			constructor : function(app) {
 				this.app = app;
 				// 父级目录
-				this.fatherMenu = new Ext.menu.Menu({
-							items : [{
-										text : '添加平台',
-										iconCls : 'add',
-										handler : this.onAdd,
-										scope : this
-									}, {
-										text : '修改平台',
-										iconCls : 'modify',
-										handler : this.onModify,
-										scope : this
-									}, {
-										text : '删除平台',
-										iconCls : 'delete',
-										handler : this.onDelete,
-										scope : this
-									}]
-						});
+				// this.fatherMenu = new Ext.menu.Menu({
+				// 			items : [{
+				// 						text : '添加平台',
+				// 						iconCls : 'add',
+				// 						handler : this.onAdd,
+				// 						scope : this
+				// 					}, {
+				// 						text : '修改平台',
+				// 						iconCls : 'modify',
+				// 						handler : this.onModify,
+				// 						scope : this
+				// 					}, {
+				// 						text : '删除平台',
+				// 						iconCls : 'delete',
+				// 						handler : this.onDelete,
+				// 						scope : this
+				// 					}]
+				// 		});
 				// 叶子目录
-				this.leafMenu = new Ext.menu.Menu({
-							items : [{
-										text : '修改平台',
-										iconCls : 'modify',
-										handler : this.onModify,
-										scope : this
-									}, {
-										text : '删除平台',
-										iconCls : 'delete',
-										handler : this.onDelete,
-										scope : this
-									}]
-						});
+				// this.leafMenu = new Ext.menu.Menu({
+				// 			items : [{
+				// 						text : '修改平台',
+				// 						iconCls : 'modify',
+				// 						handler : this.onModify,
+				// 						scope : this
+				// 					}, {
+				// 						text : '删除平台',
+				// 						iconCls : 'delete',
+				// 						handler : this.onDelete,
+				// 						scope : this
+				// 					}]
+				// 		});
 
 				// 工具条
 				this.tbar = ['-', {
@@ -218,12 +225,26 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 								this.getRootNode().reload()
 							},
 							scope : this
-						}, {
-							text : '查询',
-							iconCls : 'query',
-							id : 'query',
-							handler : function() {
-							},
+						},{
+							text : '新增',
+							iconCls : 'add',
+							id : 'buttonAddFleetView',
+							xtype : 'button',
+							handler : this.onAdd,
+							scope : this
+						},{
+							text : '修改',
+							iconCls : 'modify',
+							id : 'buttonModifyFleetView',
+							xtype : 'button',
+							handler : this.onModify,
+							scope : this
+						},{
+							text : '删除',
+							iconCls : 'delete',
+							id : 'buttonDelFleetView',
+							xtype : 'button',
+							handler : this.onDelete,
 							scope : this
 						}];
 				// 列
@@ -256,7 +277,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 							text : 'Root',
 							id : '0'
 						});
-				Ext.menu.tree.superclass.constructor.call(this, {
+				Ext.fleet.tree.superclass.constructor.call(this, {
 							enableDD : true,
 							region : 'center',
 							enableSort : false,// 禁用排序，不然的话咧，管你后台排序多正常，前台都要按照名称再排一遍，乱序了吧，吃瘪了吧
@@ -301,7 +322,9 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 						});
 			},
 			onAdd : function() {
-				var win = new Ext.menu.menuWin(this);
+                var node = this.getSelectionModel().getSelectedNode();
+                console.log(node);
+				var win = new Ext.fleet.menuWin(this);
 				var form = win.form.getForm();
 				win.show();
 				win.setTitle('添加平台', 'add');
@@ -312,7 +335,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 				var node = this.getSelectionModel().getSelectedNode();
 				if (node) {
 					if (!node.attributes.menuLeaf) {
-						var win = new Ext.menu.menuWin(this);
+						var win = new Ext.fleet.menuWin(this);
 						var form = win.form.getForm();
 						win.show();
 						win.setTitle('添加子平台', 'plugin_add');
@@ -325,8 +348,12 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 			},
 			onModify : function() {
 				var node = this.getSelectionModel().getSelectedNode();
+				if (node == null){
+                    Ext.ux.Toast.msg('信息', '请先选择记录');
+                    return;
+				}
 				if (node) {
-					var win = new Ext.menu.menuWin(this);
+					var win = new Ext.fleet.menuWin(this);
 					var form = win.form.getForm();
 					win.show();
 					win.setTitle('修改平台', 'modify');
@@ -334,7 +361,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 					form.findField('fleetName').setValue(node.attributes.fleetName);
 					form.findField('mobile').setValue(node.attributes.mobile);
 					form.findField('contacts').setValue(node.attributes.contacts);
-					form.findField('tel').setValue(node.attributes.tel);
+					form.findField('fleettel').setValue(node.attributes.tel);
                     form.findField('carCount').setValue(node.attributes.carCount);
                     form.findField('passengerCount').setValue(node.attributes.passengerCount);
 					if (node.attributes.fatherId == 0) {
@@ -350,6 +377,10 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 			},
 			onDelete : function() {
 				var node = this.getSelectionModel().getSelectedNode();
+                if (node == null){
+                    Ext.ux.Toast.msg('信息', '请先选择记录');
+                    return;
+                }
 				if (node.childNodes != '') {
 					Ext.ux.Toast.msg('信息', '请先删除子平台');
 					return;
@@ -361,16 +392,21 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 														id : node.id
 													})
 										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
-											this.getRootNode().reload();// 刷新当前树
-											refreshSysMenu();
+                                    		var res = Ext.decode(resp.responseText);
+                                    		if(res.success){
+                                                Ext.ux.Toast.msg('信息', '删除成功');
+                                                this.getRootNode().reload();// 刷新当前树
+                                                refreshSysMenu();
+											}else{
+                                                Ext.ux.Toast.msg('信息', '该记录已被引用，无法删除！！！');
+											}
 										}, this);
 							}
 						}, this);
 			},
 			onAddBtn : function() {
 				var node = this.getSelectionModel().getSelectedNode();
-				var win = new Ext.menu.btnWin(this);
+				var win = new Ext.fleet.btnWin(this);
 				var form = win.form.getForm();
 				win.show();
 				win.setTitle('添加按钮', 'add');
@@ -380,7 +416,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 			onModifyBtn : function() {
 				var node = this.getSelectionModel().getSelectedNode();
 				if (node) {
-					var win = new Ext.menu.btnWin(this);
+					var win = new Ext.fleet.btnWin(this);
 					var form = win.form.getForm();
 					win.show();
 					win.setTitle('修改按钮', 'modify');
@@ -415,6 +451,6 @@ var fleetView = function() {
 				id : 'fleetView',// 灰蚕重要,一定要跟方法名称一样
 				title : '服务平台管理',
 				layout : 'border',
-				items : new Ext.menu.tree(this)
+				items : new Ext.fleet.tree(this)
 			});
 }

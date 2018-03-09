@@ -47,7 +47,7 @@ public class CustomerController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "getAllCustomer.do")
 	public String getAll() {
-		this.responseModel.mount(this.customerService.getAll(), MOUNT_TYPE_JA);
+		this.responseModel.mount(this.customerService.getAll(this.requestModel.getParams()), MOUNT_TYPE_JA);
 		
 	//	JSONArray ja = JSONArray.fromObject(this.truckService.getAll(this.requestModel.getParams()));
 	//	Object swap = ja;	

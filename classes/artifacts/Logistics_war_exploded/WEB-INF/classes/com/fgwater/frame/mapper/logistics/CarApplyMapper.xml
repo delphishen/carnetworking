@@ -9,17 +9,35 @@
 
 
     <select id="query" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.loginName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
-        LEFT JOIN t_system_user u ON a.userId = u.id
-        LEFT JOIN t_archives_company c ON a.comapnyId = c.id
+        LEFT JOIN t_archives_passenger u ON a.userId = u.id
+        LEFT JOIN t_archives_company c ON a.companyId = c.id
         LEFT JOIN t_archives_driver d ON a.driverId = d.id
         LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
         LEFT JOIN t_archives_car cc ON a.plateNoId = cc.id
-        WHERE a.statuesId = #{statuesId}
+        WHERE a.activityId = #{activityId}
 
         <if test="fleetId!='root'">
-            AND a.fleetId ='0'
+            AND a.fleetId =#{fleetId}
+        </if>
+        <if test="carApplyNo!=null and carApplyNo!=''">
+            AND   a.carApplyNo like '%${carApplyNo}%'
+        </if>
+    </select>
+
+    <select id="queryAllCarApply" parameterType="HashMap" resultType="HashMap">
+        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        LEFT JOIN t_system_fleet f ON a.fleetId = f.id
+        LEFT JOIN t_archives_passenger u ON a.userId = u.id
+        LEFT JOIN t_archives_company c ON a.companyId = c.id
+        LEFT JOIN t_archives_driver d ON a.driverId = d.id
+        LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
+        LEFT JOIN t_archives_car cc ON a.plateNoId = cc.id
+        WHERE 1=1
+
+        <if test="fleetId!='root'">
+            AND a.fleetId =#{fleetId}
         </if>
         <if test="carApplyNo!=null and carApplyNo!=''">
             AND   a.carApplyNo like '%${carApplyNo}%'
@@ -28,14 +46,16 @@
 
 
 
+
+
     <select id="queryinsanity" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.loginName,c.company,d.driverName ,ct.modelName FROM t_car_apply a
+        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
-        LEFT JOIN t_system_user u ON a.userId = u.id
-        LEFT JOIN t_archives_company c ON a.comapnyId = c.id
+        LEFT JOIN t_archives_passenger u ON a.userId = u.id
+        LEFT JOIN t_archives_company c ON a.companyId = c.id
         LEFT JOIN t_archives_driver d ON a.driverId = d.id
         LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
-        WHERE a.statuesId = '1'
+        WHERE a.activityId = '1'
 
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
@@ -46,13 +66,13 @@
     </select>
 
     <select id="querydispatch" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.loginName,c.company,d.driverName ,ct.modelName FROM t_car_apply a
+        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
-        LEFT JOIN t_system_user u ON a.userId = u.id
-        LEFT JOIN t_archives_company c ON a.comapnyId = c.id
+        LEFT JOIN t_archives_passenger u ON a.userId = u.id
+        LEFT JOIN t_archives_company c ON a.companyId = c.id
         LEFT JOIN t_archives_driver d ON a.driverId = d.id
         LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
-        WHERE a.statuesId = '2'
+        WHERE a.activityId = '2'
 
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
@@ -66,9 +86,12 @@
         SELECT l.*,u.loginName ,f.fleetName FROM  t_car_approve_log l
         LEFT JOIN t_system_user u  ON l.userId = u.id
         LEFT JOIN t_system_fleet f ON l.fleetId = f.id
-
+        WHERE  1=1
         <if test="fleetId!='root'">
-            WHERE l.fleetId =#{fleetId}
+            AND l.fleetId =#{fleetId}
+        </if>
+        <if test="userId!=null and userId!=''">
+            AND   l.userId =#{userId}
         </if>
     </select>
 
@@ -78,10 +101,14 @@
         LEFT JOIN t_system_fleet f ON dl.fleetId = f.id
         LEFT JOIN t_archives_car c ON dl.plateNoId = c.id
         LEFT JOIN t_archives_driver d ON dl.driverId = d.id
-        LEFT JOIN t_system_user u ON dl.employeeId = u.id
+        LEFT JOIN t_system_user u ON dl.userId = u.id
+        WHERE 1=1
 
         <if test="fleetId!='root'">
-            WHERE dl.fleetId =#{fleetId}
+            AND dl.fleetId =#{fleetId}
+        </if>
+        <if test="userId!=null and userId!=''">
+            AND   dl.userId =#{userId}
         </if>
     </select>
 
@@ -92,7 +119,7 @@
     <update id="updateTable" parameterType="CarApply">
 
       UPDATE t_car_apply
-      SET statuesId = '1'
+      SET activityId = '1'
       WHERE carApplyNo=#{carApplyNo}
 
 
@@ -102,7 +129,7 @@
     <update id="savecarApply" parameterType="CarApply">
 
         UPDATE t_car_apply
-        SET statuesId = '2',driverId=#{driverId},plateNoId=#{plateNoId}
+        SET activityId = '2',driverId=#{driverId},plateNoId=#{plateNoId}
         WHERE carApplyNo=#{carApplyNo}
 
 

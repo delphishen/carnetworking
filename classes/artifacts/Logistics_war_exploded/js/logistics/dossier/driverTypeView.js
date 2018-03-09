@@ -280,8 +280,15 @@ Ext.driverType.grid = Ext.extend(Ext.grid.GridPanel, {
 								Ext.eu.ajax(path + '/logistics/deletedriverType.do', {
 											driverTypes : Ext.encode(ary)
 										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
-											this.getStore().reload();
+
+                                    var res = Ext.decode(resp.responseText);
+                                    if(res.success){
+                                        Ext.ux.Toast.msg('信息', '删除成功');
+                                        this.getStore().reload();
+									}else{
+                                        Ext.ux.Toast.msg('信息', '该记录已被引用，无法删除！！！');
+									}
+
 										}, this);
 							}
 						}, this);

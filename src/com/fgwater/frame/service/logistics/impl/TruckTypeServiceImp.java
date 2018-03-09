@@ -45,6 +45,7 @@ public class TruckTypeServiceImp extends BaseServiceImpl implements TruckTypeSer
 		Map<String, String> map = this.toMap(jo);
 		
 		int count = this.truckTypeMapper.checkTruckTypeName(map);
+
 		if (count == 0) {		
 			if (StrUtils.isNullOrEmpty(map.get("id"))) {
 				map.put("id", UUIDUtils.getUUID());

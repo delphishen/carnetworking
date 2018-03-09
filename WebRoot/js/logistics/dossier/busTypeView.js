@@ -300,7 +300,12 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 								Ext.eu.ajax(path + '/logistics/deleteBusType.do', {
 											busTypes : Ext.encode(ary)
 										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
+                                    var res = Ext.decode(resp.responseText);
+                                    if(res.success) {
+                                        Ext.ux.Toast.msg('信息', '删除成功');
+                                    }else {
+                                        Ext.ux.Toast.msg('信息', '该记录已被引用，无法删除！！！');
+									}
 											this.getStore().reload();
 										}, this);
 							}
@@ -320,8 +325,9 @@ Ext.busType.queryPanel = Ext.extend(Ext.FormPanel, {
                     width : 180,
                     items : [{
                         xtype : 'textfield',
-                        fieldLabel : '车牌号',
-                        id : 'plateNo',
+                        fieldLabel : '业务类型',
+                        id : 'charteredBustype',
+                        name : 'charteredBusType',
                         anchor : '90%'
                     }]
                 },{

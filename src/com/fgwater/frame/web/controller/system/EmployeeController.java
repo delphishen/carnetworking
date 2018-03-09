@@ -73,7 +73,20 @@ public class EmployeeController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "deleteEmployee.do")
 	public String delete() {
-		this.employeeService.delete(this.getEmployees());
+
+		try {
+			this.employeeService.delete(this.getEmployees());
+		}catch (Exception e){
+			System.out.println("----------异常报告----------"+e.getMessage());
+			JSONObject jo = new JSONObject();
+			jo.put("success", false);
+			jo.put("msg", "error");
+			return  jo.toString();
+
+
+		}
+		//this.employeeService.delete(this.getEmployees());
+		System.out.println("---------------没吟唱----------------------");
 		return this.responseModel.serial();
 	}
 

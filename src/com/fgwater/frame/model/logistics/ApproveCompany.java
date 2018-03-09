@@ -22,6 +22,9 @@ public class ApproveCompany extends BaseModel {
 	@Column
 	private String  companyId;
 
+	@Column
+	private String  fleetId;
+
 
 	public String getId() {
 		return id;
@@ -45,5 +48,13 @@ public class ApproveCompany extends BaseModel {
 
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getFleetId() {
+		return fleetId;
+	}
+
+	public void setFleetId(String fleetId) {
+		this.fleetId = fleetId;
 	}
 }

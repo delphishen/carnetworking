@@ -18,6 +18,6 @@ public interface ApplyTypeMapper extends BaseMapper<ApplyType> {
     public void deleteTable(Map<String, String> map);
 
 
-
+    public int chekById(ApplyType applyType);
 
 }

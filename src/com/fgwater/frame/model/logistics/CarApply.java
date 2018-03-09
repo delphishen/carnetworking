@@ -20,7 +20,7 @@ public class CarApply extends BaseModel {
 	@Column
 	private String  userId;
 	@Column
-	private String  comapnyId;
+	private String  companyId;
 
 	@Column
 	private  String privateOrPublic;
@@ -92,12 +92,12 @@ public class CarApply extends BaseModel {
 		this.userId = userId;
 	}
 
-	public String getComapnyId() {
-		return comapnyId;
+	public String getCompanyId() {
+		return companyId;
 	}
 
-	public void setComapnyId(String comapnyId) {
-		this.comapnyId = comapnyId;
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 
 	public String getPrivateOrPublic() {

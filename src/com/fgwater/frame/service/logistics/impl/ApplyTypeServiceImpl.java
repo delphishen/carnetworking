@@ -11,6 +11,7 @@ import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.BusTypeService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("applyTypeService")
+@Transactional
 public class ApplyTypeServiceImpl extends BaseServiceImpl implements ApplyTypeService {
 
 	@Resource
@@ -47,9 +49,9 @@ public class ApplyTypeServiceImpl extends BaseServiceImpl implements ApplyTypeSe
 
 
 
-
 	public boolean saveOrUpdateBusType(ApplyType applyType) {
-		int count = this.applyTypeMapper.check(applyType, "settlement");
+		//int count = this.applyTypeMapper.check(applyType, "settlement");
+		 int count = this.applyTypeMapper.chekById(applyType);
 		if (count == 0) {
 			if (StrUtils.isNullOrEmpty(applyType.getId())) {
 				applyType.setId(UUIDUtils.getUUID());

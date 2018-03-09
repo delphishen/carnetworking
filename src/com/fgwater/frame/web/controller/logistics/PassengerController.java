@@ -57,6 +57,19 @@ public class PassengerController extends BaseController {
 	}
 
 
+
+	@ResponseBody
+	@RequestMapping(value = "queryPassengerById.do")
+	public String queryPassengerById() {
+
+		this.responseModel.mount(this.passengerService.queryPassengerById(this.requestModel
+				.getParams()), MOUNT_TYPE_PAGING);
+
+		return this.responseModel.serial();
+	}
+
+
+
 	@ResponseBody
 	@RequestMapping(value = "deletePassenger.do")
 	public String delete() {

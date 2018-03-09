@@ -1,6 +1,6 @@
-Ext.namespace('Ext.menu');
+Ext.namespace('Ext.company');
 
-Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
+Ext.company.menuForm = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
@@ -96,7 +96,8 @@ Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
                     items : [{
                         fieldLabel : '联系电话',
                         xtype : 'textfield',
-                        id : 'tel',
+                        id : 'companytel',
+						name:'tel',
                         anchor : '100%',
                         selectOnFocus : true
                     }]
@@ -111,7 +112,7 @@ Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
                     }]
                 }];
 
-				Ext.menu.menuForm.superclass.constructor.call(this, {
+				Ext.company.menuForm.superclass.constructor.call(this, {
 							labelWidth : 60,
 							baseCls : 'x-plain',
 							layout : 'column',
@@ -126,14 +127,14 @@ Ext.menu.menuForm = Ext.extend(Ext.FormPanel, {
 
 
 
-Ext.menu.menuWin = Ext.extend(Ext.Window, {
+Ext.company.menuWin = Ext.extend(Ext.Window, {
 			constructor : function(app) {
 				this.app = app;
 
 
 
-				this.form = new Ext.menu.menuForm(this);
-				Ext.menu.menuWin.superclass.constructor.call(this, {
+				this.form = new Ext.company.menuForm(this);
+				Ext.company.menuWin.superclass.constructor.call(this, {
 							width : 500,
 							plain : true,
 							showLock : true,
@@ -182,65 +183,79 @@ Ext.menu.menuWin = Ext.extend(Ext.Window, {
 		});
 
 
-Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
+Ext.company.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 			constructor : function(app) {
 				this.app = app;
 				// 父级目录
-				this.fatherMenu = new Ext.menu.Menu({
-							items : [{
-										text : '添加机构',
-										iconCls : 'add',
-										handler : this.onAdd,
-										scope : this
-									}, {
-										text : '添加子机构',
-										iconCls : 'plugin_add',
-										handler : this.onAddChild,
-										scope : this
-									},{
-										text : '修改机构',
-										iconCls : 'modify',
-										handler : this.onModify,
-										scope : this
-									}, {
-										text : '删除机构',
-										iconCls : 'delete',
-										handler : this.onDelete,
-										scope : this
-									}]
-						});
+				// this.fatherMenu = new Ext.company.Menu({
+				// 			items : [{
+				// 						text : '添加机构',
+				// 						iconCls : 'add',
+				// 						handler : this.onAdd,
+				// 						scope : this
+				// 					}, {
+				// 						text : '添加子机构',
+				// 						iconCls : 'plugin_add',
+				// 						handler : this.onAddChild,
+				// 						scope : this
+				// 					},{
+				// 						text : '修改机构',
+				// 						iconCls : 'modify',
+				// 						handler : this.onModify,
+				// 						scope : this
+				// 					}, {
+				// 						text : '删除机构',
+				// 						iconCls : 'delete',
+				// 						handler : this.onDelete,
+				// 						scope : this
+				// 					}]
+				// 		});
 				// 叶子目录
-				this.leafMenu = new Ext.menu.Menu({
-							items : [{
-										text : '修改机构',
-										iconCls : 'modify',
-										handler : this.onModify,
-										scope : this
-									}, {
-										text : '删除机构',
-										iconCls : 'delete',
-										handler : this.onDelete,
-										scope : this
-									}]
-						});
+				// this.leafMenu = new Ext.company.Menu({
+				// 			items : [{
+				// 						text : '修改机构',
+				// 						iconCls : 'modify',
+				// 						handler : this.onModify,
+				// 						scope : this
+				// 					}, {
+				// 						text : '删除机构',
+				// 						iconCls : 'delete',
+				// 						handler : this.onDelete,
+				// 						scope : this
+				// 					}]
+				// 		});
 
 				// 工具条
 				this.tbar = ['-', {
-							text : '刷新',
-							iconCls : 'refresh',
-							id : 'menusRefreshBtn',
-							handler : function() {
-								this.getRootNode().reload()
-							},
-							scope : this
-						}, {
-							text : '查询',
-							iconCls : 'query',
-							id : 'query',
-							handler : function() {
-							},
-							scope : this
-						}];
+								text : '刷新',
+								iconCls : 'refresh',
+								id : 'menusRefreshBtn',
+								handler : function() {
+									this.getRootNode().reload()
+								},
+								scope : this
+							},{
+								text : '新增',
+								iconCls : 'add',
+								id : 'buttonAddCompanyView',
+								xtype : 'button',
+								handler : this.onAdd,
+								scope : this
+							},{
+								text : '修改',
+								iconCls : 'modify',
+								id : 'buttonModifyCompanyView',
+								xtype : 'button',
+								handler : this.onModify,
+								scope : this
+							},{
+								text : '删除',
+								iconCls : 'delete',
+								id : 'buttonDelCompanyView',
+								xtype : 'button',
+								handler : this.onDelete,
+								scope : this
+							}];
 				// 列
 				this.columns = [{
 							header : '单位编号',
@@ -267,7 +282,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 							text : 'Root',
 							id : '0'
 						});
-				Ext.menu.tree.superclass.constructor.call(this, {
+				Ext.company.tree.superclass.constructor.call(this, {
 							enableDD : true,
 							region : 'center',
 							enableSort : false,// 禁用排序，不然的话咧，管你后台排序多正常，前台都要按照名称再排一遍，乱序了吧，吃瘪了吧
@@ -314,18 +329,40 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 						});
 			},
 			onAdd : function() {
-				var win = new Ext.menu.menuWin(this);
+				var win = new Ext.company.menuWin(this);
 				var form = win.form.getForm();
-				win.show();
-				win.setTitle('添加机构', 'add');
-				form.findField('fatherText').setValue('Root');
-				form.findField('fatherId').setValue(0);
+                var node = this.getSelectionModel().getSelectedNode();
+                if(node == null){
+                    win.show();
+                    win.setTitle('添加机构', 'add');
+                    form.findField('fatherText').setValue('Root');
+                    form.findField('fatherId').setValue(0);
+				}else {
+                    if (!node.attributes.menuLeaf) {
+                        var win = new Ext.company.menuWin(this);
+                        var form = win.form.getForm();
+                        Ext.getCmp('fleetName').hidden=true;
+                        win.show();
+                        win.setTitle('添加子机构', 'plugin_add');
+                        form.findField('fatherText').setValue(node.attributes.company);
+                        form.findField('fatherId').setValue(node.attributes.id);
+                        form.findField('fleetId').setValue(node.attributes.fleetId);
+                        form.findField('fleetName').setValue(node.attributes.fleetName);
+                    } else {
+                        Ext.ux.Toast.msg('信息', '叶子节点不允许添加子节点，请先修改当前节点为非叶子属性');
+                    }
+
+
+
+				}
+
+
 			},
 			onAddChild : function() {
 				var node = this.getSelectionModel().getSelectedNode();
 				if (node) {
 					if (!node.attributes.menuLeaf) {
-						var win = new Ext.menu.menuWin(this);
+						var win = new Ext.company.menuWin(this);
 						var form = win.form.getForm();
                         Ext.getCmp('fleetName').hidden=true;
 						win.show();
@@ -343,7 +380,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 				var node = this.getSelectionModel().getSelectedNode();
 				console.log(node);
 				if (node) {
-					var win = new Ext.menu.menuWin(this);
+					var win = new Ext.company.menuWin(this);
 					var form = win.form.getForm();
 					win.show();
 					win.setTitle('修改机构信息', 'modify');
@@ -351,7 +388,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
                     form.findField('fleetId').setValue(node.attributes.fleetId);
 					form.findField('companyNo').setValue(node.attributes.companyNo);
 					form.findField('company').setValue(node.attributes.company);
-					form.findField('tel').setValue(node.attributes.tel);
+					form.findField('companytel').setValue(node.attributes.tel);
 					form.findField('address').setValue(node.attributes.address);
                     form.findField('fleetName').setValue(node.attributes.fleetName);
 					if (node.attributes.fatherId == 0) {
@@ -394,7 +431,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 			},
 			onAddBtn : function() {
 				var node = this.getSelectionModel().getSelectedNode();
-				var win = new Ext.menu.btnWin(this);
+				var win = new Ext.company.btnWin(this);
 				var form = win.form.getForm();
 				win.show();
 				win.setTitle('添加按钮', 'add');
@@ -404,7 +441,7 @@ Ext.menu.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 			onModifyBtn : function() {
 				var node = this.getSelectionModel().getSelectedNode();
 				if (node) {
-					var win = new Ext.menu.btnWin(this);
+					var win = new Ext.company.btnWin(this);
 					var form = win.form.getForm();
 					win.show();
 					win.setTitle('修改按钮', 'modify');
@@ -439,6 +476,6 @@ var companyView = function() {
 				id : 'companyView',// 灰蚕重要,一定要跟方法名称一样
 				title : '单位机构管理',
 				layout : 'border',
-				items : new Ext.menu.tree(this)
+				items : new Ext.company.tree(this)
 			});
 }

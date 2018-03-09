@@ -10,7 +10,7 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 					idProperty : 'id',
 					root : 'rows',
 					totalProperty : 'results',
-					fields : ['id',  'userId','companyId','loginName','company'],
+					fields : ['id',  'userId','companyId','loginName','company','fleetId','fleetName'],
 					autoDestroy : true,
 					autoLoad : true,
 					baseParams : {
@@ -63,6 +63,10 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex : 'id',
                 hidden : true
             }, {
+                header : 'fleetId',
+                dataIndex : 'fleetId',
+                hidden : true
+            },{
                 header : 'userId',
                 dataIndex : 'userId',
                 hidden : true
@@ -76,6 +80,9 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
             }, {
                 header : '单位机构',
                 dataIndex : 'company'
+            }, {
+                header : '所属平台',
+                dataIndex : 'fleetName'
             }]
         });
 		// 菜单条
@@ -145,6 +152,9 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 		win.form.getForm().findField('companyId').setValue(this.cq.companyId);
 		win.form.getForm().findField('userName').setValue(this.cq.loginName);
 		win.form.getForm().findField('company').setValue(this.cq.company);
+
+        win.form.getForm().findField('fleetId').setValue(this.cq.fleetId);
+        win.form.getForm().findField('fleetName').setValue(this.cq.fleetName);
 
 		win.setTitle('修改权限管理', 'modify');
 		win.show();

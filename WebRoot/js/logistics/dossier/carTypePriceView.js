@@ -16,6 +16,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
             editable: false,
             onTriggerClick: function (e) {
                 var val = Ext.getCmp("fleetName").value;
+                basefleedId = Ext.getCmp('fleetId').getValue();
                 if(val ==null && val == undefined){
                     Ext.ux.Toast.msg("信息", "请先选择所属平台");
                 }else {
@@ -46,15 +47,22 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
             allowBlank: false,
             editable: false,
             onTriggerClick: function (e) {
-                new truckTypeSelector(function (id, name) {
-                    this.setValue(name);
-                    Ext.getCmp('carTtypeId').setValue(id);
-                    //	if(Ext.getCmp('loginName').getValue != ''){
-                    //		Ext.getCmp('loginName').setValue(name);
-                    //	}
+                basefleedId = Ext.getCmp('fleetId').getValue();
+                var val = Ext.getCmp("fleetName").value;
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new truckTypeSelector(function (id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('carTtypeId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
 
 
-                }, true, this);
+                    }, true, this);
+                }
+
             },
             scope: this
         });

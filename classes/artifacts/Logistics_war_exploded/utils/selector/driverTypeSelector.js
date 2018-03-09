@@ -8,7 +8,7 @@ Ext.driverTypeSelector.form = Ext.extend(Ext.FormPanel, {
 							items : [{
 										fieldLabel : '已选类型',
 										xtype : 'textarea',
-										id : 'driverType',
+										id : 'driverTypeselector',
 										anchor : '100%',
 										readOnly : true,
 										style : 'background:#E6E6E6'
@@ -77,7 +77,7 @@ Ext.driverTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								win.empId.push(record.get('id'));
 								win.empName.push(record.get('driverType'));
 							}
-							win.form.getForm().findField('driverType')
+							win.form.getForm().findField('driverTypeselector')
 									.setValue(win.empName.toString());
 						},
 						'rowdeselect' : function(sm, index, record) {
@@ -87,7 +87,7 @@ Ext.driverTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							win.empName.splice(jQuery.inArray(record
 													.get('driverType'), win.empName),
 									1);
-							win.form.getForm().findField('driverType')
+							win.form.getForm().findField('driverTypeselector')
 									.setValue(win.empName.toString());
 						},
 						scope : this

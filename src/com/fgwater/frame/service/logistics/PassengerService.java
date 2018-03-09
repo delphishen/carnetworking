@@ -17,5 +17,8 @@ public interface PassengerService extends BaseService {
 
     public void deleteTable(List<Passenger> passengers);
 
+    public List<Map<String ,String>> queryPassengerById(Map<String, String> params);
+
+
 }
 

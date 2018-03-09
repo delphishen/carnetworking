@@ -21,10 +21,26 @@
 		FROM t_car_apply_settlement t
 		LEFT JOIN t_system_fleet f
 		ON t.fleetId = f.id
+		WHERE  1=1
 		<if test="fleetId!='root'">
-			where fleetId =#{fleetId}
+			AND fleetId =#{fleetId}
 		</if>
+		<if test="settlement!=null and settlement!=''">
+			AND settlement =#{settlement}
+		</if>
+
 </select>
+
+
+
+
+	<select id="chekById" parameterType="ApplyType" resultType="int">
+
+	SELECT COUNT(*) FROM t_car_apply_settlement
+	 WHERE fleetId = #{fleetId}
+	 AND settlement = #{settlement}
+
+	</select>
 
 
 

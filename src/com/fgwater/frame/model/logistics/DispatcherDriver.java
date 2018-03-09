@@ -22,6 +22,9 @@ public class DispatcherDriver extends BaseModel {
 	@Column
 	private String  driverId;
 
+	@Column
+	private String  fleetId;
+
 
 	public String getId() {
 		return id;
@@ -45,5 +48,13 @@ public class DispatcherDriver extends BaseModel {
 
 	public void setDriverId(String driverId) {
 		this.driverId = driverId;
+	}
+
+	public String getFleetId() {
+		return fleetId;
+	}
+
+	public void setFleetId(String fleetId) {
+		this.fleetId = fleetId;
 	}
 }

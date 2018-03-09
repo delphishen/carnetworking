@@ -230,6 +230,11 @@ App.importJs = {
 
     /** *************************订单管理*************************** */
     orderView : [path + '/js/logistics/dossier/orderView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/driverSelector.js',
+        path + '/utils/selector/truckSelector.js',
+        path + '/utils/selector/passengerSelector.js'
+
     ],
 
     /** *************************乘客端管理*************************** */

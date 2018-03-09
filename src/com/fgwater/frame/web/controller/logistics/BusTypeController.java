@@ -63,7 +63,16 @@ public class BusTypeController extends BaseController {
 	@RequestMapping(value = "deleteBusType.do")
 	public String delete() {
 		System.out.println("==============获取包车业务类型list============="+this.getBusTypes());
-		this.busTypeService.deleteTable(this.getBusTypes());
+		try {
+			this.busTypeService.deleteTable(this.getBusTypes());
+		}catch (Exception e){
+
+			JSONObject jo = new JSONObject();
+			jo.put("success", false);
+			jo.put("msg", "ok");
+			return jo.toString();
+		}
+
 		return this.responseModel.serial();
 	}
 

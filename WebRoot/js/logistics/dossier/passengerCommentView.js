@@ -319,7 +319,8 @@ Ext.passengerComment.queryPanel = Ext.extend(Ext.FormPanel, {
                     items : [{
                         xtype : 'textfield',
                         fieldLabel : '司机姓名',
-                        id : 'driverName',
+                        id : 'driverNamepassenger',
+						name:'driverName',
                         anchor : '90%'
                     }]
                 },
@@ -328,7 +329,8 @@ Ext.passengerComment.queryPanel = Ext.extend(Ext.FormPanel, {
                         items : [{
                             xtype : 'textfield',
                             fieldLabel : '车牌号',
-                            id : 'plateNo',
+                            id : 'plateNopassenger',
+							name:'plateNo',
                             anchor : '90%'
                         }]
                     },

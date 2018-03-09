@@ -27,7 +27,7 @@ public class CarTypePrice extends BaseModel {
 	@Column
 	private  String carTtypeId;
 	@Column
-	private float  ascription;
+	private String  ascription;
 	@Column
 	private int  startPrice;
 
@@ -99,11 +99,11 @@ public class CarTypePrice extends BaseModel {
 		this.carTtypeId = carTtypeId;
 	}
 
-	public float getAscription() {
+	public String getAscription() {
 		return ascription;
 	}
 
-	public void setAscription(float ascription) {
+	public void setAscription(String ascription) {
 		this.ascription = ascription;
 	}
 

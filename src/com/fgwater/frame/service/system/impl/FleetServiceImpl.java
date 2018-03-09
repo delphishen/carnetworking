@@ -72,6 +72,39 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 			return this.getchildren(ja,params, new JSONArray());
 	}
 
+	@Override
+	public JSONArray getTreeFleetApprove(Map<String, String> params) {
+		JSONArray ja = JSONArray.fromObject(this.fleetMapper.getTreeFleetList(params));
+		System.out.println("==========================ja=============="+ja);
+		return this.getchildrenapp(ja,params, new JSONArray());
+	}
+
+	private JSONArray getchildrenapp(JSONArray ja,Map<String, String> params, JSONArray jsonArray) {
+
+		for (int i =0; i<ja.size();i++){
+			JSONObject jo = ja.getJSONObject(i);
+			JSONArray children = new JSONArray();
+			List<User> userList = this.userMapper.getUserByRemarkApprove(jo.getString("id"));
+			for (int j=0;j<userList.size();j++){
+				JSONObject cjo = JSONObject.fromObject(userList.get(j));
+				cjo.put("leaf",true);
+				children.add(cjo);
+
+			}
+
+			jo.put("leaf",false);
+			jo.put("expanded",true);
+			jo.put("children",children);
+
+
+			jsonArray.add(jo);
+
+		}
+
+		return  jsonArray;
+	}
+
+
 	private JSONArray getchildren(JSONArray ja,Map<String, String> params, JSONArray jsonArray) {
 
 			for (int i =0; i<ja.size();i++){

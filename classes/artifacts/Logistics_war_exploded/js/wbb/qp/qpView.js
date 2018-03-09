@@ -10,7 +10,7 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',
-							fields : ['id',  'userId','driverId','loginName','driverName'],
+							fields : ['id',  'userId','driverId','loginName','driverName','fleetId','fleetName'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -64,6 +64,10 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
                         dataIndex : 'id',
                         hidden : true
                     }, {
+                        header : 'fleetId',
+                        dataIndex : 'fleetId',
+                        hidden : true
+                    },{
                         header : 'userId',
                         dataIndex : 'userId',
                         hidden : true
@@ -77,6 +81,9 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
                     }, {
                         header : '司机姓名',
                         dataIndex : 'driverName'
+                    }, {
+                        header : '所属平台',
+                        dataIndex : 'fleetName'
                     }]
                 });
 				// 菜单条
@@ -148,6 +155,11 @@ Ext.qp.grid = Ext.extend(Ext.grid.GridPanel, {
 				win.form.getForm().findField('driverId').setValue(this.qp.driverId);
 				win.form.getForm().findField('userName').setValue(this.qp.loginName);
 				win.form.getForm().findField('driverName').setValue(this.qp.driverName);
+
+                win.form.getForm().findField('fleetId').setValue(this.qp.fleetId);
+                win.form.getForm().findField('fleetName').setValue(this.qp.fleetName);
+
+
                 win.setTitle('修改司机调度信息', 'modify');
 
 				win.show();

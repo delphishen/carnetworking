@@ -21,7 +21,8 @@ public interface UserService extends BaseService {
 	public void delete(List<User> users);
 	
 	public boolean resetPassword(User user);
-	
-		
+
+
+	public List<User> getUserByFleetId(Map<String, String> params);
 
 }

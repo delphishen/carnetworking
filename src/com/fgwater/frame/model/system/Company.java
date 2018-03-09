@@ -43,10 +43,6 @@ public class Company extends BaseModel {
 	private String address;
 
 
-	@Column
-	private String text;
-
-
 
 	public String getId() {
 		return id;
@@ -112,12 +108,4 @@ public class Company extends BaseModel {
 		this.fleetName = fleetName;
 	}
 
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
 }

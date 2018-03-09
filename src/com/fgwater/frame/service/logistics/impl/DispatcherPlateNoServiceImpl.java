@@ -48,6 +48,7 @@ public class DispatcherPlateNoServiceImpl extends BaseServiceImpl implements Dis
 				diss.setId(UUIDUtils.getUUID());
 				diss.setUserId(dispatcherPlateNo.getUserId());
 				diss.setPlateNoId(dis);
+				diss.setFleetId(dispatcherPlateNo.getFleetId());
 				this.dispatcherPlateNoMapper.insert(diss);
 			}
 		}else {

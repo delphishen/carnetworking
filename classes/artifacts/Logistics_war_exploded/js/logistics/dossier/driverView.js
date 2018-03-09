@@ -153,7 +153,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
                 fieldLabel : '最近评分',
-                xtype : 'textfield',
+                xtype : 'numberfield',
                 name : 'score',
                 anchor : '98%',
                 selectOnFocus : true
@@ -224,10 +224,13 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
                 fieldLabel : '电话',
-                xtype : 'textfield',
-                name : 'tel',
+                xtype : 'numberfield',
+                id : 'tel',
                 anchor : '98%',
-                selectOnFocus : true
+                selectOnFocus : true,
+                regex:/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/,
+                regexText:'请输入正确的手机号码',
+                allowBlank : false
             }]
         }, {
             columnWidth : 1,
@@ -580,7 +583,8 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
             items : [{
                 xtype : 'textfield',
                 fieldLabel : '电话',
-                id : 'tel',
+                id : 'tel1',
+                name:'tel',
                 anchor : '90%'
             }]
         }, {

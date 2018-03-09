@@ -39,7 +39,7 @@ Ext.empSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					idProperty : 'id',
 					root : 'rows',
 					totalProperty : 'results',
-					fields : ['id', 'name', 'type', 'phone', 'remark'],
+					fields : ['id', 'name',  'phone', 'remark'],
 					autoDestroy : true,
 					autoLoad : true,
 					baseParams : {
@@ -102,22 +102,11 @@ Ext.empSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								header : '名称',
 								dataIndex : 'name'
 							}, {
-								header : '员工类型',
-								dataIndex : 'type',
-								renderer : function(val) {
-									if (val == 1) {
-										return '调度员';
-									} else if (val == 2){
-										return '业务员';
-									}else if (val == 3){
-										return '经理';
-									}else if (val == 4){
-										return '其它';
-									}
-								}
-							}, {
 								header : '联系电话',
 								dataIndex : 'phone'
+							}, {
+								header : '备注',
+								dataIndex : 'remark'
 							}]
 				});
 		// 菜单条

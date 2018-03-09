@@ -19,7 +19,7 @@
 	<select id="query" parameterType="HashMap" resultType="HashMap">
 	SELECT t.*, f.fleetName
 	FROM t_charteredBus_type t
-	LEFT JOIN t_system_fleet f
+	INNER JOIN  t_system_fleet f
 	ON t.fleetId = f.id
 	<if test="fleetId!='root'">
 		where fleetId =#{fleetId}

@@ -22,6 +22,9 @@ Ext.truckType.form = Ext.extend(Ext.FormPanel, {
 					xtype : 'hidden',
 					id : 'id'
 				}, {
+                    xtype : 'hidden',
+                    id : 'fleetId'
+                }, {
 					columnWidth : 1,
 					labelWidth : 60,
 					items : [{
@@ -35,11 +38,11 @@ Ext.truckType.form = Ext.extend(Ext.FormPanel, {
 					columnWidth : 1,
 					labelWidth : 60,
 					items : [{
-						id:'fleetId',
+						id:'fleetName',
 						fieldLabel : '所属平台',
 						width : 60,
 						xtype : 'combo',
-						hiddenName : 'fleetId',
+						hiddenName : 'fleetName',
 						submitValue : false,
 						anchor : '98%',
 						editable : false,
@@ -47,11 +50,12 @@ Ext.truckType.form = Ext.extend(Ext.FormPanel, {
 						triggerAction : 'all',
 						mode : 'local',
 						store : this.fleetTypeDS,
-						valueField : 'id',
+						valueField : 'fleetName',
 						displayField : 'fleetName',
 						listeners : {
 							'select' : function(combo, record) {
 								console.log(record);
+                                this.getForm().findField('fleetId').setValue(record.data.id);
 								//this.getForm().findField('fleetId').setValue(record.data.id);
 							},
 							scope : this
@@ -294,7 +298,8 @@ Ext.truckType.grid = Ext.extend(Ext.grid.GridPanel, {
 				var form = win.form.getForm();
 				win.setTitle('修改车辆类型信息', 'modify');
 				form.findField('id').setValue(select.id);
-				form.findField('fleetId').setValue(select.fleetName);
+				form.findField('fleetId').setValue(select.fleetId);
+                form.findField('fleetName').setValue(select.fleetName);
 				form.findField('modelName').setValue(select.modelName);
 				form.findField('seatNumber').setValue(select.seatNumber);
 				form.findField('approvedPassengersCapacity').setValue(select.approvedPassengersCapacity);
@@ -322,7 +327,14 @@ Ext.truckType.grid = Ext.extend(Ext.grid.GridPanel, {
 								Ext.eu.ajax(path + '/logistics/deleteTruckType.do', {
 											truckTypes : Ext.encode(ary)
 										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
+                                    		var res = Ext.decode(resp.responseText);
+                                    		if(res.success){
+                                                Ext.ux.Toast.msg('信息', '删除成功');
+											}else {
+                                                Ext.ux.Toast.msg('信息', '删除失败,该记录已被引用');
+											}
+
+
 											this.getStore().reload();
 										}, this);
 							}

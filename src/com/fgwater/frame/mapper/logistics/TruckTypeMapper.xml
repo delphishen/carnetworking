@@ -46,12 +46,15 @@
 	</update>
 	
 	<delete id="deleteTable" parameterType="HashMap">
-		<!--  -->
 		delete from t_archives_car_type where id=#{id} 
 	</delete>
 	
 	<select id="checkTruckTypeName" parameterType="HashMap" resultType="Integer">
-		select count(*) from t_archives_car_type where id!=#{id} and modelName=#{modelName}
+		select count(*) from t_archives_car_type where fleetId=#{fleetId} and modelName=#{modelName}
+		<if test="id!=null and id!=''">
+			and id !=#{id}
+		</if>
+
 	</select>	
 
 

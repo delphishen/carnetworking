@@ -28,13 +28,6 @@ public class PassengerServiceImpl extends BaseServiceImpl implements PassengerSe
 
 
 
-
-
-
-
-
-
-
 	@SuppressWarnings("unchecked")
 	private Map<String, String> toMap(JSONObject jo) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -66,6 +59,8 @@ public class PassengerServiceImpl extends BaseServiceImpl implements PassengerSe
 		return this.passengerMapper.query(params);
 	}
 
+
+
 	@Override
 	public void deleteTable(List<Passenger> passengers) {
 
@@ -75,5 +70,10 @@ public class PassengerServiceImpl extends BaseServiceImpl implements PassengerSe
 			this.passengerMapper.deleteTable(map);
 		}
 
+	}
+
+	@Override
+	public List<Map<String, String>> queryPassengerById(Map<String, String> params) {
+		return this.passengerMapper.queryPassengerById(params);
 	}
 }

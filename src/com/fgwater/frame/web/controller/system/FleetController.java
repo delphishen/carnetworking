@@ -68,7 +68,15 @@ public class FleetController extends BaseController {
 	@RequestMapping(value = "deleteFleet.do")
 	public String delete() {
 		System.out.println("==============deletefleet============="+this.getFleet());
-		this.fleetService.delete(this.getFleet());
+		try {
+			this.fleetService.delete(this.getFleet());
+		}catch (Exception e){
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("success", false);
+			jsonObject.put("msg", "ok");
+			return  jsonObject.toString();
+		}
+
 		return this.responseModel.serial();
 	}
 

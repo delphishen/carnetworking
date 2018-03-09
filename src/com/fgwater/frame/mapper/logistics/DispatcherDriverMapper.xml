@@ -17,15 +17,16 @@
 
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		SELECT d.*,u.loginName,dr.driverName FROM t_archives_dispatcher_driver d
+		SELECT d.*,u.loginName,dr.driverName,f.fleetName FROM t_archives_dispatcher_driver d
 		LEFT JOIN t_system_user  u ON u.id= d.userId
 		LEFT JOIN t_archives_driver dr ON  dr.id = d.driverId
-		<if test="fleetId!='root'">
-			INNER JOIN (SELECT * FROM t_system_user WHERE fleetId = #{fleetId}) fu ON fu.id =  d.userId
-		</if>
+		LEFT JOIN t_system_fleet f ON f.id = d.fleetId
 		where 1=1
 		<if test="userId!=null and userId!=''">
 			and userId = '${userId}'
+		</if>
+		<if test="fleetId!='root'">
+			AND d.fleetId =#{fleetId}
 		</if>
 </select>
 

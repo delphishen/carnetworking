@@ -32,4 +32,8 @@ public interface UserMapper extends BaseMapper<User> {
 
 	public List<User> getUserByRemark(String id);
 
+	public List<User> getUserByFleetId(Map<String, String> params);
+
+	public List<User> getUserByRemarkApprove(String id);
+
 }

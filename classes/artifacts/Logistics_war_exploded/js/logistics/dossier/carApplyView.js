@@ -213,7 +213,7 @@ Ext.carApply.grid = Ext.extend(Ext.grid.GridPanel, {
             root: 'rows',
             totalProperty: 'results',
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime', 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost'
-                ,'budgetKilometres', 'content', 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'loginName','company','driverName','modelName'],
+                ,'budgetKilometres', 'content', 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'passengerName','company','driverName','modelName'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -270,7 +270,7 @@ Ext.carApply.grid = Ext.extend(Ext.grid.GridPanel, {
                     dataIndex: 'carApplyNo'
             },{
                 header: '乘车用户',
-                dataIndex: 'loginName'
+                dataIndex: 'passengerName'
             },{
                 header: '业务类型',
                 dataIndex: 'businessType'
@@ -415,7 +415,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
             totalProperty: 'results',
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                 , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
-                , 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'loginName'
+                , 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'passengerName'
                 ,'company','driverName','modelName','plateNoId','plateNo','carApplyNo'],
             autoDestroy: true,
             autoLoad: true,
@@ -424,7 +424,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
                 start: 0,
                 limit: 80,
                 fleetId: fleedId,
-                statuesId:1,
+                activityId:'0'
             },
             listeners: {
                 'beforeload' : function() {
@@ -480,7 +480,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'carApplyNo'
             },{
                 header: '乘车用户',
-                dataIndex: 'loginName'
+                dataIndex: 'passengerName'
             },{
                 header: '业务类型',
                 dataIndex: 'businessType'
@@ -643,13 +643,6 @@ Ext.carApply.carApplyqueryPanel = Ext.extend(Ext.FormPanel, {
 
         // 在column布局的制约下，从左至右每个元素依次进行form布局
         this.items = [{
-            width : 180,
-            items : [{
-                xtype : 'hidden',
-                id : 'statuesId',
-                value:'0'
-            }]
-        },{
             width : 180,
             items : [{
                 xtype : 'textfield',

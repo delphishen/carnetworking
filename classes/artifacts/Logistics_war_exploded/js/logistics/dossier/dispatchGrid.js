@@ -14,7 +14,7 @@ Ext.dispatch.grid = Ext.extend(Ext.grid.GridPanel, {
             root: 'rows',
             totalProperty: 'results',
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime', 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost'
-                ,'budgetKilometres', 'content', 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'loginName','company','driverName','modelName'],
+                ,'budgetKilometres', 'content', 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'passengerName','company','driverName','modelName'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -71,7 +71,7 @@ Ext.dispatch.grid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'carApplyNo'
             },{
                 header: '乘车用户',
-                dataIndex: 'loginName'
+                dataIndex: 'passengerName'
             },{
                 header: '业务类型',
                 dataIndex: 'businessType'

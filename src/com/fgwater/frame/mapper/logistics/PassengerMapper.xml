@@ -31,6 +31,22 @@
 
 
 
+	<select id="queryPassengerById" parameterType="HashMap" resultType="HashMap">
+		SELECT p.*,f.fleetName,c.company from t_archives_passenger p
+		left join t_system_fleet f ON f.id = p.fleetId
+		left join t_archives_company c ON c.id = p.companyId
+		WHERE  1=1
+		AND p.companyId = #{companyId}
+		<if test="fleetId!='root'">
+			AND p.fleetId =#{fleetId}
+		</if>
+		<if test="passengerName!=null and passengerName!=''">
+			AND p.passengerName like '%${passengerName}%'
+		</if>
+	</select>
+
+
+
 
 
 

@@ -92,31 +92,48 @@ Ext.approveLog.queryPanel = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
+                this.userTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getUserByFleetId.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'loginName'}]),
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+                });
+                this.userTypeDS.load();
+
 
 
 
                 // 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
-					width:180,
+                    width : 180,
                     items : [{
+                        id:'approveLogTypeDS',
+                        fieldLabel : '用户',
+                        width : 60,
                         xtype : 'combo',
-						width:60,
-                        fieldLabel : '价格类型',
-                        hiddenName : 'charteredBusType',
-                        anchor : '98%',
-                        typeAhead : true,
-                        editable : false,
+                        hiddenName : 'userId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
                         triggerAction : 'all',
-                        lazyRender : true,
                         mode : 'local',
-                        store : new Ext.data.ArrayStore({
-                            fields : ['key', 'val'],
-                            data : [['常规价格设置', '0'],
-                                ['包车价格设置', '1']]
-                        }),
-                        valueField : 'val',
-                        displayField : 'key'
+                        store : this.userTypeDS,
+                        valueField : 'id',
+                        displayField : 'loginName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                //	this.getForm().findField('linesName').setValue(record.data.id);
+                            },
+                            scope : this
+                        }
                     }]
+
                 },
 					{
 							width : 65,

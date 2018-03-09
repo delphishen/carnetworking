@@ -110,7 +110,7 @@ Ext.truckSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								dataIndex : 'fleetName'
 							}, {
 								header : '车牌号',
-								dataIndex : 'modelName'
+								dataIndex : 'plateNo'
 							}, {
 								header : '车辆类型',
 								dataIndex : 'modelName'

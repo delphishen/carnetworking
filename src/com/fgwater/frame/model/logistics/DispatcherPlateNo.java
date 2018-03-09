@@ -22,6 +22,10 @@ public class DispatcherPlateNo extends BaseModel {
 	@Column
 	private String  plateNoId;
 
+	@Column
+	private String  fleetId;
+
+
 	public String getId() {
 		return id;
 	}
@@ -44,5 +48,13 @@ public class DispatcherPlateNo extends BaseModel {
 
 	public void setPlateNoId(String plateNoId) {
 		this.plateNoId = plateNoId;
+	}
+
+	public String getFleetId() {
+		return fleetId;
+	}
+
+	public void setFleetId(String fleetId) {
+		this.fleetId = fleetId;
 	}
 }

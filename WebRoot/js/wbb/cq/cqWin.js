@@ -5,6 +5,21 @@ Ext.cq.form = Ext.extend(Ext.FormPanel, {
 				this.app = app;
 
 
+                this.fleetTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getTreeAllFleetList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'fleetName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
+                });
+                this.fleetTypeDS.load();
+
 
                 this.userSelector = new Ext.form.TriggerField({
                     fieldLabel : '用户',
@@ -16,15 +31,19 @@ Ext.cq.form = Ext.extend(Ext.FormPanel, {
                     allowBlank : true,
                     editable : false,
                     onTriggerClick : function(e) {
-                        new userSelector(function(id, name,userFleetId) {
-                            this.setValue(name);
-                            Ext.getCmp('userId').setValue(id);
-                            basefleedId = userFleetId;
+                        basefleedId = Ext.getCmp("fleetId").value;
+                        var val = Ext.getCmp("fleetName").value;
+                        if(val ==null && val == undefined){
+                            Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                        }else {
+                            new userSelector(function(id, name,userFleetId) {
+                                this.setValue(name);
+                                Ext.getCmp('userId').setValue(id);
+                                basefleedId = userFleetId;
 
+                            }, true, this);
+                        }
 
-
-
-                        }, true, this);
                     },
                     scope : this
                 });
@@ -40,14 +59,21 @@ Ext.cq.form = Ext.extend(Ext.FormPanel, {
                     allowBlank : true,
                     editable : false,
                     onTriggerClick : function(e) {
-                        new kqSelector(function(id, name) {
-                            this.setValue(name);
-                            Ext.getCmp('companyId').setValue(id);
+                        basefleedId = Ext.getCmp("fleetId").value;
+                        var val = Ext.getCmp("fleetName").value;
+                        if(val ==null && val == undefined){
+                            Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                        }else {
+                            new kqSelector(function(id, name) {
+                                this.setValue(name);
+                                Ext.getCmp('companyId').setValue(id);
 
 
 
 
-                        }, true, this);
+                            }, true, this);
+                        }
+
                     },
                     scope : this
                 });
@@ -58,10 +84,39 @@ Ext.cq.form = Ext.extend(Ext.FormPanel, {
                     id : 'id'
                 },{
                     xtype : 'hidden',
+                    id : 'fleetId'
+                },{
+                    xtype : 'hidden',
                     id : 'userId'
                 },{
                     xtype : 'hidden',
                     id : 'companyId'
+                },{
+                    columnWidth : 1,
+                    labelWidth : 60,
+                    items : [{
+                        id:'fleetName',
+                        fieldLabel : '所属平台',
+                        width : 60,
+                        xtype : 'combo',
+                        hiddenName : 'fleetName',
+                        submitValue : false,
+                        anchor : '98%',
+                        editable : false,
+                        autoLoad : true,
+                        triggerAction : 'all',
+                        mode : 'local',
+                        store : this.fleetTypeDS,
+                        valueField : 'fleetName',
+                        displayField : 'fleetName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                this.getForm().findField('fleetId').setValue(record.data.id);
+                                basefleedId = record.data.id;
+                            },
+                            scope : this
+                        }
+                    }]
                 }, {
                     columnWidth : 1,
                     items : [this.userSelector]

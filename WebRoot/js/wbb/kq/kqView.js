@@ -10,7 +10,7 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',
-							fields : ['id',  'userId','plateNoId','loginName','plateNo'],
+							fields : ['id',  'userId','plateNoId','loginName','plateNo','fleetId','fleetName'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -88,6 +88,10 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
                         header : 'id',
                         dataIndex : 'id',
                         hidden : true
+                    },{
+                        header : 'fleetId',
+                        dataIndex : 'fleetId',
+                        hidden : true
                     }, {
                         header : 'userId',
                         dataIndex : 'userId',
@@ -102,6 +106,9 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
                     }, {
                         header : '车牌号',
                         dataIndex : 'plateNo'
+                    }, {
+                        header : '所属平台',
+                        dataIndex : 'fleetName'
                     }]
                 });
 
@@ -170,6 +177,8 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 
                 form.findField('userName').setValue(this.kq.loginName);
                 form.findField('plateNo').setValue(this.kq.plateNo);
+                win.form.getForm().findField('fleetId').setValue(this.kq.fleetId);
+                win.form.getForm().findField('fleetName').setValue(this.kq.fleetName);
 				win.setTitle('修改调度信息', 'modify');
 				win.show();
 			},

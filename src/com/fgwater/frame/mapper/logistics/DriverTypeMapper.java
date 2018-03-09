@@ -21,4 +21,6 @@ public interface DriverTypeMapper extends BaseMapper<DriverType> {
     public   List<DriverType> getAll(Map<String, String> params);
 
 
+    public int checkByFleetId(DriverType driverType);
+
 }

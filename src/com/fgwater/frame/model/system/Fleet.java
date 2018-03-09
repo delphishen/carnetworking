@@ -40,7 +40,8 @@ public class Fleet extends BaseModel {
 	@Column
 	private String status;
 	@Column
-	private  String text;
+	private String text;
+
 
 
 	public String getId() {

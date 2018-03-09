@@ -24,5 +24,6 @@ public interface CarApplyService extends BaseService {
 
     public List<Map<String,String>> querydispatch(Map<String, String> params);
 
+    public  List<Map<String,String>> queryAllCarApply(Map<String, String> params);
 }
 
