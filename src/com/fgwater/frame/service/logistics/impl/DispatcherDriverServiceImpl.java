@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service("dispatcherDriverService")
@@ -72,6 +73,53 @@ public class DispatcherDriverServiceImpl extends BaseServiceImpl implements Disp
 			dispatcherDriverMapper.deleteTable(map);
 		}
 
+	}
+
+	@Override
+	public boolean savebuqueryDriverRotasType(Map<String, String> params) {
+
+		String departureTime = params.get("departureTime");
+		System.out.println("====departureTime======="+departureTime);
+		List<Map<String, Object>> mapList = dispatcherDriverMapper.savebuqueryDriverRotasType(params);
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+
+		for (Map<String,Object> map:mapList ){
+			try {
+				Date in = simpleDateFormat.parse(map.get("clockIn").toString());
+				Date out = simpleDateFormat.parse(map.get("clockOut").toString());
+				Date departure = simpleDateFormat.parse(departureTime);
+				System.out.println(departure.before(in));
+				System.out.println(departure.before(out));
+				if (departure.before(in) || departure.before(out)){
+					return  true;
+				}
+			}catch (Exception e){
+
+			}
+
+//			System.out.println("上班时间"+map.get("clockIn"));
+//			System.out.println("下班时间"+map.get("clockOut"));
+//			JSONObject jsonObject = JSONObject.fromObject(map);
+//			System.out.println(jsonObject.toString());
+//			int i = (map.get("clockIn").toString()).compareTo(departureTime);
+//			int j = (map.get("clockOut").toString()).compareTo(departureTime);
+//			//System.out.println(departureTime.compareTo(map.get("clockIn").toString()));
+//			System.out.println((map.get("clockIn").toString()).compareTo(departureTime));
+//			if(i>0){
+//				return  true;
+//
+//			}
+
+
+//			if (j>0){
+//				return  true;
+//			}
+
+		}
+		return false;
 	}
 
 

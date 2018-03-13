@@ -16,4 +16,8 @@ public interface TruckService extends BaseService {
 
 	public void delete(List<Truck> truck);
 
+    public List<Map<String,String>> queryTruckDispatcher(Map<String, String> params);
+
+    public  Map<String,Object> queryCarTyoe(String plateNoId);
+
 }

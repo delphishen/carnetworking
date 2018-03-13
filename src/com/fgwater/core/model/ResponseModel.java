@@ -13,7 +13,9 @@ import net.sf.json.JSONObject;
 import com.fgwater.core.common.ConstantSys;
 import com.fgwater.core.utils.UUIDUtils;
 import com.github.pagehelper.PageInfo;
+import net.sf.json.JsonConfig;
 import org.apache.commons.beanutils.BeanUtils;
+import java.sql.Timestamp;
 
 
 public class ResponseModel implements Serializable {
@@ -98,14 +100,26 @@ public class ResponseModel implements Serializable {
 		case ConstantSys.RESP_MOUNT_TYPE_PAGING:
 			/*PageInfo pi = new PageInfo((List<Map<String, String>>) obj);*/
 
+
+
+			JsonConfig config = new JsonConfig();
+			config.registerJsonValueProcessor(Timestamp.class,new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
+
 			PageInfo pi = new PageInfo((List<Map<String, String>>) obj);
+
+
 			jo = new JSONObject();
 			jo.put("success", true);
 			jo.put("results", pi.getTotal());
 
-			System.out.println("========rows总数============"+JSONArray.fromObject(pi.getList()));
+			System.out.println("========rows总数============"+JSONArray.fromObject(pi.getList(),config));
 
-			jo.put("rows", JSONArray.fromObject(pi.getList()));
+
+
+			//jo.put("rows", JSONArray.fromObject(pi.getList()));
+			jo.put("rows",JSONArray.fromObject(pi.getList(),config));
+
+
 			this.swap = jo;
 			break;
 		default:

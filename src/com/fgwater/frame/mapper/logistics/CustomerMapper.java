@@ -20,6 +20,9 @@ public interface CustomerMapper extends BaseMapper<Customer> {
 
 	public void deleteTable(Map<String, String> params);
 	
-	public int checkName(Map<String, String> params);		
+	public int checkName(Map<String, String> params);
+
+    @Paging
+	public  List<Map<String,String>> queryDriverDispatcher(Map<String, String> params);
 
 }

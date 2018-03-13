@@ -46,10 +46,25 @@ public class DispatcherDriverController extends BaseController {
 		return jo.toString();
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "querydispatcherRota.do")
+	public String savebuqueryDriverRotasType() {
+
+		System.out.println("===========保存调度司机信息============"+this.requestModel.getParams());
+		JSONObject jo = new JSONObject();
+		jo.element("success", true);
+		jo.element("label", this.dispatcherDriverService.savebuqueryDriverRotasType(this.requestModel.getParams()));
+
+		return jo.toString();
+	}
+
 
 	@ResponseBody
 	@RequestMapping(value = "queryispatcherDriver.do")
 	public String query() {
+
+
+		System.out.println("==========================="+this.requestModel.getParams());
 
 
 		this.responseModel.mount(this.dispatcherDriverService.query(this.requestModel
@@ -65,6 +80,8 @@ public class DispatcherDriverController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "deletedispatcherDriver.do")
 	public String delete() {
+
+
 		System.out.println("==============删除司机调度信息============="+this.getDispatcherDrivers());
 		this.dispatcherDriverService.deleteTable(this.getDispatcherDrivers());
 		return this.responseModel.serial();

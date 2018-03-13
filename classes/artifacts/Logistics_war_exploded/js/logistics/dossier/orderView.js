@@ -415,10 +415,10 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                 listeners : {
                     'select' : function(combo, record) {
                         this.getForm().findField('fleetId').setValue(record.data.id);
-                        this.getForm().findField('driverId').setValue(null);
-                        this.getForm().findField('driverName').setValue(null);
-                        this.getForm().findField('plateNoId').setValue(null);
-                        this.getForm().findField('plateNo').setValue(null);
+                       // this.getForm().findField('driverId').setValue(null);
+                       // this.getForm().findField('driverName').setValue(null);
+                        //this.getForm().findField('plateNoId').setValue(null);
+                        //this.getForm().findField('plateNo').setValue(null);
 
                         this.getForm().findField('companyId').setValue(null);
                         this.getForm().findField('company').setValue(null);
@@ -436,7 +436,29 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
         },{
             columnWidth : 1,
             items : [this.passengerSelector]
-        },{
+        }, {
+                columnWidth : 1,
+                items : [{
+                    xtype : 'combo',
+                    fieldLabel : '业务类型',
+                    hiddenName : 'businessType',
+                    anchor : '98%',
+                    typeAhead : true,
+                    editable : false,
+                    triggerAction : 'all',
+                    lazyRender : true,
+                    mode : 'local',
+                    store : new Ext.data.ArrayStore({
+                        fields : ['key', 'val'],
+                        data : [['单程', '单程'],
+                            ['往返', '往返'],
+                            ['包车', '包车']
+                        ]
+                    }),
+                    valueField : 'val',
+                    displayField : 'key'
+                }]
+            },{
             columnWidth : 1,
             items : [{
                 xtype : 'combo',
@@ -521,21 +543,6 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                 anchor : '98%',
                 selectOnFocus : true
             }]
-        },{
-            columnWidth : 1,
-            items : [{
-                fieldLabel : '业务类型',
-                xtype : 'textfield',
-                name : 'businessType',
-                anchor : '98%',
-                selectOnFocus : true
-            }]
-        },{
-            columnWidth : 1,
-            items : [this.truckSelector1]
-        },{
-            columnWidth : 1,
-            items : [this.driverSelector1]
         }];
 
         Ext.order.ordersform.superclass.constructor.call(this, {
@@ -596,7 +603,7 @@ Ext.order.win = Ext.extend(Ext.Window, {
             }, function(resp) {
                 var res = Ext.decode(resp.responseText);
                 if (res.label) {
-                    Ext.ux.Toast.msg('信息', '调度成功！请通知乘客和司机');
+                    Ext.ux.Toast.msg('信息', '下单成功！请通知审核员和调度员');
                     this.app.getStore().reload();
                     this.close();
                 } else {

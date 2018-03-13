@@ -20,4 +20,8 @@ public interface DispatcherPlateNoMapper extends BaseMapper<DispatcherPlateNo> {
 
     public void savedispatcherPlateNo(DispatcherPlateNo diss);
 
+    public int checkByPlateNoId(DispatcherPlateNo dispatcherPlateNo);
+
+
+
 }

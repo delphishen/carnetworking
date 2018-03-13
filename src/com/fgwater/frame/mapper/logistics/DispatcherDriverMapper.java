@@ -23,4 +23,6 @@ public interface DispatcherDriverMapper extends BaseMapper<DispatcherDriver> {
     public int checkName(DispatcherDriver dispatcherDriver1);
 
 
+    public List<Map<String, Object>> savebuqueryDriverRotasType(Map<String, String> params);
+
 }

@@ -49,7 +49,15 @@ public class DriveraRotaServiceImpl extends BaseServiceImpl implements DriverRot
 
 
 	public boolean saveOrUpdateBusType(DriverRota driverRota) {
-		int count = this.driverRotaMapper.check(driverRota, "driverId");
+
+		String  clockIn = driverRota.getClockIn().substring(0,10);
+		String driverId = driverRota.getDriverId();
+		Map<String,String> params = new HashMap<>();
+		params.put("clockIn",clockIn);
+		params.put("driverId",driverId);
+		int count =  driverRotaMapper.chevkByClock(params);
+
+		//int count = this.driverRotaMapper.check(driverRota, "driverId");
 		if (count == 0) {
 			if (StrUtils.isNullOrEmpty(driverRota.getId())) {
 				driverRota.setId(UUIDUtils.getUUID());

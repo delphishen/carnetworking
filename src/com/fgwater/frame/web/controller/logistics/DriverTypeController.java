@@ -54,8 +54,19 @@ public class DriverTypeController extends BaseController {
 	public String query() {
 
 
+
+
+
+
+
 		this.responseModel.mount(this.driverTypeService.query(this.requestModel
 				.getParams()), MOUNT_TYPE_PAGING);
+
+
+
+
+
+
 
 
 

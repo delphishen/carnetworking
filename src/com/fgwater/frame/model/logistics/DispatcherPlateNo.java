@@ -8,14 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Alias("DispatcherPlateNo")
-@Table(name = "t_archives_dispatcher_plateNo")
+@Table(name = "t_archives_dispatcher_plateno")
 public class DispatcherPlateNo extends BaseModel {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String id;
-
 	@Column
 	private  String userId;
 

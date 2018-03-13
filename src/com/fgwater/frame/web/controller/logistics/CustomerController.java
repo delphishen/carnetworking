@@ -45,6 +45,30 @@ public class CustomerController extends BaseController {
 
 
 	@ResponseBody
+	@RequestMapping(value = "queryDriverDispatcher.do")
+	public String queryDriverDispatcher() {
+
+
+		System.out.println("===================="+this.requestModel.getParams());
+		String remark = this.requestModel.getParams().get("remark");
+		System.out.println("======================="+remark.equals("管理员"));
+		if (remark.equals("管理员")){
+
+			this.responseModel.mount(this.customerService.query(this.requestModel
+					.getParams()), MOUNT_TYPE_PAGING);
+
+		}else {
+			this.responseModel.mount(this.customerService.queryDriverDispatcher(this.requestModel
+					.getParams()), MOUNT_TYPE_PAGING);
+		}
+
+
+		//	System.out.println(this.requestModel.getParams());
+		return this.responseModel.serial();
+	}
+
+
+	@ResponseBody
 	@RequestMapping(value = "getAllCustomer.do")
 	public String getAll() {
 		this.responseModel.mount(this.customerService.getAll(this.requestModel.getParams()), MOUNT_TYPE_JA);

@@ -6,6 +6,7 @@ import com.fgwater.frame.model.logistics.ApplyType;
 import com.fgwater.frame.model.logistics.CarApply;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.CarApplyService;
+import com.fgwater.frame.service.logistics.TruckService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/logistics", produces = "text/plain;charset=UTF-8;")
@@ -24,6 +26,9 @@ public class CarApplyController extends BaseController {
 
 	@Resource
 	private CarApplyService applyService;
+
+	@Resource
+	private TruckService truckService;
 
 
 	@Injection
@@ -94,10 +99,18 @@ public class CarApplyController extends BaseController {
 	@RequestMapping(value = "savecarApply.do")
 	public String savebusType() {
 
-		System.out.println("===========获取结算类型============"+this.getCarApply());
+
+		CarApply carApply = this.getCarApply();
+		String plateNoId = this.getCarApply().getPlateNoId();
+		Map<String,Object> map =  this.truckService.queryCarTyoe(plateNoId);
+		if (map != null){
+			carApply.setCarTypeId(map.get("carType").toString());
+		}
+
+		this.getCarApply().setCarTypeId(map.get("carType").toString());
 		JSONObject jo = new JSONObject();
 		jo.element("success", true);
-		jo.element("label", this.applyService.savecarApply(this.getCarApply()));
+		jo.element("label", this.applyService.savecarApply(carApply));
 
 		return jo.toString();
 	}

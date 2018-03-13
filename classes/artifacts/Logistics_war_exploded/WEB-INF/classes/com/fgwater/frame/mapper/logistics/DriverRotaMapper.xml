@@ -15,6 +15,14 @@
 
 
 
+	<select id="chevkByClock" parameterType="HashMap"  resultType="int" >
+		SELECT COUNT(*) FROM t_driver_rota WHERE driverId = #{driverId} AND clockIn  LIKE '%${clockIn}%'
+	</select>
+
+
+
+
+
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
 		SELECT r.*, f.fleetName,d.driverName FROM t_driver_rota r

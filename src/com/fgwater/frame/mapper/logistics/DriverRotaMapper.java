@@ -18,6 +18,6 @@ public interface DriverRotaMapper extends BaseMapper<DriverRota> {
     public void deleteTable(Map<String, String> map);
 
 
-
+    public int chevkByClock(Map<String, String> params);
 
 }

@@ -46,6 +46,35 @@ public class TruckController extends BaseController {
 
 
 	@ResponseBody
+	@RequestMapping(value = "queryTruckDispatcher.do")
+	public String queryTruckDispatcher() {
+		//System.out.println("============queryTruck获取车辆信息============"+this.truckService.query(this.requestModel.getParams()));
+
+
+		String remark = this.requestModel.getParams().get("remark");
+		if (remark.equals("管理员")){
+			this.responseModel.mount(this.truckService.query(this.requestModel
+					.getParams()), MOUNT_TYPE_PAGING);
+		}else {
+			this.responseModel.mount(this.truckService.queryTruckDispatcher(this.requestModel
+					.getParams()), MOUNT_TYPE_PAGING);
+		}
+
+		System.out.println("========================"+this.requestModel.getParams());
+
+
+
+
+		//		System.out.println("queryTruck============"+this.responseModel.serial());
+		return this.responseModel.serial();
+	}
+
+
+
+
+
+
+	@ResponseBody
 	@RequestMapping(value = "getAllTruck.do")
 	public String getAll() {
 		this.responseModel.mount(this.truckService.getAll(this.requestModel

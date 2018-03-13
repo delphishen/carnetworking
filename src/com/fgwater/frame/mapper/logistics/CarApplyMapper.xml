@@ -16,7 +16,7 @@
         LEFT JOIN t_archives_driver d ON a.driverId = d.id
         LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
         LEFT JOIN t_archives_car cc ON a.plateNoId = cc.id
-        WHERE a.activityId = #{activityId}
+        WHERE a.statuesId = #{statuesId}
 
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
@@ -55,7 +55,7 @@
         LEFT JOIN t_archives_company c ON a.companyId = c.id
         LEFT JOIN t_archives_driver d ON a.driverId = d.id
         LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
-        WHERE a.activityId = '1'
+        WHERE a.statuesId = '20'
 
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
@@ -72,7 +72,7 @@
         LEFT JOIN t_archives_company c ON a.companyId = c.id
         LEFT JOIN t_archives_driver d ON a.driverId = d.id
         LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
-        WHERE a.activityId = '2'
+        WHERE a.statuesId = '30'
 
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
@@ -119,7 +119,7 @@
     <update id="updateTable" parameterType="CarApply">
 
       UPDATE t_car_apply
-      SET activityId = '1'
+      SET statuesId = '20'
       WHERE carApplyNo=#{carApplyNo}
 
 
@@ -129,7 +129,7 @@
     <update id="savecarApply" parameterType="CarApply">
 
         UPDATE t_car_apply
-        SET activityId = '2',driverId=#{driverId},plateNoId=#{plateNoId}
+        SET statuesId = '30',driverId=#{driverId},plateNoId=#{plateNoId},carTypeId=#{carTypeId}
         WHERE carApplyNo=#{carApplyNo}
 
 

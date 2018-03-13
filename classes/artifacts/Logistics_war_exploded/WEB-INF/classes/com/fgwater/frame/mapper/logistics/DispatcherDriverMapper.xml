@@ -31,6 +31,12 @@
 </select>
 
 
+	<select id="savebuqueryDriverRotasType" parameterType="HashMap" resultType="HashMap">
+		SELECT * FROM t_driver_rota WHERE driverId = #{driverId}
+	</select>
+
+
+
 	<select id="checkName" parameterType="DispatcherDriver" resultType="int">
 		SELECT  COUNT(*) FROM t_archives_dispatcher_driver
 		 WHERE userId = #{userId}

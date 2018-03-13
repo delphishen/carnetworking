@@ -1,6 +1,9 @@
 Ext.namespace('Ext.carApply');
 
 
+var  selectdata = null;
+
+
 
 Ext.carApply.form = Ext.extend(Ext.FormPanel, {
     constructor : function(app) {
@@ -187,15 +190,57 @@ Ext.carApply.win = Ext.extend(Ext.Window, {
             buttonAlign : 'center',
             items : this.form,
             buttons : [ {
+                id:'carApplyButton',
+                xtype: 'button',
+                text : '确认审核',
+                iconCls : 'add',
+                handler : this.onAddcar,
+                scope : this
+            },{
+                id:'cancelCarApplyButton',
+                xtype: 'button',
+                text : '取消审核',
+                iconCls : 'modify',
+                handler : this.onModifycar,
+                scope : this
+            },{
+                id:'cancelButton',
+                xtype: 'button',
                 text : '取消',
                 iconCls : 'cancel',
-                handler : this.onClose,
+                handler : this.onClosecar,
                 scope : this
             }]
         });
     },
+    onAddcar : function() {
 
-    onClose : function() {
+
+        console.log("============"+selectdata);
+
+        Ext.MessageBox.prompt("输入框","请输入审核原因：",function(bu,txt){
+           // Ext.MessageBox.alert("Result","你点击的是"+bu+"按钮,<br> 输入的内容为："+txt);
+            if (bu == 'ok') {
+                         Ext.eu.ajax(path + '/logistics/updatearApply.do', {
+                             carApply: Ext.encode(selectdata)
+                        }, function (resp) {
+                             Ext.ux.Toast.msg('信息', '审核成功');
+                             this.app.carxxgrid.getStore().reload();
+                        }, this);
+                     }
+
+
+        },this,true);
+        this.close();
+    },
+    onModifycar : function() {
+        Ext.MessageBox.prompt("输入框","请输入取消原因：",function(bu,txt){
+            Ext.MessageBox.alert("Result","你点击的是"+bu+"按钮,<br> 输入的内容为："+txt);
+        });
+        this.close();
+    },
+
+    onClosecar : function() {
         this.close();
     }
 });
@@ -424,7 +469,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
                 start: 0,
                 limit: 80,
                 fleetId: fleedId,
-                activityId:'0'
+                statuesId:'10'
             },
             listeners: {
                 'beforeload' : function() {
@@ -566,6 +611,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
 
 
     onAdd : function(btn) {
+
         var selects = Ext.eu.getSelects(this);
         if (selects.length == 0) {
             Ext.ux.Toast.msg("信息", "请选择要查看的记录！");
@@ -575,6 +621,9 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
             Ext.ux.Toast.msg("信息", "只能选择一条记录！");
             return;
         }
+
+
+
         var select = selects[0].data;
         console.log(select);
         var win = new Ext.carApply.win(this);
@@ -597,6 +646,9 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('carApplyNo1').setValue(select.carApplyNo);
 
         win.show();
+        Ext.getCmp('carApplyButton').setVisible(false);
+        Ext.getCmp('cancelCarApplyButton').setVisible(false);
+        Ext.getCmp('cancelButton').setVisible(true);
 
 
 
@@ -605,11 +657,41 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
     },
 
     onDelete: function () {
+
         var selects = Ext.eu.getSelects(this);
         if (selects.length == 0) {
-            Ext.ux.Toast.msg("信息", "请选择要删除的记录！");
+            Ext.ux.Toast.msg("信息", "请选择要审核的记录！");
             return;
         }
+        var select = selects[0].data;
+        selectdata = selects[0].data;
+        console.log(select);
+        var win = new Ext.carApply.win(this);
+        var form = win.form.getForm();
+        win.setTitle('查看订单详情', 'modify');
+
+
+        form.findField('fleetName').setValue(select.fleetName);
+        form.findField('loginName').setValue(select.loginName);
+        form.findField('company').setValue(select.company);
+
+        form.findField('departureTime').setValue(select.departureTime);
+        form.findField('startLocale').setValue(select.startLocale);
+        form.findField('endLocale').setValue(select.endLocale);
+        form.findField('carpoolYN').setValue(select.carpoolYN);
+        form.findField('budgetCost').setValue(select.budgetCost);
+        form.findField('budgetKilometres').setValue(select.budgetKilometres);
+        form.findField('content').setValue(select.content);
+        form.findField('remark').setValue(select.remark);
+        form.findField('carApplyNo1').setValue(select.carApplyNo);
+
+        win.show();
+        Ext.getCmp('carApplyButton').setVisible(true);
+        Ext.getCmp('cancelCarApplyButton').setVisible(true);
+        Ext.getCmp('cancelButton').setVisible(true);
+
+
+
         // var ary = Array();
         // for (var i = 0; i < selects.length; i++) {
         //     // var user = {
@@ -619,20 +701,20 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
         //     ary.push(user);
         // }
 
-        var  user = selects[0].data;
-
-
-        // Ext.ux.Toast.msg("信息", Ext.encode(ary));
-        Ext.Msg.confirm('删除操作', '核对信息后，确认审核', function (btn) {
-            if (btn == 'yes') {
-                Ext.eu.ajax(path + '/logistics/updatearApply.do', {
-                    carApply: Ext.encode(user)
-                }, function (resp) {
-                    Ext.ux.Toast.msg('信息', '审核成功');
-                    this.getStore().reload();
-                }, this);
-            }
-        }, this);
+        // var  user = selects[0].data;
+        //
+        //
+        // // Ext.ux.Toast.msg("信息", Ext.encode(ary));
+        // Ext.Msg.confirm('删除操作', '核对信息后，确认审核', function (btn) {
+        //     if (btn == 'yes') {
+        //         Ext.eu.ajax(path + '/logistics/updatearApply.do', {
+        //             carApply: Ext.encode(user)
+        //         }, function (resp) {
+        //             Ext.ux.Toast.msg('信息', '审核成功');
+        //             this.getStore().reload();
+        //         }, this);
+        //     }
+        // }, this);
     }
 });
 
@@ -659,7 +741,7 @@ Ext.carApply.carApplyqueryPanel = Ext.extend(Ext.FormPanel, {
                 text: '查询',
                 iconCls: 'query',
                 handler: function () {
-                    this.app.cargrid.getStore().load();
+                    this.app.carxxgrid.getStore().load();
                 },
                 scope: this
             }]
@@ -707,7 +789,9 @@ Ext.carApply.carApplyqueryPanel = Ext.extend(Ext.FormPanel, {
  */
 var carApplyView = function (params) {
     this.queryPanel = new Ext.carApply.carApplyqueryPanel(this);
-    this.cargrid = new Ext.carApply.carApplygrid(this);
+    this.carxxgrid = new Ext.carApply.carApplygrid(this);
+
+
 
     //this.busqueryPanel = new Ext.insanity.queryPanel(this);
     //this.cqEvaRateGrid = new Ext.insanity.grid(this);
@@ -718,9 +802,10 @@ var carApplyView = function (params) {
     this.insanitydriverPanel = new Ext.insanitydriver.queryPanel(this);
     this.insanitydriverGrid = new Ext.insanitydriver.insanitydrivergrid(this);
 
-    console.log('----------------------------------');
+    var re = remark != '调度员' ? 1 : 0;
 
 
+    Ext.getCmp('buttonDelcarApplyView').hidden=!re;
 
 
     this.tabs = new Ext.TabPanel({
@@ -736,7 +821,7 @@ var carApplyView = function (params) {
         items : [{
             title : '未审核订单',
             layout : 'border',
-            items : [this.queryPanel,this.cargrid]
+            items : [this.queryPanel,this.carxxgrid]
         }, {
             title : '已审核订单',
             layout : 'border',
@@ -748,7 +833,7 @@ var carApplyView = function (params) {
         }],
         listeners : {
             'tabchange' : function(t, n) {
-                this.cargrid.getStore().reload();
+                this.carxxgrid.getStore().reload();
                 this.cqEvaRateGrid.getStore().reload();
             },
             scope: this

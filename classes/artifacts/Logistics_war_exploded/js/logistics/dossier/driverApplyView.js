@@ -6,18 +6,20 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
         this.app = app;
 
 
-        this.driverSelector = new Ext.form.TriggerField({
+        this.driverDispatcherSelector = new Ext.form.TriggerField({
             fieldLabel : '司机',
             name : 'driverName',
             anchor : '98%',
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp("fleetId").value;
-                new driverSelector(function(id, name) {
+                departureTime = Ext.getCmp("departureTime").value;
+                console.log("出发时间"+departureTime);
+                new driverDispatcherSelector(function(id, name) {
                     this.setValue(name);
                     Ext.getCmp('driverId').setValue(id);
                     //	if(Ext.getCmp('loginName').getValue != ''){
@@ -33,18 +35,19 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
 
 
 
-        this.truckSelector = new Ext.form.TriggerField({
+        this.truckDispatcherSelector = new Ext.form.TriggerField({
             fieldLabel : '车牌号',
             name : 'plateNo',
             anchor : '98%',
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp("fleetId").value;
-                new truckSelector(function(id, name) {
+
+                new truckDispatcherSelector(function(id, name) {
                     this.setValue(name);
                     Ext.getCmp('plateNoId').setValue(id);
                     //	if(Ext.getCmp('loginName').getValue != ''){
@@ -230,10 +233,10 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             }]
         },{
             columnWidth : 1,
-            items : [this.truckSelector]
+            items : [this.truckDispatcherSelector]
         },{
             columnWidth : 1,
-            items : [this.driverSelector]
+            items : [this.driverDispatcherSelector]
         },{
             columnWidth : 1,
             items : [{
@@ -342,7 +345,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 start: 0,
                 limit: 80,
                 fleetId: fleedId,
-                activityId:'1'
+                statuesId:'20'
             },
             listeners: {
                 'beforeload' : function() {
@@ -628,6 +631,14 @@ var driverApplyView = function (params) {
 
     this.insanitydriverPanel = new Ext.insanitydriver.queryPanel(this);
     this.insanitydriverGrid = new Ext.insanitydriver.insanitydrivergrid(this);
+
+
+    var re = remark != '审核员' ? 1 : 0;
+
+    console.log(re);
+
+
+    Ext.getCmp('buttonDeldriverApplyView').hidden=!re;
 
 
 

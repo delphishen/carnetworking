@@ -35,24 +35,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="module-library">
-      <library name="poi-3.10-beta2.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/poi-3.10-beta2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="poi-ooxml-3.10-beta2.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/poi-ooxml-3.10-beta2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/aopalliance-1.0.jar!/" />
@@ -253,6 +235,24 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/poi-3.10-beta2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/poi-ooxml-3.10-beta2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/servlet-api.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -388,7 +388,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/activiti-bpmn-converter-5.21.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/jackson-annotations-2.9.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -397,7 +397,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/activiti-bpmn-model-5.21.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/jackson-core-2.9.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -406,7 +406,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/activiti-engine-5.21.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/jackson-databind-2.9.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -415,7 +415,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/activiti-image-generator-5.21.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/jackson-dataformat-xml-2.9.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -424,7 +424,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/activiti-modeler-5.21.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/jackson-module-jaxb-annotations-2.9.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -433,16 +433,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/activiti-process-validation-5.21.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/activiti-spring-5.21.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/com.bolang.carnetworking.sms.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -460,7 +451,16 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/com.bolang.carnetworking.sms.jar!/" />
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/stax2-api-3.1.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/WebRoot/WEB-INF/lib/woodstox-core-5.0.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

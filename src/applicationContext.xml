@@ -70,6 +70,9 @@
 		<property name="configLocation" value="classpath:mybatisConfig.xml" />
 	</bean>
 
+
+
+
 	<!-- mybatis 自动扫描 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.fgwater.frame.mapper"></property>

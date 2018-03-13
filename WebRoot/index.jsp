@@ -35,7 +35,10 @@
 			var loginEmpID = '<%=user.getEmpId()%>'
             var fleedId = '<%=user.getFleetId()%>'
             var basefleedId = 'root'
+            var departureTime = null;
 			var companyId = null;
+            var remark = '<%=user.getRemark()%>'
+			var userId = '<%=user.getId()%>'
 
 		</script>
 

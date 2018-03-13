@@ -10,14 +10,14 @@
 
 
 	<delete id="deleteTable" parameterType="HashMap">
-		delete from   t_archives_dispatcher_plateNo where id=#{id}
+		delete from   t_archives_dispatcher_plateno where id=#{id}
 	</delete>
 
 
 
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		SELECT dp.*, u.loginName,c.plateNo,f.fleetName FROM t_archives_dispatcher_plateNo  dp
+		SELECT dp.*, u.loginName,c.plateNo,f.fleetName FROM t_archives_dispatcher_plateno  dp
 		LEFT JOIN  t_system_user u ON u.id = dp.userId
 		LEFT JOIN t_archives_car  c ON c.id = dp.plateNoId
 		LEFT JOIN t_system_fleet f ON f.id = dp.fleetId
@@ -30,6 +30,13 @@
 			AND dp.fleetId =#{fleetId}
 		</if>
 
+	</select>
+
+
+
+	<select id="checkByPlateNoId" parameterType="DispatcherPlateNo" resultType="int">
+
+		SELECT COUNT(*) FROM t_archives_dispatcher_plateno WHERE userId=#{userId} AND plateNoId = #{plateNoId}
 	</select>
 
 

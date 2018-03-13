@@ -16,4 +16,6 @@ public interface CustomerService extends BaseService {
 
 	public void delete(List<Customer> customer);
 
+    public List<Map<String,String>> queryDriverDispatcher(Map<String, String> params);
+
 }

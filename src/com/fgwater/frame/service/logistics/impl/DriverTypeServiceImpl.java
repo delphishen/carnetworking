@@ -31,7 +31,14 @@ public class DriverTypeServiceImpl extends BaseServiceImpl implements DriverType
 
 	@Override
 	public List<Map<String, String>>  query(Map<String, String> params) {
-		return driverTypeMapper.query(params);
+
+		List<Map<String,String>> reMap = driverTypeMapper.query(params);
+
+
+
+
+
+		return reMap;
 	}
 
 

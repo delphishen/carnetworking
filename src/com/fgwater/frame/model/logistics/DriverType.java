@@ -22,6 +22,10 @@ public class DriverType extends BaseModel {
 	@Column
 	private String  driverType;
 
+
+
+
+
 	public String getId() {
 		return id;
 	}

@@ -23,16 +23,16 @@
           <option name="authenticationDatabase" value="admin" />
           <option name="authenticationMechanism" value="SCRAM-SHA-1" />
           <option name="connectOnIdeStartup" value="true" />
-          <option name="password" value="123456" />
+          <option name="password" value="Abc.123!@#" />
           <option name="serverUrls">
             <list>
-              <option value="39.106.212.59:27017" />
+              <option value="118.31.47.117:12207" />
             </list>
           </option>
           <option name="sshTunnelingConfiguration">
             <SshTunnelingConfiguration />
           </option>
-          <option name="username" value="root" />
+          <option name="username" value="admin" />
         </ServerConfiguration>
       </list>
     </option>

@@ -28,32 +28,43 @@ public class DispatcherPlateNoServiceImpl extends BaseServiceImpl implements Dis
 	@Override
 	public boolean savedispatcherPlateNo(DispatcherPlateNo dispatcherPlateNo) {
 
+		int count = 0;
 		String  pid  = dispatcherPlateNo.getPlateNoId();
-
-
-		int count = this.dispatcherPlateNoMapper.check(dispatcherPlateNo, "plateNoId");
-
-
-		System.out.println("=================count==================="+count);
-
-
-
-
-		if (StrUtils.isNullOrEmpty(dispatcherPlateNo.getId())){
-			System.out.println("=====================id为空=============");
-
-			List<String> dispatcherPlateNos = Arrays.asList(pid.split(","));
-			for (String dis : dispatcherPlateNos) {
-				DispatcherPlateNo diss = new DispatcherPlateNo();
-				diss.setId(UUIDUtils.getUUID());
-				diss.setUserId(dispatcherPlateNo.getUserId());
-				diss.setPlateNoId(dis);
-				diss.setFleetId(dispatcherPlateNo.getFleetId());
-				this.dispatcherPlateNoMapper.insert(diss);
+		List<String> plateNoId = Arrays.asList(pid.split(","));
+		for (String plate:plateNoId){
+			dispatcherPlateNo.setPlateNoId(plate);
+			count = dispatcherPlateNoMapper.checkByPlateNoId(dispatcherPlateNo);
+			if(count!=0){
+				return  false;
 			}
-		}else {
-			System.out.println("====================id不为空！！！！！===================");
-			this.dispatcherPlateNoMapper.update(dispatcherPlateNo);
+		}
+
+
+		//int count = this.dispatcherPlateNoMapper.check(dispatcherPlateNo, "plateNoId");
+
+
+		//System.out.println("=================count==================="+count);
+
+
+
+
+		if(count ==0) {
+			if (StrUtils.isNullOrEmpty(dispatcherPlateNo.getId())) {
+				System.out.println("=====================id为空=============");
+
+				List<String> dispatcherPlateNos = Arrays.asList(pid.split(","));
+				for (String dis : dispatcherPlateNos) {
+					DispatcherPlateNo diss = new DispatcherPlateNo();
+					diss.setId(UUIDUtils.getUUID());
+					diss.setUserId(dispatcherPlateNo.getUserId());
+					diss.setPlateNoId(dis);
+					diss.setFleetId(dispatcherPlateNo.getFleetId());
+					this.dispatcherPlateNoMapper.insert(diss);
+				}
+			} else {
+				System.out.println("====================id不为空！！！！！===================");
+				this.dispatcherPlateNoMapper.update(dispatcherPlateNo);
+			}
 		}
 
 
@@ -61,7 +72,7 @@ public class DispatcherPlateNoServiceImpl extends BaseServiceImpl implements Dis
 
 
 
-		return true;
+		return count == 0;
 	}
 
 	@Override

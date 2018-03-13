@@ -84,9 +84,12 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 
 			Date date = new Date();
 			String datatime = simpleDateFormat.format(date);
+
 			carApply.setCarApplyNo(datatime);
-			carApply.setOrderFrom("1");
-			carApply.setStatuesId("0");
+			carApply.setOrderFrom("后台下单");
+			carApply.setStatuesId("10");
+			carApply.setDriverId(null);
+			carApply.setPlateNoId(null);
 			this.applyMapper.insert(carApply);
 
 		}else {

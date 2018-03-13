@@ -16,5 +16,8 @@ public interface DispatcherDriverService extends BaseService {
 
 
     public void deleteTable(List<DispatcherDriver> dispatcherDrivers);
+
+    public boolean savebuqueryDriverRotasType(Map<String, String> params);
+
 }
 

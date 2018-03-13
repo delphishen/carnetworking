@@ -6,6 +6,7 @@ import org.apache.ibatis.type.Alias;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Alias("CarApply")
 @Table(name = "t_car_apply")
@@ -25,7 +26,7 @@ public class CarApply extends BaseModel {
 	@Column
 	private  String privateOrPublic;
 	@Column
-	private String  departureTime;
+	private String departureTime;
 	@Column
 	private String  startLocale;
 	@Column

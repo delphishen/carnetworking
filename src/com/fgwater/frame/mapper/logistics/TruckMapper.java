@@ -20,6 +20,11 @@ public interface TruckMapper extends BaseMapper<Truck> {
 
 	public void deleteTable(Map<String, String> params);
 
-	public int checkPlateNumber(Map<String, String> params);	
+	public int checkPlateNumber(Map<String, String> params);
+
+    @Paging
+	public  List<Map<String,String>> queryTruckDispatcher(Map<String, String> params);
+
+    public Map<String,Object> queryCarTyoe(String plateNoId);
 
 }

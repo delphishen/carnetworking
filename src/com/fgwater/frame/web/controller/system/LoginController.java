@@ -2,8 +2,13 @@ package com.fgwater.frame.web.controller.system;
 
 import javax.annotation.Resource;
 
+import com.bolang.carnetworking.sms.SMSConfig;
+import com.bolang.carnetworking.sms.SMSUtil;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fgwater.core.common.ConstantSys;
@@ -22,8 +27,21 @@ public class LoginController extends BaseController {
 	private String errMsg;
 
 	@ResponseBody
-	@RequestMapping(value = "login.do")
+	@RequestMapping(value = "login.do",method = RequestMethod.POST)
 	public String login() {
+
+
+
+//		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-SMS-Config.xml");
+//
+//		SMSConfig config= context.getBean("sMSConfig", SMSConfig.class);
+//		System.out.println(config);
+//
+//		SMSUtil smsUtil = context.getBean(SMSUtil.class);
+//
+//		boolean flag = smsUtil.Send("13788821021","111111小明");
+
+
 		this.check();
 		this.responseModel.mount(this.getErrMsg(), MOUNT_TYPE_MSG);
 		return this.responseModel.serial();

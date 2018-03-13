@@ -8,8 +8,14 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
+import com.bolang.carnetworking.sms.SMSConfig;
+import com.bolang.carnetworking.sms.SMSUtil;
 import net.sf.json.JSONObject;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.fgwater.core.service.impl.BaseServiceImpl;
@@ -25,6 +31,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 	@Resource
 	private UserMapper userMapper;
+
+
+
+
+
 
 	public List<Map<String, String>> query(Map<String, String> m) {
 		User user = SessionUtils.getCurrUser();
@@ -84,6 +95,12 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	
 	
 	public boolean resetPassword(User user) {
+
+
+
+
+
+
 		JSONObject jo = JSONObject.fromObject(user);
 		Map<String, String> map = this.toMap(jo);		
 	//	System.out.println("resetPassword==="+jo.toString());

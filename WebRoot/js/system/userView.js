@@ -532,11 +532,11 @@ var userView = function(params) {
 	Ext.getCmp('buttonModifyUserView').hidden=!params[0].isModify;
 	Ext.getCmp('buttonDelUserView').hidden=!params[0].isDel;
 
-    var login = loginName == 'root' ? 1 : 0;
-
-	console.log(login);
-
-    Ext.getCmp('buttonauthorizationUserView').hidden=!login;
+    // var login = loginName == 'root' ? 1 : 0;
+    //
+    // console.log(login);
+    //
+    // Ext.getCmp('buttonauthorizationUserView').hidden=!login;
 	
 	return new Ext.Panel({
 				id : 'userView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开

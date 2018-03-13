@@ -5,7 +5,7 @@
 <mapper namespace="com.fgwater.frame.mapper.logistics.CustomerMapper">
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		select d.*, f.fleetName,c.company,t.driverType
+		select d.*, f.fleetName,c.company,t.driverType ,d.id as driverId
 		from   t_archives_driver d
 		LEFT JOIN t_system_fleet f ON d.fleetId = f.id
 		LEFT  join t_archives_company c  ON d.companyId = c.id
@@ -39,6 +39,20 @@
 		 where 1=1
 		<if test="fleetId!='root'">
 			and fleetId  = #{fleetId}
+		</if>
+	</select>
+
+
+	<select id="queryDriverDispatcher" parameterType="HashMap" resultType="HashMap">
+		SELECT dd.*,f.fleetName,d.driverName from t_archives_dispatcher_driver dd
+		LEFT JOIN t_system_fleet f ON dd.fleetId = f.id
+		LEFT JOIN t_archives_driver d ON dd.driverId = d.id
+		WHERE  1=1
+		<if test="fleetId!='root'">
+			and dd.fleetId = #{fleetId}
+		</if>
+		<if test="remark!='管理员'">
+			and dd.userId = #{userId}
 		</if>
 	</select>
 	

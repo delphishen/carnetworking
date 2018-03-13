@@ -196,13 +196,16 @@ App.importJs = {
     driverApplyView : [path + '/js/logistics/dossier/driverApplyView.js',
         path + '/js/logistics/dossier/driverRotaView.js',
         path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/driverDispatcherSelector.js',
         path + '/utils/selector/driverSelector.js',
+        path + '/utils/selector/truckDispatcherSelector.js',
         path + '/utils/selector/truckSelector.js',
         path + '/utils/selector/busTypeSelector.js',
         path + '/js/logistics/dossier/dispatchGrid.js',
         path + '/js/logistics/dossier/insanitydriverGrid.js',
         path + '/utils/expansion/treeCombo.js',
         path + '/js/wbb/cq/cqTree.js',
+
 
     ],
 

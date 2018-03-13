@@ -4,8 +4,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.bolang.carnetworking.sms.SMSConfig;
+import com.bolang.carnetworking.sms.SMSUtil;
 import net.sf.json.JSONObject;
 
+
+import org.springframework.context.ApplicationContext;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -81,6 +87,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "resetPassword.do")
 	public String resetPassword() {
+
 		
 		//System.out.println("userService==="+this.getUser());	
 		JSONObject jo = new JSONObject();

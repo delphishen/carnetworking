@@ -22,7 +22,7 @@
 		LEFT JOIN t_archives_company c ON l.companyId = c.id
 		LEFT JOIN t_archives_car_type t   ON l.carTtypeId = t.id
 		LEFT JOIN t_system_fleet f ON l.fleetId = f.id
-		LEFT JOIN t_charteredBus_type bt  ON l.charteredBusTypeId = bt.id
+		LEFT JOIN t_charteredbus_type bt  ON l.charteredBusTypeId = bt.id
 		WHERE  1=1
 		<if test="fleetId!='root'">
 			AND l.fleetId =#{fleetId}

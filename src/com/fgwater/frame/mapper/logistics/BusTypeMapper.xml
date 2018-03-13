@@ -10,7 +10,7 @@
 
 
 	<delete id="deleteTable" parameterType="HashMap">
-		delete from   t_charteredBus_type where id=#{id}
+		delete from   t_charteredbus_type where id=#{id}
 	</delete>
 
 
@@ -18,19 +18,19 @@
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
 	SELECT t.*, f.fleetName
-	FROM t_charteredBus_type t
+	FROM t_charteredbus_type t
 	INNER JOIN  t_system_fleet f
 	ON t.fleetId = f.id
 	<if test="fleetId!='root'">
 		where fleetId =#{fleetId}
 	</if>
 		<if test="charteredBusType!=null and charteredBusType!=''">
-			and t.charteredBusType like '%${charteredBusType}%'
+			and t.t_charteredbus_type like '%${charteredBusType}%'
 		</if>
 	</select>
 
 	<select id="getAll" parameterType="HashMap" resultType="BusType">
-		SELECT * FROM t_charteredBus_type
+		SELECT * FROM t_charteredbus_type
 		<if test="fleetId!='root'">
 			where fleetId =#{fleetId}
 		</if>

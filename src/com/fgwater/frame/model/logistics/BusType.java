@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Alias("BusType")
-@Table(name = "t_charteredBus_type")
+@Table(name = "t_charteredbus_type")
 public class BusType extends BaseModel {
 
 	private static final long serialVersionUID = 1L;

@@ -446,7 +446,10 @@ var refreshSysMenu = function() {
  * 
  * @return {}
  */
-var fleetView = function() {
+var fleetView = function(params) {
+    Ext.getCmp('buttonAddFleetView').hidden=!params[0].isAdd;
+    Ext.getCmp('buttonModifyFleetView').hidden=!params[0].isModify;
+    Ext.getCmp('buttonDelFleetView').hidden=!params[0].isDel;
 	return new Ext.Panel({
 				id : 'fleetView',// 灰蚕重要,一定要跟方法名称一样
 				title : '服务平台管理',
