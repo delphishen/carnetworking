@@ -53,29 +53,16 @@ Ext.truckType.form = Ext.extend(Ext.FormPanel, {
 						}
 					}]
 				},{
-						columnWidth : 1,
-						labelWidth : 60,
-						items : [{
-							xtype : 'combo',
-							fieldLabel : '车型名称',
-							hiddenName : 'modelName',
-							anchor : '98%',
-							typeAhead : true,
-							editable : false,
-							triggerAction : 'all',
-							lazyRender : true,
-                            allowBlank : false,
-							mode : 'local',
-							value:'舒适型',
-							store : new Ext.data.ArrayStore({
-								fields : ['key', 'val'],
-								data : [['舒适型', '舒适型'],
-									['商务型', '商务型']]
-							}),
-							valueField : 'val',
-							displayField : 'key'
-						}]
-					},{
+					columnWidth : 1,
+					items : [{
+						fieldLabel : '车型名称',
+						xtype : 'textfield',
+						name : 'modelName',
+						anchor : '98%',
+						allowBlank : false,
+						selectOnFocus : true
+					}]
+				},{
 					columnWidth : 1,
 					items : [{
 								fieldLabel : '车座数',

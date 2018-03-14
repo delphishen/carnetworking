@@ -58,11 +58,6 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 		this.applyMapper.insertlog(map);
 
 
-
-
-
-
-
 	}
 
 	@Override
