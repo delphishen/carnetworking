@@ -17,7 +17,7 @@ public interface DriverRotaService extends BaseService {
     public void deleteTable(List<DriverRota> driverRotas);
 
 
-
+    public  boolean updateDriverRota(DriverRota driverRota);
 
 }
 

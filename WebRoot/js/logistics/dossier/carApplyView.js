@@ -5,6 +5,7 @@ var  selectdata = null;
 
 
 
+
 Ext.carApply.form = Ext.extend(Ext.FormPanel, {
     constructor : function(app) {
         this.app = app;
@@ -49,9 +50,9 @@ Ext.carApply.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
                 id:'loginName',
-                fieldLabel : '用户名',
+                fieldLabel : '乘车用户',
                 xtype : 'textfield',
-                name : 'loginName',
+                name : 'passengerName',
                 anchor : '98%',
                 readOnly:true,
                 selectOnFocus : true
@@ -225,18 +226,28 @@ Ext.carApply.win = Ext.extend(Ext.Window, {
                              carApply: Ext.encode(selectdata)
                         }, function (resp) {
                              Ext.ux.Toast.msg('信息', '审核成功');
-                             this.app.carxxgrid.getStore().reload();
                         }, this);
                      }
 
 
         },this,true);
+        this.app.getStore().reload();
         this.close();
+
+        //this.app.getStore().reload();
+
     },
     onModifycar : function() {
         Ext.MessageBox.prompt("输入框","请输入取消原因：",function(bu,txt){
-            Ext.MessageBox.alert("Result","你点击的是"+bu+"按钮,<br> 输入的内容为："+txt);
-        });
+            if (bu == 'ok') {
+                Ext.eu.ajax(path + '/logistics/cancelcarApply.do', {
+                    carApply: Ext.encode(selectdata)
+                }, function (resp) {
+                    Ext.ux.Toast.msg('信息', '取消成功');
+                }, this);
+            }
+        },this,true);
+        this.app.getStore().reload();
         this.close();
     },
 
@@ -632,7 +643,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
 
 
         form.findField('fleetName').setValue(select.fleetName);
-        form.findField('loginName').setValue(select.loginName);
+        form.findField('passengerName').setValue(select.passengerName);
         form.findField('company').setValue(select.company);
 
         form.findField('departureTime').setValue(select.departureTime);
@@ -672,7 +683,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
 
 
         form.findField('fleetName').setValue(select.fleetName);
-        form.findField('loginName').setValue(select.loginName);
+        form.findField('passengerName').setValue(select.passengerName);
         form.findField('company').setValue(select.company);
 
         form.findField('departureTime').setValue(select.departureTime);
@@ -801,6 +812,8 @@ var carApplyView = function (params) {
 
     this.insanitydriverPanel = new Ext.insanitydriver.queryPanel(this);
     this.insanitydriverGrid = new Ext.insanitydriver.insanitydrivergrid(this);
+
+
 
     var re = remark != '调度员' ? 1 : 0;
 

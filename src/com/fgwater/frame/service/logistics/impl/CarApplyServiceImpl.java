@@ -8,6 +8,7 @@ import com.fgwater.frame.mapper.logistics.ApplyTypeMapper;
 import com.fgwater.frame.mapper.logistics.CarApplyMapper;
 import com.fgwater.frame.model.logistics.ApplyType;
 import com.fgwater.frame.model.logistics.CarApply;
+import com.fgwater.frame.model.logistics.Truck;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.CarApplyService;
 import net.sf.json.JSONObject;
@@ -128,6 +129,50 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 	@Override
 	public List<Map<String, String>> queryAllCarApply(Map<String, String> params) {
 		return this.applyMapper.queryAllCarApply(params);
+	}
+
+	@Override
+	public void cancelcarApply(CarApply carApply) {
+
+		this.applyMapper.cancelcarApply(carApply);
+
+		Map<String,String> map =  new HashMap<String, String>();
+		map.put("id",UUIDUtils.getUUID());
+		map.put("fleetId",carApply.getFleetId());
+		map.put("carApplyNo",carApply.getCarApplyNo());
+		map.put("activityId",carApply.getActivityId());
+		map.put("statues","已取消");
+		map.put("userId", SessionUtils.getCurrUserId());
+		map.put("approveDatetime",StrUtils.getCurrFormatTime());
+
+
+		System.out.println(map);
+		this.applyMapper.insertlog(map);
+
+	}
+
+	@Override
+	public void deletecarApply(List<CarApply> carApplies) {
+		for (CarApply carApplie : carApplies) {
+			JSONObject jo = JSONObject.fromObject(carApplie);
+			Map<String, String> map = this.toMap(jo);
+			applyMapper.deleteTable(map);
+		}
+	}
+
+	@Override
+	public boolean insertcarApply(CarApply carApply) {
+        carApply.setStatuesId("10");
+        carApply.setDriverId(null);
+        carApply.setPlateNoId(null);
+         String carApplyNo = carApply.getUserId()+System.currentTimeMillis();
+        carApply.setCarApplyNo(carApplyNo);
+        System.currentTimeMillis();
+	    carApply.setOrderFrom("后台下单");
+
+
+		applyMapper.insert(carApply);
+		return true;
 	}
 
 

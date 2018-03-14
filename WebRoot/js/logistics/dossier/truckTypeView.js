@@ -24,17 +24,7 @@ Ext.truckType.form = Ext.extend(Ext.FormPanel, {
 				}, {
                     xtype : 'hidden',
                     id : 'fleetId'
-                }, {
-					columnWidth : 1,
-					labelWidth : 60,
-					items : [{
-								fieldLabel : '车型名称',
-								xtype : 'textfield',
-								name : 'modelName',
-								anchor : '98%',								
-								selectOnFocus : true
-							}]
-				}, {
+                },  {
 					columnWidth : 1,
 					labelWidth : 60,
 					items : [{
@@ -47,6 +37,7 @@ Ext.truckType.form = Ext.extend(Ext.FormPanel, {
 						anchor : '98%',
 						editable : false,
 						autoLoad : true,
+                        allowBlank : false,
 						triggerAction : 'all',
 						mode : 'local',
 						store : this.fleetTypeDS,
@@ -61,13 +52,37 @@ Ext.truckType.form = Ext.extend(Ext.FormPanel, {
 							scope : this
 						}
 					}]
-				}, {
+				},{
+						columnWidth : 1,
+						labelWidth : 60,
+						items : [{
+							xtype : 'combo',
+							fieldLabel : '车型名称',
+							hiddenName : 'modelName',
+							anchor : '98%',
+							typeAhead : true,
+							editable : false,
+							triggerAction : 'all',
+							lazyRender : true,
+                            allowBlank : false,
+							mode : 'local',
+							value:'舒适型',
+							store : new Ext.data.ArrayStore({
+								fields : ['key', 'val'],
+								data : [['舒适型', '舒适型'],
+									['商务型', '商务型']]
+							}),
+							valueField : 'val',
+							displayField : 'key'
+						}]
+					},{
 					columnWidth : 1,
 					items : [{
 								fieldLabel : '车座数',
 								xtype : 'numberfield',
 								name : 'seatNumber',
 								anchor : '98%',
+                        		allowBlank : false,
 								selectOnFocus : true
 							}]
 				}, {
@@ -77,6 +92,7 @@ Ext.truckType.form = Ext.extend(Ext.FormPanel, {
 								xtype : 'numberfield',
 								name : 'approvedPassengersCapacity',
 								anchor : '98%',
+                       		 	allowBlank : false,
 								selectOnFocus : true
 							}]
 				},{

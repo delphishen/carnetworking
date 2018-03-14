@@ -42,10 +42,11 @@ public class DriveraRotaServiceImpl extends BaseServiceImpl implements DriverRot
 		}
 	}
 
-
-
-
-
+	@Override
+	public boolean updateDriverRota(DriverRota driverRota) {
+		driverRotaMapper.update(driverRota);
+		return true;
+	}
 
 
 	public boolean saveOrUpdateBusType(DriverRota driverRota) {

@@ -73,6 +73,18 @@ public class DriverRotaController extends BaseController {
 	}
 
 
+	@ResponseBody
+	@RequestMapping(value = "updateDriverRota.do")
+	public String updateDriverRota() {
+
+		JSONObject jo = new JSONObject();
+		jo.element("success", true);
+		jo.element("label", this.driverRotaService.updateDriverRota(this.getDriverRota()));
+
+		return jo.toString();
+	}
+
+
 	public List<DriverRota> getDriverRotas() {
 		return driverRotas;
 	}

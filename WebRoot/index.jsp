@@ -18,7 +18,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<base href="<%=basePath%>">
-		<title>泉州博浪科技有限公司</title>
+		<title>泉州搏浪科技有限公司</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
@@ -154,7 +154,7 @@
 			</div>
 			<div id="copyright"
 				style="float: left; width: 36%; text-align: center; margin-top: 4;">
-				Copyright © 2017 泉州博浪科技有限公司 All Rights Reserved
+				Copyright © 2017 泉州搏浪科技有限公司 All Rights Reserved
 			</div>
 			<div id="version"
 				style="float: right; margin-top: 4; margin-right: 10;">

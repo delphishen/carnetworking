@@ -304,7 +304,7 @@ var kqView = function() {
 	this.grid = new Ext.kq.grid(this);
 	return new Ext.Panel({
 				id : 'kqView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '车辆调度',
+				title : '调度员调度车辆',
 				layout : 'border',
 				items : [this.sortTree, {
 							region : 'center',

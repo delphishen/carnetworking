@@ -122,6 +122,13 @@
       SET statuesId = '20'
       WHERE carApplyNo=#{carApplyNo}
 
+    </update>
+
+    <update id="cancelcarApply" parameterType="CarApply">
+
+        UPDATE t_car_apply
+        SET statuesId = '0'
+        WHERE carApplyNo=#{carApplyNo}
 
     </update>
 
@@ -154,6 +161,12 @@
 
 
     </insert>
+
+
+    <delete id="deleteTable" parameterType="HashMap">
+
+        delete from t_car_apply where carApplyNo=#{carApplyNo}
+    </delete>
 
 
 

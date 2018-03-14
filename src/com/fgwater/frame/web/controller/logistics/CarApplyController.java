@@ -117,6 +117,22 @@ public class CarApplyController extends BaseController {
 
 
 	@ResponseBody
+	@RequestMapping(value = "insertcarApply.do")
+	public String insertcarApply() {
+
+
+		CarApply carApply = this.getCarApply();
+
+
+		JSONObject jo = new JSONObject();
+		jo.element("success", true);
+		jo.element("label", this.applyService.insertcarApply(carApply));
+
+		return jo.toString();
+	}
+
+
+	@ResponseBody
 	@RequestMapping(value = "updatearApply.do")
 	public String delete() {
 		System.out.println("============获取未审核信息zzzzzz==============="+this.getCarApply());
@@ -124,6 +140,26 @@ public class CarApplyController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+
+	@ResponseBody
+	@RequestMapping(value = "cancelcarApply.do")
+	public String cancelcarApply() {
+
+
+		System.out.println("===========取消审核信息==============="+this.getCarApply());
+		this.applyService.cancelcarApply(this.getCarApply());
+		return this.responseModel.serial();
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "deletecarApply.do")
+	public String deletecarApply() {
+
+
+		this.applyService.deletecarApply(this.getCarApplies());
+		return this.responseModel.serial();
+	}
 
 
 

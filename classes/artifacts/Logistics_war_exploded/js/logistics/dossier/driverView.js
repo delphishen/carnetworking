@@ -225,7 +225,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             items : [{
                 fieldLabel : '电话',
                 xtype : 'numberfield',
-                id : 'tel',
+                id : 'mobile',
                 anchor : '98%',
                 selectOnFocus : true,
                 regex:/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/,

@@ -29,7 +29,7 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
@@ -81,6 +81,7 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
                 submitValue : false,
                 anchor : '98%',
                 editable : false,
+                allowBlank : false,
                 autoLoad : true,
                 triggerAction : 'all',
                 mode : 'local',
@@ -123,6 +124,7 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
 								xtype : 'textfield',
 								name : 'passengerName',
 								anchor : '98%',
+                        		allowBlank : false,
 								selectOnFocus : true
 							}]
 				},{
@@ -130,9 +132,12 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
             items : [{
             	id:'mobile',
                 fieldLabel : '手机号码',
-                xtype : 'textfield',
+                xtype : 'numberfield',
                 name : 'mobile',
                 anchor : '98%',
+                allowBlank : false,
+                regex:/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/,
+                regexText:'请输入正确的手机号码',
                 selectOnFocus : true
             }]
         },{
@@ -154,6 +159,7 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
                 hiddenName : 'statuesId',
                 anchor : '98%',
                 typeAhead : true,
+                allowBlank : false,
                 editable : false,
                 triggerAction : 'all',
                 lazyRender : true,
@@ -322,7 +328,14 @@ Ext.passenger.grid = Ext.extend(Ext.grid.GridPanel, {
 										dataIndex : 'address'
 									}, {
 										header : '状态',
-										dataIndex : 'statuesId'
+										dataIndex : 'statuesId',
+                                renderer : function(val) {
+                                    if (val == 0) {
+                                        return '不可用';
+                                    } else if (val == 1){
+                                        return '可用';
+                                    }
+                                }
 									}, {
 										header : '所属机构',
 										dataIndex : 'company'

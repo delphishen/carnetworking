@@ -236,7 +236,8 @@ App.importJs = {
         path + '/utils/selector/kqSelector.js',
         path + '/utils/selector/driverSelector.js',
         path + '/utils/selector/truckSelector.js',
-        path + '/utils/selector/passengerSelector.js'
+        path + '/utils/selector/passengerSelector.js',
+        path + '/utils/selector/truckTypeSelector.js',
 
     ],
 

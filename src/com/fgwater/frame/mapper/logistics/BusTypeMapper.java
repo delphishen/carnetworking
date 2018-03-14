@@ -20,4 +20,6 @@ public interface BusTypeMapper extends BaseMapper<BusType> {
 
     public List<BusType> getAll(Map<String, String> params);
 
+    public int checkByFleetId(BusType busType);
+
 }

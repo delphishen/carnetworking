@@ -222,7 +222,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
         }, {
             columnWidth: 1,
             items: [{
-                fieldLabel: '反空费用',
+                fieldLabel: '返空费用',
                 xtype: 'textfield',
                 name: 'emptyPrice',
                 anchor: '98%',
@@ -426,9 +426,15 @@ Ext.carTypePrice.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 header: '时间费用',
                 dataIndex: 'timePrice'
             }, {
-                header: '反空费用',
+                header: '返空费用',
                 dataIndex: 'emptyPrice'
+            },{
+                header: '夜间费用起始',
+                dataIndex: 'nighttimeBegin'
             }, {
+                header: '夜间费用截止',
+                dataIndex: 'nighttimeEnd'
+            },  {
                 header: '夜间费用',
                 dataIndex: 'nighttimePrice'
             },{

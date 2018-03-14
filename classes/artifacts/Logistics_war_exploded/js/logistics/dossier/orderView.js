@@ -287,7 +287,7 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
             selectOnFocus : true,
             submitValue : false,
             allowBlank : false,
-            editable : false,
+            editable : true,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
 
@@ -359,6 +359,31 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
         });
 
 
+        this.truckTypeSelector = new Ext.form.TriggerField({
+            fieldLabel : '车辆类型',
+            name : 'modelName',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : false,
+            editable : false,
+            onTriggerClick : function(e) {
+                new truckTypeSelector(function(id, name) {
+                    this.setValue(name);
+                    Ext.getCmp('carTypeId').setValue(id);
+                    //	if(Ext.getCmp('loginName').getValue != ''){
+                    //		Ext.getCmp('loginName').setValue(name);
+                    //	}
+
+
+
+                }, true, this);
+            },
+            scope : this
+        });
+
+
 
 
 
@@ -381,6 +406,9 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
         }, {
             xtype : 'hidden',
             id : 'plateNoId'
+        }, {
+            xtype : 'hidden',
+            id : 'carTypeId'
         },  {
             columnWidth : 1,
             labelWidth : 60,
@@ -435,6 +463,9 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
             items : [this.kqSelector]
         },{
             columnWidth : 1,
+            items : [this.truckTypeSelector]
+        },{
+            columnWidth : 1,
             items : [this.passengerSelector]
         }, {
                 columnWidth : 1,
@@ -447,6 +478,7 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                     editable : false,
                     triggerAction : 'all',
                     lazyRender : true,
+                    allowBlank : false,
                     mode : 'local',
                     store : new Ext.data.ArrayStore({
                         fields : ['key', 'val'],
@@ -466,6 +498,7 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                 hiddenName : 'privateOrPublic',
                 anchor : '98%',
                 typeAhead : true,
+                allowBlank : false,
                 editable : false,
                 triggerAction : 'all',
                 lazyRender : true,
@@ -513,6 +546,7 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                 fieldLabel : '出发点',
                 xtype : 'textfield',
                 name : 'startLocale',
+                allowBlank : false,
                 anchor : '98%',
                 selectOnFocus : true
             }]
@@ -522,6 +556,7 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                 fieldLabel : '终点站',
                 xtype : 'textfield',
                 name : 'endLocale',
+                allowBlank : false,
                 anchor : '98%',
                 selectOnFocus : true
             }]
@@ -650,16 +685,16 @@ Ext.order.orderswin = Ext.extend(Ext.Window, {
             var user = form.getValues();
             user.departureTime = user.departuredate+" "+user.departureTime;
             console.log(user.departureTime);
-            Ext.eu.ajax(path + '/logistics/savecarApply.do', {
+            Ext.eu.ajax(path + '/logistics/insertcarApply.do', {
                 carApply : Ext.encode(user)
             }, function(resp) {
                 var res = Ext.decode(resp.responseText);
                 if (res.label) {
-                    Ext.ux.Toast.msg('信息', '调度成功！请通知乘客和司机');
+                    Ext.ux.Toast.msg('信息', '下单成功！请通知审核员和调度员');
                     this.app.getStore().reload();
                     this.close();
                 } else {
-                    Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+                    Ext.ux.Toast.msg('提示', '下单失败！！！');
                     btn.setDisabled(false);
                 }
             }, this);
@@ -686,10 +721,13 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                         ,'company','driverName','modelName','plateNoId','plateNo'],
                     autoDestroy: true,
                     autoLoad: true,
+                    Height:'600',
+                    Width:'600',
+                    autoScroll:true,
                     baseParams: {
                         isPaging: true,
                         start: 0,
-                        limit: 80,
+                        limit: 30,
                         fleetId: fleedId,
                         statuesId:'2'
                     },
@@ -711,8 +749,8 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 				// 列
                 this.cm = new Ext.grid.ColumnModel({
                     defaults: {
-                        width: 80,
-                        sortable: true
+                        width: 120,
+                        sortable: true,
                     },
                     columns: [new Ext.grid.RowNumberer(), this.sm, {
                         header: 'carApplyNo',
@@ -735,10 +773,6 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                         dataIndex: 'driverId',
                         hidden: true
                     }, {
-                        header: 'statuesId',
-                        dataIndex: 'statuesId',
-                        hidden: true
-                    },{
                         header: 'plateNoId',
                         dataIndex: 'plateNoId',
                         hidden: true
@@ -790,8 +824,41 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                     }, {
                         header: '车牌号',
                         dataIndex: 'plateNo'
-                    }
-                    ]
+                    },{
+                        header: '订单状态',
+                        dataIndex: 'statuesId',
+                        renderer : function(val) {
+                            if (val == '-1') {
+                                return '乘客取消';
+                            } else if (val == '-2'){
+                                return '司机取消';
+                            }else if (val == '-3'){
+                                return '后台取消';
+                            }else if (val == '-4'){
+                                return '其他取消';
+                            }else if (val == '0'){
+                                return '审核未通过';
+                            }else if (val == '10'){
+                                return '审核中';
+                            }else if (val == '20'){
+                                return '审核通过';
+                            }else if (val == '30'){
+                                return '已分配';
+                            }else if (val == '40'){
+                                return '车辆到达出发点';
+                            }else if (val == '50'){
+                                return '乘客已上车';
+                            }else if (val == '60'){
+                                return '乘客已下车';
+                            }else if (val == '70'){
+                                return '乘客已确认费用';
+                            }else if (val == '80'){
+                                return '系统确认费用';
+                            }else if (val == '90'){
+                                return '已评价';
+                            }
+                        }
+                    }]
                 });
 				// 菜单条
 				this.tbar = new Ext.Toolbar([ {
@@ -818,7 +885,7 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 						}]);
 				// 页码条
 				this.bbar = new Ext.PagingToolbar({
-							pageSize : 80,
+							pageSize : 30,
 							displayInfo : true,
 							store : this.ds
 						});
@@ -852,31 +919,41 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var select = selects[0].data;
-        var win = new Ext.order.win(this);
-        var form = win.form.getForm();
-        win.setTitle('修改订单信息', 'modify');
-        form.findField('carApplyNo').setValue(select.carApplyNo);
-        form.findField('fleetId').setValue(select.fleetId);
-        form.findField('driverId').setValue(select.driverId);
-        form.findField('plateNoId').setValue(select.plateNoId);
+        var statuesId = selects[0].data.statuesId;
+        if (statuesId == '30' || statuesId =='40'){
+            var win = new Ext.order.win(this);
+            var form = win.form.getForm();
+            win.setTitle('修改订单信息', 'modify');
+            form.findField('carApplyNo').setValue(select.carApplyNo);
+            form.findField('fleetId').setValue(select.fleetId);
+            form.findField('driverId').setValue(select.driverId);
+            form.findField('plateNoId').setValue(select.plateNoId);
 
 
-        form.findField('privateOrPublic').setValue(select.privateOrPublic);
-        form.findField('departureTime').setValue(select.departureTime);
-        form.findField('startLocale').setValue(select.startLocale);
-        form.findField('endLocale').setValue(select.endLocale);
-        form.findField('carTypeId').setValue(select.carTypeId);
-        form.findField('budgetCost').setValue(select.budgetCost);
-        form.findField('budgetKilometres').setValue(select.budgetKilometres);
-        form.findField('cost').setValue(select.cost);
-        form.findField('kilometres').setValue(select.kilometres);
-        form.findField('content').setValue(select.content);
-        form.findField('remark').setValue(select.remark);
-        form.findField('businessType1').setValue(select.businessType);
+            form.findField('privateOrPublic').setValue(select.privateOrPublic);
+            form.findField('departureTime').setValue(select.departureTime);
+            form.findField('startLocale').setValue(select.startLocale);
+            form.findField('endLocale').setValue(select.endLocale);
+            form.findField('carTypeId').setValue(select.carTypeId);
+            form.findField('budgetCost').setValue(select.budgetCost);
+            form.findField('budgetKilometres').setValue(select.budgetKilometres);
+            form.findField('cost').setValue(select.cost);
+            form.findField('kilometres').setValue(select.kilometres);
+            form.findField('content').setValue(select.content);
+            form.findField('remark').setValue(select.remark);
+            form.findField('businessType1').setValue(select.businessType);
 
-        form.findField('driverName').setValue(select.driverName);
-        form.findField('plateNo').setValue(select.plateNo);
-        win.show();
+            form.findField('driverName').setValue(select.driverName);
+            form.findField('plateNo').setValue(select.plateNo);
+            win.show();
+        }else {
+            Ext.ux.Toast.msg("信息", "改订单不在改派范围内！");
+            return;
+
+        }
+
+        console.log("========="+statuesId)
+
     },
 			onDelete : function() {
 				var selects = Ext.eu.getSelects(this);
@@ -887,7 +964,7 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 				var ary = Array();
 				for (var i = 0; i < selects.length; i++) {
 					var user = {
-						id : selects[i].data.id
+                        carApplyNo : selects[i].data.carApplyNo
 					}
 					ary.push(user);
 				}
@@ -895,8 +972,8 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 				// Ext.ux.Toast.msg("信息", Ext.encode(ary));
 				Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
 							if (btn == 'yes') {
-								Ext.eu.ajax(path + '/logistics/deleteApplyType.do', {
-											applyTypes : Ext.encode(ary)
+								Ext.eu.ajax(path + '/logistics/deletecarApply.do', {
+                                        carApplies : Ext.encode(ary)
 										}, function(resp) {
 											Ext.ux.Toast.msg('信息', '删除成功');
 											this.getStore().reload();

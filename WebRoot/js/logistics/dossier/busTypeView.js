@@ -44,6 +44,7 @@ Ext.busType.form = Ext.extend(Ext.FormPanel, {
                 anchor : '98%',
                 editable : false,
                 autoLoad : true,
+                allowBlank : false,
                 triggerAction : 'all',
                 mode : 'local',
                 store : this.fleetTypeDS,
@@ -66,6 +67,7 @@ Ext.busType.form = Ext.extend(Ext.FormPanel, {
 								xtype : 'textfield',
 								name : 'charteredBusType',
 								anchor : '98%',
+                        		allowBlank : false,
 								selectOnFocus : true
 							}]
 				},{
@@ -213,21 +215,21 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 				// 菜单条
 				this.tbar = new Ext.Toolbar([{
-							id:'buttonAdddriverTypeView',
+							id:'buttonAddbusTypeView',
 							xtype : 'button',
 							iconCls : 'add',
 							text : '新增',
 							handler : this.onAdd,
 							scope : this
 						}, {
-							id:'buttonModifydriverTypeView',
+							id:'buttonModifybusTypeView',
 							xtype : 'button',
 							iconCls : 'modify',
 							text : '修改',
 							handler : this.onModify,
 							scope : this
 						}, {
-							id:'buttonDeldriverTypeView',
+							id:'buttonDelbusTypeView',
 							xtype : 'button',
 							iconCls : 'delete',
 							text : '删除',
@@ -387,9 +389,9 @@ var busTypeView = function(params) {
 	this.queryPanel = new Ext.busType.queryPanel(this);
 	this.grid = new Ext.busType.grid(this);
 
-	Ext.getCmp('buttonAdddriverTypeView').hidden=!params[0].isAdd;
-	Ext.getCmp('buttonModifydriverTypeView').hidden=!params[0].isModify;
-	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;	
+	Ext.getCmp('buttonAddbusTypeView').hidden=!params[0].isAdd;
+	Ext.getCmp('buttonModifybusTypeView').hidden=!params[0].isModify;
+	Ext.getCmp('buttonDelbusTypeView').hidden=!params[0].isDel;
 	
 	return new Ext.Panel({
 				id : 'busTypeView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开

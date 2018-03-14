@@ -39,4 +39,8 @@ public interface CarApplyMapper extends BaseMapper<CarApply> {
     @Paging
     public List<Map<String,String>> queryAllCarApply(Map<String, String> params);
 
+    public void cancelcarApply(CarApply carApply);
+
+    public void deleteTable(Map<String, String> map);
+
 }

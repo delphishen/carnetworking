@@ -1,6 +1,6 @@
-Ext.namespace('Ext.busType');
+Ext.namespace('Ext.applyType');
 
-Ext.busType.form = Ext.extend(Ext.FormPanel, {
+Ext.applyType.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
 
@@ -44,6 +44,7 @@ Ext.busType.form = Ext.extend(Ext.FormPanel, {
                 anchor : '98%',
                 editable : false,
                 autoLoad : true,
+                allowBlank : false,
                 triggerAction : 'all',
                 mode : 'local',
                 store : this.fleetTypeDS,
@@ -66,6 +67,7 @@ Ext.busType.form = Ext.extend(Ext.FormPanel, {
 								xtype : 'textfield',
 								name : 'settlement',
 								anchor : '98%',
+                        		allowBlank : false,
 								selectOnFocus : true
 							}]
 				},{
@@ -80,7 +82,7 @@ Ext.busType.form = Ext.extend(Ext.FormPanel, {
             }]
         }];
 
-		Ext.busType.form.superclass.constructor.call(this, {
+		Ext.applyType.form.superclass.constructor.call(this, {
 					labelWidth : 60,
 					baseCls : 'x-plain',
 					layout : 'column',
@@ -99,11 +101,11 @@ Ext.busType.form = Ext.extend(Ext.FormPanel, {
 
 });
 
-Ext.busType.win = Ext.extend(Ext.Window, {
+Ext.applyType.win = Ext.extend(Ext.Window, {
 			constructor : function(app) {
 				this.app = app;
-				this.form = new Ext.busType.form(this);
-				Ext.busType.win.superclass.constructor.call(this, {
+				this.form = new Ext.applyType.form(this);
+				Ext.applyType.win.superclass.constructor.call(this, {
 							width : 300,
 							plain : true,
 							showLock : true,
@@ -149,7 +151,7 @@ Ext.busType.win = Ext.extend(Ext.Window, {
 			}
 		});
 
-Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
+Ext.applyType.grid = Ext.extend(Ext.grid.GridPanel, {
 			constructor : function(app) {
 				this.app = app;
 				// 数据源
@@ -213,21 +215,21 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 				// 菜单条
 				this.tbar = new Ext.Toolbar([{
-							id:'buttonAdddriverTypeView',
+							id:'buttonAdddapplyTypeView',
 							xtype : 'button',
 							iconCls : 'add',
 							text : '新增',
 							handler : this.onAdd,
 							scope : this
 						}, {
-							id:'buttonModifydriverTypeView',
+							id:'buttonModifyapplyTypeView',
 							xtype : 'button',
 							iconCls : 'modify',
 							text : '修改',
 							handler : this.onModify,
 							scope : this
 						}, {
-							id:'buttonDeldriverTypeView',
+							id:'buttonDelapplyTypeView',
 							xtype : 'button',
 							iconCls : 'delete',
 							text : '删除',
@@ -241,7 +243,7 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 							store : this.ds
 						});
 				// 构造
-				Ext.busType.grid.superclass.constructor.call(this, {
+				Ext.applyType.grid.superclass.constructor.call(this, {
 							region : 'center',
 							loadMask : 'loading...',
 							columnLines : true,
@@ -253,7 +255,7 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 			},
 			onAdd : function(btn) {
-				var win = new Ext.busType.win(this);
+				var win = new Ext.applyType.win(this);
 				win.setTitle('添加结算类型', 'add');
 				win.show();
 			},
@@ -268,7 +270,7 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 					return;
 				}
 				var select = selects[0].data;
-				var win = new Ext.busType.win(this);
+				var win = new Ext.applyType.win(this);
 				var form = win.form.getForm();
 				win.setTitle('修改结算信息', 'modify');
 				form.findField('id').setValue(select.id);
@@ -308,7 +310,7 @@ Ext.busType.grid = Ext.extend(Ext.grid.GridPanel, {
 			}
 		});
 
-Ext.busType.queryPanel = Ext.extend(Ext.FormPanel, {
+Ext.applyType.queryPanel = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
@@ -351,7 +353,7 @@ Ext.busType.queryPanel = Ext.extend(Ext.FormPanel, {
 									}]
 						}];
 				// panel定义
-				Ext.busType.queryPanel.superclass.constructor.call(this, {
+				Ext.applyType.queryPanel.superclass.constructor.call(this, {
 							id : 'applyTypeViewQueryPanel',
 							region : 'north',
 							height : 40,
@@ -379,12 +381,12 @@ Ext.busType.queryPanel = Ext.extend(Ext.FormPanel, {
  * @return {}
  */
 var applyTypeView = function(params) {
-	this.queryPanel = new Ext.busType.queryPanel(this);
-	this.grid = new Ext.busType.grid(this);
+	this.queryPanel = new Ext.applyType.queryPanel(this);
+	this.grid = new Ext.applyType.grid(this);
 
-	Ext.getCmp('buttonAdddriverTypeView').hidden=!params[0].isAdd;
-	Ext.getCmp('buttonModifydriverTypeView').hidden=!params[0].isModify;
-	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;	
+	Ext.getCmp('buttonAdddapplyTypeView').hidden=!params[0].isAdd;
+	Ext.getCmp('buttonModifyapplyTypeView').hidden=!params[0].isModify;
+	Ext.getCmp('buttonDelapplyTypeView').hidden=!params[0].isDel;
 	
 	return new Ext.Panel({
 				id : 'applyTypeView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开

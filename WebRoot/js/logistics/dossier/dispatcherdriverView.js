@@ -13,7 +13,7 @@ Ext.dispatcherdriver.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 new userSelector(function(id, name,userFleetId) {
@@ -37,7 +37,7 @@ Ext.dispatcherdriver.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 new driverSelector(function(id, name) {

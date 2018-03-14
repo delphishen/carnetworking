@@ -47,10 +47,11 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 		//if (count == 0) {
 			if (StrUtils.isNullOrEmpty(map.get("id"))) {
 				map.put("id", UUIDUtils.getUUID());
+				customer.setId(UUIDUtils.getUUID());
 
-				customerMapper.saveTable(map);
+				customerMapper.insert(customer);
 			} else {
-				customerMapper.updateTable(map);
+				customerMapper.update(customer);
 			}
 		//}
 		return true;

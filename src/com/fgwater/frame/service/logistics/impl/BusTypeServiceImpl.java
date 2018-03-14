@@ -51,7 +51,8 @@ public class BusTypeServiceImpl extends BaseServiceImpl implements BusTypeServic
 
 
 	public boolean saveOrUpdateBusType(BusType busType) {
-		int count = this.busTypeMapper.check(busType, "charteredBusType");
+		//int count = this.busTypeMapper.check(busType, "charteredBusType");
+		int count = this.busTypeMapper.checkByFleetId(busType);
 		if (count == 0) {
 			if (StrUtils.isNullOrEmpty(busType.getId())) {
 				busType.setId(UUIDUtils.getUUID());

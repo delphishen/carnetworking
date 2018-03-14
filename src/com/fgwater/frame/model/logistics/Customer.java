@@ -26,7 +26,7 @@ public class Customer extends  BaseModel {
 	@Column
 	private  String companyId;// 所属单位机构名称
 	@Column
-	private  String score;//最近评分
+	private  float score;//最近评分
 	@Column
 	private  String statuesId;  //当前状态（在岗不在岗）
 	@Column
@@ -43,7 +43,7 @@ public class Customer extends  BaseModel {
 	@Column
 	private  String driverTypeId;//司机类型ID
 	@Column
-	private  String tel;// 电话
+	private  String mobile ;// 电话
 	@Column
 	private  String address;// 联系地址
 	@Column
@@ -86,11 +86,11 @@ public class Customer extends  BaseModel {
 		this.companyId = companyId;
 	}
 
-	public String getScore() {
+	public float getScore() {
 		return score;
 	}
 
-	public void setScore(String score) {
+	public void setScore(float score) {
 		this.score = score;
 	}
 
@@ -150,12 +150,13 @@ public class Customer extends  BaseModel {
 		this.driverTypeId = driverTypeId;
 	}
 
-	public String getTel() {
-		return tel;
+
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setTel(String tel) {
-		this.tel = tel;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getAddress() {
@@ -205,7 +206,7 @@ public class Customer extends  BaseModel {
 				", peccancyCount=" + peccancyCount +
 				", dateOfBirth='" + dateOfBirth + '\'' +
 				", driverTypeId='" + driverTypeId + '\'' +
-				", tel='" + tel + '\'' +
+				", mobile='" + mobile + '\'' +
 				", address='" + address + '\'' +
 				", drivingLicenceNo='" + drivingLicenceNo + '\'' +
 				", workLicenseNo='" + workLicenseNo + '\'' +

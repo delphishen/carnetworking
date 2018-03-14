@@ -1,5 +1,7 @@
 Ext.namespace('Ext.driverRota');
 
+var flag  ;
+
 Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
@@ -216,6 +218,7 @@ Ext.driverRota.win = Ext.extend(Ext.Window, {
 						});
 			},
 			onSave : function(btn) {
+
 				var form = this.form.getForm();
 				if (form.isValid()) {
 					btn.setDisabled(true);
@@ -228,22 +231,41 @@ Ext.driverRota.win = Ext.extend(Ext.Window, {
                     console.log(user.clockOutdate);
                     console.log(user.clockIn);
                     console.log(user.clockOut);
-					Ext.eu.ajax(path + '/logistics/saveDriverRota.do', {
-                        driverRota : Ext.encode(user)
-							}, function(resp) {
-								var res = Ext.decode(resp.responseText);
-								if (res.label) {
-									Ext.ux.Toast.msg('信息', '保存成功');
-									this.app.getStore().reload();
-									this.close();
-								} else {
-									Ext.ux.Toast.msg('提示', '该司机已设置排班日期！！！');
-									btn.setDisabled(false);
-								}
-							}, this);
+                    if (flag == 1){
+                        Ext.eu.ajax(path + '/logistics/saveDriverRota.do', {
+                            driverRota : Ext.encode(user)
+                        }, function(resp) {
+                            var res = Ext.decode(resp.responseText);
+                            if (res.label) {
+                                Ext.ux.Toast.msg('信息', '保存成功');
+                                this.app.getStore().reload();
+                                this.close();
+                            } else {
+                                Ext.ux.Toast.msg('提示', '该司机已设置排班日期！！！');
+                                btn.setDisabled(false);
+                            }
+                        }, this);
+					}else {
+                        Ext.eu.ajax(path + '/logistics/updateDriverRota.do', {
+                            driverRota : Ext.encode(user)
+                        }, function(resp) {
+                            var res = Ext.decode(resp.responseText);
+                            if (res.label) {
+                                Ext.ux.Toast.msg('信息', '修改成功');
+                                this.app.getStore().reload();
+                                this.close();
+                            } else {
+                                Ext.ux.Toast.msg('提示', '该司机已设置排班日期！！！');
+                                btn.setDisabled(false);
+                            }
+                        }, this);
+					}
+
 				}
 			},
 			onClose : function() {
+
+				//console.log("========================"+flag)
 				this.close();
 			}
 		});
@@ -356,11 +378,13 @@ Ext.driverRota.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 			},
 			onAdd : function(btn) {
+				 flag = 1;
 				var win = new Ext.driverRota.win(this);
 				win.setTitle('添加司机排班', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
+				flag =2;
 				var selects = Ext.eu.getSelects(this);
 
 				if (selects.length == 0) {

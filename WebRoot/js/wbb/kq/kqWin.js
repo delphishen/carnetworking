@@ -32,7 +32,7 @@ Ext.kq.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp("fleetId").value;
@@ -64,7 +64,7 @@ Ext.kq.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : true,
+            allowBlank : false,
             editable : false,
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp("fleetId").value;
@@ -112,6 +112,7 @@ Ext.kq.form = Ext.extend(Ext.FormPanel, {
                 anchor : '98%',
                 editable : false,
                 autoLoad : true,
+                allowBlank : false,
                 triggerAction : 'all',
                 mode : 'local',
                 store : this.fleetTypeDS,

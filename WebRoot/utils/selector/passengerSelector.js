@@ -112,7 +112,7 @@ Ext.passengerSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								dataIndex : 'fleetName'
 							}, {
 								header : '所属机构',
-								dataIndex : 'phone'
+								dataIndex : 'company'
 							},{
 								header : '乘客姓名',
 								dataIndex : 'passengerName'
