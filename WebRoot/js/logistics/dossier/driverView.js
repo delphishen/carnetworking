@@ -504,7 +504,7 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('statuesId').setValue(select.statuesId);
         form.findField('sex').setValue(select.sex);
         form.findField('score').setValue(select.score);
-        form.findField('tel').setValue(select.mobile);
+        form.findField('mobile').setValue(select.mobile);
         form.findField('address').setValue(select.address);
 
 

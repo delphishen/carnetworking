@@ -471,7 +471,8 @@ var refreshSysMenu = function() {
  * 
  * @return {}
  */
-var companyView = function() {
+var companyView = function(params) {
+	console.log("=========="+params[0])
 	return new Ext.Panel({
 				id : 'companyView',// 灰蚕重要,一定要跟方法名称一样
 				title : '单位机构管理',

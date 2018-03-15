@@ -7,7 +7,7 @@
 
 	<select id="getTreeAll"  parameterType="HashMap" resultType="Fleet">
 
-		SELECT id,fatherId,fleetName,contacts,mobile,tel, carCount,passengerCount FROM t_system_fleet
+		SELECT * FROM t_system_fleet
 
 		<if test="fleetId!='root'">
 			where id =#{fleetId}

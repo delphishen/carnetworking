@@ -527,6 +527,7 @@ var userView = function(params) {
 	this.grid = new Ext.user.grid(this);
 
 
+
 	console.log(params[0]);
 	Ext.getCmp('buttonAddUserView').hidden=!params[0].isAdd;
 	Ext.getCmp('buttonModifyUserView').hidden=!params[0].isModify;

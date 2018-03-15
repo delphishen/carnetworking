@@ -151,54 +151,6 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
 
-                id:'budgetCost',
-                fieldLabel : '预算费用',
-                xtype : 'textfield',
-                readOnly : true,
-                name : 'budgetCost',
-                anchor : '98%',
-                selectOnFocus : true
-            }]
-        },{
-            columnWidth : 1,
-            items : [{
-
-                id:'budgetKilometres',
-                fieldLabel : '预算公里数',
-                xtype : 'textfield',
-                readOnly : true,
-                name : 'budgetKilometres',
-                anchor : '98%',
-                selectOnFocus : true
-            }]
-        },{
-            columnWidth : 1,
-            items : [{
-
-                id:'cost',
-                fieldLabel : '结算费用',
-                xtype : 'textfield',
-                readOnly : true,
-                name : 'cost',
-                anchor : '98%',
-                selectOnFocus : true
-            }]
-        },{
-            columnWidth : 1,
-            items : [{
-
-                id:'kilometres',
-                fieldLabel : '结算公里数',
-                xtype : 'textfield',
-                readOnly : true,
-                name : 'kilometres',
-                anchor : '98%',
-                selectOnFocus : true
-            }]
-        },{
-            columnWidth : 1,
-            items : [{
-
                 id:'content',
                 fieldLabel : '出行事由',
                 xtype : 'textfield',
@@ -505,10 +457,6 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('startLocale').setValue(select.startLocale);
         form.findField('endLocale').setValue(select.endLocale);
         form.findField('carTypeId').setValue(select.carTypeId);
-        form.findField('budgetCost').setValue(select.budgetCost);
-        form.findField('budgetKilometres').setValue(select.budgetKilometres);
-        form.findField('cost').setValue(select.cost);
-        form.findField('kilometres').setValue(select.kilometres);
         form.findField('content').setValue(select.content);
         form.findField('remark').setValue(select.remark);
         form.findField('businessType2').setValue(select.businessType);

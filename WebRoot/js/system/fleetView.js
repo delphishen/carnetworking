@@ -55,6 +55,7 @@ Ext.fleet.menuForm = Ext.extend(Ext.FormPanel, {
 										xtype : 'textfield',
 										id : 'fleetName',
 										maxLength : 18,
+                                		readOnly:true,
 										maxLengthText : '名称不能大于18个字符',
 										anchor : '100%',
 										selectOnFocus : true,
@@ -109,10 +110,37 @@ Ext.fleet.menuForm = Ext.extend(Ext.FormPanel, {
                         anchor : '100%',
                         selectOnFocus : true
                     }]
+                }, {
+                    columnWidth : 1,
+                    items : [{
+                        fieldLabel : '司机取消订单时间（分钟）',
+                        xtype : 'numberfield',
+                        id : 'driverCancellationOforderTime',
+                        anchor : '100%',
+                        selectOnFocus : true
+                    }]
+                }, {
+                    columnWidth : 1,
+                    items : [{
+                        fieldLabel : '允许乘客查看司机位置时间（分钟）',
+                        xtype : 'numberfield',
+                        id : 'driverLocationTime',
+                        anchor : '100%',
+                        selectOnFocus : true
+                    }]
+                }, {
+                    columnWidth : 1,
+                    items : [{
+                        fieldLabel : '系统自动确认费用(小时)',
+                        xtype : 'numberfield',
+                        id : 'sysAgreeTime',
+                        anchor : '100%',
+                        selectOnFocus : true
+                    }]
                 }];
 
 				Ext.fleet.menuForm.superclass.constructor.call(this, {
-							labelWidth : 60,
+							labelWidth : 80,
 							baseCls : 'x-plain',
 							layout : 'column',
 							style : 'padding : 5',
@@ -155,10 +183,10 @@ Ext.fleet.menuWin = Ext.extend(Ext.Window, {
 				var form = this.form.getForm();
 				if (form.isValid()) {
 					btn.setDisabled(true);
-					var params = {
+					var param = {
 						fleet : Ext.encode(form.getValues())
 					};
-					Ext.eu.ajax(path + '/system/saveFleet.do', params, function(
+					Ext.eu.ajax(path + '/system/saveFleet.do', param, function(
 									resp) {
 								var res = Ext.decode(resp.responseText);
 								if (res.label) {
@@ -221,6 +249,7 @@ Ext.fleet.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 							text : '刷新',
 							iconCls : 'refresh',
 							id : 'menusRefreshBtn',
+							xtype: 'button',
 							handler : function() {
 								this.getRootNode().reload()
 							},
@@ -272,6 +301,18 @@ Ext.fleet.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 							header : '乘客数量',
 							width : 400,
 							dataIndex : 'passengerCount'
+						}, {
+                    		header : '司机取消订单时间（分钟）',
+							width : 400,
+							dataIndex : 'driverCancellationOforderTime'
+						}, {
+							header : '允许乘客查看司机位置时间（分钟）',
+							width : 400,
+							dataIndex : 'driverLocationTime'
+						}, {
+							header : '系统自动确认费用(小时)',
+							width : 400,
+							dataIndex : 'sysAgreeTime'
 						}];
 				this.root = new Ext.tree.AsyncTreeNode({
 							text : 'Root',
@@ -364,6 +405,12 @@ Ext.fleet.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 					form.findField('fleettel').setValue(node.attributes.tel);
                     form.findField('carCount').setValue(node.attributes.carCount);
                     form.findField('passengerCount').setValue(node.attributes.passengerCount);
+
+                    form.findField('driverCancellationOforderTime').setValue(node.attributes.driverCancellationOforderTime);
+                    form.findField('driverLocationTime').setValue(node.attributes.driverLocationTime);
+                    form.findField('sysAgreeTime').setValue(node.attributes.sysAgreeTime);
+
+
 					if (node.attributes.fatherId == 0) {
 						form.findField('fatherId').setValue(0);
 						form.findField('fatherText').setValue('Root');
@@ -447,13 +494,18 @@ var refreshSysMenu = function() {
  * @return {}
  */
 var fleetView = function(params) {
-    Ext.getCmp('buttonAddFleetView').hidden=!params[0].isAdd;
-    Ext.getCmp('buttonModifyFleetView').hidden=!params[0].isModify;
-    Ext.getCmp('buttonDelFleetView').hidden=!params[0].isDel;
+    this.tree = new Ext.fleet.tree(this);
+    var re = loginName == 'root' ? 1 : 0;
+    console.log("=================="+re);
+    Ext.getCmp('buttonAddFleetView').hidden=!re;
+    //Ext.getCmp('buttonModifyFleetView').hidden=!params[0].isModify;
+    Ext.getCmp('buttonDelFleetView').hidden=!re;
+
+    //Ext.getCmp("buttonAddFleetView").hide();
 	return new Ext.Panel({
 				id : 'fleetView',// 灰蚕重要,一定要跟方法名称一样
 				title : '服务平台管理',
 				layout : 'border',
-				items : new Ext.fleet.tree(this)
+				items : this.tree
 			});
 }

@@ -99,7 +99,8 @@ Ext.carApply.form = Ext.extend(Ext.FormPanel, {
                 name : 'carpoolYN',
                 anchor : '98%',
                 readOnly:true,
-                selectOnFocus : true
+                selectOnFocus : true,
+
             }]
         },{
             columnWidth : 1,
@@ -357,6 +358,16 @@ Ext.carApply.grid = Ext.extend(Ext.grid.GridPanel, {
             },{
                 header: '订单来源',
                 dataIndex: 'orderFrom'
+            },{
+                header: '是否拼车',
+                dataIndex: 'carpoolYN',
+                renderer : function(val) {
+                    if (val == false) {
+                        return '否';
+                    } else if (val == true){
+                        return '是';
+                    }
+                }
             }, {
                 header: '所属平台',
                 dataIndex: 'fleetName'
@@ -568,6 +579,16 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
                 header: '订单来源',
                 dataIndex: 'orderFrom'
             }, {
+                header: '是否拼车',
+                dataIndex: 'carpoolYN',
+                renderer : function(val) {
+                    if (val == false) {
+                        return '否';
+                    } else if (val == true){
+                        return '是';
+                    }
+                }
+            },{
                 header: '所属平台',
                 dataIndex: 'fleetName'
             }, {
@@ -641,6 +662,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
         var form = win.form.getForm();
         win.setTitle('查看订单详情', 'modify');
 
+    console.log("======="+select.carApplyNo);
 
         form.findField('fleetName').setValue(select.fleetName);
         form.findField('passengerName').setValue(select.passengerName);
