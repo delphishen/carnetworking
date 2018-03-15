@@ -506,8 +506,6 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 							region : 'center',
 							loadMask : 'loading...',
 							columnLines : true,
-							width:800,
-                    		autoScroll:true,
 							clicksToEdit : 1,
 							stripeRows : true,
 							viewConfig : {

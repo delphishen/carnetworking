@@ -43,11 +43,11 @@ public class Fleet extends BaseModel {
 	private String text;
 
 	@Column
-	private String driverCancellationOforderTime;
+	private int driverCancellationOforderTime;
 	@Column
-	private String driverLocationTime;
+	private int driverLocationTime;
 	@Column
-	private String sysAgreeTime;
+	private int sysAgreeTime;
 
 
 
@@ -141,27 +141,27 @@ public class Fleet extends BaseModel {
 		this.text = text;
 	}
 
-	public String getDriverCancellationOforderTime() {
+	public int getDriverCancellationOforderTime() {
 		return driverCancellationOforderTime;
 	}
 
-	public void setDriverCancellationOforderTime(String driverCancellationOforderTime) {
+	public void setDriverCancellationOforderTime(int driverCancellationOforderTime) {
 		this.driverCancellationOforderTime = driverCancellationOforderTime;
 	}
 
-	public String getDriverLocationTime() {
+	public int getDriverLocationTime() {
 		return driverLocationTime;
 	}
 
-	public void setDriverLocationTime(String driverLocationTime) {
+	public void setDriverLocationTime(int driverLocationTime) {
 		this.driverLocationTime = driverLocationTime;
 	}
 
-	public String getSysAgreeTime() {
+	public int getSysAgreeTime() {
 		return sysAgreeTime;
 	}
 
-	public void setSysAgreeTime(String sysAgreeTime) {
+	public void setSysAgreeTime(int sysAgreeTime) {
 		this.sysAgreeTime = sysAgreeTime;
 	}
 }

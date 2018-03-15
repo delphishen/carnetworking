@@ -233,14 +233,14 @@ Ext.passengerComment.grid = Ext.extend(Ext.grid.GridPanel, {
 									}]
 						});
 				// 菜单条
-				this.tbar = new Ext.Toolbar([ {
-							id:'buttonDeldriverTypeView',
-							xtype : 'button',
-							iconCls : 'delete',
-							text : '删除',
-							handler : this.onDelete,
-							scope : this
-						}]);
+				// this.tbar = new Ext.Toolbar([ {
+				// 			id:'buttonDeldriverTypeView',
+				// 			xtype : 'button',
+				// 			iconCls : 'delete',
+				// 			text : '删除',
+				// 			handler : this.onDelete,
+				// 			scope : this
+				// 		}]);
 				// 页码条
 				this.bbar = new Ext.PagingToolbar({
 							pageSize : 80,
@@ -400,7 +400,7 @@ var passengerCommentView = function(params) {
 	this.queryPanel = new Ext.passengerComment.queryPanel(this);
 	this.grid = new Ext.passengerComment.grid(this);
 
-	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;	
+	//Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;
 	
 	return new Ext.Panel({
 				id : 'passengerCommentView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开

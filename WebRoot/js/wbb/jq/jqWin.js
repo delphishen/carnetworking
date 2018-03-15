@@ -4,94 +4,130 @@ Ext.jq.form = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
-				this.radio = new Ext.form.RadioGroup({
-							fieldLabel : '最优结果',
-							items : [{
-										boxLabel : '越大值',
-										name : 'result',
-										checked : true,
-										inputValue : 1,
-										listeners : {
-											check : function(checkbox, checked) {
-												if (checked) {
-												}
-											}
-										}
-									}, {
-										boxLabel : '越小值',
-										inputValue : 2,
-										name : 'result',
-										listeners : {
-											check : function(checkbox, checked) {
-												if (checked) {
-												}
-											}
-										}
-									}],
-							scope : this
-						});
 
-				this.items = [{
-							xtype : 'hidden',
-							id : 'id'
-						}, {
-							xtype : 'hidden',
-							id : 'realFormula'
-						}, {
-							columnWidth : 1,
-							labelWidth : 60,
-							items : [{
-										fieldLabel : '名称',
-										xtype : 'textfield',
-										name : 'name',
-										anchor : '100%',
-										allowBlank : false
-									}]
-						}, {
-							columnWidth : .8,
-							labelWidth : 60,
-							items : [{
-										fieldLabel : '计算关系',
-										xtype : 'textfield',
-										name : 'showFormula',
-										readOnly : true,
-										style : 'background:#E6E6E6',
-										anchor : '98%'
-									}]
-						}, {
-							columnWidth : .2,
-							items : [{
-								xtype : 'button',
-								text : '配置',
-								iconCls : 'cog',
-								anchor : '100%',
-								listeners : {
-									'click' : function() {
-										new calculator(function(showFormula,
-														realFormula) {
-													this
-															.getForm()
-															.findField('showFormula')
-															.setValue(showFormula);
-													this
-															.getForm()
-															.findField('realFormula')
-															.setValue(realFormula);
-												}, this, 'jq')
-									},
-									scope : this
-								}
-							}]
-						}, {
-							columnWidth : 1,
-							labelWidth : 60,
-							items : [{
-										fieldLabel : '备注',
-										xtype : 'textarea',
-										name : 'remark',
-										anchor : '100%'
-									}]
-						}];
+                this.fleetTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getTreeAllFleetList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'fleetName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
+                });
+                this.fleetTypeDS.load();
+
+
+                this.userSelector = new Ext.form.TriggerField({
+                    fieldLabel : '用户',
+                    name : 'userName',
+                    anchor : '98%',
+                    triggerClass : 'x-form-search-trigger',
+                    selectOnFocus : true,
+                    submitValue : false,
+                    allowBlank : false,
+                    editable : false,
+                    onTriggerClick : function(e) {
+                        basefleedId = Ext.getCmp("fleetId").value;
+                        var val = Ext.getCmp("fleetName").value;
+                        if(val ==null && val == undefined){
+                            Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                        }else {
+                            new userSelector(function(id, name,userFleetId) {
+                                this.setValue(name);
+                                Ext.getCmp('userId').setValue(id);
+                                basefleedId = userFleetId;
+
+                            }, true, this);
+                        }
+
+                    },
+                    scope : this
+                });
+
+
+                this.kqSelector = new Ext.form.TriggerField({
+                    fieldLabel : '机构',
+                    name : 'company',
+                    anchor : '98%',
+                    triggerClass : 'x-form-search-trigger',
+                    selectOnFocus : true,
+                    submitValue : false,
+                    allowBlank : false,
+                    editable : false,
+                    onTriggerClick : function(e) {
+                        basefleedId = Ext.getCmp("fleetId").value;
+                        var val = Ext.getCmp("fleetName").value;
+                        if(val ==null && val == undefined){
+                            Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                        }else {
+                            new kqSelector(function(id, name) {
+                                this.setValue(name);
+                                Ext.getCmp('companyId').setValue(id);
+
+
+
+
+                            }, true, this);
+                        }
+
+                    },
+                    scope : this
+                });
+
+
+                this.items = [{
+                    xtype : 'hidden',
+                    id : 'id'
+                },{
+                    xtype : 'hidden',
+                    id : 'fleetId'
+                },{
+                    xtype : 'hidden',
+                    id : 'userId'
+                },{
+                    xtype : 'hidden',
+                    id : 'companyId'
+                },{
+                    columnWidth : 1,
+                    labelWidth : 60,
+                    items : [{
+                        id:'fleetName',
+                        fieldLabel : '所属平台',
+                        width : 60,
+                        xtype : 'combo',
+                        hiddenName : 'fleetName',
+                        submitValue : false,
+                        anchor : '98%',
+                        editable : false,
+                        autoLoad : true,
+                        allowBlank : false,
+                        triggerAction : 'all',
+                        mode : 'local',
+                        store : this.fleetTypeDS,
+                        valueField : 'fleetName',
+                        displayField : 'fleetName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                this.getForm().findField('fleetId').setValue(record.data.id);
+                                basefleedId = record.data.id;
+                            },
+                            scope : this
+                        }
+                    }]
+                }, {
+                    columnWidth : 1,
+                    items : [this.userSelector]
+                },{
+                    columnWidth : 1,
+                    items : [this.kqSelector]
+                }];
+
+
+
 
 				Ext.jq.form.superclass.constructor.call(this, {
 							region : 'center',
@@ -113,7 +149,7 @@ Ext.jq.win = Ext.extend(Ext.Window, {
 				this.app = app;
 				this.form = new Ext.jq.form(this);
 				Ext.jq.win.superclass.constructor.call(this, {
-							width : 500,
+							width : 300,
 							plain : true,
 							showLock : true,
 							modal : true,
@@ -133,26 +169,28 @@ Ext.jq.win = Ext.extend(Ext.Window, {
 									}]
 						});
 			},
-			onSave : function(btn) {
-				var form = this.form.getForm();
-				if (form.isValid()) {
-					btn.setDisabled(true);
-					var jq = form.getValues();
-					Ext.eu.ajax(path + '/wbb/saveJq.do', {
-								jq : Ext.encode(jq)
-							}, function(resp) {
-								var res = Ext.decode(resp.responseText);
-								if (res.label) {
-									Ext.ux.Toast.msg('信息', '保存成功');
-									this.app.getStore().reload();
-									this.close();
-								} else {
-									Ext.ux.Toast.msg('提示', '保存的记录存在重名');
-									btn.setDisabled(false);
-								}
-							}, this);
-				}
-			},
+		onSave : function(btn) {
+        var form = this.form.getForm();
+        if (form.isValid()) {
+            btn.setDisabled(true);
+            var user = form.getValues();
+            console.log(user);
+            Ext.eu.ajax(path + '/logistics/saveapproveCompany.do', {
+
+                approveCompany : Ext.encode(user)
+            }, function(resp) {
+                var res = Ext.decode(resp.responseText);
+                if (res.label) {
+                    Ext.ux.Toast.msg('信息', '保存成功');
+                    this.app.getStore().reload();
+                    this.close();
+                } else {
+                    Ext.ux.Toast.msg('提示', '该信息已经存在！！！');
+                    btn.setDisabled(false);
+                }
+            }, this);
+        }
+    },
 			onClose : function() {
 				this.close();
 			}

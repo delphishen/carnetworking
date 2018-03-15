@@ -176,6 +176,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 anchor: '98%',
                 typeAhead: true,
                 editable: false,
+                allowBlank: false,
                 triggerAction: 'all',
                 lazyRender: true,
                 mode: 'local',
@@ -194,6 +195,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '取消费用',
                 xtype: 'textfield',
                 name: 'cancelPrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -203,6 +205,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '套餐价格',
                 xtype: 'textfield',
                 name: 'setMealPrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -212,6 +215,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '套餐里程',
                 xtype: 'textfield',
                 name: 'setMealKilometres',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -221,6 +225,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '套餐时间',
                 xtype: 'textfield',
                 name: 'setMealTime',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -230,6 +235,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '超里程费用',
                 xtype: 'textfield',
                 name: 'excessPrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -239,6 +245,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '超时费用',
                 xtype: 'textfield',
                 name: 'overtimePrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -248,6 +255,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '最大里程数',
                 xtype: 'textfield',
                 name: 'maxMealKilometres',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -257,6 +265,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '加费用',
                 xtype: 'textfield',
                 name: 'maxExcessPrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]

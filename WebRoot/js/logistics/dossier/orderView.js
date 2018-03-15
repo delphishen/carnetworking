@@ -920,7 +920,7 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
         }
         var select = selects[0].data;
         var statuesId = selects[0].data.statuesId;
-        if (statuesId == '30' || statuesId =='40'){
+        if (statuesId == '30' || statuesId =='40' || statuesId == '-2'){
             var win = new Ext.order.win(this);
             var form = win.form.getForm();
             win.setTitle('修改订单信息', 'modify');

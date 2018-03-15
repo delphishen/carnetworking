@@ -723,6 +723,12 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
         var select = selects[0].data;
         selectdata = selects[0].data;
         console.log(select);
+        if(select.carpoolYN ==false){
+            select.carpoolYN = '否';
+        }
+        if (select.carpoolYN == true){
+            select.carpoolYN = '是';
+        }
         var win = new Ext.carApply.win(this);
         var form = win.form.getForm();
         win.setTitle('查看订单详情', 'modify');

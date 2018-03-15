@@ -140,6 +140,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 anchor: '98%',
                 typeAhead: true,
                 editable: false,
+                allowBlank: false,
                 triggerAction: 'all',
                 lazyRender: true,
                 mode: 'local',
@@ -164,6 +165,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 editable: false,
                 triggerAction: 'all',
                 lazyRender: true,
+                allowBlank: false,
                 mode: 'local',
                 value: '自有',
                 store: new Ext.data.ArrayStore({
@@ -180,6 +182,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '起步价格',
                 xtype: 'textfield',
                 name: 'startPrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -189,6 +192,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '起步里程',
                 xtype: 'textfield',
                 name: 'startKilometres',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -198,6 +202,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '起步时间',
                 xtype: 'textfield',
                 name: 'startTime',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -207,6 +212,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '里程费用',
                 xtype: 'textfield',
                 name: 'KilometresPrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -216,6 +222,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '时间费用',
                 xtype: 'textfield',
                 name: 'timePrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -225,6 +232,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '返空费用',
                 xtype: 'textfield',
                 name: 'emptyPrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -234,6 +242,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '夜间费用',
                 xtype: 'textfield',
                 name: 'nighttimePrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]
@@ -244,6 +253,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 xtype : 'timefield',
                 format : 'H:i:s',
                 editable : false,
+                allowBlank: false,
                 name: 'nighttimeBegin',
                 anchor: '98%',
                 selectOnFocus: true
@@ -255,6 +265,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 xtype : 'timefield',
                 format : 'H:i:s',
                 editable : false,
+                allowBlank: false,
                 name: 'nighttimeEnd',
                 anchor: '98%',
                 selectOnFocus: true
@@ -265,6 +276,7 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 fieldLabel: '取消订单费用',
                 xtype: 'textfield',
                 name: 'cancelPrice',
+                allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
             }]

@@ -55,7 +55,7 @@ Ext.fleet.menuForm = Ext.extend(Ext.FormPanel, {
 										xtype : 'textfield',
 										id : 'fleetName',
 										maxLength : 18,
-                                		readOnly:true,
+                                		//readOnly:true,
 										maxLengthText : '名称不能大于18个字符',
 										anchor : '100%',
 										selectOnFocus : true,

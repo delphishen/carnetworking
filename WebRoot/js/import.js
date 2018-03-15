@@ -50,10 +50,18 @@ App.importJs = {
 			path + '/js/wbb/cq/cqTree.js',
             path + '/js/wbb/cq/cqWin.js',
 			path + '/js/wbb/cq/cqView.js'],
-	jqView : [path + '/utils/calculator/calculator.js',
-			path + '/utils/selector/rpSelector.js',
-			path + '/utils/selector/qpSelector.js',
-			path + '/js/wbb/jq/jqWin.js', path + '/js/wbb/jq/jqView.js'],
+
+    jqView : [path + '/utils/expansion/treeCombo.js',
+        path + '/utils/selector/userSelector.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/qpSelector.js',
+        path + '/utils/calculator/calculator.js',
+        path + '/js/wbb/cq/cqEvaRateGrid.js',
+        path + '/js/wbb/jq/jqTree.js',
+        path + '/js/wbb/jq/jqWin.js',
+        path + '/js/wbb/jq/jqView.js'],
+
+
 	algorithmView : [path + '/js/wbb/algorithmView.js'],
 	assistView : [path + '/js/wbb/assistView.js'],
 
