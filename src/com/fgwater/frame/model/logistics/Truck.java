@@ -58,6 +58,8 @@ public class Truck extends BaseModel {
 	private String issueDate;
 	@Column
 	private String model;
+	@Column
+	private String ascription;
 
 
 
@@ -235,6 +237,11 @@ public class Truck extends BaseModel {
 		this.fleetId = fleetId;
 	}
 
+	public String getAscription() {
+		return ascription;
+	}
 
-
+	public void setAscription(String ascription) {
+		this.ascription = ascription;
+	}
 }

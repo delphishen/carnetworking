@@ -112,9 +112,6 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
         });
 
 
-
-
-
 		this.items = [{
 					xtype : 'hidden',
 					id : 'id'
@@ -172,7 +169,30 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
         },{
             columnWidth : 1,
             items : [this.truckTypeSelector]
-        }, {
+        },{
+            columnWidth : 1,
+            labelWidth : 60,
+            items : [{
+                xtype : 'combo',
+                fieldLabel : '车辆归属',
+                hiddenName : 'ascription',
+                anchor : '98%',
+                typeAhead : true,
+                editable : false,
+                allowBlank : false,
+                triggerAction : 'all',
+                lazyRender : true,
+                mode : 'local',
+                value:'自有',
+                store : new Ext.data.ArrayStore({
+                    fields : ['key', 'val'],
+                    data : [['自有', '自有'],
+                        ['委托', '委托']]
+                }),
+                valueField : 'val',
+                displayField : 'key'
+            }]
+        },{
 					columnWidth : 1,
 					labelWidth : 60,
 					items : [{
@@ -355,7 +375,7 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 							fields : ['id', 'fleetId', 'plateNo', 'carType',
 									'companyId', 'vehicleOwner', 'tel', 'buyDatetime',
 									'driverId','statues','company','fleetName','driverName','modelName',
-                                	'oilTotal','peccancyCount','address','VIN','model'],
+                                	'oilTotal','peccancyCount','address','VIN','model','ascription'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -443,6 +463,9 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 										header : '状态',
 										dataIndex : 'statues'
 									},{
+											header : '车辆归属',
+											dataIndex : 'ascription'
+										},{
 										header : '服务平台',
 										dataIndex : 'fleetName'
 									},
