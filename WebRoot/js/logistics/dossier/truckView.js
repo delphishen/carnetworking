@@ -212,15 +212,6 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 				}, {
 					columnWidth : 1,
 					items : [{
-						fieldLabel : '违章次数',
-						xtype : 'numberfield',
-						name : 'peccancyCount',
-						anchor : '98%',
-						selectOnFocus : true
-					}]
-				},{
-					columnWidth : 1,
-					items : [{
 						fieldLabel : '联系地址',
 						xtype : 'textfield',
 						name : 'address',
@@ -542,7 +533,7 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 				form.findField('tel').setValue(select.tel);
 				form.findField('vehicleOwner').setValue(select.vehicleOwner);
                 form.findField('oilTotal').setValue(select.oilTotal);
-                form.findField('peccancyCount').setValue(select.peccancyCount);
+               // form.findField('peccancyCount').setValue(select.peccancyCount);
                 form.findField('address').setValue(select.address);
                 form.findField('VIN').setValue(select.VIN);
                 form.findField('model').setValue(select.model);

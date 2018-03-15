@@ -47,6 +47,16 @@
 
 
 
+    <select id="findapplylocale" parameterType="HashMap" resultType="HashMap">
+        SELECT * FROM t_car_apply_locale WHERE carApplyNo = #{carApplyNo}
+    </select>
+
+
+
+
+
+
+
 
     <select id="queryinsanity" parameterType="HashMap" resultType="HashMap">
         SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName FROM t_car_apply a

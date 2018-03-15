@@ -127,11 +127,11 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
 
-                id:'endLocale',
-                fieldLabel : '终点站',
+                id:'localeName',
+                fieldLabel : '途径点',
                 xtype : 'textfield',
                 readOnly : true,
-                name : 'endLocale',
+                name : 'localeName',
                 anchor : '98%',
                 selectOnFocus : true
             }]
@@ -139,11 +139,11 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
 
-                id:'carTypeId',
-                fieldLabel : '申请车型',
+                id:'endLocale',
+                fieldLabel : '终点站',
                 xtype : 'textfield',
                 readOnly : true,
-                name : 'carTypeId',
+                name : 'endLocale',
                 anchor : '98%',
                 selectOnFocus : true
             }]
@@ -289,7 +289,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                 , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
                 , 'remark','businessType', 'statuesId', 'activityId','orderFrom','driverApplyNo', 'fleetName', 'passengerName'
-                ,'company','driverName','modelName','plateNoId','plateNo'],
+                ,'company','driverName','modelName','plateNoId','plateNo','localeName'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -367,6 +367,9 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 header: '出发地',
                 dataIndex: 'startLocale'
             },{
+                header: '途径地',
+                dataIndex: 'localeName'
+            }, {
                 header: '目的地',
                 dataIndex: 'endLocale'
             }, {
@@ -390,15 +393,6 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             }, {
                 header: '所属机构',
                 dataIndex: 'company'
-            }, {
-                header: '司机',
-                dataIndex: 'driverName'
-            }, {
-                header: '车型',
-                dataIndex: 'modelName'
-            }, {
-                header: '车牌号',
-                dataIndex: 'plateNo'
             }
             ]
         });
@@ -456,15 +450,16 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('departureTime').setValue(select.departureTime);
         form.findField('startLocale').setValue(select.startLocale);
         form.findField('endLocale').setValue(select.endLocale);
-        form.findField('carTypeId').setValue(select.carTypeId);
+        //form.findField('carTypeId').setValue(select.carTypeId);
         form.findField('content').setValue(select.content);
         form.findField('remark').setValue(select.remark);
         form.findField('businessType2').setValue(select.businessType);
 
-        form.findField('driverName').setValue(select.driverName);
-        form.findField('plateNo').setValue(select.plateNo);
+       // form.findField('driverName').setValue(select.driverName);
+        //form.findField('plateNo').setValue(select.plateNo);
         form.findField('fleetName').setValue(select.fleetName);
         form.findField('company').setValue(select.company);
+        form.findField('localeName').setValue(select.localeName);
         win.show();
     },
 

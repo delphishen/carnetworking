@@ -159,7 +159,7 @@ Ext.passengerComment.grid = Ext.extend(Ext.grid.GridPanel, {
 							root : 'rows',
 							totalProperty : 'results',							
 							fields : ['id', 'fleetId', 'carApplyNo','plateNoId','driverId','score','content',
-								'commentDatetime','fleetName','driverName','plateNo'],
+								'commentDatetime','fleetName','driverName','plateNo','clean','comfortable','appearance'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -210,7 +210,16 @@ Ext.passengerComment.grid = Ext.extend(Ext.grid.GridPanel, {
 										header : '车牌号',
 										dataIndex : 'plateNo'
 									}, {
-										header : '评分',
+										header : '车内整洁度评分',
+										dataIndex : 'clean'
+									}, {
+										header : '乘坐舒适度评分',
+										dataIndex : 'comfortable'
+									}, {
+										header : '司机着装仪表评分',
+										dataIndex : 'appearance'
+									}, {
+										header : '总评分',
 										dataIndex : 'score'
 									},  {
 										header : '点评内容',

@@ -82,6 +82,17 @@ Ext.carApply.form = Ext.extend(Ext.FormPanel, {
         },{
             columnWidth : 1,
             items : [{
+                id:'localeName',
+                fieldLabel : '途径点名称',
+                xtype : 'textfield',
+                name : 'localeName',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 1,
+            items : [{
                 id:'endLocale',
                 fieldLabel : '终点站名称',
                 xtype : 'textfield',
@@ -270,7 +281,7 @@ Ext.carApply.grid = Ext.extend(Ext.grid.GridPanel, {
             root: 'rows',
             totalProperty: 'results',
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime', 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost'
-                ,'budgetKilometres', 'content', 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'passengerName','company','driverName','modelName'],
+                ,'budgetKilometres', 'content', 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'passengerName','company','driverName','modelName','localeName'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -340,6 +351,9 @@ Ext.carApply.grid = Ext.extend(Ext.grid.GridPanel, {
             }, {
                 header: '出发地',
                 dataIndex: 'startLocale'
+            },{
+                header: '途径地',
+                dataIndex: 'localeName'
             },{
                 header: '目的地',
                 dataIndex: 'endLocale'
@@ -483,7 +497,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                 , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
                 , 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'passengerName'
-                ,'company','driverName','modelName','plateNoId','plateNo','carApplyNo'],
+                ,'company','driverName','modelName','plateNoId','plateNo','carApplyNo','localeName'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -560,6 +574,9 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
             }, {
                 header: '出发地',
                 dataIndex: 'startLocale'
+            },{
+                header: '途径地',
+                dataIndex: 'localeName'
             },{
                 header: '目的地',
                 dataIndex: 'endLocale'
@@ -661,8 +678,14 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
         var win = new Ext.carApply.win(this);
         var form = win.form.getForm();
         win.setTitle('查看订单详情', 'modify');
+        if(select.carpoolYN ==false){
+            select.carpoolYN = '否';
+        }
+        if (select.carpoolYN == true){
+            select.carpoolYN = '是';
+        }
 
-    console.log("======="+select.carApplyNo);
+
 
         form.findField('fleetName').setValue(select.fleetName);
         form.findField('passengerName').setValue(select.passengerName);
@@ -677,6 +700,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('content').setValue(select.content);
         form.findField('remark').setValue(select.remark);
         form.findField('carApplyNo1').setValue(select.carApplyNo);
+        form.findField('localeName').setValue(select.localeName);
 
         win.show();
         Ext.getCmp('carApplyButton').setVisible(false);
@@ -717,6 +741,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('content').setValue(select.content);
         form.findField('remark').setValue(select.remark);
         form.findField('carApplyNo1').setValue(select.carApplyNo);
+        form.findField('localeName').setValue(select.localeName);
 
         win.show();
         Ext.getCmp('carApplyButton').setVisible(true);

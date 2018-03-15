@@ -149,16 +149,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
                 allowBlank : false,
                 selectOnFocus : true
             }]
-        }, {
-            columnWidth : 1,
-            items : [{
-                fieldLabel : '最近评分',
-                xtype : 'numberfield',
-                name : 'score',
-                anchor : '98%',
-                selectOnFocus : true
-            }]
-        }, {
+        },  {
             columnWidth : 1,
             labelWidth : 60,
             items : [{
@@ -211,16 +202,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
                 anchor : '98%',
                 selectOnFocus : true
             }]
-        }, {
-            columnWidth : 1,
-            items : [{
-                fieldLabel : '违章次数',
-                xtype : 'numberfield',
-                name : 'peccancyCount',
-                anchor : '98%',
-                selectOnFocus : true
-            }]
-        }, {
+        },  {
             columnWidth : 1,
             items : [{
                 fieldLabel : '电话',
@@ -503,13 +485,13 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('driverName').setValue(select.driverName);
         form.findField('statuesId').setValue(select.statuesId);
         form.findField('sex').setValue(select.sex);
-        form.findField('score').setValue(select.score);
+        //form.findField('score').setValue(select.score);
         form.findField('mobile').setValue(select.mobile);
         form.findField('address').setValue(select.address);
 
 
         form.findField('drivingExperience').setValue(select.drivingExperience);
-        form.findField('peccancyCount').setValue(select.peccancyCount);
+        //form.findField('peccancyCount').setValue(select.peccancyCount);
 
 
         win.show();

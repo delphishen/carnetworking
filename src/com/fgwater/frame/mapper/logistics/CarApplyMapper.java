@@ -43,4 +43,6 @@ public interface CarApplyMapper extends BaseMapper<CarApply> {
 
     public void deleteTable(Map<String, String> map);
 
+    public List<Map<String,String>> findapplylocale(Map<String, String> map);
+
 }

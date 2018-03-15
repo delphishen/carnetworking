@@ -36,7 +36,23 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 
 	@Override
 	public List<Map<String, String>> query(Map<String, String> params) {
-		return this.applyMapper.query(params);
+		String localeName = "";
+
+		List<Map<String,String>> mapList = this.applyMapper.query(params);
+		for (Map<String,String>  map :mapList){
+			List<Map<String,String>> maps = this.applyMapper.findapplylocale(map);
+			for (Map<String,String>  map1:maps){
+				localeName = localeName+map1.get("localeName")+",";
+
+			}
+			map.put("localeName",localeName);
+		}
+
+
+
+		return mapList;
+
+
 	}
 
 	@Override
