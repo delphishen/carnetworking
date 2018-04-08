@@ -54,6 +54,14 @@ Ext.passengerComment.form = Ext.extend(Ext.FormPanel, {
                         console.log(record);
                         this.getForm().findField('fleetId').setValue(record.data.id);
                     },
+                    'render' : function(combo) {//渲染
+                        combo.getStore().on("load", function(s, r, o) {
+                            combo.setValue(r[0].get('fleetName'));//第一个值
+                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
+
+
+                        });
+                    },
                     scope : this
                 }
             }]

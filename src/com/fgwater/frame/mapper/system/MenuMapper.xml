@@ -11,6 +11,27 @@
 		order by seq asc
 	</select>
 
+	<select id="getByFatherId" parameterType="HashMap" resultType="HashMap">
+		select id,text,fatherId,iconCls,leaf as menuLeaf,link,seq,isModify, isAdd, isDel, isSee
+		from t_system_menu
+		where flag=1
+		AND fatherId = '0'
+		order by seq asc
+	</select>
+
+
+
+	<select id="getAllByUserId" parameterType="String" resultType="HashMap">
+		select u.id,u.text,u.fatherId,u.iconCls,u.leaf as menuLeaf,u.link,u.seq,u.isModify, u.isAdd, u.isDel, u.isSee
+		from t_system_menu u
+		INNER JOIN (SELECT * FROM t_system_user_page_right WHERE userId =#{userId} ) up ON up.menuId = u.id
+		where u.flag=1
+		order by u.seq asc
+	</select>
+
+
+
+
 	<select id="getByUserId" parameterType="String"	resultType="HashMap">
 <!-- 菜单权限分配，读取选择的用户的菜单权限  -->		
 	
@@ -27,5 +48,25 @@
 		
 		
 	</select>
+
+	<select id="getByRoleIdMenu" parameterType="String"	resultType="HashMap">
+		<!-- 菜单权限分配，读取选择的用户的菜单权限  -->
+
+		select t.id,t.text,t.fatherId,t.iconCls,t.leaf as menuLeaf,t.link,t.seq,
+		k.isModify, k.isAdd, k.isDel, k.isSee
+		from t_system_menu t left join (select * from t_system_role_page_right where roleId= #{userId}) k on t.id=k.menuId
+		where exists(
+		select m.id,m.text,m.fatherId,m.iconCls,m.leaf ,m.link,m.seq,r.isModify,r.isAdd,r.isDel,r.isSee
+		from t_system_role_page_right r inner join
+		t_system_menu m on r.menuId = m.id where r.roleId = #{userId} and m.flag=1
+		and t.id in (m.id,m.fatherId)
+		)
+		order by seq asc
+
+
+	</select>
+
+
+
 
 </mapper>

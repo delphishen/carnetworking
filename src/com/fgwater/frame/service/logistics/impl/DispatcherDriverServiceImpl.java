@@ -91,9 +91,9 @@ public class DispatcherDriverServiceImpl extends BaseServiceImpl implements Disp
 				Date in = simpleDateFormat.parse(map.get("clockIn").toString());
 				Date out = simpleDateFormat.parse(map.get("clockOut").toString());
 				Date departure = simpleDateFormat.parse(departureTime);
-				System.out.println(departure.before(in));
+				System.out.println(!departure.before(in));
 				System.out.println(departure.before(out));
-				if (departure.before(in) || departure.before(out)){
+				if (!departure.before(in) && departure.before(out)){
 					return  true;
 				}
 			}catch (Exception e){

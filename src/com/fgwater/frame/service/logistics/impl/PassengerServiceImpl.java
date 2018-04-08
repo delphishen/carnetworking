@@ -1,12 +1,14 @@
 package com.fgwater.frame.service.logistics.impl;
 
 import com.fgwater.core.service.impl.BaseServiceImpl;
+import com.fgwater.core.utils.SessionUtils;
 import com.fgwater.core.utils.StrUtils;
 import com.fgwater.core.utils.UUIDUtils;
 import com.fgwater.frame.mapper.logistics.ApplyTypeMapper;
 import com.fgwater.frame.mapper.logistics.PassengerMapper;
 import com.fgwater.frame.model.logistics.ApplyType;
 import com.fgwater.frame.model.logistics.Passenger;
+import com.fgwater.frame.model.system.User;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.PassengerService;
 import net.sf.json.JSONObject;
@@ -56,7 +58,15 @@ public class PassengerServiceImpl extends BaseServiceImpl implements PassengerSe
 
 	@Override
 	public List<Map<String, String>> query(Map<String, String> params) {
-		return this.passengerMapper.query(params);
+
+		User user = SessionUtils.getCurrUser();
+		if (("10").equals(user.getRoleId()) || ("20").equals(user.getRoleId())){
+			return this.passengerMapper.query(params);
+		}else {
+			params.put("userId",user.getId());
+			return  this.passengerMapper.queryByCompany(params);
+		}
+
 	}
 
 
@@ -75,5 +85,10 @@ public class PassengerServiceImpl extends BaseServiceImpl implements PassengerSe
 	@Override
 	public List<Map<String, String>> queryPassengerById(Map<String, String> params) {
 		return this.passengerMapper.queryPassengerById(params);
+	}
+
+	@Override
+	public String findPhone(String userId) {
+		return this.passengerMapper.findPhone(userId);
 	}
 }

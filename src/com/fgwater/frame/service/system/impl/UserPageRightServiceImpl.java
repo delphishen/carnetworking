@@ -27,6 +27,8 @@ public class UserPageRightServiceImpl extends BaseServiceImpl implements
 	public void save(List<UserPageRight> list) {
 		this.userPageRightMapper.deleteByField(UserPageRight.class, "userId",
 				list.get(0).getUserId());
+
+
 		for (UserPageRight pageRight : list) {
 			pageRight.setId(UUIDUtils.getUUID());
 			this.userPageRightMapper.insert(pageRight);

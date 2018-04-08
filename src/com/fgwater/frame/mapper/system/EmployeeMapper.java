@@ -22,4 +22,7 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
 
 	public int checkName(Map<String, String> params);
 
+    @Paging
+	public List<Map<String,String>> queryByCompany(Map<String, String> params);
+
 }

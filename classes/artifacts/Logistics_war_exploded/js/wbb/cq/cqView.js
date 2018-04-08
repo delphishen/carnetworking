@@ -6,7 +6,7 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 		this.app = app;
 		// 数据源
 		this.ds = new Ext.data.JsonStore({
-					url : path + '/logistics/queryapproveCompany.do',
+					url : path + '/logistics/queryapproveAuditor.do',
 					idProperty : 'id',
 					root : 'rows',
 					totalProperty : 'results',
@@ -15,7 +15,8 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 					autoLoad : true,
 					baseParams : {
 						start : 0,
-						limit : 20
+						limit : 20,
+						roleId :40,
 					},
 					listeners : {
 						'beforeload' : function() {
@@ -131,7 +132,30 @@ Ext.cq.grid = Ext.extend(Ext.grid.GridPanel, {
 				});
 	},
 	onAdd : function(btn) {
+
+		if(this.sortNode == null){
+            Ext.ux.Toast.msg("信息", "请先选择用户！！！");
+            return;
+		}
+
+		if(!this.sortNode.leaf){
+            Ext.ux.Toast.msg("信息", "请先选择用户！！！");
+            return;
+
+		}
+
+
+
 		var win = new Ext.cq.win(this);
+        // console.log(this.sortNode.id);
+        // console.log("==1111111111=="+this.sortNode.fleetId);
+        // console.log("==1111111111=="+this.sortNode.fleetName);
+        // console.log("==1111111111=="+this.sortNode.loginName);
+         win.form.getForm().findField('userId').setValue(this.sortNode.id);
+         win.form.getForm().findField('userName').setValue(this.sortNode.loginName);
+
+         win.form.getForm().findField('fleetId').setValue(this.sortNode.fleetId);
+         win.form.getForm().findField('fleetName').setValue(this.sortNode.fleetName);
 		win.setTitle('添加审核员权限', 'add');
 		win.show();
 	},
@@ -262,7 +286,7 @@ var cqView = function() {
 	this.grid = new Ext.cq.grid(this);
 	return new Ext.Panel({
 				id : 'cqView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '审核员权限管理',
+				title : '机构审核员权限管理',
 				layout : 'border',
 				items : [this.sortTree, {
 					region : 'center',

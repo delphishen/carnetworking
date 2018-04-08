@@ -19,4 +19,11 @@ public interface MenuService extends BaseService {
 	public boolean saveOrUpdate(Menu menu);
 
 	public void delete(Menu menu);
+
+	public List<Map<String, Object>> getByRoleIdMenu(String userId);
+
+    public 	List<Map<String,Object>> getByRoleId(String roleId); //根据角色分配，读取选择额用户的默认权限
+
+    public JSONArray getMenusByRoleId(String roleId);
+
 }

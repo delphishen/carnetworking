@@ -1,12 +1,14 @@
 package com.fgwater.frame.service.system.impl;
 
 import com.fgwater.core.service.impl.BaseServiceImpl;
+import com.fgwater.core.utils.SessionUtils;
 import com.fgwater.core.utils.StrUtils;
 import com.fgwater.core.utils.UUIDUtils;
 import com.fgwater.frame.mapper.system.CompanyMapper;
 import com.fgwater.frame.mapper.system.FleetMapper;
 import com.fgwater.frame.model.system.Company;
 import com.fgwater.frame.model.system.Fleet;
+import com.fgwater.frame.model.system.User;
 import com.fgwater.frame.service.system.CompanyService;
 import com.fgwater.frame.service.system.FleetService;
 import net.sf.json.JSONArray;
@@ -26,7 +28,20 @@ public class CompanyServiceImpl extends BaseServiceImpl implements
 
 
 	public JSONArray getTreeAll(Map<String, String> params) {
-		JSONArray ja = JSONArray.fromObject(this.companyMapper.getTreeAll(params));
+
+		User user = SessionUtils.getCurrUser();
+
+		JSONArray ja = new JSONArray();
+
+		if (("10").equals(user.getRoleId())){
+			ja = JSONArray.fromObject(this.companyMapper.getTreeAll(params));
+		}else {
+			params.put("userId",user.getId());
+			ja = JSONArray.fromObject(this.companyMapper.getTreeByCompany(params));
+		}
+
+
+
 		System.out.println("-----------companyservice======"+ja);
 		System.out.println("============getcompanyboot======="+this.getByRoot(ja, "0", new JSONArray()));
 
@@ -58,6 +73,21 @@ public class CompanyServiceImpl extends BaseServiceImpl implements
 	@Override
 	public List<Map<String,String>> getTreechild(Map<String, String> params) {
 		return this.companyMapper.getTreechild(params);
+	}
+
+	@Override
+	public JSONArray getTreeCompanyApprove(Map<String, String> params) {
+
+		JSONArray ja = new JSONArray();
+		User user = SessionUtils.getCurrUser();
+		if (("10").equals(user.getRoleId()) ){
+			ja = JSONArray.fromObject(this.companyMapper.getTreeCompanyApprove(params));
+		}else {
+			params.put("userId",user.getId());
+			 ja = JSONArray.fromObject(this.companyMapper.getTreeCompanyApproveById(params));
+
+		}
+		return null;
 	}
 
 

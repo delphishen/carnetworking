@@ -13,6 +13,27 @@
 		</if>
 	</select>
 
+	<select id="getTreeByCompany"   parameterType="HashMap"  resultType="HashMap">
+
+		SELECT c.*,c.company as text
+		FROM  t_archives_company c
+		INNER JOIN (SELECT * FROM t_archives_approve_company WHERE userId = #{userId}) ac ON ac.companyId = c.id OR ac.companyId = c.fatherId
+		<if test="fleetId!='root'">
+			WHERE c.fleetId =#{fleetId}
+		</if>
+	</select>
+
+
+
+
+	<select id="getTreeCompany" parameterType="HashMap"  resultType="HashMap">
+
+		SELECT *,company as text FROM t_archives_company WHERE fleetId = #{fleetId} AND fatherId = '0'
+
+	</select>
+
+
+
 
 
 	<select id="getTreechild"   parameterType="HashMap"  resultType="HashMap">
@@ -20,6 +41,30 @@
 		SELECT id,fleetId,fleetName,fatherId,company,companyNo FROM t_archives_company WHERE id=#{fatherId}
 
 	</select>
+
+
+
+	<select id="getTreeCompanyApprove"   parameterType="HashMap"  resultType="Company">
+
+		SELECT id,fleetId,fleetName,fatherId,company,companyNo FROM t_archives_company WHERE 1=1 AND fatherId = '0'
+		<if test="fleetId!='root'">
+			AND fleetId =#{fleetId}
+		</if>
+
+	</select>
+
+	<select id="getTreeCompanyApproveById"   parameterType="HashMap"  resultType="Company">
+
+		SELECT c.* FROM t_archives_company c
+		INNER JOIN (SELECT * FROM t_archives_approve_company WHERE userId =#{userId} ) ac ON ac.companyId = c.id
+		WHERE 1=1 AND fatherId = '0'
+		<if test="fleetId!='root'">
+			AND c.fleetId =#{fleetId}
+		</if>
+
+	</select>
+
+
 
 
 

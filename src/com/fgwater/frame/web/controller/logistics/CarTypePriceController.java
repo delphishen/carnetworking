@@ -37,6 +37,7 @@ public class CarTypePriceController extends BaseController {
 	@RequestMapping(value = "saveCarTypePrice.do")
 	public String save() {
 
+
 		JSONObject jo = new JSONObject();
 		jo.element("success", true);
 		jo.element("label", this.carTypePriceService.saveOrUpdate(this.getCarTypePrice()));

@@ -1,5 +1,6 @@
 package com.fgwater.frame.service.system.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,16 +28,25 @@ public class MenuServiceImpl extends BaseServiceImpl implements MenuService {
 
 	//菜单权限分配读取所有菜单
 	public JSONArray getAllMenus() {
-//		User user = SessionUtils.getCurrUser();
-//		if (user.getIsAdmin() == 1) {
-//			return this.getByRoot(JSONArray.fromObject(this.menuMapper.getAll()),
-//							"0", new JSONArray());
-//		} else {
-//			return this.getByRoot(JSONArray.fromObject(this.menuMapper
-//					.getByUserId(user.getId())), "0", new JSONArray());
-//		}	
 
-			return this.getByRoot(JSONArray.fromObject(this.menuMapper.getAll()),
+		List<Map<String ,Object>> maps =  new ArrayList<>();
+
+		User user = SessionUtils.getCurrUser();
+
+
+		if (("rootempolyee").equals(user.getId())){
+			maps = this.menuMapper.getAll();
+		}else {
+			List<Map<String,Object>> fatherMap = this.menuMapper.getByFatherId();
+
+			maps = this.menuMapper.getAllByUserId(user.getEmpId());
+			for (Map<String,Object> map:fatherMap){
+				maps.add(map);
+			}
+		}
+
+
+			return this.getByRoot(JSONArray.fromObject(maps),
 							"0", new JSONArray());
 			
 		
@@ -89,6 +99,27 @@ public class MenuServiceImpl extends BaseServiceImpl implements MenuService {
 
 	public void delete(Menu menu) {
 		menuMapper.deletePhysicalCascade(menu);
+	}
+
+	@Override
+	public List<Map<String, Object>> getByRoleIdMenu(String userId) {
+		return this.menuMapper.getByRoleIdMenu(userId);
+	}
+
+	@Override
+	public List<Map<String, Object>> getByRoleId(String roleId) {
+		return this.menuMapper.getByRoleId(roleId);
+	}
+
+	@Override
+	public JSONArray getMenusByRoleId(String userId) {
+		User user = SessionUtils.getCurrUser();
+
+		if (user.getLoginName().equals("root") ) {
+			return this.getByRoot(JSONArray.fromObject(this.menuMapper.getAll()),"0", new JSONArray());
+		} else {
+			return this.getByRoot(JSONArray.fromObject(this.menuMapper.getByRoleIdMenu(userId)), "0", new JSONArray());
+		}
 	}
 
 	private JSONArray getByRoot(JSONArray menuArr, String root, JSONArray res) {

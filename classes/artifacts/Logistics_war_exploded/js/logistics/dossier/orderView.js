@@ -69,6 +69,9 @@ Ext.order.form = Ext.extend(Ext.FormPanel, {
             id : 'driverId'
         }, {
             xtype : 'hidden',
+            id : 'userId'
+        },{
+            xtype : 'hidden',
             id : 'plateNoId'
         },  {
             columnWidth : 1,
@@ -633,12 +636,12 @@ Ext.order.win = Ext.extend(Ext.Window, {
             var user = form.getValues();
 
 
-            Ext.eu.ajax(path + '/logistics/savecarApply.do', {
+            Ext.eu.ajax(path + '/logistics/reassignmentcarApply.do', {
                 carApply : Ext.encode(user)
             }, function(resp) {
                 var res = Ext.decode(resp.responseText);
                 if (res.label) {
-                    Ext.ux.Toast.msg('信息', '下单成功！请通知审核员和调度员');
+                    Ext.ux.Toast.msg('信息', '改派成功！请短信通知司机和乘客');
                     this.app.getStore().reload();
                     this.close();
                 } else {
@@ -718,16 +721,13 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                     fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                         , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
                         , 'remark','businessType', 'statuesId', 'activityId','orderFrom','driverApplyNo', 'fleetName', 'passengerName'
-                        ,'company','driverName','modelName','plateNoId','plateNo'],
+                        ,'company','driverName','modelName','plateNoId','plateNo','cost','kilometres','localeName','applyDatetime'],
                     autoDestroy: true,
                     autoLoad: true,
-                    Height:'600',
-                    Width:'600',
-                    autoScroll:true,
                     baseParams: {
                         isPaging: true,
                         start: 0,
-                        limit: 30,
+                        limit: 50,
                         fleetId: fleedId,
                         statuesId:'2'
                     },
@@ -749,7 +749,7 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 				// 列
                 this.cm = new Ext.grid.ColumnModel({
                     defaults: {
-                        width: 120,
+                        width: 200,
                         sortable: true,
                     },
                     columns: [new Ext.grid.RowNumberer(), this.sm, {
@@ -777,6 +777,9 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                         dataIndex: 'plateNoId',
                         hidden: true
                     },{
+                        header: '订单申请时间',
+                        dataIndex: 'applyDatetime'
+                    },{
                         header: '乘车用户',
                         dataIndex: 'passengerName'
                     },{
@@ -792,6 +795,9 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                         header: '出发地',
                         dataIndex: 'startLocale'
                     },{
+                        header: '途径地',
+                        dataIndex: 'localeName'
+                    },{
                         header: '目的地',
                         dataIndex: 'endLocale'
                     }, {
@@ -800,6 +806,12 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                     }, {
                         header: '预算公里数',
                         dataIndex: 'budgetKilometres'
+                    },{
+                        header: '实际费用',
+                        dataIndex: 'cost'
+                    }, {
+                        header: '实际公里数',
+                        dataIndex: 'kilometres'
                     }, {
                         header: '出现事由',
                         dataIndex: 'content'
@@ -879,13 +891,13 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 							id:'buttonDeldriverTypeView',
 							xtype : 'button',
 							iconCls : 'delete',
-							text : '消单',
+							text : '后台取消',
 							handler : this.onDelete,
 							scope : this
 						}]);
 				// 页码条
 				this.bbar = new Ext.PagingToolbar({
-							pageSize : 30,
+							pageSize : 50,
 							displayInfo : true,
 							store : this.ds
 						});
@@ -928,6 +940,7 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
             form.findField('fleetId').setValue(select.fleetId);
             form.findField('driverId').setValue(select.driverId);
             form.findField('plateNoId').setValue(select.plateNoId);
+            form.findField('userId').setValue(select.userId);
 
 
             form.findField('privateOrPublic').setValue(select.privateOrPublic);
@@ -958,9 +971,14 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 			onDelete : function() {
 				var selects = Ext.eu.getSelects(this);
 				if (selects.length == 0) {
-					Ext.ux.Toast.msg("信息", "请选择要删除的记录！");
+					Ext.ux.Toast.msg("信息", "请选择要取消的记录！");
 					return;
 				}
+
+                if (selects.length > 1) {
+                    Ext.ux.Toast.msg("信息", "只能选择一条记录！");
+                    return;
+                }
 				var ary = Array();
 				for (var i = 0; i < selects.length; i++) {
 					var user = {
@@ -968,18 +986,27 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 					}
 					ary.push(user);
 				}
+
+                var statuesId = selects[0].data.statuesId;
+                if (statuesId == '30' || statuesId =='40' || statuesId == '20'|| statuesId == '10'){
+                    // Ext.ux.Toast.msg("信息", Ext.encode(ary));
+                    Ext.Msg.confirm('取消操作', '确定要取消所选记录吗?', function(btn) {
+                        if (btn == 'yes') {
+                            Ext.eu.ajax(path + '/logistics/deletecarApply.do', {
+                                carApplies : Ext.encode(ary)
+                            }, function(resp) {
+                                Ext.ux.Toast.msg('信息', '取消成功');
+                                this.getStore().reload();
+                            }, this);
+                        }
+                    }, this);
+                }else {
+                    Ext.ux.Toast.msg("信息", "改订单无法后台取消！");
+                    return;
+
+                }
 				 
-				// Ext.ux.Toast.msg("信息", Ext.encode(ary));
-				Ext.Msg.confirm('删除操作', '确定要删除所选记录吗?', function(btn) {
-							if (btn == 'yes') {
-								Ext.eu.ajax(path + '/logistics/deletecarApply.do', {
-                                        carApplies : Ext.encode(ary)
-										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
-											this.getStore().reload();
-										}, this);
-							}
-						}, this);
+
 			}
 		});
 
@@ -1023,7 +1050,20 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
 										},
 										scope : this
 									}]
-						}];
+						}, {
+                            width : 100,
+                            items : [{
+                                xtype : 'hidden',
+                                id : 'exportExcel',
+                                text : '导出excel',
+                                iconCls : 'reset',
+                                handler : function() {
+
+                                    window.location.href = path + '/logistics/exportCarApply.do?fleetId='+fleedId;
+                                },
+                                scope : this
+                            }]
+                        }];
 				// panel定义
 				Ext.order.queryPanel.superclass.constructor.call(this, {
 							id : 'applyTypeViewQueryPanel',

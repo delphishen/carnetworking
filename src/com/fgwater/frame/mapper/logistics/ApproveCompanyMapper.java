@@ -21,4 +21,13 @@ public interface ApproveCompanyMapper extends BaseMapper<ApproveCompany> {
 
     public void savedispatcherPlateNo(DispatcherPlateNo diss);
 
+    @Paging
+    public List<Map<String,String>> queryapproveAuditor(Map<String, String> params);
+
+    @Paging
+    public List<Map<String,String>> queryapproveByCompany(Map<String, String> params);
+
+    @Paging
+    public List<Map<String,String>> queryapproveAuditorByFatherId(Map<String, String> params);
+
 }

@@ -42,6 +42,10 @@
 		</if>
 	</select>
 
+	<select id="queryById" parameterType="String" resultType="HashMap">
+		SELECT * FROM t_archives_driver  WHERE id = #{driverId}
+	</select>
+
 
 	<select id="queryDriverDispatcher" parameterType="HashMap" resultType="HashMap">
 		SELECT dd.*,f.fleetName,d.driverName from t_archives_dispatcher_driver dd

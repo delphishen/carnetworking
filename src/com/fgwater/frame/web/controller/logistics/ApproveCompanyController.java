@@ -6,6 +6,7 @@ import com.fgwater.frame.model.logistics.ApproveCompany;
 import com.fgwater.frame.model.logistics.DispatcherDriver;
 import com.fgwater.frame.service.logistics.ApproveCompanyService;
 import com.fgwater.frame.service.logistics.DispatcherDriverService;
+import com.fgwater.frame.service.system.CompanyService;
 import com.fgwater.frame.service.system.FleetService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ public class ApproveCompanyController extends BaseController {
 
 	@Resource
 	private FleetService fleetService;
+
+	@Resource
+	private CompanyService companyService;
 
 
 	@Injection
@@ -64,6 +68,19 @@ public class ApproveCompanyController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "queryapproveAuditor.do")
+	public String queryapproveAuditor() {
+
+
+		this.responseModel.mount(this.approveCompanyService.queryapproveAuditor(this.requestModel
+				.getParams()), MOUNT_TYPE_PAGING);
+
+
+
+		return this.responseModel.serial();
+	}
+
 
 
 	@ResponseBody
@@ -84,6 +101,19 @@ public class ApproveCompanyController extends BaseController {
 		//System.out.println("buildFleet======"+this.responseModel.serial());
 		return this.responseModel.serial();
 	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "getTreeCompanyApprove.do")
+	public String getTreeCompanyApprove() {
+
+		this.responseModel.mount(this.companyService.getTreeCompanyApprove(this.requestModel.getParams()), MOUNT_TYPE_JA);
+
+		//System.out.println("buildFleet======"+this.responseModel.serial());
+		return this.responseModel.serial();
+	}
+
+
 
 
 	public List<ApproveCompany> getApproveCompanies() {

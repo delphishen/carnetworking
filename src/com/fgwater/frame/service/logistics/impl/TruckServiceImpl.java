@@ -74,6 +74,11 @@ public class TruckServiceImpl extends BaseServiceImpl implements TruckService {
 		return truckMapper.queryCarTyoe(plateNoId);
 	}
 
+	@Override
+	public List<Map<String, String>> queryTruckDispatcherByRoot(Map<String, String> params) {
+		return truckMapper.queryTruckDispatcherByRoot(params);
+	}
+
 	@SuppressWarnings("unchecked")
 	private Map<String, String> toMap(JSONObject jo) {
 		Map<String, String> map = new HashMap<String, String>();

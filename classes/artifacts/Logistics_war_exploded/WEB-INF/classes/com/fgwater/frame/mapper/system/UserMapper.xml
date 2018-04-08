@@ -5,9 +5,11 @@
 <mapper namespace="com.fgwater.frame.mapper.system.UserMapper">
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
-		select u.*,e.name as empName,f.fleetName from  t_system_user u
+		select u.*,e.name as empName,f.fleetName,c.company,r.roleName from  t_system_user u
 		left join  t_system_employee e on u.empId = e.id
 		LEFT JOIN t_system_fleet f ON u.fleetId = f.id
+		LEFT JOIN t_archives_company c ON c.id = u.companyId
+		LEFT JOIN t_system_role r ON u.roleId = r.id
 		WHERE u.loginName!='root'
 		<if test="userName!=null and userName!=''">
 			and u.loginName like '%${userName}%'
@@ -17,6 +19,56 @@
 		</if>
 		order by u.crTime desc
 	</select>
+
+	<select id="findByFatherId" parameterType="String" resultType="HashMap">
+			SELECT *,loginName as fatherName FROM t_system_user  WHERE id = #{fatherId}
+	</select>
+
+	<select id="findAll"  resultType="HashMap">
+		SELECT * FROM t_system_user
+	</select>
+
+
+
+
+
+
+	<select id="queryManager" parameterType="HashMap" resultType="HashMap">
+		select u.*,e.name as empName,f.fleetName,c.company,r.roleName from  t_system_user u
+		left join  t_system_employee e on u.empId = e.id
+		LEFT JOIN t_system_fleet f ON u.fleetId = f.id
+		LEFT JOIN t_archives_company c ON c.id = u.companyId
+		LEFT JOIN t_system_role r ON u.roleId = r.id
+		WHERE u.loginName!='root'
+		AND u.roleId = '30'
+		<if test="fleetId!='root'">
+			and u.fleetId = #{fleetId}
+		</if>
+	</select>
+
+
+
+
+
+	<select id="queryByCompany" parameterType="HashMap" resultType="HashMap">
+		select u.*,e.name as empName,f.fleetName,c.company,r.roleName from  t_system_user u
+		left join  t_system_employee e on u.empId = e.id
+		LEFT JOIN t_system_fleet f ON u.fleetId = f.id
+		LEFT JOIN t_archives_company c ON c.id = u.companyId
+		LEFT JOIN t_system_role r ON u.roleId = r.id
+		WHERE u.loginName!='root'
+		AND u.fatherId = #{userId}
+		<if test="userName!=null and userName!=''">
+			and u.loginName like '%${userName}%'
+		</if>
+		<if test="fleetId!='root'">
+			and u.fleetId = #{fleetId}
+		</if>
+		order by u.crTime desc
+	</select>
+
+
+
 
 	<select id="getAll" parameterType="HashMap" resultType="User">
 		select * from  t_system_user where isAdmin != 1
@@ -39,9 +91,29 @@
 		select id,empId,loginName as text,isAdmin,remark,fleetId from  t_system_user where  fleetId = #{id} AND remark = '调度员'
 	</select>
 
-	<select id="getUserByRemarkApprove" parameterType="String" resultType="User">
-		select id,empId,loginName as text,isAdmin,remark,fleetId from  t_system_user where  fleetId = #{id} AND remark = '审核员'
+	<select id="getUserByRemarkApprove" parameterType="String" resultType="HashMap">
+		select u.*,u.loginName as text,t.fleetName from  t_system_user u
+		LEFT JOIN t_system_fleet t ON  u.fleetId = t.id
+ 		where  u.fleetId = #{id} AND u.roleId = '20'
 	</select>
+	<select id="getUserByRemarkApprove30" parameterType="String" resultType="HashMap">
+		select u.*,u.loginName as text,t.fleetName from  t_system_user u
+		LEFT JOIN t_system_fleet t ON  u.fleetId = t.id
+		where  u.fleetId = #{id} AND u.roleId = '30'
+	</select>
+	<select id="getUserByRemarkApprove40" parameterType="HashMap" resultType="HashMap">
+		select u.*,u.loginName as text,t.fleetName from  t_system_user u
+		LEFT JOIN t_system_fleet t ON  u.fleetId = t.id
+		where  u.fleetId = #{id} AND u.roleId = '40'
+	</select>
+
+	<select id="getUserByRemarkApprove4" parameterType="HashMap" resultType="HashMap">
+		select u.*,u.loginName as text,t.fleetName from  t_system_user u
+		LEFT JOIN t_system_fleet t ON  u.fleetId = t.id
+		where  u.fatherId = #{id} AND u.roleId = '40'
+	</select>
+
+
 
 	
 	<select id="findByEmpId" parameterType="HashMap" resultType="User">
@@ -57,16 +129,16 @@
 	<insert id="saveUser" parameterType="HashMap">
 		insert into  t_system_user (
 			id,empId,fleetId,loginName,password,email,isAdmin
-			,remark,creator,crTime,modifier,moTime,flag
+			,remark,creator,crTime,modifier,moTime,flag,fatherId,roleId
 		) values (
 			#{id},#{empId},#{fleetId},#{loginName},#{password},#{email},#{isAdmin}
-			,#{remark},#{creator},#{crTime},#{modifier},#{moTime},#{flag}
+			,#{remark},#{creator},#{crTime},#{modifier},#{moTime},#{flag},#{fatherId},#{roleId}
 		)
 	</insert>
 	
 	<update id="updateUser" parameterType="HashMap">
 		update  t_system_user set loginName=#{loginName},empId=#{empId},isAdmin=#{isAdmin},flag=#{flag}
-		,email=#{email},remark=#{remark}, modifier=#{modifier}, moTime=#{moTime} ,fleetId=#{fleetId},password=#{password}
+		,email=#{email},remark=#{remark}, modifier=#{modifier}, moTime=#{moTime} ,fleetId=#{fleetId},password=#{password},fatherId=#{fatherId},roleId=#{roleId}
 		where id=#{id}
 	</update>
 	
@@ -83,5 +155,19 @@
 	<select id="checkName" parameterType="HashMap" resultType="Integer">
 		select count(*) from  t_system_user where id!=#{id} and loginName = #{loginName}
 	</select>
+
+	<select id="findByFleetId" parameterType="String" resultType="HashMap">
+		SELECT u.*,e.phone FROM t_system_user  u
+        LEFT JOIN t_system_employee e ON u.empId = e.id
+        WHERE u.fleetId = #{fleetId} AND u.roleId ='20'
+	</select>
+
+	<select id="findByUserId" parameterType="String" resultType="HashMap">
+		SELECT u.*,e.`name` FROM t_system_user  u
+		LEFT JOIN t_system_employee e ON u.empId = e.id
+		WHERE u.id =#{currUserId}
+	</select>
+
+
 
 </mapper>

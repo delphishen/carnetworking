@@ -37,8 +37,11 @@
             var basefleedId = 'root'
             var departureTime = null;
 			var companyId = null;
+			var carTypeID = null;
             var remark = '<%=user.getRemark()%>'
 			var userId = '<%=user.getId()%>'
+			var companyIdz = '<%=user.getCompanyId()%>'
+            var roleID = '<%=user.getRoleId()%>'
 
 		</script>
 
@@ -129,13 +132,10 @@
 								style="text-align: right; margin-top: 8px; margin-right: 15px;">
 								<p>
 								 <% if(user.getIsAdmin()==1) {%>
-									<a id="myMessage" href="javascript:void(0)" class="lockScreen"
-										onclick="myMessage()">我的消息</a>
+
 									<%} %>	
 									<a id="modifyPassword" href="javascript:void(0)" class="lockScreen"
 										onclick="modifyPassword()">修改登录密码</a>
-									<a id="switchPro" href="javascript:void(0)" class="switchPro"
-										onclick="switchPro()">切换到GIS</a>
 									<a id="logout" href="javascript:void(0)" class="logout"
 										onclick="logout()">退出</a>
 								</p>

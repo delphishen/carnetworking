@@ -25,4 +25,6 @@ public interface CustomerMapper extends BaseMapper<Customer> {
     @Paging
 	public  List<Map<String,String>> queryDriverDispatcher(Map<String, String> params);
 
+    public Map<String,Object> queryById(String driverId);
+
 }

@@ -16,4 +16,6 @@ public interface FleetMapper extends BaseMapper<Fleet> {
 
     public List<Fleet> getTreeFleetList(Map<String, String> params);
 
+    public int findByFleetId(Map<String, String> params);
+
 }

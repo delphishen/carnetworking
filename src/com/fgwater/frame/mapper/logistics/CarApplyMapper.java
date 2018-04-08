@@ -45,4 +45,15 @@ public interface CarApplyMapper extends BaseMapper<CarApply> {
 
     public List<Map<String,String>> findapplylocale(Map<String, String> map);
 
+    public Map<String,String> queryOrder(String carApplyNo);
+
+
+    @Paging
+    public List<Map<String,String>> queryByCompany(Map<String, String> params);
+
+    public void backgroundCancel(Map<String, String> map);
+
+    @Paging
+    public List<Map<String,String>> queryCarApplyByUserId(Map<String, String> params);
+
 }

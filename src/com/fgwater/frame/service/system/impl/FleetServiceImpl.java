@@ -4,6 +4,7 @@ import com.fgwater.core.service.impl.BaseServiceImpl;
 import com.fgwater.core.utils.SessionUtils;
 import com.fgwater.core.utils.StrUtils;
 import com.fgwater.core.utils.UUIDUtils;
+import com.fgwater.frame.mapper.system.CompanyMapper;
 import com.fgwater.frame.mapper.system.EmployeeMapper;
 import com.fgwater.frame.mapper.system.FleetMapper;
 import com.fgwater.frame.mapper.system.UserMapper;
@@ -13,15 +14,13 @@ import com.fgwater.frame.model.system.Menu;
 import com.fgwater.frame.model.system.User;
 import com.fgwater.frame.service.system.EmployeeService;
 import com.fgwater.frame.service.system.FleetService;
+import com.sun.deploy.panel.JavaPanel;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("fleetService")
 public class FleetServiceImpl extends BaseServiceImpl implements
@@ -32,6 +31,8 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 
 	@Resource
 	private UserMapper userMapper;
+	@Resource
+	private CompanyMapper companyMapper;
 
 
 
@@ -75,16 +76,37 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 	@Override
 	public JSONArray getTreeFleetApprove(Map<String, String> params) {
 		JSONArray ja = JSONArray.fromObject(this.fleetMapper.getTreeFleetList(params));
+		String roleId = params.get("roleId");
+
 		System.out.println("==========================ja=============="+ja);
 		return this.getchildrenapp(ja,params, new JSONArray());
 	}
 
 	private JSONArray getchildrenapp(JSONArray ja,Map<String, String> params, JSONArray jsonArray) {
 
+		String roleId = params.get("roleId");
+		User user = SessionUtils.getCurrUser();
+
+
+		List<Map<String,Object>> userList = new ArrayList<>();
+
 		for (int i =0; i<ja.size();i++){
 			JSONObject jo = ja.getJSONObject(i);
 			JSONArray children = new JSONArray();
-			List<User> userList = this.userMapper.getUserByRemarkApprove(jo.getString("id"));
+			if (("20").equals(roleId)){
+				userList = this.userMapper.getUserByRemarkApprove(jo.getString("id"));
+			}
+			if (("30").equals(roleId)){
+				userList = this.userMapper.getUserByRemarkApprove30(jo.getString("id"));
+			}
+			if (("40").equals(roleId)){
+				if (("30").equals(user.getRoleId())){
+					userList = this.userMapper.getUserByRemarkApprove4(user.getId());
+				}else {
+					userList = this.userMapper.getUserByRemarkApprove40(jo.getString("id"));
+				}
+
+			}
 			for (int j=0;j<userList.size();j++){
 				JSONObject cjo = JSONObject.fromObject(userList.get(j));
 				cjo.put("leaf",true);
@@ -103,6 +125,57 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 
 		return  jsonArray;
 	}
+
+//	private JSONArray getchildrenCompany(JSONArray ja,Map<String, String> params, JSONArray jsonArray) {
+//
+//
+//		List<Map<String,String>> companyList = new ArrayList<>();
+//		List<Map<String,Object>> userList = new ArrayList<>();
+//		String roleId ="40";
+//
+//		for (int i =0; i<ja.size();i++){
+//			JSONObject jo = ja.getJSONObject(i);
+//			JSONArray children = new JSONArray();
+//			params.put("fleetId",jo.get("id").toString());
+//
+//
+//			companyList = this.companyMapper.getTreeCompany(params);
+//			JSONArray js = JSONArray.fromObject(companyList);
+//			for (int j=0;j<js.size();j++){
+//				JSONObject jp = js.getJSONObject(j);
+//				String companyId = jp.get("id").toString();
+//				params.put("companyId",companyId);
+//				JSONArray userChild =  new JSONArray();
+//				userList = this.userMapper.getUserByRemarkApprove40(params);
+//				for (int k = 0;k<userList.size();k++){
+//					JSONObject kjo = JSONObject.fromObject(userList.get(k));
+//					kjo.put("leaf",true);
+//					userChild.add(kjo);
+//				}
+//
+//				jp.put("leaf",false);
+//				jp.put("expanded",true);
+//				jp.put("children",userChild);
+//
+//
+//
+//				//JSONObject cjo = JSONObject.fromObject(js.get(j));
+//				//cjo.put("leaf",true);
+//				//children.add(cjo);
+//
+//			}
+//
+//			jo.put("leaf",false);
+//			jo.put("expanded",true);
+//			jo.put("children",js);
+//
+//			jsonArray.add(jo);
+//
+//
+//		}
+//
+//		return  jsonArray;
+//	}
 
 
 	private JSONArray getchildren(JSONArray ja,Map<String, String> params, JSONArray jsonArray) {

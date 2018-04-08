@@ -20,4 +20,6 @@ public interface TruckService extends BaseService {
 
     public  Map<String,Object> queryCarTyoe(String plateNoId);
 
+	public List<Map<String,String>> queryTruckDispatcherByRoot(Map<String, String> params);
+
 }

@@ -15,7 +15,8 @@ Ext.jq.grid = Ext.extend(Ext.grid.GridPanel, {
 					autoLoad : true,
 					baseParams : {
 						start : 0,
-						limit : 20
+						limit : 20,
+						roleId :20,
 					},
 					listeners : {
 						'beforeload' : function() {
@@ -132,6 +133,22 @@ Ext.jq.grid = Ext.extend(Ext.grid.GridPanel, {
 	},
 	onAdd : function(btn) {
 		var win = new Ext.jq.win(this);
+        if(this.sortNode == null){
+            Ext.ux.Toast.msg("信息", "请先选择用户！！！");
+            return;
+        }
+
+        if(!this.sortNode.leaf){
+            Ext.ux.Toast.msg("信息", "请先选择用户！！！");
+            return;
+
+        }
+
+        win.form.getForm().findField('userId').setValue(this.sortNode.id);
+        win.form.getForm().findField('userName').setValue(this.sortNode.loginName);
+
+        win.form.getForm().findField('fleetId').setValue(this.sortNode.fleetId);
+        win.form.getForm().findField('fleetName').setValue(this.sortNode.fleetName);
 		win.setTitle('添加调度员权限', 'add');
 		win.show();
 	},

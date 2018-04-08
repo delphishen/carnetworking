@@ -25,4 +25,13 @@
 
 	</select>
 
+	<select id="findByFleetId"  parameterType="HashMap" resultType="int">
+
+		SELECT COUNT(*) FROM t_system_fleet WHERE id = #{fleetId}
+
+	</select>
+
+
+
+
 </mapper>

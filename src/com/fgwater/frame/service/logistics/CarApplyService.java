@@ -32,5 +32,9 @@ public interface CarApplyService extends BaseService {
 
     public boolean insertcarApply(CarApply carApply);
 
+    public Map<String,String> queryOrder(String carApplyNo);
+
+
+
 }
 

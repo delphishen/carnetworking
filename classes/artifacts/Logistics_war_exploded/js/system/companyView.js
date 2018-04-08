@@ -67,6 +67,15 @@ Ext.company.menuForm = Ext.extend(Ext.FormPanel, {
 										console.log(record);
 											this.getForm().findField('fleetId').setValue(record.data.id);
 									},
+                                    'render' : function(combo) {//渲染
+                                        combo.getStore().on("load", function(s, r, o) {
+                                            combo.setValue(r[0].get('fleetName'));//第一个值
+                                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                            basefleedId = r[0].get('id');
+
+
+                                        });
+                                    },
 									scope : this
 								}
 							}]
@@ -332,6 +341,13 @@ Ext.company.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 				var win = new Ext.company.menuWin(this);
 				var form = win.form.getForm();
                 var node = this.getSelectionModel().getSelectedNode();
+
+                if (roleID =='30'){
+                	if (node == null){
+                        Ext.ux.Toast.msg('信息', '机构管理员子能添加子机构，请先选择机构！');
+                		return;
+					}
+				}
                 if(node == null){
                     win.show();
                     win.setTitle('添加机构', 'add');
@@ -359,7 +375,9 @@ Ext.company.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 
 			},
 			onAddChild : function() {
+
 				var node = this.getSelectionModel().getSelectedNode();
+
 				if (node) {
 					if (!node.attributes.menuLeaf) {
 						var win = new Ext.company.menuWin(this);
@@ -377,7 +395,14 @@ Ext.company.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 				}
 			},
 			onModify : function() {
+
 				var node = this.getSelectionModel().getSelectedNode();
+                if (roleID =='30'){
+                    if (node.attributes.fatherId == 0){
+                        Ext.ux.Toast.msg('信息', '机构管理员不能修改父机构！');
+                        return;
+                    }
+                }
 				console.log(node);
 				if (node) {
 					var win = new Ext.company.menuWin(this);
@@ -404,6 +429,13 @@ Ext.company.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 			},
 			onDelete : function() {
 				var node = this.getSelectionModel().getSelectedNode();
+
+                if (roleID =='30'){
+                    if (node.attributes.fatherId == 0){
+                        Ext.ux.Toast.msg('信息', '机构管理员不能删除父机构！');
+                        return;
+                    }
+                }
 				if (node.childNodes != '') {
 					Ext.ux.Toast.msg('信息', '请先删除子机构');
 					return;

@@ -70,6 +70,11 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 		return this.customerMapper.queryDriverDispatcher(params);
 	}
 
+	@Override
+	public Map<String, Object> queryById(String driverId) {
+		return this.customerMapper.queryById(driverId);
+	}
+
 	@SuppressWarnings("unchecked")
 	private Map<String, String> toMap(JSONObject jo) {
 		Map<String, String> map = new HashMap<String, String>();

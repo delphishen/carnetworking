@@ -27,7 +27,28 @@
 		<if test="passengerName!=null and passengerName!=''">
 			AND p.passengerName like '%${passengerName}%'
 		</if>
+		<if test="mobile!=null and mobile!=''">
+			AND p.mobile like '%${mobile}%'
+		</if>
 </select>
+
+
+	<select id="queryByCompany" parameterType="HashMap" resultType="HashMap">
+		SELECT p.*,f.fleetName,c.company from t_archives_passenger p
+		left join t_system_fleet f ON f.id = p.fleetId
+		left join t_archives_company c ON c.id = p.companyId
+		INNER JOIN (SELECT * FROM t_archives_approve_company WHERE userId =#{userId} ) ac ON ac.companyId = p.companyId
+		WHERE  1=1
+		<if test="fleetId!='root'">
+			AND p.fleetId =#{fleetId}
+		</if>
+		<if test="passengerName!=null and passengerName!=''">
+			AND p.passengerName like '%${passengerName}%'
+		</if>
+		<if test="mobile!=null and mobile!=''">
+			AND p.mobile like '%${mobile}%'
+		</if>
+	</select>
 
 
 
@@ -43,6 +64,10 @@
 		<if test="passengerName!=null and passengerName!=''">
 			AND p.passengerName like '%${passengerName}%'
 		</if>
+	</select>
+
+	<select id="findPhone" parameterType="String" resultType="String">
+		SELECT mobile FROM t_archives_passenger  WHERE id = #{userId}
 	</select>
 
 

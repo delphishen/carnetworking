@@ -1,6 +1,10 @@
 Ext.namespace('Ext.driverApply');
 
 
+var  selectdata = null;
+
+
+
 Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
     constructor : function(app) {
         this.app = app;
@@ -8,6 +12,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
 
         this.driverDispatcherSelector = new Ext.form.TriggerField({
             fieldLabel : '司机',
+            id : 'driverName',
             name : 'driverName',
             anchor : '98%',
             triggerClass : 'x-form-search-trigger',
@@ -22,6 +27,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
                 new driverDispatcherSelector(function(id, name) {
                     this.setValue(name);
                     Ext.getCmp('driverId').setValue(id);
+
                     //	if(Ext.getCmp('loginName').getValue != ''){
                     //		Ext.getCmp('loginName').setValue(name);
                     //	}
@@ -46,10 +52,15 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             editable : false,
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp("fleetId").value;
+                carTypeID = Ext.getCmp("carTypeId").value;
 
-                new truckDispatcherSelector(function(id, name) {
+                new truckDispatcherSelector(function(id, name,driverId,driverName) {
                     this.setValue(name);
                     Ext.getCmp('plateNoId').setValue(id);
+                    console.log("司机id"+driverId);
+                    console.log("司机姓名"+driverName);
+                    Ext.getCmp('driverId').setValue(driverId);
+                    Ext.getCmp('driverName').setValue(driverName);
                     //	if(Ext.getCmp('loginName').getValue != ''){
                     //		Ext.getCmp('loginName').setValue(name);
                     //	}
@@ -71,10 +82,16 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             id : 'fleetId'
         },{
             xtype : 'hidden',
+            id : 'userId'
+        },{
+            xtype : 'hidden',
             id : 'driverId'
         }, {
             xtype : 'hidden',
             id : 'plateNoId'
+        },{
+            xtype : 'hidden',
+            id : 'carTypeId'
         }, {
             columnWidth : 1,
             items : [{
@@ -289,7 +306,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                 , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
                 , 'remark','businessType', 'statuesId', 'activityId','orderFrom','driverApplyNo', 'fleetName', 'passengerName'
-                ,'company','driverName','modelName','plateNoId','plateNo','localeName'],
+                ,'company','driverName','modelName','plateNoId','plateNo','localeName','applyDatetime'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -349,8 +366,15 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'plateNoId',
                 hidden: true
             },{
+                header: 'carTypeId',
+                dataIndex: 'carTypeId',
+                hidden: true
+            },{
                 header: '订单编号',
                 dataIndex: 'carApplyNo'
+            },{
+                header: '订单申请时间',
+                dataIndex: 'applyDatetime'
             },{
                 header: '乘车用户',
                 dataIndex: 'passengerName'
@@ -378,8 +402,11 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             }, {
                 header: '预算公里数',
                 dataIndex: 'budgetKilometres'
+            },{
+                header: '车型',
+                dataIndex: 'modelName'
             }, {
-                header: '出现事由',
+                header: '出行事由',
                 dataIndex: 'content'
             }, {
                 header: '用车备注',
@@ -437,6 +464,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             return;
         }
         var select = selects[0].data;
+        selectdata = selects[0].data;
         var win = new Ext.driverApply.win(this);
         var form = win.form.getForm();
         win.setTitle('修改调度信息', 'modify');
@@ -444,7 +472,8 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('fleetId').setValue(select.fleetId);
         form.findField('driverId').setValue(select.driverId);
         form.findField('plateNoId').setValue(select.plateNoId);
-
+        form.findField('userId').setValue(select.userId);
+        form.findField('carTypeId').setValue(select.carTypeId);
 
         form.findField('privateOrPublic').setValue(select.privateOrPublic);
         form.findField('departureTime').setValue(select.departureTime);

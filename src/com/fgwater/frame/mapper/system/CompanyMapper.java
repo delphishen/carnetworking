@@ -15,4 +15,13 @@ public interface CompanyMapper extends BaseMapper<Company> {
 
     @Paging
     public   List<Map<String,String>> getTreechild(Map<String, String> params);
+
+    public List<Company> getTreeByCompany(Map<String, String> params);
+
+    public List<Company> getTreeCompanyApprove(Map<String, String> params);
+
+    public List<Company> getTreeCompanyApproveById(Map<String, String> params);
+
+    public List<Map<String,String>> getTreeCompany(Map<String, String> params);
+
 }

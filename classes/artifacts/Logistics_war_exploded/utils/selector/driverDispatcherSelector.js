@@ -216,8 +216,17 @@ Ext.driverDispatcherSelector.win = Ext.extend(Ext.Window, {
                             this.empName.toString());
                         this.close();
                     } else {
-                        Ext.ux.Toast.msg('提示', '改司机今天没有排班！！！');
-                        btn.setDisabled(false);
+                        Ext.Msg.confirm('提示信息', '该司机今天没有排班，要确认调度吗？', function(btn) {
+                            if (btn == 'yes') {
+                                this.app.callback.call(this.app.scope, this.empId.toString(),
+                                    this.empName.toString());
+                                this.close();
+
+                            }
+                        }, this);
+
+                        //Ext.ux.Toast.msg('提示', '改司机今天没有排班！！！');
+                        //btn.setDisabled(false);
                     }
                 }, this);
 

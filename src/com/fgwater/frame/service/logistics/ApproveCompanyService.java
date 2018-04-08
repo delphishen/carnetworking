@@ -16,5 +16,8 @@ public interface ApproveCompanyService extends BaseService {
 
 
     public void deleteTable(List<ApproveCompany> approveCompanies);
+
+    public List<Map<String,String>> queryapproveAuditor(Map<String, String> params);
+
 }
 

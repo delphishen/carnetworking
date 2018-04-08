@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.fgwater.frame.model.system.RolePageRight;
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,6 +49,7 @@ public class RightController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "saveRight.do")  //菜单权限保存
 	public String save() {
+
 		this.userPageRightService.save(this.getUserPageRights());
 		return this.responseModel.serial();
 	}

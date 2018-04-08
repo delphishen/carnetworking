@@ -24,6 +24,9 @@ public class User extends BaseModel {
 	private String fleetId;
 
 	@Column
+	private String  companyId;
+
+	@Column
 	private String password;
 
 	@Column
@@ -39,6 +42,12 @@ public class User extends BaseModel {
 	private String remark;
 	@Column
 	private String text;
+	@Column
+	private String roleId;
+	@Column
+	private String fatherId;
+
+
 
 
 
@@ -117,5 +126,29 @@ public class User extends BaseModel {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getFatherId() {
+		return fatherId;
+	}
+
+	public void setFatherId(String fatherId) {
+		this.fatherId = fatherId;
 	}
 }

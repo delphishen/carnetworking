@@ -20,4 +20,6 @@ public interface CompanyService extends BaseService {
     public List<Map<String,String>> getTreechild(Map<String, String> params);
 
 
+    public JSONArray getTreeCompanyApprove(Map<String, String> params);
+
 }

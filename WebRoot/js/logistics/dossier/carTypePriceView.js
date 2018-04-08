@@ -121,6 +121,15 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
 
 
                     },
+                    'render' : function(combo) {//渲染
+                        combo.getStore().on("load", function(s, r, o) {
+                            combo.setValue(r[0].get('fleetName'));//第一个值
+                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                            basefleedId = r[0].get('id');
+
+
+                        });
+                    },
                     scope: this
                 }
             }]
@@ -210,8 +219,8 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
             columnWidth: 1,
             items: [{
                 fieldLabel: '里程费用',
-                xtype: 'textfield',
-                name: 'KilometresPrice',
+                xtype: 'numberfield',
+                name: 'kilometresPrice',
                 allowBlank: false,
                 anchor: '98%',
                 selectOnFocus: true
@@ -271,6 +280,16 @@ Ext.carTypePrice.carform = Ext.extend(Ext.FormPanel, {
                 selectOnFocus: true
             }]
         }, {
+            columnWidth: 1,
+            items: [{
+                fieldLabel: '返空费起始里程（公里)',
+                xtype: 'textfield',
+                name: 'emfptyKilometres',
+                allowBlank: false,
+                anchor: '98%',
+                selectOnFocus: true
+            }]
+        },{
             columnWidth: 1,
             items: [{
                 fieldLabel: '取消订单费用',
@@ -371,8 +390,8 @@ Ext.carTypePrice.cargrid = Ext.extend(Ext.grid.GridPanel, {
             idProperty: 'id',
             root: 'rows',
             totalProperty: 'results',
-            fields: ['id', 'fleetId', 'companyId', 'businessType', 'carTtypeId', 'ascription', 'startPrice', 'startKilometres', 'startTime', 'KilometresPrice','timePrice'
-                ,'emptyPrice', 'nighttimePrice', 'nighttimeBegin','nighttimeEnd', 'cancelPrice', 'company','modelName','fleetName'],
+            fields: ['id', 'fleetId', 'companyId', 'businessType', 'carTtypeId', 'ascription', 'startPrice', 'startKilometres', 'startTime', 'kilometresPrice','timePrice'
+                ,'emptyPrice', 'nighttimePrice', 'nighttimeBegin','nighttimeEnd', 'cancelPrice', 'company','modelName','fleetName','emfptyKilometres'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -433,7 +452,7 @@ Ext.carTypePrice.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'startTime'
             }, {
                 header: '里程费用',
-                dataIndex: 'KilometresPrice'
+                dataIndex: 'kilometresPrice'
             }, {
                 header: '时间费用',
                 dataIndex: 'timePrice'
@@ -449,6 +468,9 @@ Ext.carTypePrice.cargrid = Ext.extend(Ext.grid.GridPanel, {
             },  {
                 header: '夜间费用',
                 dataIndex: 'nighttimePrice'
+            },{
+                header: '返空费起始里程',
+                dataIndex: 'emfptyKilometres'
             },{
                 header: '取消订单费用',
                 dataIndex: 'cancelPrice'
@@ -535,7 +557,7 @@ Ext.carTypePrice.cargrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('startKilometres').setValue(select.startKilometres);
 
         form.findField('startTime').setValue(select.startTime);
-        form.findField('KilometresPrice').setValue(select.KilometresPrice);
+        form.findField('kilometresPrice').setValue(select.kilometresPrice);
         form.findField('timePrice').setValue(select.timePrice);
         form.findField('emptyPrice').setValue(select.emptyPrice);
 
@@ -549,6 +571,8 @@ Ext.carTypePrice.cargrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('modelName').setValue(select.modelName);
 
         form.findField('fleetName').setValue(select.fleetName);
+        form.findField('emfptyKilometres').setValue(select.emfptyKilometres);
+
 
 
         win.show();

@@ -48,6 +48,16 @@ public class UserController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+
+	//查询机构管理员
+	@ResponseBody
+	@RequestMapping(value = "queryManager.do")
+	public String queryManager() {
+		this.responseModel.mount(this.userService.queryManager(this.requestModel
+				.getParams()), MOUNT_TYPE_PAGING);
+		return this.responseModel.serial();
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "findUserByEmpId.do")
 	public String findByEmpId() {
@@ -99,7 +109,16 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "deleteUser.do")
 	public String delete() {
-		this.userService.delete(this.getUsers());
+		try {
+			this.userService.delete(this.getUsers());
+		}catch (Exception e){
+			JSONObject jo = new JSONObject();
+			jo.put("success", true);
+			jo.put("msg", "999");
+			return jo.toString();
+
+		}
+
 		return this.responseModel.serial();
 	}
 

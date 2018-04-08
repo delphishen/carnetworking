@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fgwater.core.mapper.BaseMapper;
+import com.fgwater.frame.model.system.RolePageRight;
 import com.fgwater.frame.model.system.UserPageRight;
 
 public interface UserPageRightMapper extends BaseMapper<UserPageRight> {

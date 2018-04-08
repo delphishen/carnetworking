@@ -32,15 +32,27 @@
 
 
 	<select id="queryTruckDispatcher" parameterType="HashMap" resultType="HashMap">
-		SELECT dp.*,f.fleetName,c.plateNo FROM t_archives_dispatcher_plateno  dp
+		SELECT dp.*,f.fleetName,c.plateNo,c.modelName,d.driverName,d.driverId  FROM t_archives_dispatcher_plateno  dp
 		LEFT JOIN t_system_fleet f ON dp.fleetId = f.id
-		LEFT JOIN t_archives_car c ON dp.plateNoId = c.id
+		INNER JOIN (SELECT c.*,t.modelName FROM t_archives_car c LEFT JOIN t_archives_car_type t ON c.carType = t.id WHERE  carType = #{carTypeId}) c ON dp.plateNoId = c.id
+		INNER JOIN (SELECT c.*,d.driverName FROM t_archives_car c LEFT JOIN t_archives_driver d ON c.driverId = d.id WHERE  carType =#{carTypeId}) d  ON dp.plateNoId = d.id
 		WHERE  1=1
+		and dp.userId = #{userId}
+
 		<if test="fleetId!='root'">
 			and dp.fleetId = #{fleetId}
 		</if>
-		<if test="remark!='管理员'">
-			and dp.userId = #{userId}
+	</select>
+
+
+	<select id="queryTruckDispatcherByRoot" parameterType="HashMap" resultType="HashMap">
+		SELECT c.*,f.fleetName,ct.modelName,c.id as plateNoId,d.driverName FROM t_archives_car c
+		LEFT JOIN t_system_fleet f ON c.fleetId = f.id
+		LEFT JOIN t_archives_car_type ct ON c.carType = ct.id
+		LEFT JOIN t_archives_driver d ON c.driverId = d.id
+
+		<if test="fleetId!='root'">
+			and c.fleetId = #{fleetId}
 		</if>
 	</select>
 

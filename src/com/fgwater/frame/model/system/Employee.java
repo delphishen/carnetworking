@@ -47,6 +47,11 @@ public class Employee extends BaseModel {
 	@Column
 	private String sex;
 
+	@Column
+	private String companyId;
+
+
+
 	public String getId() {
 		return id;
 	}
@@ -125,5 +130,13 @@ public class Employee extends BaseModel {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 }

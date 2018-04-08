@@ -125,11 +125,14 @@ Ext.userPageRight.form = Ext.extend(Ext.FormPanel, {
 			listeners : {
 			load : function() {
 				var userId = this.app.app.user.id;
+				var roleId = this.app.app.user.roleId;
+				console.log("============="+roleId);
 				//alert(userId);
 						Ext.eu.ajax(
 										path+ '/system/getByUserIdMenu.do',
 										{
-											userId : userId
+											userId : userId,
+											roleId : roleId
 										}, function(resp) {
 											var arr = Ext.decode(resp.responseText);
 										//	alert(resp.responseText);

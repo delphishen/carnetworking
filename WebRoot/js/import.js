@@ -51,6 +51,17 @@ App.importJs = {
             path + '/js/wbb/cq/cqWin.js',
 			path + '/js/wbb/cq/cqView.js'],
 
+    zqView : [path + '/utils/expansion/treeCombo.js',
+        path + '/utils/selector/userSelector.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/qpSelector.js',
+        path + '/utils/calculator/calculator.js',
+        path + '/js/wbb/zq/zqTree.js',
+        path + '/js/wbb/zq/zqWin.js',
+        path + '/js/wbb/zq/zqView.js'],
+
+
+
     jqView : [path + '/utils/expansion/treeCombo.js',
         path + '/utils/selector/userSelector.js',
         path + '/utils/selector/kqSelector.js',
@@ -336,9 +347,24 @@ App.importJs = {
 
 
 	rightView : [path + '/jsLib/ext3/ux/TreeCheckNodeUI.js',
-	             path + '/js/system/rightView.js'],	
-	userView : [path + '/utils/selector/empSelector.js',
+	             path + '/js/system/rightView.js'],
+
+
+    /** *************************角色菜单权限管理*************************** */
+    roleView : [path + '/utils/selector/empSelector.js',
         path + '/utils/selector/kqSelector.js',
+        //		path + '/jsLib/ext3/ux/TreeCheckNodeUI.js',
+        path + '/jsLib/columnTreeCheck/ColumnNodeUI.js',
+        path + '/jsLib/columnTreeCheck/ColumnTreeCheckNodeUI.js',
+
+        //		path + '/jsLib/columnTreeCheck/TreeCheckNodeUI.js',
+
+        path + '/js/system/rolePageRightWin.js',
+        path + '/js/system/roleView.js'],
+
+
+	userView : [path + '/utils/selector/empSelector.js',
+        path + '/utils/selector/managerSelector.js',
 		//		path + '/jsLib/ext3/ux/TreeCheckNodeUI.js',  		
 			path + '/jsLib/columnTreeCheck/ColumnNodeUI.js',
 			path + '/jsLib/columnTreeCheck/ColumnTreeCheckNodeUI.js',

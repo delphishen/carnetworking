@@ -1,12 +1,15 @@
 package com.fgwater.frame.service.logistics.impl;
 
 import com.fgwater.core.service.impl.BaseServiceImpl;
+import com.fgwater.core.utils.SessionUtils;
 import com.fgwater.core.utils.StrUtils;
 import com.fgwater.core.utils.UUIDUtils;
 import com.fgwater.frame.mapper.logistics.ApproveCompanyMapper;
 import com.fgwater.frame.mapper.logistics.DispatcherDriverMapper;
+import com.fgwater.frame.mapper.system.FleetMapper;
 import com.fgwater.frame.model.logistics.ApproveCompany;
 import com.fgwater.frame.model.logistics.DispatcherDriver;
+import com.fgwater.frame.model.system.User;
 import com.fgwater.frame.service.logistics.ApproveCompanyService;
 import com.fgwater.frame.service.logistics.DispatcherDriverService;
 import net.sf.json.JSONObject;
@@ -20,6 +23,9 @@ public class ApproveCompanyServiceImpl extends BaseServiceImpl implements Approv
 
 	@Resource
 	private ApproveCompanyMapper approveCompanyMapper;
+
+	@Resource
+	private FleetMapper fleetMapper;
 
 
 	@Override
@@ -67,6 +73,23 @@ public class ApproveCompanyServiceImpl extends BaseServiceImpl implements Approv
 			Map<String, String> map = this.toMap(jo);
 			approveCompanyMapper.deleteTable(map);
 		}
+
+	}
+
+	@Override
+	public List<Map<String, String>> queryapproveAuditor(Map<String, String> params) {
+
+	    //int count  = this.fleetMapper.findByFleetId(params);
+		User user = SessionUtils.getCurrUser();
+		if (("30").equals(user.getRoleId())){
+			params.put("fatherId",user.getId());
+			return this.approveCompanyMapper.queryapproveAuditorByFatherId(params);
+		}else {
+			return this.approveCompanyMapper.queryapproveAuditor(params);
+		}
+
+            //return this.approveCompanyMapper.queryapproveAuditor(params);
+
 
 	}
 

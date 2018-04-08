@@ -6,13 +6,13 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
 
 
         this.kqSelector = new Ext.form.TriggerField({
-            fieldLabel : '单位机构',
+            fieldLabel : '服务机构',
             name : 'company',
             anchor : '98%',
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : false,
+            allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
@@ -128,6 +128,15 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
                         basefleedId = record.data.id;
 
 
+                    },
+                    'render' : function(combo) {//渲染
+                        combo.getStore().on("load", function(s, r, o) {
+                            combo.setValue(r[0].get('fleetName'));//第一个值
+                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                            basefleedId = r[0].get('id');
+
+
+                        });
                     },
                     scope : this
                 }

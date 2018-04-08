@@ -18,9 +18,9 @@
 
 	<select id="query" parameterType="HashMap" resultType="HashMap">
 		SELECT a.*,u.loginName,c.company,f.fleetName FROM t_archives_approve_company a
-		LEFT JOIN t_system_user u ON u.id = a.userId
 		LEFT JOIN t_archives_company  c ON c.id = a.companyId
 		LEFT JOIN t_system_fleet f ON f.id = a.fleetId
+		INNER JOIN (SELECT * FROM t_system_user WHERE roleId = #{roleId}) u ON u.id = a.userId
 		where 1=1
 		<if test="userId!=null and userId!=''">
 			AND userId = '${userId}'
@@ -30,6 +30,53 @@
 		</if>
 
 </select>
+
+	<select id="queryapproveAuditor" parameterType="HashMap" resultType="HashMap">
+		SELECT a.*,u.loginName,c.company,f.fleetName FROM t_archives_approve_company a
+		LEFT JOIN t_archives_company  c ON c.id = a.companyId
+		LEFT JOIN t_system_fleet f ON f.id = a.fleetId
+		INNER JOIN (SELECT * FROM t_system_user WHERE roleId = #{roleId}) u ON u.id = a.userId
+		where 1=1
+		<if test="userId!=null and userId!=''">
+			AND userId = '${userId}'
+		</if>
+		<if test="fleetId!='root'">
+			AND a.fleetId =#{fleetId}
+		</if>
+
+	</select>
+
+	<select id="queryapproveAuditorByFatherId" parameterType="HashMap" resultType="HashMap">
+		SELECT a.*,u.loginName,c.company,f.fleetName FROM t_archives_approve_company a
+		LEFT JOIN t_archives_company  c ON c.id = a.companyId
+		LEFT JOIN t_system_fleet f ON f.id = a.fleetId
+		INNER JOIN (SELECT * FROM t_system_user WHERE fatherId = #{fatherId} AND roleId = #{roleId}) u ON u.id = a.userId
+		where 1=1
+		<if test="userId!=null and userId!=''">
+			AND userId = '${userId}'
+		</if>
+		<if test="fleetId!='root'">
+			AND a.fleetId =#{fleetId}
+		</if>
+
+	</select>
+
+
+    <select id="queryapproveByCompany" parameterType="HashMap" resultType="HashMap">
+		SELECT a.*,u.loginName,c.company,f.fleetName FROM t_archives_approve_company a
+		LEFT JOIN t_system_fleet f ON f.id = a.fleetId
+		INNER JOIN (SELECT * FROM t_system_user WHERE roleId = '40') u ON u.id = a.userId
+		INNER JOIN (SELECT * FROM t_archives_company WHERE id = #{fleetId}) c ON c.id = a.companyId
+		where 1=1
+        <if test="userId!=null and userId!=''">
+            AND userId = '${userId}'
+        </if>
+
+    </select>
+
+
+
+
 
 
 

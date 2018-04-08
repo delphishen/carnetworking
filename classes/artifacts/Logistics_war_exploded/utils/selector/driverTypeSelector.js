@@ -104,7 +104,7 @@ Ext.driverTypeSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 								dataIndex : 'id',
 								hidden : true
 							}, {
-								header : '所属机构',
+								header : '所属平台',
 								dataIndex : 'fleetName'
 							}, {
 								header : '司机类型',

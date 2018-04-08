@@ -20,4 +20,14 @@ public interface PassengerMapper extends BaseMapper<Passenger> {
     @Paging
     public List<Map<String,String>> queryPassengerById(Map<String, String> params);
 
+    public  String findPhone(String userId);
+
+    @Paging
+    public List<Map<String,String>> queryByCompany(Map<String, String> params);
+
+
+
 }
+
+
+

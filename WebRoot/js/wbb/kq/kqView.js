@@ -155,6 +155,22 @@ Ext.kq.grid = Ext.extend(Ext.grid.GridPanel, {
 			onAdd : function(btn) {
 
 				var win = new Ext.kq.win(this);
+                if(this.sortNode == null){
+                    Ext.ux.Toast.msg("信息", "请先选择用户！！！");
+                    return;
+                }
+
+                if(!this.sortNode.leaf){
+                    Ext.ux.Toast.msg("信息", "请先选择用户！！！");
+                    return;
+
+                }
+
+                win.form.getForm().findField('userId').setValue(this.sortNode.id);
+                win.form.getForm().findField('userName').setValue(this.sortNode.loginName);
+
+                win.form.getForm().findField('fleetId').setValue(this.sortNode.fleetId);
+                win.form.getForm().findField('fleetName').setValue(this.sortNode.fleetName);
 				win.setTitle('添加车辆调度', 'add');
 				win.show();
 			},

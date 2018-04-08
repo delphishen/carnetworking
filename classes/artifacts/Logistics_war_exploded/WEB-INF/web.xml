@@ -4,6 +4,11 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+
+	<session-config>
+		<session-timeout>0</session-timeout>
+	</session-config>
+
 	<!-- 监听器web容器启动时，加载初始化spring容器 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

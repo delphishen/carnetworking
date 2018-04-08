@@ -230,36 +230,52 @@ Ext.carApply.win = Ext.extend(Ext.Window, {
 
 
         console.log("============"+selectdata);
+        var carApply  ={
+            fleetId : selectdata.fleetId,
+            carApplyNo : selectdata.carApplyNo,
+            carTypeId : selectdata.carTypeId,
+            activityId : selectdata.activityId,
+            userId : selectdata.userId,
+
+        }
 
         Ext.MessageBox.prompt("输入框","请输入审核原因：",function(bu,txt){
            // Ext.MessageBox.alert("Result","你点击的是"+bu+"按钮,<br> 输入的内容为："+txt);
             if (bu == 'ok') {
                          Ext.eu.ajax(path + '/logistics/updatearApply.do', {
-                             carApply: Ext.encode(selectdata)
+                             carApply : Ext.encode(carApply)
                         }, function (resp) {
                              Ext.ux.Toast.msg('信息', '审核成功');
+                             this.app.getStore().reload();
                         }, this);
                      }
 
 
         },this,true);
-        this.app.getStore().reload();
+       // this.app.getStore().reload();
         this.close();
-
-        //this.app.getStore().reload();
 
     },
     onModifycar : function() {
+        var carApply  ={
+            fleetId : selectdata.fleetId,
+            carApplyNo : selectdata.carApplyNo,
+            carTypeId : selectdata.carTypeId,
+            activityId : selectdata.activityId,
+            userId : selectdata.userId,
+
+        }
         Ext.MessageBox.prompt("输入框","请输入取消原因：",function(bu,txt){
             if (bu == 'ok') {
                 Ext.eu.ajax(path + '/logistics/cancelcarApply.do', {
-                    carApply: Ext.encode(selectdata)
+                    carApply : Ext.encode(carApply)
                 }, function (resp) {
                     Ext.ux.Toast.msg('信息', '取消成功');
+                    this.app.getStore().reload();
                 }, this);
             }
         },this,true);
-        this.app.getStore().reload();
+        //this.app.getStore().reload();
         this.close();
     },
 
@@ -375,13 +391,13 @@ Ext.carApply.grid = Ext.extend(Ext.grid.GridPanel, {
             },{
                 header: '是否拼车',
                 dataIndex: 'carpoolYN',
-                renderer : function(val) {
-                    if (val == false) {
-                        return '否';
-                    } else if (val == true){
-                        return '是';
-                    }
-                }
+                // renderer : function(val) {
+                //     if (val == false) {
+                //         return '否';
+                //     } else if (val == true){
+                //         return '是';
+                //     }
+                // }
             }, {
                 header: '所属平台',
                 dataIndex: 'fleetName'
@@ -497,7 +513,7 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                 , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
                 , 'remark','businessType', 'statuesId', 'activityId','orderFrom','carApplyNo', 'fleetName', 'passengerName'
-                ,'company','driverName','modelName','plateNoId','plateNo','carApplyNo','localeName'],
+                ,'company','driverName','modelName','plateNoId','plateNo','carApplyNo','localeName','applyDatetime'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -559,6 +575,9 @@ Ext.carApply.carApplygrid = Ext.extend(Ext.grid.GridPanel, {
             },{
                 header: '订单编号',
                 dataIndex: 'carApplyNo'
+            },{
+                header: '订单申请时间',
+                dataIndex: 'applyDatetime'
             },{
                 header: '乘车用户',
                 dataIndex: 'passengerName'
@@ -863,8 +882,6 @@ var carApplyView = function (params) {
     this.busqueryPanel = new Ext.carApply.queryPanel(this);
     this.cqEvaRateGrid = new Ext.carApply.grid(this);
 
-    this.insanitydriverPanel = new Ext.insanitydriver.queryPanel(this);
-    this.insanitydriverGrid = new Ext.insanitydriver.insanitydrivergrid(this);
 
 
 
@@ -892,10 +909,6 @@ var carApplyView = function (params) {
             title : '已审核订单',
             layout : 'border',
             items : [this.busqueryPanel, this.cqEvaRateGrid]
-        }, {
-            title : '查看司机排班',
-            layout : 'border',
-            items : [this.insanitydriverPanel, this.insanitydriverGrid]
         }],
         listeners : {
             'tabchange' : function(t, n) {

@@ -1,5 +1,6 @@
 package com.fgwater.frame.mapper.system;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,29 @@ public interface UserMapper extends BaseMapper<User> {
 
 	public List<User> getUserByFleetId(Map<String, String> params);
 
-	public List<User> getUserByRemarkApprove(String id);
+	public List<Map<String,Object>> getUserByRemarkApprove(String id);
+
+    public List<Map<String,Object>> findByFleetId(String fleetId);
+
+    public Map<String,String> findByUserId(String currUserId);
+
+    @Paging
+    public List<Map<String,String>> queryByCompany(Map<String, String> m);
+
+    @Paging
+    public 	List<Map<String,Object>> getUserByRemarkApprove30(String id);
+
+    @Paging
+    public 	List<Map<String,Object>> getUserByRemarkApprove40(String id);
+
+    @Paging
+    public List<Map<String,String>> queryManager(Map<String, String> params);
+
+    public Map<String,String> findByFatherId(String fatherId);
+
+	@Paging
+     public List<Map<String,Object>> getUserByRemarkApprove4(String id);
+
+    public List<Map<String,Object>> findAll();
 
 }

@@ -23,7 +23,7 @@
 		LEFT JOIN t_archives_car c ON c.id = pc.plateNoId
 		WHERE  1=1
 		<if test="fleetId!='root'">
-			AND fleetId =#{fleetId}
+			AND pc.fleetId =#{fleetId}
 		</if>
 		<if test="driverName!=null and driverName!=''">
 			AND pc.driverId  in (SELECT id FROM t_archives_driver WHERE driverName LIKE '%${driverName}%')

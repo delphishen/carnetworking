@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.system.RoleMapper">
+
+	<select id="query" parameterType="HashMap" resultType="HashMap">
+		SELECT r.*,f.fleetName  FROM t_system_role  r
+        LEFT JOIN t_system_fleet f ON r.fleetId = f.id
+        WHERE  1=1
+        <if test="fleetId!='root'">
+            and r.fleetId = #{fleetId}
+        </if>
+	</select>
+
+	<select id="checkByFleetId" parameterType="Role" resultType="int">
+		SELECT COUNT(*) FROM t_system_role WHERE fleetId = #{fleetId} AND roleName = #{roleName}
+	</select>
+
+	<select id="getRoleById" parameterType="HashMap" resultType="Role">
+		SELECT * FROM t_system_role
+	</select>
+
+	<select id="getRoleByManager" parameterType="HashMap" resultType="Role">
+		SELECT * FROM t_system_role  WHERE id !='10'
+	</select>
+
+
+
+
+
+	<select id="getRoleByCompany" parameterType="HashMap" resultType="Role">
+		SELECT * FROM t_system_role WHERE  id='40'
+	</select>
+
+
+
+</mapper>

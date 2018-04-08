@@ -29,6 +29,7 @@ Ext.jqTree.tree = Ext.extend(Ext.tree.TreePanel, {
 								dataUrl : path + '/logistics/getTreeFleetApprove.do',
 								baseParams : {
 									fleetId:fleedId,
+									roleId:20,
 								}
 							}),
 							listeners : {

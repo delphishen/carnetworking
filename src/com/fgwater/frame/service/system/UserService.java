@@ -1,5 +1,6 @@
 package com.fgwater.frame.service.system;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -24,5 +25,13 @@ public interface UserService extends BaseService {
 
 
 	public List<User> getUserByFleetId(Map<String, String> params);
+
+    public List<Map<String,Object>> findByFleetId(String fleetId);
+
+    public Map<String,String> findByUserId(String currUserId);
+
+	public List<Map<String, String>> queryManager(Map<String, String> params);
+
+    public  List<Map<String,Object>> findAll();
 
 }

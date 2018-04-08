@@ -2,6 +2,7 @@ package com.fgwater.frame.web.controller.system;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.context.annotation.Scope;
@@ -14,6 +15,10 @@ import com.fgwater.core.utils.SessionUtils;
 import com.fgwater.core.web.controller.BaseController;
 import com.fgwater.frame.model.system.Menu;
 import com.fgwater.frame.service.system.MenuService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Scope("request")
@@ -41,8 +46,17 @@ public class MenuController extends BaseController {
 
 		System.out.println(SessionUtils.getCurrUser().getEmpId());
 
-		this.responseModel.mount(this.menuService.getMenusByUserId(SessionUtils
-				.getCurrUser().getEmpId()), MOUNT_TYPE_JA);
+		JSONArray jsonArray = new JSONArray();
+
+		jsonArray = this.menuService.getMenusByUserId(SessionUtils
+				.getCurrUser().getEmpId());
+		System.out.println("=========="+jsonArray.size());
+		if (0 == jsonArray.size()){
+			jsonArray = this.menuService.getMenusByRoleId(SessionUtils.getCurrUser().getRoleId());
+		}
+
+
+		this.responseModel.mount(jsonArray, MOUNT_TYPE_JA);
 
 		System.out.println("==========菜单信息============="+this.responseModel.serial());
 
@@ -53,7 +67,23 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "getByUserIdMenu.do") //菜单权限分配，读取选择的用户的菜单权限
 	public String getByUserIdMenu() {
-		this.responseModel.mount(this.menuService.getByUserId(this.requestModel
+
+		List<Map<String,Object>> mapList = new ArrayList<>();
+		 mapList = this.menuService.getByUserId(this.requestModel
+				.getParams().get("userId"));
+		if (mapList.size() == 0){
+			mapList = this.menuService.getByRoleIdMenu(this.requestModel.getParams().get("roleId"));
+
+		}
+
+		this.responseModel.mount(mapList, MOUNT_TYPE_JA);
+		return this.responseModel.serial();
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "getByRoleIdMenu.do") //菜单权限分配，读取选择的角色的菜单权限
+	public String getByRoleIdMenu() {
+		this.responseModel.mount(this.menuService.getByRoleIdMenu(this.requestModel
 				.getParams().get("userId")), MOUNT_TYPE_JA);
 		return this.responseModel.serial();
 	}

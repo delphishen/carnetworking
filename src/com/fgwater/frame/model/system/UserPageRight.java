@@ -92,6 +92,9 @@ public class UserPageRight extends BaseModel {
 
 	public void setIsSee(boolean isSee) {
 		this.isSee = isSee;
-	}	
-	
+	}
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
 }

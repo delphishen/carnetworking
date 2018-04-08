@@ -9,6 +9,7 @@ import com.fgwater.frame.mapper.logistics.CarApplyMapper;
 import com.fgwater.frame.model.logistics.ApplyType;
 import com.fgwater.frame.model.logistics.CarApply;
 import com.fgwater.frame.model.logistics.Truck;
+import com.fgwater.frame.model.system.User;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
 import com.fgwater.frame.service.logistics.CarApplyService;
 import net.sf.json.JSONObject;
@@ -26,26 +27,29 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 
 
 
-
-
-
-
-
-
-
-
 	@Override
 	public List<Map<String, String>> query(Map<String, String> params) {
 		String localeName = "";
+		List<Map<String,String >> mapList = new ArrayList<>();
 
-		List<Map<String,String>> mapList = this.applyMapper.query(params);
+		User  user = SessionUtils.getCurrUser();
+		if (("10").equals(user.getRoleId())){
+			mapList = this.applyMapper.query(params);
+		}else {
+			params.put("userId",user.getId());
+			mapList = this.applyMapper.queryByCompany(params);
+		}
+
+
 		for (Map<String,String>  map :mapList){
+			//System.out.println("=======订单编号==========="+map.get("carApplyNo"));
 			List<Map<String,String>> maps = this.applyMapper.findapplylocale(map);
 			for (Map<String,String>  map1:maps){
 				localeName = localeName+map1.get("localeName")+",";
 
 			}
 			map.put("localeName",localeName);
+			localeName = "";
 		}
 
 
@@ -139,7 +143,31 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 
 	@Override
 	public List<Map<String, String>> queryAllCarApply(Map<String, String> params) {
-		return this.applyMapper.queryAllCarApply(params);
+
+		User user = SessionUtils.getCurrUser();
+		List<Map<String,String >> mapList = new ArrayList<>();
+		if (("10").equals(user.getRoleId())){
+			mapList = this.applyMapper.queryAllCarApply(params);
+		}else {
+			params.put("userId",user.getId());
+			mapList = this.applyMapper.queryCarApplyByUserId(params);
+
+		}
+
+
+
+		String localeName = "";
+
+		for (Map<String,String>  map :mapList){
+			List<Map<String,String>> maps = this.applyMapper.findapplylocale(map);
+			for (Map<String,String>  map1:maps){
+				localeName = localeName+map1.get("localeName")+",";
+
+			}
+			map.put("localeName",localeName);
+			localeName = "";
+		}
+		return mapList;
 	}
 
 	@Override
@@ -167,7 +195,8 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 		for (CarApply carApplie : carApplies) {
 			JSONObject jo = JSONObject.fromObject(carApplie);
 			Map<String, String> map = this.toMap(jo);
-			applyMapper.deleteTable(map);
+			applyMapper.backgroundCancel(map);
+			//applyMapper.deleteTable(map);
 		}
 	}
 
@@ -184,6 +213,11 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 
 		applyMapper.insert(carApply);
 		return true;
+	}
+
+	@Override
+	public Map<String, String> queryOrder(String carApplyNo) {
+		return applyMapper.queryOrder(carApplyNo);
 	}
 
 

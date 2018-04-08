@@ -27,4 +27,9 @@ public interface TruckMapper extends BaseMapper<Truck> {
 
     public Map<String,Object> queryCarTyoe(String plateNoId);
 
+	@Paging
+    public List<Map<String,String>> queryTruckDispatcherByRoot(Map<String, String> params);
 }
+
+
+

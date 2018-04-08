@@ -29,10 +29,24 @@ Ext.cqTree.tree = Ext.extend(Ext.tree.TreePanel, {
 								dataUrl : path + '/logistics/getTreeFleetApprove.do',
 								baseParams : {
 									fleetId:fleedId,
+									roleId :40,
 								}
 							}),
 							listeners : {
+                                contextmenu : {
+                                    fn : function(node, event) {
+                                        // 必须写，使用preventDefault方法可防止浏览器的默认事件操作发生。
+                                        event.preventDefault();
+                                        node.select();
+                                        this.menu.showAt(event.getXY());
+                                    },
+                                    scope : this
+                                },
 								click : function(node, event) {
+
+                                    // console.log("====zzzzzzzzzzzzz====="+node.attributes.fleetId);
+                                    // console.log("====zzzzzzzzzzzzz====="+node.attributes.loginName);
+                                    // console.log("====zzzzzzzzzzzzz====="+node.attributes.fleetName);
 
                                     this.app.grid.sortNode = node.attributes;
                                     this.app.grid.getStore().load();

@@ -3,6 +3,9 @@ package com.fgwater.frame.web.controller.logistics;
 import java.util.List;
 
 import javax.annotation.Resource;
+
+import com.fgwater.core.utils.SessionUtils;
+import com.fgwater.frame.model.system.User;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -52,12 +55,19 @@ public class TruckController extends BaseController {
 
 
 		String remark = this.requestModel.getParams().get("remark");
-		if (remark.equals("管理员")){
-			this.responseModel.mount(this.truckService.query(this.requestModel
-					.getParams()), MOUNT_TYPE_PAGING);
-		}else {
+		String carTypeId = this.requestModel.getParams().get("carTypeId");
+
+		User user = SessionUtils.getCurrUser();
+
+
+		if (user.getRoleId().equals("20")){
 			this.responseModel.mount(this.truckService.queryTruckDispatcher(this.requestModel
 					.getParams()), MOUNT_TYPE_PAGING);
+		}else {
+			this.responseModel.mount(this.truckService.queryTruckDispatcherByRoot(this.requestModel
+					.getParams()), MOUNT_TYPE_PAGING);
+
+
 		}
 
 		System.out.println("========================"+this.requestModel.getParams());

@@ -37,7 +37,7 @@ public class CarTypePrice extends BaseModel {
 	@Column
 	private int  startTime;
 	@Column
-	private float  KilometresPrice;
+	private float  kilometresPrice;
 
 
 	@Column
@@ -48,11 +48,15 @@ public class CarTypePrice extends BaseModel {
 	private float  nighttimePrice;
 	@Column
 	private float  cancelPrice;
+	@Column
+	private float  emfptyKilometres ;
 
 	@Column
 	private String  nighttimeBegin;
 	@Column
 	private String  nighttimeEnd;
+
+
 
 
 
@@ -132,11 +136,11 @@ public class CarTypePrice extends BaseModel {
 	}
 
 	public float getKilometresPrice() {
-		return KilometresPrice;
+		return kilometresPrice;
 	}
 
 	public void setKilometresPrice(float kilometresPrice) {
-		KilometresPrice = kilometresPrice;
+		this.kilometresPrice = kilometresPrice;
 	}
 
 	public float getTimePrice() {
@@ -185,5 +189,13 @@ public class CarTypePrice extends BaseModel {
 
 	public void setNighttimeEnd(String nighttimeEnd) {
 		this.nighttimeEnd = nighttimeEnd;
+	}
+
+	public float getEmfptyKilometres() {
+		return emfptyKilometres;
+	}
+
+	public void setEmfptyKilometres(float emfptyKilometres) {
+		this.emfptyKilometres = emfptyKilometres;
 	}
 }

@@ -93,6 +93,15 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
 
 
 									},
+                                    'render' : function(combo) {//渲染
+                                        combo.getStore().on("load", function(s, r, o) {
+                                            combo.setValue(r[0].get('fleetName'));//第一个值
+                                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                            basefleedId = r[0].get('id');
+
+
+                                        });
+                                    },
 									scope : this
 								}
 							}]
@@ -247,7 +256,7 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 							root : 'rows',
 							totalProperty : 'results',
 							fields : ['id', 'name',  'type', 'phone', 'remark',
-								'fleetId', 'fleetName', 'company', 'sex', 'email'],
+								'fleetId', 'fleetName', 'company', 'sex', 'email', 'companyId'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -255,6 +264,7 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 								start : 0,
 								limit : 20,
 								fleetId:fleedId,
+                                companyId:companyIdz,
 							},
 							listeners : {
 								'beforeload' : function() {
@@ -280,10 +290,14 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 										dataIndex : 'id',
 										hidden : true
 									}, {
-                                header : 'fleetId',
-                                dataIndex : 'fleetId',
-                                hidden : true
-                            },  {
+										header : 'companyId',
+										dataIndex : 'companyId',
+										hidden : true
+									}, {
+										header : 'fleetId',
+										dataIndex : 'fleetId',
+										hidden : true
+									},  {
 										header : '姓名',
 										dataIndex : 'name'
 									},  {
@@ -426,6 +440,14 @@ Ext.employee.queryPanel = Ext.extend(Ext.FormPanel, {
 										anchor : '90%'
 									}]
 						}, {
+							width : 200,
+							items : [{
+								xtype : 'textfield',
+								fieldLabel : '联系电话',
+								id : 'phone',
+								anchor : '90%'
+							}]
+						},{
 							width : 65,
 							items : [{
 										xtype : 'button',
@@ -459,7 +481,7 @@ Ext.employee.queryPanel = Ext.extend(Ext.FormPanel, {
 							labelAlign : 'right',
 							defaults : {
 								layout : 'form',
-								labelWidth : 35
+								labelWidth : 60
 							}
 						});
 			},

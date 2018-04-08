@@ -19,6 +19,55 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
         });
         this.fleetTypeDS.load();
 
+        this.roleTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/system/getRoleById.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'roleName'}]),
+
+            baseParams : {
+                fleetId:fleedId
+            }
+
+        });
+        this.roleTypeDS.load();
+
+
+        this.managerSelector = new Ext.form.TriggerField({
+            fieldLabel : '所属管理员',
+            name : 'fatherName',
+            anchor : '98%',
+            triggerClass : 'x-form-search-trigger',
+            selectOnFocus : true,
+            submitValue : false,
+            allowBlank : true,
+            editable : true,
+            onTriggerClick : function(e) {
+                var val = Ext.getCmp("fleetName").value;
+
+                if(val ==null && val == undefined){
+                    Ext.ux.Toast.msg("信息", "请先选择所属平台");
+                }else {
+                    new managerSelector(function(id, name) {
+                        this.setValue(name);
+                        Ext.getCmp('fatherId').setValue(id);
+                        //	if(Ext.getCmp('loginName').getValue != ''){
+                        //		Ext.getCmp('loginName').setValue(name);
+                        //	}
+
+
+
+                    }, true, this);
+
+                }
+
+            },
+            scope : this
+        });
+        this.managerSelector.hide();
+
 
 
 		this.empSelector = new Ext.form.TriggerField({
@@ -71,6 +120,12 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 					id : 'fleetId'
 				}, {
 					xtype : 'hidden',
+					id : 'fatherId'
+				},{
+					xtype : 'hidden',
+					id : 'roleId'
+				},{
+					xtype : 'hidden',
 					id : 'password'
 				}, {
 					columnWidth : 1,
@@ -97,11 +152,70 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 								this.getForm().findField('fleetId').setValue(record.data.id);
                                 this.getForm().findField('empId').setValue(null);
                                 this.getForm().findField('empName').setValue(null);
+                                this.getForm().findField('fatherId').setValue(null);
+                                this.getForm().findField('fatherName').setValue(null);
+
 								basefleedId = record.data.id;
 							},
-							scope : this
+                             'render' : function(combo) {//渲染
+                                 combo.getStore().on("load", function(s, r, o) {
+                                     combo.setValue(r[0].get('fleetName'));//第一个值
+                                     Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                     basefleedId = r[0].get('id');
+
+
+                                 });
+                             },
+                            scope : this
 						}
 					}]
+				},{
+            columnWidth : 1,
+            labelWidth : 80,
+            items : [{
+                id:'roleName',
+                xtype : 'combo',
+                fieldLabel : '分配角色',
+                hiddenName : 'remark',
+                anchor : '98%',
+                typeAhead : true,
+                editable : false,
+                allowBlank : false,
+                triggerAction : 'all',
+                lazyRender : true,
+                mode : 'local',
+                store :this.roleTypeDS,
+                valueField : 'roleName',
+                displayField : 'roleName',
+                listeners : {
+                    'select' : function(combo, record) {
+                        this.getForm().findField('roleId').setValue(record.data.id);
+                        console.log("========"+record.data.id);
+                        if (roleID == '30'){
+                            this.getForm().findField('fatherId').setValue(userId);
+                            this.getForm().findField('fatherName').setValue(loginName);
+
+                        }else {
+                            if(record.data.id == '10' ||record.data.id == '20'||record.data.id == '30' ){
+                                this.getForm().findField('fatherId').setValue(null);
+                                this.getForm().findField('fatherName').setValue(null);
+                                this.managerSelector.hide();
+
+                            }else {
+                                this.managerSelector.show();
+                            }
+                        }
+
+
+
+
+                    },
+                    scope : this
+                }
+            }]
+        },{
+					columnWidth : 1,
+					items : [this.managerSelector]
 				},{
 					columnWidth : 1,
 					items : [this.empSelector]
@@ -126,30 +240,6 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 								anchor : '98%',
 								selectOnFocus : true
 							}]
-				}, {
-					columnWidth : 1,
-					labelWidth : 80,
-					items : [{
-						xtype : 'combo',
-						fieldLabel : '备注',
-						hiddenName : 'remark',
-						anchor : '98%',
-						typeAhead : true,
-						editable : false,
-						triggerAction : 'all',
-						lazyRender : true,
-						mode : 'local',
-						store : new Ext.data.ArrayStore({
-							fields : ['key', 'val'],
-							data : [['管理员', '管理员'],
-								['调度员', '调度员'],
-								['审核员', '审核员'],
-								['其它', '其它']
-							]
-						}),
-						valueField : 'val',
-						displayField : 'key'
-					}]
 				}];
 
 		Ext.user.form.superclass.constructor.call(this, {
@@ -199,8 +289,17 @@ Ext.user.win = Ext.extend(Ext.Window, {
 			onSave : function(btn) {
 				var form = this.form.getForm();
 				if (form.isValid()) {
-					btn.setDisabled(true);
 					var user = form.getValues();
+					if ( user.roleId == '40'){
+						var val = Ext.getCmp("fatherId").value;
+						if (val == null || val == ""){
+							Ext.ux.Toast.msg("提示","请选择机构审核员所属的机构管理员！！");
+							return;
+						}
+					}
+
+
+					console.log(user.roleId);
 					//user.isAdmin = user.isAdmin == 1 ? 1 : 0;
 				//	alert(Ext.encode(user));
 					Ext.eu.ajax(path + '/system/saveUser.do', {
@@ -213,7 +312,6 @@ Ext.user.win = Ext.extend(Ext.Window, {
 									this.close();
 								} else {
 									Ext.ux.Toast.msg('提示', '用户名已经存在,请重新设置！');
-									btn.setDisabled(false);
 								}
 							}, this);
 				}
@@ -234,14 +332,15 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 							totalProperty : 'results',
 							fields : ['id', 'empId', 'empName', 'loginName',
 									'password', 'isAdmin', 'email',
-									'remark','fleetName', 'fleetId',],
+									'remark','fleetName', 'fleetId','fatherName', 'fatherId','roleId', 'roleName'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
 								isPaging : true,
 								start : 0,
 								limit : 20,
-								fleetId:fleedId
+								fleetId:fleedId,
+								roleId:roleID
 
 							},
 							listeners : {
@@ -274,7 +373,15 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
                                 		header : 'fleetId',
 										dataIndex : 'fleetId',
 										hidden : true
-									}, {
+									},{
+										header : 'roleId',
+										dataIndex : 'roleId',
+										hidden : true
+									},  {
+										header : 'fatherId',
+										dataIndex : 'fatherId',
+										hidden : true
+									},{
 										header : '员工',
 										dataIndex : 'empName'
 									}, {
@@ -297,11 +404,14 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 											}
 										}										
 									}, {
-										header : '备注',
-										dataIndex : 'remark'
+										header : '角色',
+										dataIndex : 'roleName'
 									}, {
 										header : '所属平台',
 										dataIndex : 'fleetName'
+									}, {
+										header : '所属管理员',
+										dataIndex : 'fatherName'
 									}]
 						});
 				// 菜单条
@@ -376,6 +486,11 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 				var select = selects[0].data;
 				var win = new Ext.user.win(this);
 				var form = win.form.getForm();
+				if (select.roleId == '40'){
+                    win.form.managerSelector.show();
+				}else {
+                    win.form.managerSelector.hide();
+				}
 				win.setTitle('修改用户', 'modify');
 				form.findField('id').setValue(select.id);
                 form.findField('fleetId').setValue(select.fleetId);
@@ -386,6 +501,14 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 				form.findField('loginName').setValue(select.loginName);
 				form.findField('email').setValue(select.email);
 				form.findField('remark').setValue(select.remark);
+
+                form.findField('fatherName').setValue(select.fatherName);
+                form.findField('fatherId').setValue(select.fatherId);
+
+                form.findField('roleName').setValue(select.roleName);
+                form.findField('roleId').setValue(select.roleId);
+
+
 				win.show();
 			},
 			onDelete : function() {
@@ -406,7 +529,13 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 								Ext.eu.ajax(path + '/system/deleteUser.do', {
 											users : Ext.encode(ary)
 										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
+                                    var res = Ext.decode(resp.responseText);
+                                    if(res.msg =='999'){
+                                        Ext.ux.Toast.msg('信息', '该用户已被引用，无法删除');
+									}else {
+                                        Ext.ux.Toast.msg('信息', '删除成功');
+									}
+
 											this.getStore().reload();
 										}, this);
 							}
@@ -450,7 +579,8 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 				}
 				this.user = {
 					id : selects[0].data.empId,
-					empName : selects[0].data.empName
+					empName : selects[0].data.empName,
+					roleId : selects[0].data.roleId,
 				}
 				var win = new Ext.userPageRight.win(this);
 				win.setTitle('页面授权', 'modify');
@@ -529,6 +659,7 @@ var userView = function(params) {
 
 
 	console.log(params[0]);
+	console.log("=============="+this.roleTypeDS);
 	Ext.getCmp('buttonAddUserView').hidden=!params[0].isAdd;
 	Ext.getCmp('buttonModifyUserView').hidden=!params[0].isModify;
 	Ext.getCmp('buttonDelUserView').hidden=!params[0].isDel;
@@ -541,7 +672,7 @@ var userView = function(params) {
 	
 	return new Ext.Panel({
 				id : 'userView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开
-				title : '用户管理',
+				title : '系统账号管理',
 				layout : 'border',
 				items : [this.queryPanel, this.grid]
 			})

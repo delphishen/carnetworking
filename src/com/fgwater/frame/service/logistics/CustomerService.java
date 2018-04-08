@@ -18,4 +18,6 @@ public interface CustomerService extends BaseService {
 
     public List<Map<String,String>> queryDriverDispatcher(Map<String, String> params);
 
+    public Map<String,Object> queryById(String driverId);
+
 }

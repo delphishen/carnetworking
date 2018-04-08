@@ -29,10 +29,19 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 
 	public List<Map<String, String>> query(Map<String, String> params) {
 		User user = SessionUtils.getCurrUser();
-		if (user.getIsAdmin() != 1) {
-			params.put("isAdmin", "0");
+
+		if (("10").equals(user.getRoleId())){
+			if (user.getIsAdmin() != 1) {
+				params.put("isAdmin", "0");
+			}
+			return this.employeeMapper.query(params);
+		}else {
+			params.put("userId",user.getId());
+			return  this.employeeMapper.queryByCompany(params);
 		}
-		return this.employeeMapper.query(params);
+
+
+
 	}
 	
 	public List<Employee> getAll(Map<String, String> params) {

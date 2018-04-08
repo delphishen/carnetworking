@@ -20,5 +20,7 @@ public interface PassengerService extends BaseService {
     public List<Map<String ,String>> queryPassengerById(Map<String, String> params);
 
 
+    public String findPhone(String userId);
+
 }
 

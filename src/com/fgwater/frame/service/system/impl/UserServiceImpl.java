@@ -1,10 +1,7 @@
 package com.fgwater.frame.service.system.impl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.sql.ResultSet;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -38,11 +35,48 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 
 	public List<Map<String, String>> query(Map<String, String> m) {
+		List<Map<String,String>> mapList = new ArrayList<>();
+
+
 		User user = SessionUtils.getCurrUser();
-		if (user.getIsAdmin() != 1) {
-			m.put("isAdmin", "0");
+		if (("10").equals(user.getRoleId())){
+			if (user.getIsAdmin() != 1) {
+				m.put("isAdmin", "0");
+			}
+			mapList = this.userMapper.query(m);
+			for (Map<String,String>  map :mapList){
+				if (null ==map.get("fatherId") ||  0 ==map.get("fatherId").length() ){
+
+					map.put("fatherName",null);
+				}else {
+					Map<String,String > stringMap = this.userMapper.findByFatherId(map.get("fatherId"));
+					map.put("fatherName",stringMap.get("fatherName"));
+
+				}
+
+			}
+
+			return mapList;
+		}else {
+			m.put("userId",user.getId());
+			mapList = this.userMapper.queryByCompany(m);
+
+			for (Map<String,String>  map :mapList){
+				if (null ==map.get("fatherId")){
+					map.put("fatherName",null);
+
+				}else {
+
+					Map<String,String > stringMap = this.userMapper.findByFatherId(map.get("fatherId"));
+					map.put("fatherName",stringMap.get("fatherName"));
+
+				}
+
+			}
+			return  mapList;
 		}
-		return this.userMapper.query(m);
+
+
 	}
 
 	public User findByEmpId(String empId) {
@@ -60,12 +94,8 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public boolean saveOrUpdate(User user) {
 		JSONObject jo = JSONObject.fromObject(user);
 		Map<String, String> map = this.toMap(jo);
-		int count = 0;
 
-		count = this.userMapper.check(user,"empId");
-		if(count == 0){
-			count = this.userMapper.checkName(map);
-		}
+		int count = this.userMapper.checkName(map);
 
 		if (count == 0) {
 			if(user.getRemark().equals("管理员")){
@@ -120,6 +150,26 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public List<User> getUserByFleetId(Map<String, String> params) {
 		return this.userMapper.getUserByFleetId(params);
+	}
+
+	@Override
+	public List<Map<String,Object>> findByFleetId(String fleetId) {
+		return this.userMapper.findByFleetId(fleetId);
+	}
+
+	@Override
+	public Map<String, String> findByUserId(String currUserId) {
+		return this.userMapper.findByUserId(currUserId);
+	}
+
+	@Override
+	public List<Map<String, String>> queryManager(Map<String, String> params) {
+		return this.userMapper.queryManager(params);
+	}
+
+	@Override
+	public List<Map<String,Object>> findAll() {
+		return this.userMapper.findAll();
 	}
 
 

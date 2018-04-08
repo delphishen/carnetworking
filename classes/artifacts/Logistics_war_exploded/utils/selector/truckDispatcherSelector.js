@@ -42,7 +42,7 @@ Ext.truckDispatcherSelector.grid = Ext.extend(Ext.grid.GridPanel, {
             idProperty : 'id',
             root : 'rows',
             totalProperty : 'results',
-            fields : ['id', 'fleetId', 'plateNoId','plateNo', 'fleetName'],
+            fields : ['id', 'fleetId', 'plateNoId','plateNo', 'fleetName', 'modelName', 'driverName', 'driverId'],
             autoDestroy : true,
             autoLoad : true,
             baseParams : {
@@ -51,7 +51,8 @@ Ext.truckDispatcherSelector.grid = Ext.extend(Ext.grid.GridPanel, {
                 limit : 80,
                 fleetId:basefleedId,
                 userId:userId,
-                remark:remark
+                remark:remark,
+                carTypeId:carTypeID,
             },
             listeners : {
                 'beforeload' : function() {
@@ -74,10 +75,14 @@ Ext.truckDispatcherSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							if (win.app.isSingle) {
 								win.empId = [];
 								win.empName = [];
+								win.driverId = [];
+								win.driverName = [];
 							}
 							if (jQuery.inArray(record.get('plateNoId'), win.empId) < 0) {
 								win.empId.push(record.get('plateNoId'));
 								win.empName.push(record.get('plateNo'));
+                                win.driverId.push(record.get('driverId'));
+                                win.driverName.push(record.get('driverName'));
 							}
 							win.form.getForm().findField('truck')
 									.setValue(win.empName.toString());
@@ -114,11 +119,23 @@ Ext.truckDispatcherSelector.grid = Ext.extend(Ext.grid.GridPanel, {
                         dataIndex : 'plateNoId',
                         hidden : true
                     },{
-								header : '所属机构',
+						id:'driverId',
+                        header : 'driverId',
+                        dataIndex : 'driverId',
+                        hidden : true
+                    },{
+								header : '所属平台',
 								dataIndex : 'fleetName'
 							}, {
 								header : '车牌号',
 								dataIndex : 'plateNo'
+							}, {
+								header : '车牌类型',
+								dataIndex : 'modelName'
+							}, {
+								id:'driverName',
+								header : '默认司机',
+								dataIndex : 'driverName'
 							}]
 				});
 		// 菜单条
@@ -167,6 +184,8 @@ Ext.truckDispatcherSelector.win = Ext.extend(Ext.Window, {
 				this.app = app;
 				this.empId = new Array();
 				this.empName = new Array();
+                this.driverId = new Array();
+                this.driverName = new Array();
 				this.form = new Ext.truckDispatcherSelector.form(this);
 				this.grid = new Ext.truckDispatcherSelector.grid(this);
 				Ext.truckDispatcherSelector.win.superclass.constructor.call(this, {
@@ -199,14 +218,18 @@ Ext.truckDispatcherSelector.win = Ext.extend(Ext.Window, {
 						});
 			},
 			onSure : function(btn) {
+				//console.log("司机id" +Ext.getCmp("driverId").value);
+				//console.log("司机姓名" + Ext.getCmp("driverName").value)
 				this.app.callback.call(this.app.scope, this.empId.toString(),
-						this.empName.toString());
+						this.empName.toString(),this.driverId.toString(),this.driverName.toString());
 				this.close();
 			},
 			onReset : function(btn) {
 				this.form.getForm().reset();
 				this.empId = [];
 				this.empName = [];
+                this.driverId = [];
+                this.driverName = [];
 			},
 			onClose : function() {
 				this.close();

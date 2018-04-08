@@ -26,6 +26,27 @@
         </if>
     </select>
 
+    <select id="queryByCompany" parameterType="HashMap" resultType="HashMap">
+        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        LEFT JOIN t_system_fleet f ON a.fleetId = f.id
+        LEFT JOIN t_archives_passenger u ON a.userId = u.id
+        LEFT JOIN t_archives_company c ON a.companyId = c.id
+        LEFT JOIN t_archives_driver d ON a.driverId = d.id
+        LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
+        LEFT JOIN t_archives_car cc ON a.plateNoId = cc.id
+        INNER JOIN (SELECT * FROM t_archives_approve_company WHERE userId =#{userId} ) ac ON ac.companyId = a.companyId
+        WHERE a.statuesId = #{statuesId}
+
+        <if test="fleetId!='root'">
+            AND a.fleetId =#{fleetId}
+        </if>
+        <if test="carApplyNo!=null and carApplyNo!=''">
+            AND   a.carApplyNo like '%${carApplyNo}%'
+        </if>
+    </select>
+
+
+
     <select id="queryAllCarApply" parameterType="HashMap" resultType="HashMap">
         SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
@@ -43,6 +64,26 @@
             AND   a.carApplyNo like '%${carApplyNo}%'
         </if>
     </select>
+
+    <select id="queryCarApplyByUserId" parameterType="HashMap" resultType="HashMap">
+        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        LEFT JOIN t_system_fleet f ON a.fleetId = f.id
+        LEFT JOIN t_archives_passenger u ON a.userId = u.id
+        LEFT JOIN t_archives_company c ON a.companyId = c.id
+        LEFT JOIN t_archives_driver d ON a.driverId = d.id
+        LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
+        LEFT JOIN t_archives_car cc ON a.plateNoId = cc.id
+        INNER JOIN (SELECT * FROM t_archives_approve_company WHERE userId =#{userId} ) ac ON a.companyId = ac.companyId
+
+        <if test="fleetId!='root'">
+            AND a.fleetId =#{fleetId}
+        </if>
+        <if test="carApplyNo!=null and carApplyNo!=''">
+            AND   a.carApplyNo like '%${carApplyNo}%'
+        </if>
+    </select>
+
+
 
 
 
@@ -177,6 +218,25 @@
 
         delete from t_car_apply where carApplyNo=#{carApplyNo}
     </delete>
+
+
+    <update id="backgroundCancel" parameterType="HashMap">
+
+         UPDATE t_car_apply
+        SET statuesId = '-3'
+        WHERE carApplyNo=#{carApplyNo}
+    </update>
+
+
+
+    <select id="queryOrder" parameterType="String" resultType="HashMap">
+        SELECT ca.*,p.passengerName,c.modelName,d.driverName,d.mobile,ac.plateNo FROM t_car_apply ca
+        LEFT JOIN t_archives_passenger  p ON ca.userId = p.id
+        LEFT JOIN t_archives_car_type c ON ca.carTypeId = c.id
+		LEFT JOIN t_archives_driver d ON ca.driverId = d.id
+		LEFT JOIN t_archives_car ac ON ca.plateNoId = ac.id
+        WHERE carApplyNo = #{carApplyNo}
+    </select>
 
 
 
