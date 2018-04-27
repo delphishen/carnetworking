@@ -50,6 +50,8 @@
 		LEFT JOIN t_system_fleet f ON c.fleetId = f.id
 		LEFT JOIN t_archives_car_type ct ON c.carType = ct.id
 		LEFT JOIN t_archives_driver d ON c.driverId = d.id
+		WHERE  1=1
+		AND  carType = #{carTypeId}
 
 		<if test="fleetId!='root'">
 			and c.fleetId = #{fleetId}

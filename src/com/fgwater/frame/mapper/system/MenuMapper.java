@@ -21,4 +21,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     public List<Map<String,Object>> getByRoleId(String roleId);
 
+    public List<Map<String,Object>> getAllByRoleId(String roleId);
+
 }

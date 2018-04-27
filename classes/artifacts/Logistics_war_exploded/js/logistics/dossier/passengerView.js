@@ -1,5 +1,9 @@
 Ext.namespace('Ext.passenger');
 
+var flag = '1';
+
+
+
 Ext.passenger.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
@@ -111,9 +115,12 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
                     },
                     'render' : function(combo) {//渲染
                         combo.getStore().on("load", function(s, r, o) {
-                            combo.setValue(r[0].get('fleetName'));//第一个值
-                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
-                            basefleedId = r[0].get('id');
+                        	if(flag == '1'){
+                                combo.setValue(r[0].get('fleetName'));//第一个值
+                                Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                basefleedId = r[0].get('id');
+							}
+
 
 
                         });
@@ -173,6 +180,7 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
                 triggerAction : 'all',
                 lazyRender : true,
                 mode : 'local',
+				value:'可用',
                 store : new Ext.data.ArrayStore({
                     fields : ['key', 'val'],
                     data : [['不可用', '0'],
@@ -180,6 +188,7 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
                 }),
                 valueField : 'val',
                 displayField : 'key'
+
             }]
         },{
             columnWidth : 1,
@@ -254,6 +263,10 @@ Ext.passenger.win = Ext.extend(Ext.Window, {
 				if (form.isValid()) {
 					btn.setDisabled(true);
 					var user = form.getValues();
+					if (user.statuesId == '可用'){
+						console.log("====可用=====");
+						user.statuesId = '1';
+					}
 					Ext.eu.ajax(path + '/logistics/savePassenger.do', {
                        		 passenger : Ext.encode(user)
 							}, function(resp) {
@@ -263,7 +276,7 @@ Ext.passenger.win = Ext.extend(Ext.Window, {
 									this.app.getStore().reload();
 									this.close();
 								} else {
-									Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+									Ext.ux.Toast.msg('提示', '改手机号已经存在！！！');
 									btn.setDisabled(false);
 								}
 							}, this);
@@ -395,11 +408,13 @@ Ext.passenger.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 			},
 			onAdd : function(btn) {
+				flag = '1';
 				var win = new Ext.passenger.win(this);
 				win.setTitle('添加乘客端管理信息', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
+				flag = '2';
 				var selects = Ext.eu.getSelects(this);
 				if (selects.length == 0) {
 					Ext.ux.Toast.msg("信息", "请选择要修改的记录！");
@@ -476,7 +491,8 @@ Ext.passenger.queryPanel = Ext.extend(Ext.FormPanel, {
                     items : [{
                         xtype : 'textfield',
                         fieldLabel : '手机号码',
-                        id : 'mobile',
+                        id : 'querymobile',
+                        name : 'mobile',
                         anchor : '90%'
                     }]
                 }, {
@@ -506,7 +522,7 @@ Ext.passenger.queryPanel = Ext.extend(Ext.FormPanel, {
 						}];
 				// panel定义
 				Ext.passenger.queryPanel.superclass.constructor.call(this, {
-							id : 'applyTypeViewQueryPanel',
+							id : 'passengerViewQueryPanel',
 							region : 'north',
 							height : 40,
 							frame : true,

@@ -12,7 +12,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
 
         this.driverDispatcherSelector = new Ext.form.TriggerField({
             fieldLabel : '司机',
-            id : 'driverName',
+            id : 'driverNameApply',
             name : 'driverName',
             anchor : '98%',
             triggerClass : 'x-form-search-trigger',
@@ -60,7 +60,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
                     console.log("司机id"+driverId);
                     console.log("司机姓名"+driverName);
                     Ext.getCmp('driverId').setValue(driverId);
-                    Ext.getCmp('driverName').setValue(driverName);
+                    Ext.getCmp('driverNameApply').setValue(driverName);
                     //	if(Ext.getCmp('loginName').getValue != ''){
                     //		Ext.getCmp('loginName').setValue(name);
                     //	}

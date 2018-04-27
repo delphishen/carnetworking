@@ -11,16 +11,26 @@
 		<if test="fleetId!='root'">
 			WHERE fleetId =#{fleetId}
 		</if>
+		ORDER BY companyNo+0
+
 	</select>
 
 	<select id="getTreeByCompany"   parameterType="HashMap"  resultType="HashMap">
 
 		SELECT c.*,c.company as text
 		FROM  t_archives_company c
-		INNER JOIN (SELECT * FROM t_archives_approve_company WHERE userId = #{userId}) ac ON ac.companyId = c.id OR ac.companyId = c.fatherId
+		INNER JOIN (SELECT * FROM t_archives_approve_company WHERE userId = #{userId}) ac ON ac.companyId = c.id
 		<if test="fleetId!='root'">
 			WHERE c.fleetId =#{fleetId}
 		</if>
+		ORDER BY companyNo+0
+	</select>
+
+
+
+
+	<select id="checkCompany" parameterType="Company" resultType="int">
+		SELECT COUNT(*) FROM t_archives_company WHERE fleetId = #{fleetId} AND company = #{company} AND fatherId = #{fatherId}
 	</select>
 
 

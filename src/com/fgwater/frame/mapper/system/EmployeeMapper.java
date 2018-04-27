@@ -25,4 +25,10 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
     @Paging
 	public List<Map<String,String>> queryByCompany(Map<String, String> params);
 
+    public  int checkPhone(Map<String, String> map);
+
+	int checkPhoneById(Map<String, String> map);
+
+	int checkFatherId(Map<String, String> map);
+
 }

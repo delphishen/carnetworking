@@ -29,7 +29,21 @@
 			AND a.fleetId =#{fleetId}
 		</if>
 
-</select>
+	</select>
+
+	<select id="queryChildApproveCompany" parameterType="String" resultType="Company">
+
+		SELECT * FROM t_archives_company WHERE fatherId = #{companyId}
+	</select>
+
+
+
+	<select id="checkCount" parameterType="Company" resultType="int" >
+		SELECT COUNT(*) FROM t_archives_approve_company WHERE userId = #{userId} AND companyId = #{companyId}
+
+	</select>
+
+
 
 	<select id="queryapproveAuditor" parameterType="HashMap" resultType="HashMap">
 		SELECT a.*,u.loginName,c.company,f.fleetName FROM t_archives_approve_company a

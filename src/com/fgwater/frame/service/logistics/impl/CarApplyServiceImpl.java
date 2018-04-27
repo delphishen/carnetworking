@@ -6,8 +6,10 @@ import com.fgwater.core.utils.StrUtils;
 import com.fgwater.core.utils.UUIDUtils;
 import com.fgwater.frame.mapper.logistics.ApplyTypeMapper;
 import com.fgwater.frame.mapper.logistics.CarApplyMapper;
+import com.fgwater.frame.mapper.logistics.PassengerMapper;
 import com.fgwater.frame.model.logistics.ApplyType;
 import com.fgwater.frame.model.logistics.CarApply;
+import com.fgwater.frame.model.logistics.CarApplyPassenger;
 import com.fgwater.frame.model.logistics.Truck;
 import com.fgwater.frame.model.system.User;
 import com.fgwater.frame.service.logistics.ApplyTypeService;
@@ -24,6 +26,9 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 
 	@Resource
 	private CarApplyMapper applyMapper;
+
+	@Resource
+	private PassengerMapper passengerMapper;
 
 
 
@@ -144,6 +149,14 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
 	@Override
 	public List<Map<String, String>> queryAllCarApply(Map<String, String> params) {
 
+		if (params.get("clockIn") != null && params.get("clockIn") != ""){
+			params.put("clockIn",params.get("clockIn")+" 00:00:00");
+		}
+		if (params.get("clockOut") != null && params.get("clockOut") != ""){
+			params.put("clockOut",params.get("clockOut")+" 23:59:59");
+		}
+
+
 		User user = SessionUtils.getCurrUser();
 		List<Map<String,String >> mapList = new ArrayList<>();
 		if (("10").equals(user.getRoleId())){
@@ -205,19 +218,75 @@ public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyServ
         carApply.setStatuesId("10");
         carApply.setDriverId(null);
         carApply.setPlateNoId(null);
-         String carApplyNo = carApply.getUserId()+System.currentTimeMillis();
+         String carApplyNo = carApply.getFleetId()+System.currentTimeMillis();
         carApply.setCarApplyNo(carApplyNo);
         System.currentTimeMillis();
 	    carApply.setOrderFrom("后台下单");
 
+	    if (carApply.getUserId().contains(",")){
+	    	System.out.println("======包含逗号===");
+	    	String[] strings = carApply.getUserId().split(",");
+	    	for (int i = 0;i<strings.length;i++){
+	    		//System.out.println("=====输出userID======"+strings[i]);
+				if (i == 0){
+					carApply.setUserId(strings[0]);
+				}else {
+					CarApplyPassenger carApplyPassenger = new CarApplyPassenger();
+					Map<String,Object> map = passengerMapper.findById(strings[i]);
+					carApplyPassenger.setId(UUIDUtils.getUUID());
+					carApplyPassenger.setCarApplyNo(carApply.getCarApplyNo());
+					carApplyPassenger.setDepartureTime(carApply.getDepartureTime());
+					carApplyPassenger.setEndLocale(carApply.getEndLocale());
+					carApplyPassenger.setStartLocale(carApply.getStartLocale());
+					carApplyPassenger.setFleetId(carApply.getFleetId());
+					carApplyPassenger.setName(map.get("passengerName").toString());
+					carApplyPassenger.setTel(map.get("mobile").toString());
 
-		applyMapper.insert(carApply);
+					applyMapper.insertCarApplyPassenger(carApplyPassenger);
+
+				}
+
+			}
+
+		}
+
+	    if (!StrUtils.isNullOrEmpty(carApply.getWayLocale())){
+	        carApply.setLocaleId(UUIDUtils.getUUID());
+	        applyMapper.insertcarApplyLocale(carApply);
+
+        }
+
+
+		applyMapper.insertcarApply(carApply);
 		return true;
 	}
 
 	@Override
 	public Map<String, String> queryOrder(String carApplyNo) {
 		return applyMapper.queryOrder(carApplyNo);
+	}
+
+	@Override
+	public List<Map<String, String>> excelAllCarApply(Map<String, String> map) {
+
+		User user = SessionUtils.getCurrUser();
+
+		if (map.get("clockIn") != null && map.get("clockIn") != ""){
+			map.put("clockIn",map.get("clockIn")+" 00:00:00");
+		}
+		if (map.get("clockOut") != null && map.get("clockOut") != ""){
+			map.put("clockOut",map.get("clockOut")+" 23:59:59");
+		}
+
+		List<Map<String,String >> mapList = new ArrayList<>();
+		if (("10").equals(user.getRoleId())){
+			mapList = this.applyMapper.excelAllCarApply(map);
+		}else {
+			map.put("userId",user.getId());
+			mapList = this.applyMapper.excelCarApplyByUserId(map);
+
+		}
+		return mapList;
 	}
 
 

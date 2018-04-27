@@ -24,4 +24,6 @@ public interface CompanyMapper extends BaseMapper<Company> {
 
     public List<Map<String,String>> getTreeCompany(Map<String, String> params);
 
+    public  int checkCompany(Company company);
+
 }

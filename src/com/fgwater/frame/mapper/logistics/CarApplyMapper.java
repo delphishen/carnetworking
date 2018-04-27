@@ -4,6 +4,7 @@ import com.fgwater.core.annotation.Paging;
 import com.fgwater.core.mapper.BaseMapper;
 import com.fgwater.frame.model.logistics.ApplyType;
 import com.fgwater.frame.model.logistics.CarApply;
+import com.fgwater.frame.model.logistics.CarApplyPassenger;
 
 import java.util.List;
 import java.util.Map;
@@ -55,5 +56,16 @@ public interface CarApplyMapper extends BaseMapper<CarApply> {
 
     @Paging
     public List<Map<String,String>> queryCarApplyByUserId(Map<String, String> params);
+
+    void insertcarApply(CarApply carApply);
+
+
+    void insertcarApplyLocale(CarApply carApply);
+
+    void insertCarApplyPassenger(CarApplyPassenger carApplyPassenger);
+
+    List<Map<String,String>> excelAllCarApply(Map<String, String> map);
+
+    List<Map<String,String>> excelCarApplyByUserId(Map<String, String> map);
 
 }

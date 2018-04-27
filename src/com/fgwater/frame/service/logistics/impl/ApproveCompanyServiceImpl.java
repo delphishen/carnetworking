@@ -9,9 +9,11 @@ import com.fgwater.frame.mapper.logistics.DispatcherDriverMapper;
 import com.fgwater.frame.mapper.system.FleetMapper;
 import com.fgwater.frame.model.logistics.ApproveCompany;
 import com.fgwater.frame.model.logistics.DispatcherDriver;
+import com.fgwater.frame.model.system.Company;
 import com.fgwater.frame.model.system.User;
 import com.fgwater.frame.service.logistics.ApproveCompanyService;
 import com.fgwater.frame.service.logistics.DispatcherDriverService;
+import com.sun.tools.javac.comp.Check;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -31,32 +33,44 @@ public class ApproveCompanyServiceImpl extends BaseServiceImpl implements Approv
 	@Override
 	public boolean savedispatcherDriver(ApproveCompany approveCompany) {
 
-		String  did  = approveCompany.getCompanyId();
+		int count = this.approveCompanyMapper.checkCount(approveCompany);
 
+		if (count == 0){
+			if (StrUtils.isNullOrEmpty(approveCompany.getId())){
+				System.out.println("=====================id为空=============");
+//
+//			List<String> dispatcheDrivers = Arrays.asList(did.split(","));
+//			for (String dis : dispatcheDrivers) {
+//				ApproveCompany approveCompany1 = new ApproveCompany();
+//				approveCompany1.setId(UUIDUtils.getUUID());
+//				approveCompany1.setUserId(approveCompany.getUserId());
+//				approveCompany1.setCompanyId(dis);
+//				approveCompany1.setFleetId(approveCompany.getFleetId());
+//				this.approveCompanyMapper.insert(approveCompany1);
+//			}
+				approveCompany.setId(UUIDUtils.getUUID());
+				this.approveCompanyMapper.insert(approveCompany);
 
-		if (StrUtils.isNullOrEmpty(approveCompany.getId())){
-			System.out.println("=====================id为空=============");
+				List<Company> companyList = this.approveCompanyMapper.queryChildApproveCompany(approveCompany.getCompanyId());
 
-			List<String> dispatcheDrivers = Arrays.asList(did.split(","));
-			for (String dis : dispatcheDrivers) {
-				ApproveCompany approveCompany1 = new ApproveCompany();
-				approveCompany1.setId(UUIDUtils.getUUID());
-				approveCompany1.setUserId(approveCompany.getUserId());
-				approveCompany1.setCompanyId(dis);
-				approveCompany1.setFleetId(approveCompany.getFleetId());
-				this.approveCompanyMapper.insert(approveCompany1);
+				for (Company list:companyList){
+					ApproveCompany approveCompany2 = new ApproveCompany();
+					approveCompany2.setId(UUIDUtils.getUUID());
+					approveCompany2.setCompanyId(list.getId());
+					approveCompany2.setFleetId(approveCompany.getFleetId());
+					approveCompany2.setUserId(approveCompany.getUserId());
+					this.approveCompanyMapper.insert(approveCompany2);
+				}
+
+			}else {
+				System.out.println("====================id不为空！！！！！===================");
+				this.approveCompanyMapper.update(approveCompany);
 			}
-		}else {
-			System.out.println("====================id不为空！！！！！===================");
-			this.approveCompanyMapper.update(approveCompany);
 		}
 
 
 
-
-
-
-		return true;
+		return count == 0;
 	}
 
 	@Override

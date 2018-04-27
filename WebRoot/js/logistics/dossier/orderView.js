@@ -248,6 +248,19 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
         this.app = app;
 
 
+
+
+        this.ds = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/system/queryLocale.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'location'}, {name : 'name'}]),
+
+
+        });
+
         this.kqSelector = new Ext.form.TriggerField({
             fieldLabel : '单位机构',
             name : 'company',
@@ -304,7 +317,7 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                         //		Ext.getCmp('loginName').setValue(name);
                         //	}
 
-                    }, true, this);
+                    }, false, this);
 
                 }
 
@@ -412,7 +425,25 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
         }, {
             xtype : 'hidden',
             id : 'carTypeId'
-        },  {
+        }, {
+            xtype : 'hidden',
+            id : 'startLongitude'
+        }, {
+            xtype : 'hidden',
+            id : 'startLatitude'
+        }, {
+            xtype : 'hidden',
+            id : 'wayLongitude'
+        },{
+            xtype : 'hidden',
+            id : 'wayLatitude'
+        },{
+            xtype : 'hidden',
+            id : 'endLongitude'
+        },{
+            xtype : 'hidden',
+            id : 'endLatitude'
+        },{
             columnWidth : 1,
             labelWidth : 60,
             items : [{
@@ -457,6 +488,17 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                         basefleedId = record.data.id;
 
 
+                    },
+                    'render' : function(combo) {//渲染
+                        combo.getStore().on("load", function(s, r, o) {
+                                combo.setValue(r[0].get('fleetName'));//第一个值
+                                Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                basefleedId = r[0].get('id');
+
+
+
+
+                        });
                     },
                     scope : this
                 }
@@ -534,34 +576,132 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
 
-                id:'departureTime',
+                id:'applyDatetime',
                 fieldLabel : '选择时间',
                 xtype : 'timefield',
                 allowBlank : false,
                 format:'G:i:s',
-                name : 'departureTime',
+                name : 'applyDatetime',
                 anchor : '98%',
                 selectOnFocus : true
             }]
         },{
             columnWidth : 1,
+            labelWidth : 60,
             items : [{
+                id:'startlocal',
+                mode : 'remote',
+                minChars:2,
+                queryParam: 'userinput',
                 fieldLabel : '出发点',
-                xtype : 'textfield',
-                name : 'startLocale',
+                width : 60,
+                xtype : 'combo',
+                hiddenName : 'startLocale',
+                submitValue : false,
                 allowBlank : false,
                 anchor : '98%',
-                selectOnFocus : true
+                editable : true,
+                triggerAction : 'all',
+                store : this.ds,
+                valueField : 'name',
+                displayField : 'name',
+                listeners : {
+                    'select' : function(combo, record) {
+                        //console.log(record.data.location);
+                        var startLocation = new Array();
+                        startLocation = record.data.location.split(",");
+                        console.log(startLocation[0]);
+                        console.log(startLocation[1]);
+                        this.getForm().findField('startLongitude').setValue(startLocation[0]);
+                        this.getForm().findField('startLatitude').setValue(startLocation[1]);
+
+
+
+                    },
+                    'beforequery':function(qe){
+                        var para  =  qe.query ;
+                    },
+
+
+                    scope : this
+                }
             }]
         },{
             columnWidth : 1,
+            labelWidth : 60,
             items : [{
+                id:'wayLocale',
+                mode : 'remote',
+                minChars:2,
+                queryParam: 'userinput',
+                fieldLabel : '途径点',
+                width : 60,
+                xtype : 'combo',
+                hiddenName : 'wayLocale',
+                submitValue : false,
+                allowBlank : true,
+                anchor : '98%',
+                editable : true,
+                triggerAction : 'all',
+                store : this.ds,
+                valueField : 'name',
+                displayField : 'name',
+                listeners : {
+                    'select' : function(combo, record) {
+                        // console.log(record.data.location);
+                        var wayLocation = new Array();
+                        wayLocation = record.data.location.split(",");
+
+
+                        this.getForm().findField('wayLongitude').setValue(wayLocation[0]);
+                        this.getForm().findField('wayLatitude').setValue(wayLocation[1]);
+                    },
+                    'beforequery':function(qe){
+                        var para  =  qe.query ;
+                    },
+
+
+                    scope : this
+                }
+            }]
+        },{
+            columnWidth : 1,
+            labelWidth : 60,
+            items : [{
+                id:'endlocal',
+                mode : 'remote',
+                minChars:2,
+                queryParam: 'userinput',
                 fieldLabel : '终点站',
-                xtype : 'textfield',
-                name : 'endLocale',
+                width : 60,
+                xtype : 'combo',
+                hiddenName : 'endLocale',
+                submitValue : false,
                 allowBlank : false,
                 anchor : '98%',
-                selectOnFocus : true
+                editable : true,
+                triggerAction : 'all',
+                store : this.ds,
+                valueField : 'name',
+                displayField : 'name',
+                listeners : {
+                    'select' : function(combo, record) {
+                       // console.log(record.data.location);
+                        var endLocation = new Array();
+                        endLocation = record.data.location.split(",");
+
+                        console.log(endLocation[0]);
+                        console.log(endLocation[1]);
+                        this.getForm().findField('endLongitude').setValue(endLocation[0]);
+                        this.getForm().findField('endLatitude').setValue(endLocation[1]);
+                    },
+                    'beforequery':function(qe){
+                        var para  =  qe.query ;
+                    },
+
+
+                    scope : this
+                }
             }]
         },{
             columnWidth : 1,
@@ -636,6 +776,8 @@ Ext.order.win = Ext.extend(Ext.Window, {
             var user = form.getValues();
 
 
+
+
             Ext.eu.ajax(path + '/logistics/reassignmentcarApply.do', {
                 carApply : Ext.encode(user)
             }, function(resp) {
@@ -684,10 +826,40 @@ Ext.order.orderswin = Ext.extend(Ext.Window, {
     onSave : function(btn) {
         var form = this.form.getForm();
         if (form.isValid()) {
-            btn.setDisabled(true);
+            //btn.setDisabled(true);
             var user = form.getValues();
-            user.departureTime = user.departuredate+" "+user.departureTime;
-            console.log(user.departureTime);
+            user.applyDatetime = user.departuredate+" "+user.applyDatetime;
+            console.log(user.applyDatetime);
+
+
+            var startLongitude = Ext.getCmp("startLongitude").value;
+            var wayLocale = Ext.getCmp("wayLocale").value;
+            var wayLongitude = Ext.getCmp("wayLongitude").value;
+            var endLongitude = Ext.getCmp("endLongitude").value;
+
+            // console.log("出发点经纬度"+user.startLongitude);
+            // console.log("途经点地址"+user.wayLocale);
+            // console.log("途经点经纬度"+user.wayLongitude);
+            // console.log("终点经纬度"+user.endLongitude);
+
+
+            if (startLongitude == null && startLongitude == undefined){
+                Ext.ux.Toast.msg('提示', '出发地点有误，请重新填写！！！');
+                return;
+            }
+            if (endLongitude == null && endLongitude == undefined){
+                Ext.ux.Toast.msg('提示', '到达地点有误，请重新填写！！！');
+                return;
+            }
+
+            if (wayLocale != null && wayLocale != undefined && wayLocale != ""){
+                if (wayLongitude == null && wayLongitude == undefined){
+                    Ext.ux.Toast.msg('提示', '途径地点有误，请重新填写！！！');
+                    return;
+                }
+
+            }
+
             Ext.eu.ajax(path + '/logistics/insertcarApply.do', {
                 carApply : Ext.encode(user)
             }, function(resp) {
@@ -698,7 +870,7 @@ Ext.order.orderswin = Ext.extend(Ext.Window, {
                     this.close();
                 } else {
                     Ext.ux.Toast.msg('提示', '下单失败！！！');
-                    btn.setDisabled(false);
+                    //btn.setDisabled(false);
                 }
             }, this);
         }
@@ -1014,6 +1186,20 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
 
+                this.companyTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getTreeAllCompanyList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'company'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
+                });
+                this.companyTypeDS.load();
 
 
 
@@ -1026,6 +1212,90 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
                         id : 'carApplyNo',
                         anchor : '90%'
                     }]
+                },{
+                    width : 250,
+                    items : [{
+                        id:'querystatuesId',
+                        fieldLabel : '订单状态',
+                        width : 60,
+                        xtype : 'combo',
+                        hiddenName : 'statuesId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
+                        triggerAction : 'all',
+                        mode : 'local',
+                        store : new Ext.data.ArrayStore({
+                            fields : ['key', 'val'],
+                            data : [['审核未通过', '0'],
+                                ['审核中', '10'],
+                                ['审核通过', '20'],
+                                ['已分配', '30'],
+                                ['车辆到达出发点', '40'],
+                                ['乘客已上车', '50'],
+                                ['乘客已下车', '60'],
+                                ['乘客已确认费用', '70'],
+                                ['系统确认费用', '80'],
+                                ['已评价', '90'],
+
+                            ]
+                        }),
+                        valueField : 'val',
+                        displayField : 'key'
+
+                    }]
+
+                },{
+                    width : 250,
+                    items : [{
+                        id:'querycompanyId',
+                        fieldLabel : '按机构筛选',
+                        width : 80,
+                        xtype : 'combo',
+                        hiddenName : 'companyId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
+                        triggerAction : 'all',
+                        mode : 'local',
+                        store : this.companyTypeDS,
+                        valueField : 'id',
+                        displayField : 'company'
+
+                    }]
+
+                },{
+                    width : 250,
+                    items : [{
+                        id:'clockIn',
+                        fieldLabel : '开始时间',
+                        width : 100,
+                        xtype : 'datefield',
+                        hiddenName : 'clockIn',
+                        format : 'Y-m-d',
+                        editable : false,
+                        submitValue : true,
+                        anchor : '90%',
+
+                    }]
+
+                },{
+                    width : 250,
+                    items : [{
+                        id:'clockOut',
+                        fieldLabel : '结束时间',
+                        width : 100,
+                        xtype : 'datefield',
+                        hiddenName : 'clockOut',
+                        format : 'Y-m-d',
+                        editable : false,
+                        submitValue : true,
+                        anchor : '90%',
+
+                    }]
+
                 },{
 							width : 65,
 							items : [{
@@ -1053,13 +1323,29 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
 						}, {
                             width : 100,
                             items : [{
-                                xtype : 'hidden',
+                                xtype : 'button',
                                 id : 'exportExcel',
                                 text : '导出excel',
                                 iconCls : 'reset',
                                 handler : function() {
+                                    var companyId = Ext.getCmp("querycompanyId").value;
+                                    var clockIn = Ext.getCmp("clockIn").value;
+                                    var clockOut = Ext.getCmp("clockOut").value;
+                                    if (companyId == undefined){
+                                        companyId = '';
 
-                                    window.location.href = path + '/logistics/exportCarApply.do?fleetId='+fleedId;
+                                    }
+                                    if (clockIn == undefined){
+                                        clockIn = '';
+
+                                    }
+                                    if (clockOut == undefined){
+                                        clockOut = '';
+
+                                    }
+
+                                    window.location.href = path + '/logistics/exportCarApply.do?fleetId=' +fleedId+'&companyId='
+                                        +companyId+'&clockIn='+clockIn+'&clockOut='+clockOut;
                                 },
                                 scope : this
                             }]
@@ -1068,7 +1354,7 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
 				Ext.order.queryPanel.superclass.constructor.call(this, {
 							id : 'applyTypeViewQueryPanel',
 							region : 'north',
-							height : 40,
+							height : 80,
 							frame : true,
 							split : true,
 							collapseMode : 'mini',
@@ -1076,7 +1362,7 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
 							labelAlign : 'right',
 							defaults : {
 								layout : 'form',
-								labelWidth : 60
+								labelWidth : 80
 							}
 						});
 			},

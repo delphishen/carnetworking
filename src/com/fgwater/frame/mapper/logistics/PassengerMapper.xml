@@ -30,7 +30,15 @@
 		<if test="mobile!=null and mobile!=''">
 			AND p.mobile like '%${mobile}%'
 		</if>
-</select>
+	</select>
+
+	<select id="findById" parameterType="String" resultType="HashMap">
+		SELECT * FROM t_archives_passenger WHERE id = #{id}
+
+	</select>
+
+
+
 
 
 	<select id="queryByCompany" parameterType="HashMap" resultType="HashMap">
@@ -69,6 +77,16 @@
 	<select id="findPhone" parameterType="String" resultType="String">
 		SELECT mobile FROM t_archives_passenger  WHERE id = #{userId}
 	</select>
+
+	<select id="checkPhone" parameterType="HashMap" resultType="int">
+		select count(*) from  t_archives_passenger WHERE fleetId = #{fleetId} AND mobile = #{mobile}
+		<if test="id!=null and id!=''">
+			and id !=#{id}
+		</if>
+
+	</select>
+
+
 
 
 

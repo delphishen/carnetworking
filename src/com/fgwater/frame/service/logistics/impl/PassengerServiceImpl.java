@@ -45,15 +45,21 @@ public class PassengerServiceImpl extends BaseServiceImpl implements PassengerSe
 	@Override
 	public boolean saveOrUpdateBusType(Passenger passenger) {
 
-		//int count = this.passengerMapper.check(passenger, "settlement");
+
+
+		int count = this.passengerMapper.checkPhone(passenger);
+
+
+		if (count == 0){
 			if (StrUtils.isNullOrEmpty(passenger.getId())) {
 				passenger.setId(UUIDUtils.getUUID());
 				passengerMapper.insert(passenger);
 			} else {
 				passengerMapper.update(passenger);
 			}
+		}
 
-		return true;
+		return count == 0;
 	}
 
 	@Override

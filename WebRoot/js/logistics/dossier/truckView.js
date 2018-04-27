@@ -1,5 +1,8 @@
 Ext.namespace('Ext.truck');
 
+
+var flag = '1';
+
 Ext.truck.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
@@ -57,7 +60,7 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
             triggerClass : 'x-form-search-trigger',
             selectOnFocus : true,
             submitValue : false,
-            allowBlank : false,
+            allowBlank : true,
             editable : false,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
@@ -159,9 +162,12 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
                     },
                     'render' : function(combo) {//渲染
                         combo.getStore().on("load", function(s, r, o) {
-                            combo.setValue(r[0].get('fleetName'));//第一个值
-                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
-                            basefleedId = r[0].get('id');
+                        	if (flag == '1'){
+                                combo.setValue(r[0].get('fleetName'));//第一个值
+                                Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                basefleedId = r[0].get('id');
+							}
+
 
 
                         });
@@ -208,7 +214,8 @@ Ext.truck.form = Ext.extend(Ext.FormPanel, {
 								fieldLabel : '车牌号',
 								xtype : 'textfield',
 								name : 'plateNo',
-								anchor : '98%',								
+								anchor : '98%',
+                        		allowBlank : false,
 								selectOnFocus : true
 							}]
 				}, {
@@ -523,6 +530,7 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 			},
 			onAdd : function(btn) {
+				flag = '1';
 				var win = new Ext.truck.win(this);
 				var form = win.form.getForm();		
 				if(isAdmin == 0 ){
@@ -533,6 +541,7 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 				win.show();
 			},
 			onModify : function(btn) {
+				flag = '2';
 				var selects = Ext.eu.getSelects(this);
 				if (selects.length == 0) {
 					Ext.ux.Toast.msg("信息", "请选择要修改的记录！");
@@ -592,7 +601,13 @@ Ext.truck.grid = Ext.extend(Ext.grid.GridPanel, {
 								Ext.eu.ajax(path + '/logistics/deleteTruck.do', {
 											trucks : Ext.encode(ary)
 										}, function(resp) {
-											Ext.ux.Toast.msg('信息', '删除成功');
+                                    var res = Ext.decode(resp.responseText);
+                                    if(res.msg == '999'){
+                                        Ext.ux.Toast.msg('信息', '该车辆不能删除，已经被引用');
+
+                                    }else {
+                                        Ext.ux.Toast.msg('信息', '删除成功！！！');
+                                    }
 											this.getStore().reload();
 										}, this);
 							}

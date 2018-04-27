@@ -86,7 +86,6 @@ public class EmployeeController extends BaseController {
 
 		}
 		//this.employeeService.delete(this.getEmployees());
-		System.out.println("---------------没吟唱----------------------");
 		return this.responseModel.serial();
 	}
 

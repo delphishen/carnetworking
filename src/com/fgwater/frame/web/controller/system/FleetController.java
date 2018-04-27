@@ -12,9 +12,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Scope("request")
@@ -47,6 +50,43 @@ public class FleetController extends BaseController {
 		//System.out.println("buildFleet======"+this.responseModel.serial());
 		return this.responseModel.serial();
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "queryLocale.do")
+	public String queryLocale() {
+
+		System.out.println("==========获取param================="+this.requestModel.getParams());
+		String keywords = this.requestModel.getParams().get("userinput");
+		JSONObject jsonObject = new JSONObject();
+
+
+		RestTemplate  restTemplate  = new RestTemplate();
+		Map<String,Object> map = new HashMap<>();
+
+
+		String url  = "http://restapi.amap.com/v3/place/text?output=JSON&offset=20&page=1&key=6eff8256291114b3052540a26beed25b&extensions=all&keywords="+keywords;
+		JSONObject jo = restTemplate.getForEntity(url,JSONObject.class).getBody();
+
+
+		if (jo.getString("status").equals("1") ){
+			JSONArray jsonArray = jo.getJSONArray("pois");
+			//jsonObject = JSONObject.fromObject(jsonArray);
+			return jsonArray.toString();
+
+		}else {
+			return  null;
+
+		}
+
+
+
+
+
+		//System.out.println("buildFleet======"+this.responseModel.serial());
+
+	}
+
+
 
 
 

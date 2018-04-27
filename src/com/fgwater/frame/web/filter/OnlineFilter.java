@@ -49,7 +49,7 @@ public class OnlineFilter extends HttpServlet implements Filter {
 		// 从session里取的用户名信息
 		User user = (User) session.getAttribute(ConstantSys.USERSESSION_USER);
 		// 当请求超越登陆访问时，校验用户是否在线，排除登录页面过滤
-		if (!callPath.endsWith("/login.jsp") && !callPath.endsWith("/login.do")) {
+		if (!callPath.endsWith("/login.jsp") && !callPath.endsWith("/login.do") && !callPath.contains("/app")) {
 			// 判断如果没有取到用户信息,就跳转到登陆页面
 			if (user == null) {
 				// 构建跳转

@@ -1,5 +1,7 @@
 Ext.namespace('Ext.fleet');
 
+var  flag = '1';
+
 Ext.fleet.menuForm = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
@@ -78,8 +80,6 @@ Ext.fleet.menuForm = Ext.extend(Ext.FormPanel, {
 										id : 'mobile',
 										anchor : '100%',
 										selectOnFocus : true,
-                                		regex:/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/,
-                                		regexText:'请输入正确的手机号码',
                                 		allowBlank : false
 									}]
 						}, {
@@ -363,6 +363,7 @@ Ext.fleet.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 						});
 			},
 			onAdd : function() {
+				flag = '1';
                 var node = this.getSelectionModel().getSelectedNode();
                 console.log(node);
 				var win = new Ext.fleet.menuWin(this);
@@ -388,6 +389,7 @@ Ext.fleet.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 				}
 			},
 			onModify : function() {
+				flag = '2';
 				var node = this.getSelectionModel().getSelectedNode();
 				if (node == null){
                     Ext.ux.Toast.msg('信息', '请先选择记录');
@@ -500,6 +502,10 @@ var fleetView = function(params) {
     Ext.getCmp('buttonAddFleetView').hidden=!re;
     //Ext.getCmp('buttonModifyFleetView').hidden=!params[0].isModify;
     Ext.getCmp('buttonDelFleetView').hidden=!re;
+
+    Ext.getCmp('buttonModifyFleetView').hidden=!re;
+
+
 
     //Ext.getCmp("buttonAddFleetView").hide();
 	return new Ext.Panel({

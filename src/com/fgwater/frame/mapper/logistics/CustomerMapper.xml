@@ -81,7 +81,7 @@
 	</delete>
 	
 	<select id="checkName" parameterType="HashMap" resultType="Integer">
-		select count(*) from   t_archives_driver where fleetId=#{fleetId} and driverName=#{driverName}
+		select count(*) from   t_archives_driver where fleetId=#{fleetId} and mobile=#{mobile}
 		<if test="id!=null and id!=''">
 			and id !=#{id}
 		</if>

@@ -27,4 +27,6 @@ public interface CustomerMapper extends BaseMapper<Customer> {
 
     public Map<String,Object> queryById(String driverId);
 
+    int checkById(Map<String, String> map);
+
 }

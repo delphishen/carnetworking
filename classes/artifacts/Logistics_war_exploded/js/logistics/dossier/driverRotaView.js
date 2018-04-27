@@ -1,6 +1,7 @@
 Ext.namespace('Ext.driverRota');
 
 var flag  ;
+var  flag1 = '1';
 
 Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
@@ -101,9 +102,12 @@ Ext.driverRota.form = Ext.extend(Ext.FormPanel, {
                     },
                     'render' : function(combo) {//渲染
                         combo.getStore().on("load", function(s, r, o) {
-                            combo.setValue(r[0].get('fleetName'));//第一个值
-                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
-                            basefleedId = r[0].get('id');
+                        	if (flag1 == '1'){
+                                combo.setValue(r[0].get('fleetName'));//第一个值
+                                Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                basefleedId = r[0].get('id');
+							}
+
 
 
                         });
@@ -388,12 +392,14 @@ Ext.driverRota.grid = Ext.extend(Ext.grid.GridPanel, {
 			},
 			onAdd : function(btn) {
 				 flag = 1;
+				 flag1 = '1';
 				var win = new Ext.driverRota.win(this);
 				win.setTitle('添加司机排班', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
 				flag =2;
+				flag1 = '2';
 				var selects = Ext.eu.getSelects(this);
 
 				if (selects.length == 0) {

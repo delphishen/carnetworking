@@ -17,6 +17,10 @@
 		<if test="fleetId!='root'">
 			and e.fleetId =#{fleetId}
 		</if>
+		<if test="queryfleetId!=null and queryfleetId!=''">
+			and e.fleetId =#{queryfleetId}
+		</if>
+
 		order by e.crTime desc
 	</select>
 
@@ -34,7 +38,27 @@
 		<if test="fleetId!='root'">
 			and e.fleetId =#{fleetId}
 		</if>
+		<if test="queryfleetId!=null and queryfleetId!=''">
+			and e.fleetId =#{queryfleetId}
+		</if>
 	</select>
+
+	<select id="checkPhone"  parameterType="HashMap" resultType="int">
+		SELECT COUNT(1) FROM t_system_employee WHERE  phone = #{phone} AND fleetId =#{fleetId}
+		<if test="id!=null and id!=''">
+			and id !=#{id}
+		</if>
+
+	</select>
+
+	<select id="checkPhoneById"  parameterType="HashMap" resultType="int">
+		SELECT COUNT(1) FROM t_system_employee WHERE  phone = #{phone} AND fleetId =#{fleetId} AND id != #{id}
+
+	</select>
+
+
+
+
 
 
 	

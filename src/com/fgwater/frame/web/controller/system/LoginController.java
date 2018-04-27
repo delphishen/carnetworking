@@ -42,6 +42,11 @@ public class LoginController extends BaseController {
 //		boolean flag = smsUtil.Send("13788821021","111111小明");
 
 
+
+		//SMSUtil smsUtil = new SMSUtil();
+		//smsUtil.Send("18020874381","111111小明");
+
+
 		this.check();
 		this.responseModel.mount(this.getErrMsg(), MOUNT_TYPE_MSG);
 		return this.responseModel.serial();

@@ -101,40 +101,51 @@ public class CarApplyController extends BaseController {
 	}
 
 
-//	@ResponseBody
-//	@RequestMapping(value = "exportCarApply.do")
-//	public String exportCarApply(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-//
-//		Map<String ,String > map = new HashMap<>();
-//		String fleetId =  httpServletRequest.getParameter("fleetId");
-//		map.put("fleetId",fleetId);
-//
-//
-//
-//		try {
-//
-//			Workbook wb = new HSSFWorkbook();
-//			String heads[] = {"订单编号", "订单申请时间", "乘车用户", "业务类型", "付费方式", "出发地", "途径地", "目的地"
-//                    , "实际费用", "实际公里数", "订单来源", "所属机构", "所属平台",};
-//			List<Map<String,String>> mapList = this.applyService.queryAllCarApply(map);
-//			JSONArray rs = JSONArray.fromObject(mapList);
-//			ExcelUtil.fillExcelData(rs,wb,heads);
-//			//ResultSet re =  this.userService.findAll();
-//			//ExcelUtil.fillExcelData(rs,wb,heads);
-//			ResponseUtil.export(httpServletResponse,wb,"订单详情.xls");
-//		}catch (Exception e){
-//			System.out.println(e.getStackTrace());
-//			JSONObject jo = new JSONObject();
-//			jo.element("success", false);
-//			return  jo.toString();
-//		}
-//		//ResultSet  re = ResultSet.
-//		JSONObject jo = new JSONObject();
-//		jo.element("success", true);
-//
-//
-//		return jo.toString();
-//	}
+	@ResponseBody
+	@RequestMapping(value = "exportCarApply.do")
+	public void exportCarApply(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+
+		Map<String ,String > map = new HashMap<>();
+		String fleetId =  httpServletRequest.getParameter("fleetId");
+		String companyId = httpServletRequest.getParameter("companyId");
+		String clockIn = httpServletRequest.getParameter("clockIn");
+		String clockOut = httpServletRequest.getParameter("clockOut");
+
+		map.put("fleetId",fleetId);
+		map.put("companyId",companyId);
+		map.put("clockIn",clockIn);
+		map.put("clockOut",clockOut);
+
+
+
+		try {
+
+			Workbook wb = new HSSFWorkbook();
+			String heads[] = {"订单编号", "订单申请时间", "乘车用户", "业务类型", "付费方式", "出发地",  "目的地"
+                    , "实际费用", "实际公里数", "订单来源", "所属机构", "所属平台",};
+			List<Map<String,String>> mapList = this.applyService.excelAllCarApply(map);
+
+			JsonConfig config = new JsonConfig();
+			config.registerJsonValueProcessor(Timestamp.class,new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
+
+
+			JSONArray rs = JSONArray.fromObject(mapList,config);
+			ExcelUtil.fillExcelData(rs,wb,heads);
+			//ResultSet re =  this.userService.findAll();
+			//ExcelUtil.fillExcelData(rs,wb,heads);
+			ResponseUtil.export(httpServletResponse,wb,"订单详情.xls");
+		}catch (Exception e){
+			System.out.println(e.getStackTrace());
+			JSONObject jo = new JSONObject();
+			jo.element("success", false);
+		}
+		//ResultSet  re = ResultSet.
+		JSONObject jo = new JSONObject();
+		jo.element("success", true);
+
+
+
+	}
 
 
 
@@ -188,7 +199,7 @@ public class CarApplyController extends BaseController {
 
 		String plateNo = map.get("plateNo").toString();
 		String passengerName = jsonObject.get("passengerName").toString();
-		String applyDatetime = jsonObject.get("applyDatetime").toString();
+		String applyDatetime = jsonObject.get("departureTime").toString();
 		String driverName = map2.get("driverName").toString();
 		String mobile = map2.get("mobile").toString();
 
@@ -319,7 +330,7 @@ public class CarApplyController extends BaseController {
 		String passengerName = jsonObject.get("passengerName").toString();
 		String modelName = jsonObject.get("modelName").toString();
 		String businessType = jsonObject.get("businessType").toString();
-		String applyDatetime = jsonObject.get("applyDatetime").toString();
+		String applyDatetime = jsonObject.get("departureTime").toString();
 
 
 

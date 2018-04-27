@@ -56,11 +56,12 @@ public class TruckController extends BaseController {
 
 		String remark = this.requestModel.getParams().get("remark");
 		String carTypeId = this.requestModel.getParams().get("carTypeId");
+		String roleId = this.requestModel.getParams().get("roleId");
 
 		User user = SessionUtils.getCurrUser();
 
 
-		if (user.getRoleId().equals("20")){
+		if (roleId.equals("20")){
 			this.responseModel.mount(this.truckService.queryTruckDispatcher(this.requestModel
 					.getParams()), MOUNT_TYPE_PAGING);
 		}else {
@@ -114,7 +115,17 @@ public class TruckController extends BaseController {
 	@RequestMapping(value = "deleteTruck.do")
 	public String delete() {
 	//	System.out.println(this.getTrucks());
-		this.truckService.delete(this.getTrucks());
+		try {
+			this.truckService.delete(this.getTrucks());
+
+		}catch (Exception e){
+			JSONObject jo = new JSONObject();
+			jo.put("success", true);
+			jo.put("msg", "999");
+			return jo.toString();
+
+		}
+
 		
 		return this.responseModel.serial();
 	}

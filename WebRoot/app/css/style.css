@@ -1,0 +1,13 @@
+.wrapper{width:100%; overflow:hidden; margin:0 auto; position:relative;background-color: #fffcf0}
+.fl{float:left;} /*左浮动*/
+.fr{float:right;} /*右浮动*/
+.lh{height:40px; line-height:40px;} /*行高*/
+.line{border-top:none; border-bottom:1px solid #ececec; width:100%;}
+
+
+.schedule_list_module{background:#fff; border-radius:5px; padding:15px 10px 5px 10px; margin-bottom:15px;}
+.schedule_list_module ul li{margin-bottom:10px; padding-bottom:2px; line-height:25px;}
+.schedule_list_module  li{margin:0px;padding:0px;list-style:none;font-size: 20px}
+.schedule_list_img{width:5%; height:auto; margin-right:10px; position:relative; top:4px;}
+
+

@@ -30,6 +30,15 @@
 	</select>
 
 
+	<select id="getAllByRoleId" parameterType="String" resultType="HashMap">
+		select u.id,u.text,u.fatherId,u.iconCls,u.leaf as menuLeaf,u.link,u.seq,u.isModify, u.isAdd, u.isDel, u.isSee
+		from t_system_menu u
+		INNER JOIN (SELECT * FROM t_system_role_page_right WHERE roleId = #{roleId}  ) up ON up.menuId = u.id
+		where u.flag=1
+		order by u.seq asc
+	</select>
+
+
 
 
 	<select id="getByUserId" parameterType="String"	resultType="HashMap">

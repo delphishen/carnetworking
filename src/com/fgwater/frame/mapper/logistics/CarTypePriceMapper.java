@@ -19,4 +19,6 @@ public interface CarTypePriceMapper extends BaseMapper<CarTypePrice> {
     public void deleteTable(Map<String, String> map);
 
 
+    public int checkName(CarTypePrice carTypePrice);
+
 }

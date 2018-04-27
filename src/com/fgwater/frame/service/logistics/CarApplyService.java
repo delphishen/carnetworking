@@ -35,6 +35,7 @@ public interface CarApplyService extends BaseService {
     public Map<String,String> queryOrder(String carApplyNo);
 
 
+    List<Map<String,String>> excelAllCarApply(Map<String, String> map);
 
 }
 

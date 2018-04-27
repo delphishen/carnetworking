@@ -26,6 +26,9 @@ public interface PassengerMapper extends BaseMapper<Passenger> {
     public List<Map<String,String>> queryByCompany(Map<String, String> params);
 
 
+    Map<String,Object> findById(String id);
+
+    int checkPhone(Passenger passenger);
 
 }
 

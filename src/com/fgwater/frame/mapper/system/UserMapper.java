@@ -60,4 +60,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     public List<Map<String,Object>> findAll();
 
+    int checkFatherId(Map<String, String> map);
+
 }

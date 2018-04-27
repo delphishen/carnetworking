@@ -201,7 +201,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
         },{
             columnWidth: 1,
             items: [{
-                fieldLabel: '取消费用',
+                fieldLabel: '取消费用(元)',
                 xtype: 'textfield',
                 name: 'cancelPrice',
                 allowBlank: false,
@@ -211,7 +211,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
         }, {
             columnWidth: 1,
             items: [{
-                fieldLabel: '套餐价格',
+                fieldLabel: '套餐价格(元)',
                 xtype: 'textfield',
                 name: 'setMealPrice',
                 allowBlank: false,
@@ -221,7 +221,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
         }, {
             columnWidth: 1,
             items: [{
-                fieldLabel: '套餐里程',
+                fieldLabel: '套餐里程(公里)',
                 xtype: 'textfield',
                 name: 'setMealKilometres',
                 allowBlank: false,
@@ -231,7 +231,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
         }, {
             columnWidth: 1,
             items: [{
-                fieldLabel: '套餐时间',
+                fieldLabel: '套餐时间(分钟)',
                 xtype: 'textfield',
                 name: 'setMealTime',
                 allowBlank: false,
@@ -241,7 +241,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
         }, {
             columnWidth: 1,
             items: [{
-                fieldLabel: '超里程费用',
+                fieldLabel: '超里程费用(元)',
                 xtype: 'textfield',
                 name: 'excessPrice',
                 allowBlank: false,
@@ -251,7 +251,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
         }, {
             columnWidth: 1,
             items: [{
-                fieldLabel: '超时费用',
+                fieldLabel: '超时费用(元)',
                 xtype: 'textfield',
                 name: 'overtimePrice',
                 allowBlank: false,
@@ -261,7 +261,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
         }, {
             columnWidth: 1,
             items: [{
-                fieldLabel: '最大里程数',
+                fieldLabel: '最大里程数(公里)',
                 xtype: 'textfield',
                 name: 'maxMealKilometres',
                 allowBlank: false,
@@ -271,7 +271,7 @@ Ext.cqEvaRate.form = Ext.extend(Ext.FormPanel, {
         }, {
             columnWidth: 1,
             items: [{
-                fieldLabel: '加费用',
+                fieldLabel: '加费用(元)',
                 xtype: 'textfield',
                 name: 'maxExcessPrice',
                 allowBlank: false,

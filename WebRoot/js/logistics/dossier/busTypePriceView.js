@@ -1,5 +1,7 @@
 Ext.namespace('Ext.busTypePrice');
 
+var flag = '1';
+
 Ext.busTypePrice.form = Ext.extend(Ext.FormPanel, {
     constructor: function (app) {
         this.app = app;
@@ -129,9 +131,12 @@ Ext.busTypePrice.form = Ext.extend(Ext.FormPanel, {
                     },
                     'render' : function(combo) {//渲染
                         combo.getStore().on("load", function(s, r, o) {
-                            combo.setValue(r[0].get('fleetName'));//第一个值
-                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
-                            basefleedId = r[0].get('id');
+                            if (flag == '1'){
+                                combo.setValue(r[0].get('fleetName'));//第一个值
+                                Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                basefleedId = r[0].get('id');
+                            }
+
 
 
                         });
@@ -450,11 +455,13 @@ Ext.busTypePrice.grid = Ext.extend(Ext.grid.GridPanel, {
         });
     },
     onAdd: function (btn) {
+        flag = '1';
         var win = new Ext.busTypePrice.win(this);
         win.setTitle('添加车辆类别', 'add');
         win.show();
     },
     onModify: function (btn) {
+        flag = '2';
         var selects = Ext.eu.getSelects(this);
         if (selects.length == 0) {
             Ext.ux.Toast.msg("信息", "请选择要修改的记录！");

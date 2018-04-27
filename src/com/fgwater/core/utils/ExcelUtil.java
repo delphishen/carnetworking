@@ -39,10 +39,23 @@ public class ExcelUtil {
 		for(int j=0;j<rs.size();j++){
 			JSONObject js = rs.getJSONObject(j);
 			row = sheet.createRow(rowIndex++);
-			for (int i = 0; i < headers.length; i++) {
+//			for (int i = 0; i < headers.length; i++) {
+//
+//				row.createCell(i).setCellValue(js.get("carApplyNo").toString()); // 注意jdbc中的下标是从1开始
+//			}
+			row.createCell(0).setCellValue(js.get("carApplyNo").toString());
+			row.createCell(1).setCellValue(js.get("applyDatetime").toString());
+			row.createCell(2).setCellValue(js.get("passengerName").toString());
+			row.createCell(3).setCellValue(js.get("businessType").toString());
+			row.createCell(4).setCellValue(js.get("privateOrPublic").toString());
+			row.createCell(5).setCellValue(js.get("startLocale").toString());
+			row.createCell(6).setCellValue(js.get("endLocale").toString());
+			row.createCell(7).setCellValue(js.get("cost").toString());
+			row.createCell(8).setCellValue(js.get("kilometres").toString());
+			row.createCell(9).setCellValue(js.get("orderFrom").toString());
+			row.createCell(10).setCellValue(js.get("company").toString());
+			row.createCell(11).setCellValue(js.get("fleetName").toString());
 
-				row.createCell(i).setCellValue(js.get("carApplyNo").toString()); // 注意jdbc中的下标是从1开始
-			}
 		}
 	}
 

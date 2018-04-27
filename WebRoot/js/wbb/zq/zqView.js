@@ -132,7 +132,24 @@ Ext.zq.grid = Ext.extend(Ext.grid.GridPanel, {
         });
     },
     onAdd : function(btn) {
+        if(this.sortNode == null){
+            Ext.ux.Toast.msg("信息", "请先选择用户！！！");
+            return;
+        }
+
+        if(!this.sortNode.leaf){
+            Ext.ux.Toast.msg("信息", "请先选择用户！！！");
+            return;
+
+        }
+
+
         var win = new Ext.zq.win(this);
+        win.form.getForm().findField('userId').setValue(this.sortNode.id);
+        win.form.getForm().findField('userName').setValue(this.sortNode.loginName);
+
+        win.form.getForm().findField('fleetId').setValue(this.sortNode.fleetId);
+        win.form.getForm().findField('fleetName').setValue(this.sortNode.fleetName);
         win.setTitle('添加管理员权限', 'add');
         win.show();
     },

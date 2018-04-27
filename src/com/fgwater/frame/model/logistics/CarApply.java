@@ -30,6 +30,23 @@ public class CarApply extends BaseModel {
 	@Column
 	private String  startLocale;
 	@Column
+	private String  wayLocale;
+
+	@Column
+	private String  startLongitude;
+	@Column
+	private String  startLatitude;
+	@Column
+	private String  wayLongitude;
+	@Column
+	private String  wayLatitude;
+	@Column
+	private String  endLongitude;
+	@Column
+	private String  endLatitude;
+
+
+	@Column
 	private  String endLocale;
 	@Column
 	private boolean  carpoolYN;
@@ -71,6 +88,10 @@ public class CarApply extends BaseModel {
 	private String  activityId;
 	@Column
 	private String  orderFrom;
+	@Column
+	private String  localeId;
+
+
 
 
 
@@ -291,5 +312,69 @@ public class CarApply extends BaseModel {
 
 	public void setCarApplyNo(String carApplyNo) {
 		this.carApplyNo = carApplyNo;
+	}
+
+	public String getWayLocale() {
+		return wayLocale;
+	}
+
+	public void setWayLocale(String wayLocale) {
+		this.wayLocale = wayLocale;
+	}
+
+	public String getStartLongitude() {
+		return startLongitude;
+	}
+
+	public void setStartLongitude(String startLongitude) {
+		this.startLongitude = startLongitude;
+	}
+
+	public String getStartLatitude() {
+		return startLatitude;
+	}
+
+	public void setStartLatitude(String startLatitude) {
+		this.startLatitude = startLatitude;
+	}
+
+	public String getWayLongitude() {
+		return wayLongitude;
+	}
+
+	public void setWayLongitude(String wayLongitude) {
+		this.wayLongitude = wayLongitude;
+	}
+
+	public String getWayLatitude() {
+		return wayLatitude;
+	}
+
+	public void setWayLatitude(String wayLatitude) {
+		this.wayLatitude = wayLatitude;
+	}
+
+	public String getEndLongitude() {
+		return endLongitude;
+	}
+
+	public void setEndLongitude(String endLongitude) {
+		this.endLongitude = endLongitude;
+	}
+
+	public String getEndLatitude() {
+		return endLatitude;
+	}
+
+	public void setEndLatitude(String endLatitude) {
+		this.endLatitude = endLatitude;
+	}
+
+	public String getLocaleId() {
+		return localeId;
+	}
+
+	public void setLocaleId(String localeId) {
+		this.localeId = localeId;
 	}
 }

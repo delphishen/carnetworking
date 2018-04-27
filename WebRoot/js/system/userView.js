@@ -1,5 +1,7 @@
 Ext.namespace("Ext.user");
 
+ var flag = '1';
+
 Ext.user.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
@@ -159,9 +161,12 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
 							},
                              'render' : function(combo) {//渲染
                                  combo.getStore().on("load", function(s, r, o) {
-                                     combo.setValue(r[0].get('fleetName'));//第一个值
-                                     Ext.getCmp('fleetId').setValue(r[0].get('id'));
-                                     basefleedId = r[0].get('id');
+                                 	if (flag == '1'){
+                                        combo.setValue(r[0].get('fleetName'));//第一个值
+                                        Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                        basefleedId = r[0].get('id');
+									}
+
 
 
                                  });
@@ -393,17 +398,7 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 									}, {
 										header : '邮箱',
 										dataIndex : 'email'
-									}, {
-										header : '管理员',
-										dataIndex : 'isAdmin',
-										renderer : function(val) {
-											if (val == 0) {
-												return '否';
-											} else if (val == 1){
-												return '是';	
-											}
-										}										
-									}, {
+									},  {
 										header : '角色',
 										dataIndex : 'roleName'
 									}, {
@@ -469,11 +464,13 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 			},
 			onAdd : function(btn) {
+				flag = '1';
 				var win = new Ext.user.win(this);
 				win.setTitle('添加用户', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
+				flag = '2';
 				var selects = Ext.eu.getSelects(this);
 				if (selects.length == 0) {
 					Ext.ux.Toast.msg("信息", "请选择要修改的记录！");
@@ -486,6 +483,13 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 				var select = selects[0].data;
 				var win = new Ext.user.win(this);
 				var form = win.form.getForm();
+
+				if (select.roleId == '10'){
+					if (fleedId != "root"){
+                        Ext.ux.Toast.msg("信息", "不能修改平台管理员信息！");
+                        return;
+					}
+				}
 				if (select.roleId == '40'){
                     win.form.managerSelector.show();
 				}else {
@@ -517,6 +521,12 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 					Ext.ux.Toast.msg("信息", "请选择要删除的记录！");
 					return;
 				}
+                if (selects[0].data.roleId == '10'){
+                    if (fleedId != "root"){
+                        Ext.ux.Toast.msg("信息", "不能删除平台管理员信息！");
+                        return;
+                    }
+                }
 				var ary = Array();
 				for (var i = 0; i < selects.length; i++) {
 					var user = {
@@ -591,6 +601,22 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 Ext.user.queryPanel = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
+
+                this.fleetTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getTreeAllFleetList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'fleetName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
+                });
+                this.fleetTypeDS.load();
+
 				// 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
 							width : 250,
@@ -600,7 +626,32 @@ Ext.user.queryPanel = Ext.extend(Ext.FormPanel, {
 										id : 'userName',
 										anchor : '90%'
 									}]
-						}, {
+						},{
+                    width : 300,
+                    items : [{
+                        id:'queryuserfleetId',
+                        fieldLabel : '按平台筛选',
+                        width : 80,
+                        xtype : 'combo',
+                        hiddenName : 'queryfleetId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
+                        triggerAction : 'all',
+                        mode : 'local',
+                        store : this.fleetTypeDS,
+                        valueField : 'id',
+                        displayField : 'fleetName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                //	this.getForm().findField('linesName').setValue(record.data.id);
+                            },
+                            scope : this
+                        }
+                    }]
+
+                }, {
 							width : 65,
 							items : [{
 										xtype : 'button',
@@ -638,7 +689,7 @@ Ext.user.queryPanel = Ext.extend(Ext.FormPanel, {
 							labelAlign : 'right',
 							defaults : {
 								layout : 'form',
-								labelWidth : 70
+								labelWidth : 80
 							}
 						});
 			},
@@ -663,6 +714,8 @@ var userView = function(params) {
 	Ext.getCmp('buttonAddUserView').hidden=!params[0].isAdd;
 	Ext.getCmp('buttonModifyUserView').hidden=!params[0].isModify;
 	Ext.getCmp('buttonDelUserView').hidden=!params[0].isDel;
+
+    Ext.getCmp('queryuserfleetId').hidden= loginName != 'root';
 
     // var login = loginName == 'root' ? 1 : 0;
     //

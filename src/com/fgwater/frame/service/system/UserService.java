@@ -19,7 +19,7 @@ public interface UserService extends BaseService {
 
 	public boolean saveOrUpdate(User user);
 
-	public void delete(List<User> users);
+	public void delete(List<User> users) throws Exception;
 	
 	public boolean resetPassword(User user);
 

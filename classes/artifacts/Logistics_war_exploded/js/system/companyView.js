@@ -1,5 +1,7 @@
 Ext.namespace('Ext.company');
 
+var  flag = '1';
+
 Ext.company.menuForm = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
@@ -69,9 +71,12 @@ Ext.company.menuForm = Ext.extend(Ext.FormPanel, {
 									},
                                     'render' : function(combo) {//渲染
                                         combo.getStore().on("load", function(s, r, o) {
-                                            combo.setValue(r[0].get('fleetName'));//第一个值
-                                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
-                                            basefleedId = r[0].get('id');
+                                        	if (flag == '1'){
+                                                combo.setValue(r[0].get('fleetName'));//第一个值
+                                                Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                                basefleedId = r[0].get('id');
+											}
+
 
 
                                         });
@@ -338,6 +343,7 @@ Ext.company.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 						});
 			},
 			onAdd : function() {
+				flag = '1';
 				var win = new Ext.company.menuWin(this);
 				var form = win.form.getForm();
                 var node = this.getSelectionModel().getSelectedNode();
@@ -395,6 +401,7 @@ Ext.company.tree = Ext.extend(Ext.ux.tree.TreeGrid, {
 				}
 			},
 			onModify : function() {
+				flag = '2';
 
 				var node = this.getSelectionModel().getSelectedNode();
                 if (roleID =='30'){

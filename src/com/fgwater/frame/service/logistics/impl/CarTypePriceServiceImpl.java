@@ -27,14 +27,28 @@ public class CarTypePriceServiceImpl extends BaseServiceImpl implements CarTypeP
 
 	public boolean saveOrUpdate(CarTypePrice carTypePrice) {
 
+		int count = 0;
+		if (StrUtils.isNullOrEmpty(carTypePrice.getId())){
+			count = carTypePriceMapper.checkName(carTypePrice);
+		}
+
+
+		if (count == 0){
+
 			if (StrUtils.isNullOrEmpty(carTypePrice.getId())) {
 				carTypePrice.setId(UUIDUtils.getUUID());
 				carTypePriceMapper.insert(carTypePrice);
+
+
 			} else {
 				carTypePriceMapper.update(carTypePrice);
-			}
 
-		return true;
+			}
+		}
+
+
+
+		return count == 0;
 	}
 
 	@Override

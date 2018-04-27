@@ -53,7 +53,13 @@ public class CompanyServiceImpl extends BaseServiceImpl implements
 
 
 	public boolean saveOrUpdate(Company company) {
-		int count = this.companyMapper.check(company, "company");
+		//int count = this.companyMapper.check(company, "company");
+		int count = 0;
+
+		if(StrUtils.isNullOrEmpty(company.getId())){
+			count = this.companyMapper.checkCompany(company);
+
+		}
 		if (count == 0) {
 			if (StrUtils.isNullOrEmpty(company.getId())) {
 				company.setId(UUIDUtils.getUUID());

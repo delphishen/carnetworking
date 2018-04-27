@@ -43,8 +43,8 @@ public class UserController extends BaseController {
 	public String query() {
 		this.responseModel.mount(this.userService.query(this.requestModel
 				.getParams()), MOUNT_TYPE_PAGING);
-	//	System.out.println(this.responseModel.serial());
-		System.out.println(this.responseModel.serial());
+
+		System.out.println(this.userService.query(this.requestModel.getParams()));
 		return this.responseModel.serial();
 	}
 

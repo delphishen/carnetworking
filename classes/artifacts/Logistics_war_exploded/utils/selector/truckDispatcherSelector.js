@@ -53,6 +53,7 @@ Ext.truckDispatcherSelector.grid = Ext.extend(Ext.grid.GridPanel, {
                 userId:userId,
                 remark:remark,
                 carTypeId:carTypeID,
+				roleId:roleID,
             },
             listeners : {
                 'beforeload' : function() {

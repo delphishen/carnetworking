@@ -17,6 +17,9 @@
 		<if test="fleetId!='root'">
 		and u.fleetId = #{fleetId}
 		</if>
+		<if test="queryfleetId!=null and queryfleetId!=''">
+			and u.fleetId =#{queryfleetId}
+		</if>
 		order by u.crTime desc
 	</select>
 
@@ -155,6 +158,12 @@
 	<select id="checkName" parameterType="HashMap" resultType="Integer">
 		select count(*) from  t_system_user where id!=#{id} and loginName = #{loginName}
 	</select>
+
+	<select id="checkFatherId" parameterType="HashMap" resultType="Integer">
+		select count(*) from  t_system_user where fatherId = #{id}
+	</select>
+
+
 
 	<select id="findByFleetId" parameterType="String" resultType="HashMap">
 		SELECT u.*,e.phone FROM t_system_user  u

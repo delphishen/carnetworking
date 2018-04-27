@@ -1,5 +1,7 @@
 Ext.namespace('Ext.employee');
 
+var flag = '1';
+
 Ext.employee.form = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
@@ -95,9 +97,12 @@ Ext.employee.form = Ext.extend(Ext.FormPanel, {
 									},
                                     'render' : function(combo) {//渲染
                                         combo.getStore().on("load", function(s, r, o) {
-                                            combo.setValue(r[0].get('fleetName'));//第一个值
-                                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
-                                            basefleedId = r[0].get('id');
+                                        	if (flag == '1'){
+                                                combo.setValue(r[0].get('fleetName'));//第一个值
+                                                Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                                basefleedId = r[0].get('id');
+											}
+
 
 
                                         });
@@ -235,7 +240,7 @@ Ext.employee.win = Ext.extend(Ext.Window, {
 									this.app.getStore().reload();
 									this.close();
 								} else {
-									Ext.ux.Toast.msg('提示', '保存的记录存在重名');
+									Ext.ux.Toast.msg('提示', '手机号已存在！！！');
 									btn.setDisabled(false);
 								}
 							}, this);
@@ -262,7 +267,7 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 							baseParams : {
 								isPaging : true,
 								start : 0,
-								limit : 20,
+								limit : 50,
 								fleetId:fleedId,
                                 companyId:companyIdz,
 							},
@@ -345,7 +350,7 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 						}]);
 				// 页码条
 				this.bbar = new Ext.PagingToolbar({
-							pageSize : 20,
+							pageSize : 50,
 							displayInfo : true,
 							store : this.ds
 						});
@@ -362,11 +367,13 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 						});
 			},
 			onAdd : function(btn) {
+				flag = '1';
 				var win = new Ext.employee.win(this);
 				win.setTitle('添加员工', 'add');
 				win.show();
 			},
 			onModify : function(btn) {
+				flag = '2';
 				var selects = Ext.eu.getSelects(this);
 				if (selects.length == 0) {
 					Ext.ux.Toast.msg("信息", "请选择要修改的记录！");
@@ -430,6 +437,25 @@ Ext.employee.grid = Ext.extend(Ext.grid.GridPanel, {
 Ext.employee.queryPanel = Ext.extend(Ext.FormPanel, {
 			constructor : function(app) {
 				this.app = app;
+
+                this.fleetTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getTreeAllFleetList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'fleetName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
+                });
+                this.fleetTypeDS.load();
+
+
+
+
 				// 在column布局的制约下，从左至右每个元素依次进行form布局
 				this.items = [{
 							width : 200,
@@ -448,6 +474,31 @@ Ext.employee.queryPanel = Ext.extend(Ext.FormPanel, {
 								anchor : '90%'
 							}]
 						},{
+                    width : 300,
+                    items : [{
+                        id:'queryfleetId',
+                        fieldLabel : '按平台筛选',
+                        width : 80,
+                        xtype : 'combo',
+                        hiddenName : 'queryfleetId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
+                        triggerAction : 'all',
+                        mode : 'local',
+                        store : this.fleetTypeDS,
+                        valueField : 'id',
+                        displayField : 'fleetName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                //	this.getForm().findField('linesName').setValue(record.data.id);
+                            },
+                            scope : this
+                        }
+                    }]
+
+                },{
 							width : 65,
 							items : [{
 										xtype : 'button',
@@ -481,7 +532,7 @@ Ext.employee.queryPanel = Ext.extend(Ext.FormPanel, {
 							labelAlign : 'right',
 							defaults : {
 								layout : 'form',
-								labelWidth : 60
+								labelWidth : 80
 							}
 						});
 			},
@@ -501,7 +552,9 @@ var employeeView = function(params) {
 
 	Ext.getCmp('buttonAddEmployeeView').hidden=!params[0].isAdd;
 	Ext.getCmp('buttonModifyEmployeeView').hidden=!params[0].isModify;
-	Ext.getCmp('buttonDelEmployeeView').hidden=!params[0].isDel;	
+	Ext.getCmp('buttonDelEmployeeView').hidden=!params[0].isDel;
+
+    Ext.getCmp('queryfleetId').hidden= loginName != 'root';
 	
 	return new Ext.Panel({
 				id : 'employeeView',

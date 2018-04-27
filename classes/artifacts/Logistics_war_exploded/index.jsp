@@ -150,11 +150,11 @@
 			<div id="support"
 				style="float: left; width: 32%; margin-top: 4; margin-left: 10;">
 				技术支持：
-				<a  style='text-decoration: none'>QQ:5666057</a>
+				<a  style='text-decoration: none'>QQ:2030466653</a>
 			</div>
 			<div id="copyright"
 				style="float: left; width: 36%; text-align: center; margin-top: 4;">
-				Copyright © 2017 泉州搏浪科技有限公司 All Rights Reserved
+				Copyright © 2018 泉州搏浪科技有限公司 All Rights Reserved
 			</div>
 			<div id="version"
 				style="float: right; margin-top: 4; margin-right: 10;">

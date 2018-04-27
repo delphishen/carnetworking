@@ -1,5 +1,8 @@
 Ext.namespace('Ext.customer');
 
+var flag = '1';
+
+
 Ext.customer.form = Ext.extend(Ext.FormPanel, {
     constructor : function(app) {
         this.app = app;
@@ -131,9 +134,12 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
                     },
                     'render' : function(combo) {//渲染
                         combo.getStore().on("load", function(s, r, o) {
-                            combo.setValue(r[0].get('fleetName'));//第一个值
-                            Ext.getCmp('fleetId').setValue(r[0].get('id'));
-                            basefleedId = r[0].get('id');
+                            if (flag =='1'){
+                                combo.setValue(r[0].get('fleetName'));//第一个值
+                                Ext.getCmp('fleetId').setValue(r[0].get('id'));
+                                basefleedId = r[0].get('id');
+                            }
+
 
 
                         });
@@ -307,7 +313,7 @@ Ext.customer.win = Ext.extend(Ext.Window, {
                     this.app.getStore().reload();
                     this.close();
                 } else {
-                    Ext.ux.Toast.msg('提示', '客户名称已经存在！！！');
+                    Ext.ux.Toast.msg('提示', '该手机号已经存在！！！');
                     btn.setDisabled(false);
                 }
             }, this);
@@ -461,11 +467,13 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
         });
     },
     onAdd : function(btn) {
+        flag = '1';
         var win = new Ext.customer.win(this);
         win.setTitle('添加司机', 'add');
         win.show();
     },
     onModify : function(btn) {
+        flag = '2';
         var selects = Ext.eu.getSelects(this);
         if (selects.length == 0) {
             Ext.ux.Toast.msg("信息", "请选择要修改的记录！");

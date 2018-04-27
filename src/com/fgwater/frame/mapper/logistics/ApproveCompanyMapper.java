@@ -5,6 +5,7 @@ import com.fgwater.core.mapper.BaseMapper;
 import com.fgwater.frame.model.logistics.ApproveCompany;
 import com.fgwater.frame.model.logistics.DispatcherDriver;
 import com.fgwater.frame.model.logistics.DispatcherPlateNo;
+import com.fgwater.frame.model.system.Company;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,9 @@ public interface ApproveCompanyMapper extends BaseMapper<ApproveCompany> {
 
     @Paging
     public List<Map<String,String>> queryapproveAuditorByFatherId(Map<String, String> params);
+
+    public List<Company> queryChildApproveCompany(String companyId);
+
+    public int checkCount(ApproveCompany approveCompany);
 
 }

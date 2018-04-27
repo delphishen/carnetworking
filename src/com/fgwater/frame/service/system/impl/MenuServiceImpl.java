@@ -40,6 +40,9 @@ public class MenuServiceImpl extends BaseServiceImpl implements MenuService {
 			List<Map<String,Object>> fatherMap = this.menuMapper.getByFatherId();
 
 			maps = this.menuMapper.getAllByUserId(user.getEmpId());
+			if (maps.size() == 0){
+				maps = this.menuMapper.getAllByRoleId(user.getRoleId());
+			}
 			for (Map<String,Object> map:fatherMap){
 				maps.add(map);
 			}

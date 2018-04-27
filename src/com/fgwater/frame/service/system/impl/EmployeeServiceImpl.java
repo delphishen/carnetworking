@@ -56,15 +56,23 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements
 	public boolean saveOrUpdate(Employee employee) {
 		JSONObject jo = JSONObject.fromObject(employee);
 		Map<String, String> map = this.toMap(jo);
-		int count = this.employeeMapper.checkName(map);
-		if (count == 0)  {
-			if (StrUtils.isNullOrEmpty(map.get("id"))) {
-				map.put("id", UUIDUtils.getUUID());
-				this.employeeMapper.saveEmployee(this.buildInsert(map));
-			} else {
-				this.employeeMapper.updateEmployee(this.buildUpdate(map));
-			}
-		}
+
+
+		int count = this.employeeMapper.checkPhone(map);
+
+
+
+		 if (count == 0){
+			 if (StrUtils.isNullOrEmpty(map.get("id"))) {
+				 map.put("id", UUIDUtils.getUUID());
+				 this.employeeMapper.saveEmployee(this.buildInsert(map));
+			 } else {
+				 this.employeeMapper.updateEmployee(this.buildUpdate(map));
+			 }
+		 }
+
+
+
 		return count == 0;
 	}
 

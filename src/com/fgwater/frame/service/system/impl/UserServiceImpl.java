@@ -45,14 +45,17 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 			}
 			mapList = this.userMapper.query(m);
 			for (Map<String,String>  map :mapList){
-				if (null ==map.get("fatherId") ||  0 ==map.get("fatherId").length() ){
+//				System.out.println("=====输出==="+map.get("fatherId"));
+//				System.out.println("=====输出==="+map.get("fatherId").length());
+				if (map.get("roleId").equals("40")){
 
-					map.put("fatherName",null);
+						Map<String,String > stringMap = this.userMapper.findByFatherId(map.get("fatherId"));
+						map.put("fatherName",stringMap.get("fatherName"));
+
 				}else {
-					Map<String,String > stringMap = this.userMapper.findByFatherId(map.get("fatherId"));
-					map.put("fatherName",stringMap.get("fatherName"));
-
+					map.put("fatherName",null);
 				}
+
 
 			}
 
@@ -62,14 +65,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 			mapList = this.userMapper.queryByCompany(m);
 
 			for (Map<String,String>  map :mapList){
-				if (null ==map.get("fatherId")){
-					map.put("fatherName",null);
 
-				}else {
+				if (map.get("roleId").equals("40")){
 
 					Map<String,String > stringMap = this.userMapper.findByFatherId(map.get("fatherId"));
 					map.put("fatherName",stringMap.get("fatherName"));
 
+				}else {
+					map.put("fatherName",null);
 				}
 
 			}
@@ -108,11 +111,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 			}
 			if (StrUtils.isNullOrEmpty(map.get("id"))) {
 				map.put("id", UUIDUtils.getUUID());
-				String num = "";
-				Random random = new Random();
-				for (int i = 0; i < 6; i++) {
-					num += random.nextInt(10);
-				}			
+				String num = "123456";
+//				Random random = new Random();
+//				for (int i = 0; i < 6; i++) {
+//					num += random.nextInt(10);
+//				}
 				map.put("password", num);
 				userMapper.saveUser(this.buildInsert(map));
 			} else {
@@ -173,10 +176,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 
-	public void delete(List<User> users) {
+	public void delete(List<User> users) throws Exception {
 		for (User user : users) {
 			JSONObject jo = JSONObject.fromObject(user);
 			Map<String, String> map = this.toMap(jo);
+			int count = userMapper.checkFatherId(map);
+			if (count >0){
+				throw  new Exception ();
+			}
 			userMapper.deleteUser(map);
 		}
 	}
