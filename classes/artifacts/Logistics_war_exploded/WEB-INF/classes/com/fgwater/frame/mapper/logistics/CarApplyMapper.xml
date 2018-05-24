@@ -9,7 +9,7 @@
 
 
     <select id="query" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        SELECT DISTINCT a.*, f.fleetName,u.passengerName,c.company,d.driverName,d.mobile,ct.modelName,cc.plateNo FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
         LEFT JOIN t_archives_passenger u ON a.userId = u.id
         LEFT JOIN t_archives_company c ON a.companyId = c.id
@@ -27,7 +27,7 @@
     </select>
 
     <select id="queryByCompany" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        SELECT DISTINCT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,d.mobile,ct.modelName,cc.plateNo FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
         LEFT JOIN t_archives_passenger u ON a.userId = u.id
         LEFT JOIN t_archives_company c ON a.companyId = c.id
@@ -48,7 +48,7 @@
 
 
     <select id="queryAllCarApply" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        SELECT DISTINCT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,d.mobile,ct.modelName,cc.plateNo FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
         LEFT JOIN t_archives_passenger u ON a.userId = u.id
         LEFT JOIN t_archives_company c ON a.companyId = c.id
@@ -56,9 +56,11 @@
         LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
         LEFT JOIN t_archives_car cc ON a.plateNoId = cc.id
         WHERE 1=1
-
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
+        </if>
+        <if test="queryfleetId!=null and queryfleetId!=''">
+            AND   a.fleetId =#{queryfleetId}
         </if>
         <if test="carApplyNo!=null and carApplyNo!=''">
             AND   a.carApplyNo like '%${carApplyNo}%'
@@ -75,11 +77,18 @@
         <if test="clockOut!=null and clockOut!=''">
             AND   #{clockOut}  > a.applyDatetime
         </if>
+        <if test="departureTimebegin!=null and departureTimebegin!=''">
+            AND   a.departureTime > #{departureTimebegin}
+        </if>
+        <if test="departureTimeend!=null and departureTimeend!=''">
+            AND   #{departureTimeend}  > a.departureTime
+        </if>
+        order by applyDatetime desc
 
     </select>
 
     <select id="excelAllCarApply" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        SELECT DISTINCT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,d.mobile,ct.modelName,cc.plateNo FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
         LEFT JOIN t_archives_passenger u ON a.userId = u.id
         LEFT JOIN t_archives_company c ON a.companyId = c.id
@@ -90,6 +99,9 @@
 
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
+        </if>
+        <if test="queryfleetId!=null and queryfleetId!=''">
+            AND   a.fleetId =#{queryfleetId}
         </if>
         <if test="carApplyNo!=null and carApplyNo!=''">
             AND   a.carApplyNo like '%${carApplyNo}%'
@@ -106,12 +118,19 @@
         <if test="clockOut!=null and clockOut!=''">
             AND   #{clockOut}  > a.applyDatetime
         </if>
+        <if test="departureTimebegin!=null and departureTimebegin!=''">
+            AND   a.departureTime > #{departureTimebegin}
+        </if>
+        <if test="departureTimeend!=null and departureTimeend!=''">
+            AND   #{departureTimeend}  > a.departureTime
+        </if>
+        order by applyDatetime desc
     </select>
 
 
 
     <select id="queryCarApplyByUserId" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        SELECT DISTINCT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,d.mobile,ct.modelName,cc.plateNo FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
         LEFT JOIN t_archives_passenger u ON a.userId = u.id
         LEFT JOIN t_archives_company c ON a.companyId = c.id
@@ -138,17 +157,23 @@
         <if test="clockOut!=null and clockOut!=''">
             AND   #{clockOut}  > a.applyDatetime
         </if>
+        <if test="departureTimebegin!=null and departureTimebegin!=''">
+            AND   a.departureTime > #{departureTimebegin}
+        </if>
+        <if test="departureTimeend!=null and departureTimeend!=''">
+            AND   #{departureTimeend}  > a.departureTime
+        </if>
+        order by applyDatetime desc
     </select>
 
     <select id="excelCarApplyByUserId" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName,cc.plateNo FROM t_car_apply a
+        SELECT DISTINCT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,d.mobile,ct.modelName,cc.plateNo FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
         LEFT JOIN t_archives_passenger u ON a.userId = u.id
         LEFT JOIN t_archives_company c ON a.companyId = c.id
         LEFT JOIN t_archives_driver d ON a.driverId = d.id
         LEFT JOIN t_archives_car_type ct ON a.carTypeId = ct.id
         LEFT JOIN t_archives_car cc ON a.plateNoId = cc.id
-        INNER JOIN (SELECT * FROM t_archives_approve_company WHERE userId =#{userId} ) ac ON a.companyId = ac.companyId
 
         <if test="fleetId!='root'">
             AND a.fleetId =#{fleetId}
@@ -168,6 +193,13 @@
         <if test="clockOut!=null and clockOut!=''">
             AND   #{clockOut}  > a.applyDatetime
         </if>
+        <if test="departureTimebegin!=null and departureTimebegin!=''">
+            AND   a.departureTime > #{departureTimebegin}
+        </if>
+        <if test="departureTimeend!=null and departureTimeend!=''">
+            AND   #{departureTimeend}  > a.departureTime
+        </if>
+        order by applyDatetime desc
 
     </select>
 
@@ -180,6 +212,12 @@
         SELECT * FROM t_car_apply_locale WHERE carApplyNo = #{carApplyNo}
     </select>
 
+    <select id="findapplypassenger" parameterType="HashMap" resultType="HashMap">
+        SELECT * FROM t_car_apply_passenger WHERE carApplyNo = #{carApplyNo}
+    </select>
+
+
+
 
 
 
@@ -188,7 +226,7 @@
 
 
     <select id="queryinsanity" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName FROM t_car_apply a
+        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,d.mobile,ct.modelName FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
         LEFT JOIN t_archives_passenger u ON a.userId = u.id
         LEFT JOIN t_archives_company c ON a.companyId = c.id
@@ -205,7 +243,7 @@
     </select>
 
     <select id="querydispatch" parameterType="HashMap" resultType="HashMap">
-        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,ct.modelName FROM t_car_apply a
+        SELECT a.*, f.fleetName,u.passengerName,c.company,d.driverName ,d.mobile,ct.modelName FROM t_car_apply a
         LEFT JOIN t_system_fleet f ON a.fleetId = f.id
         LEFT JOIN t_archives_passenger u ON a.userId = u.id
         LEFT JOIN t_archives_company c ON a.companyId = c.id
@@ -236,7 +274,7 @@
 
 
     <select id="querydispatchLog" parameterType="HashMap" resultType="HashMap">
-        SELECT dl.* ,f.fleetName,c.plateNo,d.driverName,u.loginName FROM t_car_dispatch_log dl
+        SELECT dl.* ,f.fleetName,c.plateNo,d.driverName,d.mobile,u.loginName FROM t_car_dispatch_log dl
         LEFT JOIN t_system_fleet f ON dl.fleetId = f.id
         LEFT JOIN t_archives_car c ON dl.plateNoId = c.id
         LEFT JOIN t_archives_driver d ON dl.driverId = d.id
@@ -249,6 +287,7 @@
         <if test="userId!=null and userId!=''">
             AND   dl.userId =#{userId}
         </if>
+        ORDER  BY  dl.dispatchDatetime  DESC
     </select>
 
 
@@ -304,10 +343,10 @@
     <insert id="insertcarApply" parameterType="CarApply">
 
         INSERT INTO t_car_apply(
-        fleetId,carApplyNo,companyId,userId,driverId,plateNoId,carTypeId,privateOrPublic,applyDatetime,
-        startLocale,endLocale,content,remark,statuesId,businessType,startLongitude,startLatitude,endLongitude,endLatitude,orderFrom)
-        VALUES(#{fleetId},#{carApplyNo},#{companyId},#{userId},#{driverId},#{plateNoId}, #{carTypeId},#{privateOrPublic},#{applyDatetime},#{startLocale},#{endLocale},#{content},
-        #{remark},#{statuesId},#{businessType},#{startLongitude},#{startLatitude},#{endLongitude},#{endLatitude},#{orderFrom})
+        fleetId,carApplyNo,companyId,userId,driverId,plateNoId,carTypeId,privateOrPublic,departureTime,applyDatetime,
+        startLocale,endLocale,content,remark,statuesId,businessType,startLongitude,startLatitude,endLongitude,endLatitude,orderFrom,charteredBusTypeId)
+        VALUES(#{fleetId},#{carApplyNo},#{companyId},#{userId},#{driverId},#{plateNoId}, #{carTypeId},#{privateOrPublic},#{departureTime},#{applyDatetime},#{startLocale},#{endLocale},#{content},
+        #{remark},#{statuesId},#{businessType},#{startLongitude},#{startLatitude},#{endLongitude},#{endLatitude},#{orderFrom},#{charteredBusTypeId})
 
 
     </insert>

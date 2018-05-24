@@ -51,12 +51,14 @@ Ext.truckSelector.grid = Ext.extend(Ext.grid.GridPanel, {
                 isPaging : true,
                 start : 0,
                 limit : 80,
-                fleetId:basefleedId
+                fleetId:basefleedId,
+                roleId:roleID,
+                userId:userId
             },
             listeners : {
                 'beforeload' : function() {
                     var params = {
-                        'empName' : Ext.getCmp('queryEmpName')
+                        'plateNo' : Ext.getCmp('queryEmpName')
                             .getValue()
                     };
                     Ext.apply(this.baseParams, params);
@@ -120,7 +122,7 @@ Ext.truckSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							}]
 				});
 		// 菜单条
-		this.tbar = new Ext.Toolbar(['&nbsp;姓名:', {
+		this.tbar = new Ext.Toolbar(['&nbsp;车牌号:', {
 					id : 'queryEmpName',
 					xtype : 'textfield',
 					width : 100

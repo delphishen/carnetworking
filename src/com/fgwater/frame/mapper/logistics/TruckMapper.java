@@ -29,6 +29,14 @@ public interface TruckMapper extends BaseMapper<Truck> {
 
 	@Paging
     public List<Map<String,String>> queryTruckDispatcherByRoot(Map<String, String> params);
+
+	List<Map<String,String>> queryExcel(Map<String, String> map);
+
+    List<Map<String,Object>> getChildTruck(String fleetId);
+
+
+
+
 }
 
 

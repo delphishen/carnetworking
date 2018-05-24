@@ -4,6 +4,7 @@ import com.fgwater.core.service.impl.BaseServiceImpl;
 import com.fgwater.core.utils.SessionUtils;
 import com.fgwater.core.utils.StrUtils;
 import com.fgwater.core.utils.UUIDUtils;
+import com.fgwater.frame.mapper.logistics.TruckMapper;
 import com.fgwater.frame.mapper.system.CompanyMapper;
 import com.fgwater.frame.mapper.system.EmployeeMapper;
 import com.fgwater.frame.mapper.system.FleetMapper;
@@ -33,6 +34,9 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 	private UserMapper userMapper;
 	@Resource
 	private CompanyMapper companyMapper;
+
+	@Resource
+	private TruckMapper truckMapper;
 
 
 
@@ -80,6 +84,51 @@ public class FleetServiceImpl extends BaseServiceImpl implements
 
 		System.out.println("==========================ja=============="+ja);
 		return this.getchildrenapp(ja,params, new JSONArray());
+	}
+
+	@Override
+	public JSONArray getTruckTree(String fleetId) {
+
+		Map<String,Object> params = new HashMap<>();
+		 params.put("fleetId",fleetId);
+
+	    List<Map<String,Object>> mapList = this.fleetMapper.getTruckTree(params);
+
+		JSONArray jsonArray = JSONArray.fromObject(mapList) ;
+		JSONArray jsonArray1 = this.getChildTruck(jsonArray,params,new JSONArray());
+
+		return  this.getChildTruck(jsonArray,params,new JSONArray());
+	}
+
+	private JSONArray getChildTruck(JSONArray jsonArray, Map<String, Object> params, JSONArray jsonArray1) {
+
+		//List<Map<String,Object>> mapList = this.truckMapper.getChildTruck(params.get("fleetId").toString());
+
+		List<Map<String,Object>> mapList = new ArrayList<>();
+
+
+		for (int i = 0;i<jsonArray.size();i++){
+
+
+			JSONObject jo = jsonArray.getJSONObject(i);
+			JSONArray chiledren = new JSONArray();
+
+			params.put("fleetId",jo.get("id").toString());
+			mapList = this.truckMapper.getChildTruck(params.get("fleetId").toString());
+
+			for (int j =0;j<mapList.size();j++){
+				chiledren.add(mapList.get(j));
+			}
+
+			jo.put("nodes",chiledren);
+
+			jsonArray1.add(jo);
+
+		}
+
+		return  jsonArray1;
+
+
 	}
 
 	private JSONArray getchildrenapp(JSONArray ja,Map<String, String> params, JSONArray jsonArray) {

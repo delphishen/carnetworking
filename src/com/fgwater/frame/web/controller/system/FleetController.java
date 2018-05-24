@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,11 @@ public class FleetController extends BaseController {
 	private  List<Fleet> fleets;
 
 
+	/**
+	 * 获取平台fleet的树展示
+	 * @return
+	 */
+
 	@ResponseBody
 	@RequestMapping(value = "getTreeAllFleetList.do")
 	public String getAll() {
@@ -51,6 +57,25 @@ public class FleetController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+
+	/**
+	 * 车辆的树展示
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "getTruckTree.do")
+	public  String getTruckTree(HttpServletRequest request){
+		String fleetId = request.getParameter("fleetId");
+
+		JSONArray jsonArray = this.fleetService.getTruckTree(fleetId);
+		return  jsonArray.toString();
+	}
+
+	/**
+	 * 调用高德api 获取地址经纬度
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "queryLocale.do")
 	public String queryLocale() {
@@ -87,10 +112,10 @@ public class FleetController extends BaseController {
 	}
 
 
-
-
-
-
+	/**
+	 * 保存平台信息
+	 * @return
+	 */
 
 	@ResponseBody
 	@RequestMapping(value = "saveFleet.do")
@@ -104,6 +129,11 @@ public class FleetController extends BaseController {
 		return jo.toString();
 	}
 
+
+	/**
+	 * 删除平台信息
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "deleteFleet.do")
 	public String delete() {

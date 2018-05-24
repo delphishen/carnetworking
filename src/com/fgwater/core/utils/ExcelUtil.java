@@ -56,6 +56,134 @@ public class ExcelUtil {
 			row.createCell(10).setCellValue(js.get("company").toString());
 			row.createCell(11).setCellValue(js.get("fleetName").toString());
 
+			row.createCell(12).setCellValue(js.get("driverName").toString());
+			row.createCell(13).setCellValue(js.get("plateNo").toString());
+			row.createCell(14).setCellValue(js.get("rideDatetime").toString());
+			row.createCell(15).setCellValue(js.get("endDatetime").toString());
+			row.createCell(16).setCellValue(js.get("departureTime").toString());
+			//row.createCell(16).setCellValue(js.get("statuesId").toString());
+			String statuesId = js.get("statuesId").toString();
+			if(statuesId.equals("-1")){
+				row.createCell(17).setCellValue("乘客取消");
+			}else  if (statuesId.equals("-2")){
+				row.createCell(17).setCellValue("司机取消");
+			}else  if (statuesId.equals("-3")){
+				row.createCell(17).setCellValue("后台取消");
+			}else  if (statuesId.equals("0")){
+				row.createCell(17).setCellValue("审核未通过");
+			}else  if (statuesId.equals("10")){
+				row.createCell(17).setCellValue("审核中");
+			}else  if (statuesId.equals("20")){
+				row.createCell(17).setCellValue("审核通过(待分配)");
+			}else  if (statuesId.equals("30")){
+				row.createCell(17).setCellValue("已分配");
+			}else  if (statuesId.equals("40")){
+				row.createCell(17).setCellValue("车辆到达出发点");
+			}else  if (statuesId.equals("50")){
+				row.createCell(17).setCellValue("乘客已上车");
+			}else  if (statuesId.equals("59")){
+				row.createCell(17).setCellValue("乘客已下车");
+			}else  if (statuesId.equals("60")){
+				row.createCell(17).setCellValue("费用待确认");
+			}else  if (statuesId.equals("70")){
+				row.createCell(17).setCellValue("费用已确认");
+			}else  if (statuesId.equals("80")){
+				row.createCell(17).setCellValue("费用已确认");
+			}else  if (statuesId.equals("90")){
+				row.createCell(17).setCellValue("已评价");
+			}
+
+		}
+	}
+
+	/**
+	 * 导出车辆excel信息
+	 * @param rs
+	 * @param wb
+	 * @param headers
+	 * @throws Exception
+	 */
+
+	public static void fillExcelTruck(JSONArray rs, Workbook wb, String[] headers) throws Exception {
+		int rowIndex = 0; // 定义一个行索引
+		Sheet sheet = wb.createSheet(); // 创建一个sheet
+		Row row = sheet.createRow(rowIndex++); // 创建第一行
+		for (int i = 0; i < headers.length; i++) {
+			row.createCell(i).setCellValue(headers[i]); // 写入表头
+		}
+		// 循环写入每一行
+		for(int j=0;j<rs.size();j++){
+			JSONObject js = rs.getJSONObject(j);
+			row = sheet.createRow(rowIndex++);
+			row.createCell(0).setCellValue(js.get("fleetName").toString());
+			row.createCell(1).setCellValue(js.get("company").toString());
+			row.createCell(2).setCellValue(js.get("plateNo").toString());
+			row.createCell(3).setCellValue(js.get("driverName").toString());
+			row.createCell(4).setCellValue(js.get("modelName").toString());
+			row.createCell(5).setCellValue(js.get("vehicleOwner").toString());
+			row.createCell(6).setCellValue(js.get("tel").toString());
+			row.createCell(7).setCellValue(js.get("model").toString());
+			row.createCell(8).setCellValue(js.get("ascription").toString());
+
+		}
+	}
+
+
+	/**
+	 * 导出司机excel信息
+	 * @param rs
+	 * @param wb
+	 * @param headers
+	 * @throws Exception
+	 */
+	public static void fillExcelDriver(JSONArray rs, Workbook wb, String[] headers) throws Exception {
+		int rowIndex = 0; // 定义一个行索引
+		Sheet sheet = wb.createSheet(); // 创建一个sheet
+		Row row = sheet.createRow(rowIndex++); // 创建第一行
+		for (int i = 0; i < headers.length; i++) {
+			row.createCell(i).setCellValue(headers[i]); // 写入表头
+		}
+		// 循环写入每一行
+		for(int j=0;j<rs.size();j++){
+			JSONObject js = rs.getJSONObject(j);
+			row = sheet.createRow(rowIndex++);
+			row.createCell(0).setCellValue(js.get("fleetName").toString());
+			row.createCell(1).setCellValue(js.get("company").toString());
+			row.createCell(2).setCellValue(js.get("driverName").toString());
+			row.createCell(3).setCellValue(js.get("statuesId").toString());
+			row.createCell(4).setCellValue(js.get("sex").toString());
+			row.createCell(5).setCellValue(js.get("driverType").toString());
+			row.createCell(6).setCellValue(js.get("mobile").toString());
+			row.createCell(7).setCellValue(js.get("address").toString());
+
+		}
+	}
+
+	/**
+	 * 导出乘客excel信息
+	 * @param rs
+	 * @param wb
+	 * @param headers
+	 * @throws Exception
+	 */
+	public static void fillExcelPassenger(JSONArray rs, Workbook wb, String[] headers) throws Exception {
+		int rowIndex = 0; // 定义一个行索引
+		Sheet sheet = wb.createSheet(); // 创建一个sheet
+		Row row = sheet.createRow(rowIndex++); // 创建第一行
+		for (int i = 0; i < headers.length; i++) {
+			row.createCell(i).setCellValue(headers[i]); // 写入表头
+		}
+		// 循环写入每一行
+		for(int j=0;j<rs.size();j++){
+			JSONObject js = rs.getJSONObject(j);
+			row = sheet.createRow(rowIndex++);
+			row.createCell(0).setCellValue(js.get("fleetName").toString());
+			row.createCell(1).setCellValue(js.get("company").toString());
+			row.createCell(2).setCellValue(js.get("passengerName").toString());
+			row.createCell(3).setCellValue(js.get("sex").toString());
+			row.createCell(4).setCellValue(js.get("mobile").toString());
+			row.createCell(5).setCellValue(js.get("address").toString());
+
 		}
 	}
 

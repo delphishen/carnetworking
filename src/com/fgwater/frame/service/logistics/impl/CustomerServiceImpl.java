@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.fgwater.frame.model.system.User;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Service;
@@ -26,8 +27,17 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 	private CustomerMapper customerMapper;
 
 	public List<Map<String, String>> query(Map<String, String> m) {
-		
+
+//		User user = SessionUtils.getCurrUser();
+//		if (user.getRoleId().equals("10")){
+//			return this.customerMapper.query(m);
+//		}else {
+//			return this.customerMapper.queryByUserId(m);
+//		}
+
 		return this.customerMapper.query(m);
+		
+
 	}
 
 	public List<Customer> getAll(Map<String, String> m) {
@@ -76,6 +86,12 @@ public class CustomerServiceImpl extends BaseServiceImpl implements CustomerServ
 	@Override
 	public Map<String, Object> queryById(String driverId) {
 		return this.customerMapper.queryById(driverId);
+	}
+
+	@Override
+	public List<Map<String, String>> queryexcel(Map<String, String> map) {
+
+		return  this.customerMapper.queryexcel(map);
 	}
 
 	@SuppressWarnings("unchecked")

@@ -31,8 +31,12 @@ public class MenuController extends BaseController {
 	@Injection
 	private Menu menu;
 
+	/**
+	 * //菜单权限分配读取所有菜单
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "buildMenu.do")   //菜单权限分配读取所有菜单
+	@RequestMapping(value = "buildMenu.do")
 	public String build() {
 		this.responseModel.mount(this.menuService.getAllMenus(), MOUNT_TYPE_JA);
 		
@@ -40,8 +44,13 @@ public class MenuController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+
+	/**
+	 * //系统登录根据用户权限读取菜单
+	 * @return
+	 */
 	@ResponseBody            
-	@RequestMapping(value = "buildByCurrUserMenu.do")   //系统登录根据用户权限读取菜单
+	@RequestMapping(value = "buildByCurrUserMenu.do")
 	public String buildByCurrUser() {
 
 		System.out.println(SessionUtils.getCurrUser().getEmpId());
@@ -49,7 +58,7 @@ public class MenuController extends BaseController {
 		JSONArray jsonArray = new JSONArray();
 
 		jsonArray = this.menuService.getMenusByUserId(SessionUtils
-				.getCurrUser().getEmpId());
+				.getCurrUser().getId());
 		System.out.println("=========="+jsonArray.size());
 		if (0 == jsonArray.size()){
 			jsonArray = this.menuService.getMenusByRoleId(SessionUtils.getCurrUser().getRoleId());
@@ -64,8 +73,12 @@ public class MenuController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+	/**
+	 * //菜单权限分配，读取选择的用户的菜单权限
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "getByUserIdMenu.do") //菜单权限分配，读取选择的用户的菜单权限
+	@RequestMapping(value = "getByUserIdMenu.do")
 	public String getByUserIdMenu() {
 
 		List<Map<String,Object>> mapList = new ArrayList<>();
@@ -80,8 +93,13 @@ public class MenuController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+
+	/**
+	 * /菜单权限分配，读取选择的角色的菜单权限
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "getByRoleIdMenu.do") //菜单权限分配，读取选择的角色的菜单权限
+	@RequestMapping(value = "getByRoleIdMenu.do")
 	public String getByRoleIdMenu() {
 		this.responseModel.mount(this.menuService.getByRoleIdMenu(this.requestModel
 				.getParams().get("userId")), MOUNT_TYPE_JA);
@@ -97,6 +115,11 @@ public class MenuController extends BaseController {
 		return jo.toString();
 	}
 
+
+	/**
+	 * 删除菜单
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "deleteMenu.do")
 	public String delete() {

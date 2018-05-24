@@ -18,6 +18,11 @@ public interface BusTypePriceMapper extends BaseMapper<BusTypePrice> {
     public void deleteTable(Map<String, String> map);
 
 
+    List<Map<String,Object>> queryBusTypePriceList(Map<String, String> params);
 
+
+    int checkName(BusTypePrice busTypePrice);
+
+    int checkNameById(BusTypePrice busTypePrice);
 
 }

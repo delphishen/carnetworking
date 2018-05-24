@@ -22,5 +22,7 @@ public interface PassengerService extends BaseService {
 
     public String findPhone(String userId);
 
+    List<Map<String,String>> queryexcel(Map<String, String> map);
+
 }
 

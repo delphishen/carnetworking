@@ -34,9 +34,10 @@
 			var isAdmin = '<%=user.getIsAdmin()%>'
 			var loginEmpID = '<%=user.getEmpId()%>'
             var fleedId = '<%=user.getFleetId()%>'
-            var basefleedId = 'root'
+            var basefleedId = '<%=user.getFleetId()%>'
             var departureTime = null;
 			var companyId = null;
+            var companyID = null;
 			var carTypeID = null;
             var remark = '<%=user.getRemark()%>'
 			var userId = '<%=user.getId()%>'

@@ -24,4 +24,6 @@ public interface FleetService extends BaseService {
     public JSONArray getTreeFleetApprove(Map<String, String> params);
 
 
+     public  JSONArray getTruckTree(String fleetId);
+
 }

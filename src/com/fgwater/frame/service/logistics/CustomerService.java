@@ -20,4 +20,6 @@ public interface CustomerService extends BaseService {
 
     public Map<String,Object> queryById(String driverId);
 
+	List<Map<String,String>> queryexcel(Map<String, String> map);
+
 }

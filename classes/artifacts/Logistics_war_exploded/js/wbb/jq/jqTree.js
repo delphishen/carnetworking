@@ -5,7 +5,7 @@ Ext.jqTree.tree = Ext.extend(Ext.tree.TreePanel, {
 				this.app = app;
 				// 菜单根节点
 				this.root = new Ext.tree.AsyncTreeNode({
-							id : 'root',
+							id : fleedId,
 							text : '调度员列表',
 							draggable : false
 						});

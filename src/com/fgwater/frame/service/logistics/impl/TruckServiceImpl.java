@@ -79,6 +79,12 @@ public class TruckServiceImpl extends BaseServiceImpl implements TruckService {
 		return truckMapper.queryTruckDispatcherByRoot(params);
 	}
 
+	@Override
+	public List<Map<String, String>> queryExcel(Map<String, String> map) {
+
+		return  truckMapper.queryExcel(map);
+	}
+
 	@SuppressWarnings("unchecked")
 	private Map<String, String> toMap(JSONObject jo) {
 		Map<String, String> map = new HashMap<String, String>();

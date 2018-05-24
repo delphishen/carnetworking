@@ -3,10 +3,12 @@ package com.fgwater.frame.model.logistics;
 import com.fgwater.core.model.BaseModel;
 import org.apache.ibatis.type.Alias;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 @Alias("CarApply")
 @Table(name = "t_car_apply")
@@ -90,6 +92,11 @@ public class CarApply extends BaseModel {
 	private String  orderFrom;
 	@Column
 	private String  localeId;
+	@Column
+	private  String charteredBusTypeId;
+
+
+
 
 
 
@@ -377,4 +384,13 @@ public class CarApply extends BaseModel {
 	public void setLocaleId(String localeId) {
 		this.localeId = localeId;
 	}
+
+	public String getCharteredBusTypeId() {
+		return charteredBusTypeId;
+	}
+
+	public void setCharteredBusTypeId(String charteredBusTypeId) {
+		this.charteredBusTypeId = charteredBusTypeId;
+	}
+
 }

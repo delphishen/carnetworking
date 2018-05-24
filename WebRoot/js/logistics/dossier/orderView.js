@@ -1,5 +1,297 @@
 Ext.namespace('Ext.order');
 
+
+Ext.order.detailsform = Ext.extend(Ext.FormPanel, {
+    constructor : function(app) {
+        this.app = app;
+
+
+        this.items = [{
+            columnWidth : 1,
+            items : [{
+                id:'carApplyNo1',
+                fieldLabel : '订单编号',
+                xtype : 'textfield',
+                name : 'carApplyNo',
+                editable : false,
+                anchor : '98%',
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'fleetName',
+                fieldLabel : '所属平台',
+                xtype : 'textfield',
+                name : 'fleetName',
+                editable : false,
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'company',
+                fieldLabel : '所属机构',
+                xtype : 'textfield',
+                name : 'company',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'loginName',
+                fieldLabel : '乘车用户',
+                xtype : 'textfield',
+                name : 'passengerName',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'departureTime1',
+                fieldLabel : '出发时间',
+                xtype : 'textfield',
+                name : 'departureTime',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'driverName2',
+                fieldLabel : '司机',
+                xtype : 'textfield',
+                name : 'driverName',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'plateNo2',
+                fieldLabel : '车辆',
+                xtype : 'textfield',
+                name : 'plateNo',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'rideDatetime1',
+                fieldLabel : '上车时间',
+                xtype : 'textfield',
+                name : 'rideDatetime',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'endDatetime1',
+                fieldLabel : '下车时间',
+                xtype : 'textfield',
+                name : 'endDatetime',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'startLocale',
+                fieldLabel : '出发地',
+                xtype : 'textfield',
+                name : 'startLocale',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'localeName',
+                fieldLabel : '途径地',
+                xtype : 'textfield',
+                name : 'localeName',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'endLocale',
+                fieldLabel : '目的地',
+                xtype : 'textfield',
+                name : 'endLocale',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'carpoolYN',
+                fieldLabel : '是否拼车',
+                xtype : 'textfield',
+                name : 'carpoolYN',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true,
+
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'modelName2',
+                fieldLabel : '车型',
+                xtype : 'textfield',
+                name : 'modelName',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'businessType2',
+                fieldLabel : '业务类型',
+                xtype : 'textfield',
+                name : 'businessType',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'budgetCost',
+                fieldLabel : '预算费用',
+                xtype : 'textfield',
+                name : 'budgetCost',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'budgetKilometres',
+                fieldLabel : '预算公里',
+                xtype : 'textfield',
+                name : 'budgetKilometres',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'cost',
+                fieldLabel : '实际费用',
+                xtype : 'textfield',
+                name : 'cost',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'kilometres',
+                fieldLabel : '实际公里',
+                xtype : 'textfield',
+                name : 'kilometres',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'content',
+                fieldLabel : '出行事由',
+                xtype : 'textfield',
+                name : 'content',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        },{
+            columnWidth : 0.5,
+            items : [{
+                id:'remark',
+                fieldLabel : '用车备注',
+                xtype : 'textfield',
+                name : 'remark',
+                anchor : '98%',
+                readOnly:true,
+                selectOnFocus : true
+            }]
+        }];
+
+        Ext.order.detailsform.superclass.constructor.call(this, {
+            labelWidth : 60,
+            baseCls : 'x-plain',
+            layout : 'column',
+            style : 'padding : 5',
+            defaults : {
+                baseCls : 'x-plain',
+                layout : 'form'
+            },
+            listeners : {
+                'render' : function(form) {
+                    // form.roleCombo.getStore().reload();
+                }
+            }
+        });
+    }
+
+});
+
+
+Ext.order.detailswin = Ext.extend(Ext.Window, {
+    constructor : function(app) {
+        this.app = app;
+        this.form = new Ext.order.detailsform(this);
+        Ext.order.detailswin.superclass.constructor.call(this, {
+            width : 500,
+            plain : true,
+            showLock : true,
+            modal : true,
+            resizable : false,
+            buttonAlign : 'center',
+            items : this.form,
+            buttons : [ {
+                id:'cancelButton',
+                xtype: 'button',
+                text : '取消',
+                iconCls : 'cancel',
+                handler : this.onClosecar,
+                scope : this
+            }]
+        });
+    },
+
+
+
+    onClosecar : function() {
+        this.close();
+    }
+});
+
+
 Ext.order.form = Ext.extend(Ext.FormPanel, {
 	constructor : function(app) {
 		this.app = app;
@@ -303,7 +595,7 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
             selectOnFocus : true,
             submitValue : false,
             allowBlank : false,
-            editable : true,
+            editable : false,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
 
@@ -533,9 +825,64 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
                         ]
                     }),
                     valueField : 'val',
-                    displayField : 'key'
+                    displayField : 'key',
+                    listeners : {
+                        'select' : function(combo, record) {
+                            console.log("========"+record.data.val);
+                            if(record.data.val == '包车'){
+                                Ext.getCmp("charteredBusTypeId").show();
+                            }else {
+                                Ext.getCmp("charteredBusTypeId").hide();
+                                this.getForm().findField('charteredBusTypeId').setValue(null);
+                            }
+
+
+
+                        },
+
+                        scope : this
+                    }
                 }]
             },{
+            columnWidth : 1,
+            labelWidth : 60,
+            items : [{
+                id:'charteredBusTypeId',
+                fieldLabel : '包车类型',
+                width : 60,
+                xtype : 'combo',
+                hidden:true,
+                hiddenName : 'charteredBusTypeId',
+                submitValue : false,
+                anchor : '98%',
+                allowBlank : true,
+                editable : false,
+                autoLoad : true,
+                triggerAction : 'all',
+                mode : 'local',
+                selectOnFocus : true,
+                store : new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy( {
+                        url : path + '/logistics/queryBusTypePriceList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'charteredBusType'}]),
+                    baseParams : {
+                        fleetId:fleedId
+                    },
+                    autoLoad : true
+                }),
+                valueField : 'id',
+                displayField : 'charteredBusType',
+                listeners : {
+                    'select' : function(combo, record) {
+                    },
+
+                    scope : this
+                }
+            }]
+        },{
             columnWidth : 1,
             items : [{
                 xtype : 'combo',
@@ -576,12 +923,12 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
             columnWidth : 1,
             items : [{
 
-                id:'applyDatetime',
+                id:'departureTime',
                 fieldLabel : '选择时间',
                 xtype : 'timefield',
                 allowBlank : false,
                 format:'G:i:s',
-                name : 'applyDatetime',
+                name : 'departureTime',
                 anchor : '98%',
                 selectOnFocus : true
             }]
@@ -723,6 +1070,9 @@ Ext.order.ordersform = Ext.extend(Ext.FormPanel, {
             }]
         }];
 
+        //Ext.getCmp('charteredBusTypeId').setVisible(true);
+       // Ext.getCmp('charteredBusTypeId').setvalue("11111");
+
         Ext.order.ordersform.superclass.constructor.call(this, {
             labelWidth : 60,
             baseCls : 'x-plain',
@@ -828,8 +1178,13 @@ Ext.order.orderswin = Ext.extend(Ext.Window, {
         if (form.isValid()) {
             //btn.setDisabled(true);
             var user = form.getValues();
-            user.applyDatetime = user.departuredate+" "+user.applyDatetime;
-            console.log(user.applyDatetime);
+            var departureTime = user.departureTime;
+            console.log("===时间==="+departureTime.length);
+            if (departureTime.length == '7'){
+                departureTime = "0"+departureTime;
+            }
+            user.departureTime = user.departuredate+" "+departureTime;
+            console.log(user.departureTime);
 
 
             var startLongitude = Ext.getCmp("startLongitude").value;
@@ -859,6 +1214,10 @@ Ext.order.orderswin = Ext.extend(Ext.Window, {
                 }
 
             }
+
+
+
+
 
             Ext.eu.ajax(path + '/logistics/insertcarApply.do', {
                 carApply : Ext.encode(user)
@@ -893,7 +1252,7 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                     fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                         , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
                         , 'remark','businessType', 'statuesId', 'activityId','orderFrom','driverApplyNo', 'fleetName', 'passengerName'
-                        ,'company','driverName','modelName','plateNoId','plateNo','cost','kilometres','localeName','applyDatetime'],
+                        ,'company','driverName','modelName','plateNoId','plateNo','cost','kilometres','localeName','applyDatetime','rideDatetime','endDatetime','name','passengerTel','GPSFrom','mobile'],
                     autoDestroy: true,
                     autoLoad: true,
                     baseParams: {
@@ -953,7 +1312,10 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                         dataIndex: 'applyDatetime'
                     },{
                         header: '乘车用户',
-                        dataIndex: 'passengerName'
+                        dataIndex: 'name'
+                    },{
+                        header: '乘客电话',
+                        dataIndex: 'passengerTel'
                     },{
                         header: '业务类型',
                         dataIndex: 'businessType'
@@ -964,6 +1326,12 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                         header: '出发时间',
                         dataIndex: 'departureTime'
                     }, {
+                        header: '上车时间',
+                        dataIndex: 'rideDatetime'
+                    },{
+                        header: '下车时间',
+                        dataIndex: 'endDatetime'
+                    },{
                         header: '出发地',
                         dataIndex: 'startLocale'
                     },{
@@ -972,12 +1340,6 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                     },{
                         header: '目的地',
                         dataIndex: 'endLocale'
-                    }, {
-                        header: '预算费用',
-                        dataIndex: 'budgetCost'
-                    }, {
-                        header: '预算公里数',
-                        dataIndex: 'budgetKilometres'
                     },{
                         header: '实际费用',
                         dataIndex: 'cost'
@@ -985,24 +1347,15 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                         header: '实际公里数',
                         dataIndex: 'kilometres'
                     }, {
-                        header: '出现事由',
-                        dataIndex: 'content'
-                    }, {
-                        header: '用车备注',
-                        dataIndex: 'remark'
-                    },{
                         header: '订单来源',
                         dataIndex: 'orderFrom'
-                    }, {
-                        header: '所属平台',
-                        dataIndex: 'fleetName'
-                    }, {
-                        header: '所属机构',
-                        dataIndex: 'company'
-                    }, {
+                    },  {
                         header: '司机',
                         dataIndex: 'driverName'
-                    }, {
+                    },{
+                        header: '司机电话',
+                        dataIndex: 'mobile'
+                    },  {
                         header: '车型',
                         dataIndex: 'modelName'
                     }, {
@@ -1015,7 +1368,7 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                             if (val == '-1') {
                                 return '乘客取消';
                             } else if (val == '-2'){
-                                return '司机取消';
+                                return '司机改派';
                             }else if (val == '-3'){
                                 return '后台取消';
                             }else if (val == '-4'){
@@ -1042,10 +1395,26 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                                 return '已评价';
                             }
                         }
+                    }, {
+                        header: '定位来源',
+                        dataIndex: 'GPSFrom'
+                    },{
+                        header: '所属机构',
+                        dataIndex: 'company'
+                    },{
+                        header: '所属平台',
+                        dataIndex: 'fleetName'
                     }]
                 });
 				// 菜单条
 				this.tbar = new Ext.Toolbar([ {
+                    id:'buttonAdddriverTypeView',
+                    xtype : 'button',
+                    iconCls : 'add',
+                    text : '查看订单详情',
+                    handler : this.onAdd,
+                    scope : this
+                },{
                             id:'buttonAdddriverOrderView',
                             xtype : 'button',
                             iconCls : 'add',
@@ -1066,7 +1435,14 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 							text : '后台取消',
 							handler : this.onDelete,
 							scope : this
-						}]);
+						}, {
+                    id:'buttonLocusView',
+                    xtype : 'button',
+                    iconCls : 'modify',
+                    text : '查看轨迹',
+                    handler : this.onLocus,
+                    scope : this
+                }]);
 				// 页码条
 				this.bbar = new Ext.PagingToolbar({
 							pageSize : 50,
@@ -1085,6 +1461,63 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
 							}
 						});
 			},
+
+
+    onAdd : function(btn) {
+
+        var selects = Ext.eu.getSelects(this);
+        if (selects.length == 0) {
+            Ext.ux.Toast.msg("信息", "请选择要查看的记录！");
+            return;
+        }
+        if (selects.length > 1) {
+            Ext.ux.Toast.msg("信息", "只能选择一条记录！");
+            return;
+        }
+
+
+
+        var select = selects[0].data;
+        console.log(select);
+        var win = new Ext.order.detailswin(this);
+        var form = win.form.getForm();
+        win.setTitle('查看订单详情', 'modify');
+        if(select.carpoolYN ==false){
+            select.carpoolYN = '否';
+        }
+        if (select.carpoolYN == true){
+            select.carpoolYN = '是';
+        }
+
+        form.findField('fleetName').setValue(select.fleetName);
+        form.findField('loginName').setValue(select.name);
+        form.findField('company').setValue(select.company);
+        form.findField('departureTime').setValue(select.departureTime);
+        form.findField('startLocale').setValue(select.startLocale);
+        form.findField('endLocale').setValue(select.endLocale);
+        form.findField('carpoolYN').setValue(select.carpoolYN);
+        form.findField('budgetCost').setValue(select.budgetCost);
+        form.findField('budgetKilometres').setValue(select.budgetKilometres);
+        form.findField('content').setValue(select.content);
+        form.findField('remark').setValue(select.remark);
+        form.findField('carApplyNo1').setValue(select.carApplyNo);
+        //form.findField('carApplyNo1').setValues("1111");
+        form.findField('modelName2').setValue(select.modelName)
+        form.findField('localeName').setValue(select.localeName);
+
+        form.findField('rideDatetime1').setValue(select.rideDatetime);
+        form.findField('endDatetime1').setValue(select.endDatetime);
+        form.findField('businessType2').setValue(select.businessType);
+
+        form.findField('cost').setValue(select.cost);
+        form.findField('kilometres').setValue(select.kilometres);
+
+        form.findField('driverName2').setValue(select.driverName);
+        form.findField('plateNo2').setValue(select.plateNo);
+
+        win.show();
+
+    },
 
 
     onOrders : function(btn) {
@@ -1179,7 +1612,35 @@ Ext.order.grid = Ext.extend(Ext.grid.GridPanel, {
                 }
 				 
 
-			}
+			},
+    onLocus : function() {
+
+        var selects = Ext.eu.getSelects(this);
+
+        if (selects.length == 0) {
+            Ext.ux.Toast.msg("信息", "请选择要查看的记录！");
+            return;
+        }
+
+        if (selects.length > 1) {
+            Ext.ux.Toast.msg("信息", "只能选择一条记录！");
+            return;
+        }
+
+
+        var statuesId = selects[0].data.statuesId;
+
+        if(statuesId == '60' || statuesId =='70' || statuesId == '80'|| statuesId == '90' ){
+            var  carApplyNo = selects[0].data.carApplyNo;
+
+            window.open(path+'/mapLocus.jsp?carApplyNo='+carApplyNo, 'mywindow1', 'width=400, height=300, menubar=no, toolbar=no, scrollbars=yes');
+        }else {
+            Ext.ux.Toast.msg("信息", "该订单还未完成，无法查看轨迹！！！！");
+        }
+
+
+
+    },
 		});
 
 Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
@@ -1200,6 +1661,21 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
 
                 });
                 this.companyTypeDS.load();
+
+                this.fleetTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getTreeAllFleetList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'fleetName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
+                });
+                this.fleetTypeDS.load();
 
 
 
@@ -1238,6 +1714,9 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
                                 ['乘客已确认费用', '70'],
                                 ['系统确认费用', '80'],
                                 ['已评价', '90'],
+                                ['乘客取消', '-1'],
+                                ['司机改派', '-2'],
+                                ['后台取消', '-3'],
 
                             ]
                         }),
@@ -1269,11 +1748,11 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
                 },{
                     width : 250,
                     items : [{
-                        id:'clockIn',
+                        id:'orderclockIn',
                         fieldLabel : '开始时间',
                         width : 100,
                         xtype : 'datefield',
-                        hiddenName : 'clockIn',
+                        name : 'clockIn',
                         format : 'Y-m-d',
                         editable : false,
                         submitValue : true,
@@ -1284,8 +1763,9 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
                 },{
                     width : 250,
                     items : [{
-                        id:'clockOut',
+                        id:'orderclockOut',
                         fieldLabel : '结束时间',
+                        name:'clockOut',
                         width : 100,
                         xtype : 'datefield',
                         hiddenName : 'clockOut',
@@ -1297,6 +1777,61 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
                     }]
 
                 },{
+                    width : 250,
+                    items : [{
+                        id:'querydepartureTimebegin',
+                        fieldLabel : '出发时间开始',
+                        width : 100,
+                        xtype : 'datefield',
+                        name : 'departureTimebegin',
+                        format : 'Y-m-d',
+                        editable : false,
+                        submitValue : true,
+                        anchor : '90%',
+
+                    }]
+
+                },{
+                    width : 250,
+                    items : [{
+                        id:'querydepartureTimeend',
+                        fieldLabel : '出发时间截止',
+                        width : 100,
+                        xtype : 'datefield',
+                        name : 'departureTimeend',
+                        format : 'Y-m-d',
+                        editable : false,
+                        submitValue : true,
+                        anchor : '90%',
+
+                    }]
+
+                },{
+                    width : 250,
+                    items : [{
+                        id:'queryorderfleetId',
+                        fieldLabel : '按平台筛选',
+                        width : 80,
+                        xtype : 'combo',
+                        hiddenName : 'queryfleetId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
+                        triggerAction : 'all',
+                        mode : 'local',
+                        store : this.fleetTypeDS,
+                        valueField : 'id',
+                        displayField : 'fleetName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                //	this.getForm().findField('linesName').setValue(record.data.id);
+                            },
+                            scope : this
+                        }
+                    }]
+
+                }, {
 							width : 65,
 							items : [{
 										xtype : 'button',
@@ -1329,23 +1864,35 @@ Ext.order.queryPanel = Ext.extend(Ext.FormPanel, {
                                 iconCls : 'reset',
                                 handler : function() {
                                     var companyId = Ext.getCmp("querycompanyId").value;
-                                    var clockIn = Ext.getCmp("clockIn").value;
-                                    var clockOut = Ext.getCmp("clockOut").value;
+                                    var clockIn = Ext.getCmp("orderclockIn").value;
+                                    var clockOut = Ext.getCmp("orderclockOut").value;
+                                    var queryfleetId = Ext.getCmp("queryorderfleetId").value;
+                                    var departureTimebegin = Ext.getCmp("querydepartureTimebegin").value;
+                                    var departureTimeend = Ext.getCmp("querydepartureTimeend").value;
+
                                     if (companyId == undefined){
                                         companyId = '';
-
                                     }
                                     if (clockIn == undefined){
                                         clockIn = '';
-
                                     }
                                     if (clockOut == undefined){
                                         clockOut = '';
-
+                                    }
+                                    if (queryfleetId == undefined){
+                                        queryfleetId = '';
+                                    }
+                                    if (departureTimebegin == undefined){
+                                        departureTimebegin = '';
+                                    }
+                                    if (departureTimeend == undefined){
+                                        departureTimeend = '';
                                     }
 
+
                                     window.location.href = path + '/logistics/exportCarApply.do?fleetId=' +fleedId+'&companyId='
-                                        +companyId+'&clockIn='+clockIn+'&clockOut='+clockOut;
+                                        +companyId+'&clockIn='+clockIn+'&clockOut='+clockOut+'&queryfleetId='+queryfleetId+
+                                        '&departureTimebegin='+departureTimebegin+'&departureTimeend='+departureTimeend;
                                 },
                                 scope : this
                             }]
@@ -1383,7 +1930,11 @@ var orderView = function(params) {
 	this.grid = new Ext.order.grid(this);
 
 	Ext.getCmp('buttonModifydriverTypeView').hidden=!params[0].isModify;
-	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;	
+	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;
+
+    Ext.getCmp('queryorderfleetId').hidden= loginName != 'root';
+
+
 	
 	return new Ext.Panel({
 				id : 'orderView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开

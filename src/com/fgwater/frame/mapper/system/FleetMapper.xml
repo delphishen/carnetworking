@@ -7,7 +7,7 @@
 
 	<select id="getTreeAll"  parameterType="HashMap" resultType="Fleet">
 
-		SELECT * FROM t_system_fleet
+		SELECT *  FROM t_system_fleet
 
 		<if test="fleetId!='root'">
 			where id =#{fleetId}
@@ -15,7 +15,20 @@
 
 	</select>
 
-	<select id="getTreeFleetList"  parameterType="HashMap" resultType="Fleet">
+	<select id="getTruckTree"  parameterType="HashMap" resultType="HashMap">
+
+		SELECT id,fleetName as text FROM t_system_fleet
+
+		<if test="fleetId!='root'">
+			where id =#{fleetId}
+		</if>
+
+	</select>
+
+
+
+
+	<select id="getTreeFleetList"  parameterType="HashMap" resultType="HashMap">
 
 		SELECT id,fatherId,fleetName as text,contacts,mobile,tel, carCount,passengerCount FROM t_system_fleet
 

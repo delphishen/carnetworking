@@ -48,6 +48,7 @@ Ext.user.form = Ext.extend(Ext.FormPanel, {
             editable : true,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
+                basefleedId = Ext.getCmp('fleetId').getValue();
 
                 if(val ==null && val == undefined){
                     Ext.ux.Toast.msg("信息", "请先选择所属平台");
@@ -562,7 +563,7 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 					return;
 				}
 				var user = {
-					id : selects[0].data.empId,
+					id : selects[0].data.id,
 					password : '123456'
 				}
 				Ext.Msg.confirm('重置密码', '确定为所选记录重置密码吗?', function(btn) {
@@ -588,7 +589,7 @@ Ext.user.grid = Ext.extend(Ext.grid.GridPanel, {
 					return;
 				}
 				this.user = {
-					id : selects[0].data.empId,
+					id : selects[0].data.id,
 					empName : selects[0].data.empName,
 					roleId : selects[0].data.roleId,
 				}

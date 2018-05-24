@@ -21,4 +21,6 @@ public interface CarTypePriceMapper extends BaseMapper<CarTypePrice> {
 
     public int checkName(CarTypePrice carTypePrice);
 
+    int checkNameById(CarTypePrice carTypePrice);
+
 }

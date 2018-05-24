@@ -6,6 +6,7 @@ import com.fgwater.frame.model.system.Company;
 import com.fgwater.frame.model.system.Fleet;
 import com.fgwater.frame.service.system.CompanyService;
 import com.fgwater.frame.service.system.FleetService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -44,7 +46,11 @@ public class CompanyController extends BaseController {
 	}
 
 
-	//获取单位机构树子集
+
+	/**
+	 * 获取单位机构树子集
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "getTreechild.do")
 	public String getTreechild() {
@@ -55,7 +61,10 @@ public class CompanyController extends BaseController {
 	}
 
 
-
+	/**
+	 * 保存单位机构信息
+	 * @return
+	 */
 
 	@ResponseBody
 	@RequestMapping(value = "saveCompany.do")
@@ -88,6 +97,12 @@ public class CompanyController extends BaseController {
 
 		return this.responseModel.serial();
 	}
+
+
+
+
+
+
 
 
 

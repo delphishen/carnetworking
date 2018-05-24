@@ -97,6 +97,8 @@ public class CompanyServiceImpl extends BaseServiceImpl implements
 	}
 
 
+
+
 	private JSONArray getByRoot(JSONArray ja, String root, JSONArray res) {
 		for (int i = 0; i < ja.size(); i++) {
 			JSONObject jo = ja.getJSONObject(i);

@@ -1,15 +1,19 @@
 package com.fgwater.frame.web.controller.logistics;
 
+import com.bolang.carnetworking.location.LocationUtil;
+import com.bolang.carnetworking.location.request.CarLocationHistoryRequest;
+import com.bolang.carnetworking.location.response.CarLocationHistoryDetail;
+import com.bolang.carnetworking.location.response.CarLocationHistoryResponse;
 import com.bolang.carnetworking.sms.SMSConfig;
 import com.bolang.carnetworking.sms.SMSUtil;
 import com.fgwater.core.annotation.Injection;
 import com.fgwater.core.model.DateJsonValueProcessor;
-import com.fgwater.core.utils.ExcelUtil;
-import com.fgwater.core.utils.ResponseUtil;
-import com.fgwater.core.utils.SessionUtils;
+import com.fgwater.core.model.Gps;
+import com.fgwater.core.utils.*;
 import com.fgwater.core.web.controller.BaseController;
 import com.fgwater.frame.model.logistics.ApplyType;
 import com.fgwater.frame.model.logistics.CarApply;
+import com.fgwater.frame.model.logistics.Location;
 import com.fgwater.frame.model.logistics.User2;
 import com.fgwater.frame.model.system.User;
 import com.fgwater.frame.service.logistics.*;
@@ -27,6 +31,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,11 +116,18 @@ public class CarApplyController extends BaseController {
 		String companyId = httpServletRequest.getParameter("companyId");
 		String clockIn = httpServletRequest.getParameter("clockIn");
 		String clockOut = httpServletRequest.getParameter("clockOut");
+		String queryfleetId = httpServletRequest.getParameter("queryfleetId");
+		String departureTimebegin = httpServletRequest.getParameter("departureTimebegin");
+		String departureTimeend = httpServletRequest.getParameter("departureTimeend");
+
 
 		map.put("fleetId",fleetId);
 		map.put("companyId",companyId);
 		map.put("clockIn",clockIn);
 		map.put("clockOut",clockOut);
+		map.put("queryfleetId",queryfleetId);
+		map.put("departureTimebegin",departureTimebegin);
+		map.put("departureTimeend",departureTimeend);
 
 
 
@@ -122,7 +135,7 @@ public class CarApplyController extends BaseController {
 
 			Workbook wb = new HSSFWorkbook();
 			String heads[] = {"订单编号", "订单申请时间", "乘车用户", "业务类型", "付费方式", "出发地",  "目的地"
-                    , "实际费用", "实际公里数", "订单来源", "所属机构", "所属平台",};
+                    , "实际费用", "实际公里数", "订单来源", "所属机构", "所属平台","司机姓名","车牌号","上车时间","下车时间","出发时间","订单状态"};
 			List<Map<String,String>> mapList = this.applyService.excelAllCarApply(map);
 
 			JsonConfig config = new JsonConfig();
@@ -161,6 +174,60 @@ public class CarApplyController extends BaseController {
 		return this.responseModel.serial();
 	}
 
+
+	@ResponseBody
+	@RequestMapping(value = "getCarApplylocation.do")
+	public String getCarApplylocation( HttpServletRequest request) {
+
+		JSONArray ja = new JSONArray();
+		List<Location> locations = new ArrayList<>();
+
+		JsonConfig config = new JsonConfig();
+		config.registerJsonValueProcessor(Timestamp.class,new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
+
+		try {
+			String orderId =  request.getParameter("orderId");
+			Map<String, String> mapList = applyService.queryOrder(orderId);
+			JSONObject jsonObject = JSONObject.fromObject(mapList,config);
+
+			if (jsonObject.get("GPSFrom").equals("北斗定位")){
+				LocationUtil locationUtil = GetLocationUtil.getLocationUtil();
+				CarLocationHistoryRequest carLocationHistoryRequest = new CarLocationHistoryRequest();
+
+				String plateNo = jsonObject.get("plateNo").toString();
+				String rideDatetime = jsonObject.get("rideDatetime").toString();
+				String endDatetime = jsonObject.get("endDatetime").toString();
+				carLocationHistoryRequest.setCarNo(plateNo);
+				carLocationHistoryRequest.setStartTime(rideDatetime);
+				carLocationHistoryRequest.setEndTime(endDatetime);
+				CarLocationHistoryResponse carLocationHistoryResponse = locationUtil.GetTrack(carLocationHistoryRequest);
+
+				List<CarLocationHistoryDetail> list = carLocationHistoryResponse.getPoiList();
+				for (CarLocationHistoryDetail carLocationHistoryDetail:list){
+
+					Gps gps = PositionUtil.gps84_To_Gcj02(carLocationHistoryDetail.getY(),carLocationHistoryDetail.getX());
+					carLocationHistoryDetail.setX(gps.getWgLon());
+					carLocationHistoryDetail.setY(gps.getWgLat());
+				}
+
+				ja = JSONArray.fromObject(list);
+
+			}else {
+
+				RestTemplate restTemplate = new RestTemplate();
+				ja = restTemplate.getForEntity("http://47.97.177.55:8808/carnetworking/mongoapi/getHistoryLocation?orderId="+orderId,JSONArray.class).getBody();
+
+			}
+
+		}catch (Exception e){
+			System.out.println(e);
+
+		}
+
+
+		return ja.toString();
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "queryapproveLog.do")
 	public String queryapproveLog() {
@@ -173,11 +240,10 @@ public class CarApplyController extends BaseController {
 		return this.responseModel.serial();
 	}
 
-
-
-
-
-	//订单调度
+	/**
+	 * 订单调度
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "savecarApply.do")
 	public String savebusType() {
@@ -229,7 +295,11 @@ public class CarApplyController extends BaseController {
 
 
 
-	//订单改派
+
+	/**
+	 * 订单改派
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "reassignmentcarApply.do")
 	public String reassignmentcarApply() {
@@ -251,7 +321,7 @@ public class CarApplyController extends BaseController {
 
 		String plateNo = map.get("plateNo").toString();
 		String passengerName = jsonObject.get("passengerName").toString();
-		String applyDatetime = jsonObject.get("applyDatetime").toString();
+		String applyDatetime = jsonObject.get("departureTime").toString();
 		String oldplateNo = jsonObject.get("plateNo").toString();
 
 		String driverName = map2.get("driverName").toString();
@@ -274,7 +344,13 @@ public class CarApplyController extends BaseController {
 
 		SMSUtil smsUtil = context.getBean(SMSUtil.class);
 
-		smsUtil.Send(phone,"很抱歉，由于车辆故障，("+oldplateNo+")无法为您服务，已为您改派车辆("+plateNo+"),为您服务,司机（"+driverName+mobile+"),登录APP乘客端查看派车进度！！");
+		if(oldplateNo.equals(plateNo)){
+			smsUtil.Send(phone,"很抱歉，由于司机个人因素影响，改派司机（"+driverName+mobile+")为您服务,登录APP乘客端查看派车进度！！");
+		}else {
+			smsUtil.Send(phone,"很抱歉，由于车辆故障，("+oldplateNo+")无法为您服务，已为您改派车辆("+plateNo+"),为您服务,司机（"+driverName+mobile+"),登录APP乘客端查看派车进度！！");
+		}
+
+
 		smsUtil.Send(mobile,"新订单,下单人（"+passengerName+"),用车时间"+applyDatetime+",请在APP司机端查看！");
 
 

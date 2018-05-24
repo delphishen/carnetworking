@@ -22,4 +22,6 @@ public interface CompanyService extends BaseService {
 
     public JSONArray getTreeCompanyApprove(Map<String, String> params);
 
+
+
 }

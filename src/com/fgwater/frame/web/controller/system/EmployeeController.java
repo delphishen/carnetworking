@@ -34,6 +34,12 @@ public class EmployeeController extends BaseController {
 	@Injection
 	private List<Employee> employees;
 
+
+	/**
+	 * 查询员工管理grid展示信息
+	 * @return
+	 */
+
 	@ResponseBody
 	@RequestMapping(value = "queryEmployee.do")
 	public String query() {
@@ -44,8 +50,12 @@ public class EmployeeController extends BaseController {
 				.getParams()), MOUNT_TYPE_PAGING);
 		return this.responseModel.serial();
 	}
-	
-	
+
+
+	/**
+	 * 获取下拉框员工信息
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "getAllEmployee.do")
 	public String getAll() {
@@ -58,8 +68,13 @@ public class EmployeeController extends BaseController {
 	//	System.out.println(this.requestModel.getParams());
 	//	System.out.println(this.responseModel.serial());
 		return this.responseModel.serial();
-	}	
+	}
 
+
+	/**
+	 *保存和更新员工信息
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "saveEmployee.do")
 	public String save() {
@@ -70,6 +85,11 @@ public class EmployeeController extends BaseController {
 		return jo.toString();
 	}
 
+
+	/**
+	 * 删除员工信息
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "deleteEmployee.do")
 	public String delete() {

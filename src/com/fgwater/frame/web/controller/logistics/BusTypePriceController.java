@@ -49,6 +49,21 @@ public class BusTypePriceController extends BaseController {
 
 
 
+	@ResponseBody
+	@RequestMapping(value = "queryBusTypePriceList.do")
+	public String queryBusTypePriceList() {
+
+
+		System.out.println("=================params==========="+this.requestModel.getParams());
+
+		this.responseModel.mount(this.busTypePriceService.queryBusTypePriceList(this.requestModel
+				.getParams()), MOUNT_TYPE_JA);
+
+		return this.responseModel.serial();
+	}
+
+
+
 
 	@ResponseBody
 	@RequestMapping(value = "deleteBusTypePrice.do")

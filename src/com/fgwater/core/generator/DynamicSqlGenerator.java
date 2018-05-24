@@ -121,6 +121,38 @@ public class DynamicSqlGenerator<T extends BaseModel> {
 		return SQL();
 	}
 
+
+	public String updatemodel(T obj) {
+		obj.setModifier(SessionUtils.getCurrUser().getLoginName());
+		obj.setMoTime(StrUtils.getCurrFormatTime());
+		StringBuffer sbSet = new StringBuffer();
+		Field[] fields = obj.getClass().getDeclaredFields();
+		for (Field field : fields) {
+			if (field.isAnnotationPresent(Column.class)) {
+				String fieldName = field.getName();
+				Object fieldValue = this.getFieldValueByName(fieldName, obj);
+				if (fieldValue != null) {
+
+                    if(field==fields[fields.length-1]) {
+                        System.out.println("最后一个元素了=========:");
+                        sbSet.append(fieldName).append("=#{").append(fieldName)
+                                .append("}");
+                    }else {
+                        sbSet.append(fieldName).append("=#{").append(fieldName)
+                                .append("},");
+                    }
+
+				}
+			}
+		}
+		String id = obj.id();
+		BEGIN();
+		UPDATE(obj.table());
+		SET(sbSet.toString());
+		WHERE(id + "=#{" + id + "}");
+		return SQL();
+	}
+
 	/**
 	 * 
 	 * description : 逻辑删除

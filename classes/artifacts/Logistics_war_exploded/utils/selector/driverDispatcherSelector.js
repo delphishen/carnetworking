@@ -51,12 +51,14 @@ Ext.driverDispatcherSelector.grid = Ext.extend(Ext.grid.GridPanel, {
                 limit : 80,
                 fleetId:basefleedId,
 				userId:userId,
-                remark:remark
+                remark:remark,
+                roleId:roleID,
+                companyID:companyID
             },
             listeners : {
                 'beforeload' : function() {
                     var params = {
-                        'empName' : Ext.getCmp('queryEmpName')
+                        'driverName' : Ext.getCmp('queryEmpName')
                             .getValue()
                     };
                     Ext.apply(this.baseParams, params);

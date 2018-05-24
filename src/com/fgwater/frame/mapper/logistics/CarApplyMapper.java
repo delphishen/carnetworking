@@ -68,4 +68,6 @@ public interface CarApplyMapper extends BaseMapper<CarApply> {
 
     List<Map<String,String>> excelCarApplyByUserId(Map<String, String> map);
 
+    List<Map<String,String>> findapplypassenger(Map<String, String> map);
+
 }

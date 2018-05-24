@@ -24,280 +24,342 @@ import java.util.*;
 @Service("carApplyService")
 public class CarApplyServiceImpl extends BaseServiceImpl implements CarApplyService {
 
-	@Resource
-	private CarApplyMapper applyMapper;
+    @Resource
+    private CarApplyMapper applyMapper;
 
-	@Resource
-	private PassengerMapper passengerMapper;
-
-
-
-	@Override
-	public List<Map<String, String>> query(Map<String, String> params) {
-		String localeName = "";
-		List<Map<String,String >> mapList = new ArrayList<>();
-
-		User  user = SessionUtils.getCurrUser();
-		if (("10").equals(user.getRoleId())){
-			mapList = this.applyMapper.query(params);
-		}else {
-			params.put("userId",user.getId());
-			mapList = this.applyMapper.queryByCompany(params);
-		}
+    @Resource
+    private PassengerMapper passengerMapper;
 
 
-		for (Map<String,String>  map :mapList){
-			//System.out.println("=======订单编号==========="+map.get("carApplyNo"));
-			List<Map<String,String>> maps = this.applyMapper.findapplylocale(map);
-			for (Map<String,String>  map1:maps){
-				localeName = localeName+map1.get("localeName")+",";
+    @Override
+    public List<Map<String, String>> query(Map<String, String> params) {
+        String localeName = "";
+        String name = "";
+        String  passengerTel = "";
+        List<Map<String, String>> mapList = new ArrayList<>();
 
-			}
-			map.put("localeName",localeName);
-			localeName = "";
-		}
-
-
-
-		return mapList;
-
-
-	}
-
-	@Override
-	public void updateTable(CarApply carApply) {
-
-		this.applyMapper.updateTable(carApply);
-
-		Map<String,String> map =  new HashMap<String, String>();
-		map.put("id",UUIDUtils.getUUID());
-		map.put("fleetId",carApply.getFleetId());
-		map.put("carApplyNo",carApply.getCarApplyNo());
-		map.put("activityId",carApply.getActivityId());
-		map.put("statues","已审核");
-		map.put("userId", SessionUtils.getCurrUserId());
-		map.put("approveDatetime",StrUtils.getCurrFormatTime());
+        User user = SessionUtils.getCurrUser();
+        if (("10").equals(user.getRoleId())) {
+            mapList = this.applyMapper.query(params);
+        } else {
+            params.put("userId", user.getId());
+            mapList = this.applyMapper.queryByCompany(params);
+        }
 
 
-		System.out.println(map);
-		this.applyMapper.insertlog(map);
+        for (Map<String, String> map : mapList) {
+            //System.out.println("=======订单编号==========="+map.get("carApplyNo"));
+            List<Map<String, String>> maps = this.applyMapper.findapplylocale(map);
+            List<Map<String,String>> mapList1 = this.applyMapper.findapplypassenger(map);
+            for (Map<String, String> map1 : maps) {
+                localeName = localeName + map1.get("localeName") + ",";
+
+            }
+            for (Map<String, String> map2:mapList1) {
+                 name= name + map2.get("name") + ",";
+                 passengerTel = passengerTel + map2.get("tel") + ",";
+
+            }
+
+            map.put("localeName", localeName);
+            map.put("name", name);
+            map.put("passengerTel", passengerTel);
+            localeName = "";
+            name = "";
+            passengerTel = "";
+        }
 
 
-	}
-
-	@Override
-	public List<Map<String, String>> queryinsanity(Map<String, String> params) {
-		return this.applyMapper.queryinsanity(params);
-	}
-
-	@Override
-	public List<Map<String, String>> queryapproveLog(Map<String, String> params) {
-		return this.applyMapper.queryapproveLog(params);
-	}
-
-	@Override
-	public boolean savecarApply(CarApply carApply) {
+        return mapList;
 
 
+    }
 
-		if(StrUtils.isNullOrEmpty(carApply.getCarApplyNo())){
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    @Override
+    public void updateTable(CarApply carApply) {
 
-			Date date = new Date();
-			String datatime = simpleDateFormat.format(date);
+        this.applyMapper.updateTable(carApply);
 
-			carApply.setCarApplyNo(datatime);
-			carApply.setOrderFrom("后台下单");
-			carApply.setStatuesId("10");
-			carApply.setDriverId(null);
-			carApply.setPlateNoId(null);
-			this.applyMapper.insert(carApply);
-
-		}else {
-			this.applyMapper.savecarApply(carApply);
-			Map<String,String> map =  new HashMap<String, String>();
-			map.put("id",UUIDUtils.getUUID());
-			map.put("fleetId",carApply.getFleetId());
-			map.put("carApplyNo",carApply.getCarApplyNo());
-			map.put("plateNoId",carApply.getPlateNoId());
-			map.put("driverId",carApply.getDriverId());
-			map.put("userId",SessionUtils.getCurrUserId());
-			map.put("dispatchDatetime",StrUtils.getCurrFormatTime());
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", UUIDUtils.getUUID());
+        map.put("fleetId", carApply.getFleetId());
+        map.put("carApplyNo", carApply.getCarApplyNo());
+        map.put("activityId", carApply.getActivityId());
+        map.put("statues", "已审核");
+        map.put("userId", SessionUtils.getCurrUserId());
+        map.put("approveDatetime", StrUtils.getCurrFormatTime());
 
 
-			System.out.println("=============添加调度日志map=========="+map);
-
-			this.applyMapper.insertdispatchlog(map);
-		}
+        System.out.println(map);
+        this.applyMapper.insertlog(map);
 
 
+    }
+
+    @Override
+    public List<Map<String, String>> queryinsanity(Map<String, String> params) {
+        return this.applyMapper.queryinsanity(params);
+    }
+
+    @Override
+    public List<Map<String, String>> queryapproveLog(Map<String, String> params) {
+        return this.applyMapper.queryapproveLog(params);
+    }
+
+    @Override
+    public boolean savecarApply(CarApply carApply) {
 
 
-		return true;
-	}
+        if (StrUtils.isNullOrEmpty(carApply.getCarApplyNo())) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	@Override
-	public List<Map<String, String>> querydispatchLog(Map<String, String> params) {
-		return this.applyMapper.querydispatchLog(params);
-	}
+            Date date = new Date();
+            String datatime = simpleDateFormat.format(date);
 
-	@Override
-	public List<Map<String, String>> querydispatch(Map<String, String> params) {
-		return this.applyMapper.querydispatch(params);
-	}
+            carApply.setCarApplyNo(datatime);
+            carApply.setOrderFrom("后台下单");
+            carApply.setStatuesId("10");
+            carApply.setDriverId(null);
+            carApply.setPlateNoId(null);
+            this.applyMapper.insert(carApply);
 
-	@Override
-	public List<Map<String, String>> queryAllCarApply(Map<String, String> params) {
-
-		if (params.get("clockIn") != null && params.get("clockIn") != ""){
-			params.put("clockIn",params.get("clockIn")+" 00:00:00");
-		}
-		if (params.get("clockOut") != null && params.get("clockOut") != ""){
-			params.put("clockOut",params.get("clockOut")+" 23:59:59");
-		}
-
-
-		User user = SessionUtils.getCurrUser();
-		List<Map<String,String >> mapList = new ArrayList<>();
-		if (("10").equals(user.getRoleId())){
-			mapList = this.applyMapper.queryAllCarApply(params);
-		}else {
-			params.put("userId",user.getId());
-			mapList = this.applyMapper.queryCarApplyByUserId(params);
-
-		}
+        } else {
+            this.applyMapper.savecarApply(carApply);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("id", UUIDUtils.getUUID());
+            map.put("fleetId", carApply.getFleetId());
+            map.put("carApplyNo", carApply.getCarApplyNo());
+            map.put("plateNoId", carApply.getPlateNoId());
+            map.put("driverId", carApply.getDriverId());
+            map.put("userId", SessionUtils.getCurrUserId());
+            map.put("dispatchDatetime", StrUtils.getCurrFormatTime());
 
 
+            System.out.println("=============添加调度日志map==========" + map);
 
-		String localeName = "";
-
-		for (Map<String,String>  map :mapList){
-			List<Map<String,String>> maps = this.applyMapper.findapplylocale(map);
-			for (Map<String,String>  map1:maps){
-				localeName = localeName+map1.get("localeName")+",";
-
-			}
-			map.put("localeName",localeName);
-			localeName = "";
-		}
-		return mapList;
-	}
-
-	@Override
-	public void cancelcarApply(CarApply carApply) {
-
-		this.applyMapper.cancelcarApply(carApply);
-
-		Map<String,String> map =  new HashMap<String, String>();
-		map.put("id",UUIDUtils.getUUID());
-		map.put("fleetId",carApply.getFleetId());
-		map.put("carApplyNo",carApply.getCarApplyNo());
-		map.put("activityId",carApply.getActivityId());
-		map.put("statues","已取消");
-		map.put("userId", SessionUtils.getCurrUserId());
-		map.put("approveDatetime",StrUtils.getCurrFormatTime());
+            this.applyMapper.insertdispatchlog(map);
+        }
 
 
-		System.out.println(map);
-		this.applyMapper.insertlog(map);
+        return true;
+    }
 
-	}
+    @Override
+    public List<Map<String, String>> querydispatchLog(Map<String, String> params) {
+        return this.applyMapper.querydispatchLog(params);
+    }
 
-	@Override
-	public void deletecarApply(List<CarApply> carApplies) {
-		for (CarApply carApplie : carApplies) {
-			JSONObject jo = JSONObject.fromObject(carApplie);
-			Map<String, String> map = this.toMap(jo);
-			applyMapper.backgroundCancel(map);
-			//applyMapper.deleteTable(map);
-		}
-	}
+    @Override
+    public List<Map<String, String>> querydispatch(Map<String, String> params) {
+        return this.applyMapper.querydispatch(params);
+    }
 
-	@Override
-	public boolean insertcarApply(CarApply carApply) {
-        carApply.setStatuesId("10");
-        carApply.setDriverId(null);
-        carApply.setPlateNoId(null);
-         String carApplyNo = carApply.getFleetId()+System.currentTimeMillis();
-        carApply.setCarApplyNo(carApplyNo);
-        System.currentTimeMillis();
-	    carApply.setOrderFrom("后台下单");
+    @Override
+    public List<Map<String, String>> queryAllCarApply(Map<String, String> params) {
 
-	    if (carApply.getUserId().contains(",")){
-	    	System.out.println("======包含逗号===");
-	    	String[] strings = carApply.getUserId().split(",");
-	    	for (int i = 0;i<strings.length;i++){
-	    		//System.out.println("=====输出userID======"+strings[i]);
-				if (i == 0){
-					carApply.setUserId(strings[0]);
-				}else {
-					CarApplyPassenger carApplyPassenger = new CarApplyPassenger();
-					Map<String,Object> map = passengerMapper.findById(strings[i]);
-					carApplyPassenger.setId(UUIDUtils.getUUID());
-					carApplyPassenger.setCarApplyNo(carApply.getCarApplyNo());
-					carApplyPassenger.setDepartureTime(carApply.getDepartureTime());
-					carApplyPassenger.setEndLocale(carApply.getEndLocale());
-					carApplyPassenger.setStartLocale(carApply.getStartLocale());
-					carApplyPassenger.setFleetId(carApply.getFleetId());
-					carApplyPassenger.setName(map.get("passengerName").toString());
-					carApplyPassenger.setTel(map.get("mobile").toString());
+        if (params.get("clockIn") != null && params.get("clockIn") != "") {
+            params.put("clockIn", params.get("clockIn") + " 00:00:00");
+        }
+        if (params.get("clockOut") != null && params.get("clockOut") != "") {
+            params.put("clockOut", params.get("clockOut") + " 23:59:59");
+        }
+        if (params.get("departureTimebegin") != null && params.get("departureTimebegin") != "") {
+            params.put("departureTimebegin", params.get("departureTimebegin") + " 00:00:00");
+        }
+        if (params.get("departureTimeend") != null && params.get("departureTimeend") != "") {
+            params.put("departureTimeend", params.get("departureTimeend") + " 23:59:59");
+        }
 
-					applyMapper.insertCarApplyPassenger(carApplyPassenger);
 
-				}
-
-			}
-
-		}
-
-	    if (!StrUtils.isNullOrEmpty(carApply.getWayLocale())){
-	        carApply.setLocaleId(UUIDUtils.getUUID());
-	        applyMapper.insertcarApplyLocale(carApply);
+        User user = SessionUtils.getCurrUser();
+        List<Map<String, String>> mapList = new ArrayList<>();
+        if (("10").equals(user.getRoleId())) {
+            mapList = this.applyMapper.queryAllCarApply(params);
+        } else {
+            params.put("userId", user.getId());
+            mapList = this.applyMapper.queryCarApplyByUserId(params);
 
         }
 
 
-		applyMapper.insertcarApply(carApply);
-		return true;
-	}
+        String localeName = "";
+        String name = "";
+        String  passengerTel = "";
 
-	@Override
-	public Map<String, String> queryOrder(String carApplyNo) {
-		return applyMapper.queryOrder(carApplyNo);
-	}
+        for (Map<String, String> map : mapList) {
+            List<Map<String, String>> maps = this.applyMapper.findapplylocale(map);
+            List<Map<String,String>> mapList1 = this.applyMapper.findapplypassenger(map);
+            for (Map<String, String> map1 : maps) {
+                localeName = localeName + map1.get("localeName") + ",";
 
-	@Override
-	public List<Map<String, String>> excelAllCarApply(Map<String, String> map) {
+            }
+            for (Map<String, String> map2:mapList1) {
+                name= name + map2.get("name") + ",";
+                passengerTel = passengerTel + map2.get("tel") + ",";
 
-		User user = SessionUtils.getCurrUser();
+            }
 
-		if (map.get("clockIn") != null && map.get("clockIn") != ""){
-			map.put("clockIn",map.get("clockIn")+" 00:00:00");
-		}
-		if (map.get("clockOut") != null && map.get("clockOut") != ""){
-			map.put("clockOut",map.get("clockOut")+" 23:59:59");
-		}
+            map.put("localeName", localeName);
+            map.put("name", name);
+            map.put("passengerTel", passengerTel);
 
-		List<Map<String,String >> mapList = new ArrayList<>();
-		if (("10").equals(user.getRoleId())){
-			mapList = this.applyMapper.excelAllCarApply(map);
-		}else {
-			map.put("userId",user.getId());
-			mapList = this.applyMapper.excelCarApplyByUserId(map);
+            localeName = "";
+            name = "";
+            passengerTel = "";
+        }
+        return mapList;
+    }
 
-		}
-		return mapList;
-	}
+    @Override
+    public void cancelcarApply(CarApply carApply) {
+
+        this.applyMapper.cancelcarApply(carApply);
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", UUIDUtils.getUUID());
+        map.put("fleetId", carApply.getFleetId());
+        map.put("carApplyNo", carApply.getCarApplyNo());
+        map.put("activityId", carApply.getActivityId());
+        map.put("statues", "已取消");
+        map.put("userId", SessionUtils.getCurrUserId());
+        map.put("approveDatetime", StrUtils.getCurrFormatTime());
 
 
-	@SuppressWarnings("unchecked")
-	private Map<String, String> toMap(JSONObject jo) {
-		Map<String, String> map = new HashMap<String, String>();
-		Iterator<String> iterator = jo.keys();
-		while (iterator.hasNext()) {
-			String key = iterator.next();
-			map.put(key, jo.getString(key));
-		}
-		return map;
-	}
+        System.out.println(map);
+        this.applyMapper.insertlog(map);
+
+    }
+
+    @Override
+    public void deletecarApply(List<CarApply> carApplies) {
+        for (CarApply carApplie : carApplies) {
+            JSONObject jo = JSONObject.fromObject(carApplie);
+            Map<String, String> map = this.toMap(jo);
+            applyMapper.backgroundCancel(map);
+            //applyMapper.deleteTable(map);
+        }
+    }
+
+    @Override
+    public boolean insertcarApply(CarApply carApply) {
+        User user = SessionUtils.getCurrUser();
+        carApply.setStatuesId("10");
+        carApply.setDriverId(null);
+        carApply.setPlateNoId(null);
+        //String carApplyNo = carApply.getFleetId()+System.currentTimeMillis();
+
+        carApply.setOrderFrom("后台下单");
+
+        String num = "";
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            num += random.nextInt(10);
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+
+        String carApplyNo = sdf.format(new Date()) + num;
+        carApply.setCarApplyNo(carApplyNo);
+
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String applyDatetime = simpleDateFormat.format(date);
+        carApply.setApplyDatetime(applyDatetime);
+
+
+        if (carApply.getUserId().contains(",")) {
+            System.out.println("======包含逗号===");
+            String[] strings = carApply.getUserId().split(",");
+            for (int i = 0; i < strings.length; i++) {
+                //System.out.println("=====输出userID======"+strings[i]);
+                if (i == 0) {
+                    carApply.setUserId(strings[0]);
+                }
+
+                CarApplyPassenger carApplyPassenger = new CarApplyPassenger();
+                Map<String, Object> map = passengerMapper.findById(strings[i]);
+                carApplyPassenger.setId(UUIDUtils.getUUID());
+                carApplyPassenger.setCarApplyNo(carApply.getCarApplyNo());
+                carApplyPassenger.setDepartureTime(carApply.getDepartureTime());
+                carApplyPassenger.setEndLocale(carApply.getEndLocale());
+                carApplyPassenger.setStartLocale(carApply.getStartLocale());
+                carApplyPassenger.setFleetId(carApply.getFleetId());
+                carApplyPassenger.setName(map.get("passengerName").toString());
+                carApplyPassenger.setTel(map.get("mobile").toString());
+
+                applyMapper.insertCarApplyPassenger(carApplyPassenger);
+
+
+            }
+
+        } else {
+            CarApplyPassenger carApplyPassenger = new CarApplyPassenger();
+            Map<String, Object> map = passengerMapper.findById(carApply.getUserId());
+            carApplyPassenger.setId(UUIDUtils.getUUID());
+            carApplyPassenger.setCarApplyNo(carApply.getCarApplyNo());
+            carApplyPassenger.setFleetId(carApply.getFleetId());
+            carApplyPassenger.setName(map.get("passengerName").toString());
+            carApplyPassenger.setTel(map.get("mobile").toString());
+            applyMapper.insertCarApplyPassenger(carApplyPassenger);
+
+        }
+
+        if (!StrUtils.isNullOrEmpty(carApply.getWayLocale())) {
+            carApply.setLocaleId(UUIDUtils.getUUID());
+            applyMapper.insertcarApplyLocale(carApply);
+
+        }
+
+        //carApply.setUserId(user.getEmpId());
+
+        applyMapper.insertcarApply(carApply);
+        return true;
+    }
+
+    @Override
+    public Map<String, String> queryOrder(String carApplyNo) {
+        return applyMapper.queryOrder(carApplyNo);
+    }
+
+    @Override
+    public List<Map<String, String>> excelAllCarApply(Map<String, String> map) {
+
+        User user = SessionUtils.getCurrUser();
+
+        if (map.get("clockIn") != null && map.get("clockIn") != "") {
+            map.put("clockIn", map.get("clockIn") + " 00:00:00");
+        }
+        if (map.get("clockOut") != null && map.get("clockOut") != "") {
+            map.put("clockOut", map.get("clockOut") + " 23:59:59");
+        }
+
+        if (map.get("departureTimebegin") != null && map.get("departureTimebegin") != "") {
+            map.put("departureTimebegin", map.get("departureTimebegin") + " 00:00:00");
+        }
+        if (map.get("departureTimeend") != null && map.get("departureTimeend") != "") {
+            map.put("departureTimeend", map.get("departureTimeend") + " 23:59:59");
+        }
+
+        List<Map<String, String>> mapList = new ArrayList<>();
+        if (("10").equals(user.getRoleId())) {
+            mapList = this.applyMapper.excelAllCarApply(map);
+        } else {
+            map.put("userId", user.getId());
+            mapList = this.applyMapper.excelCarApplyByUserId(map);
+
+        }
+        return mapList;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private Map<String, String> toMap(JSONObject jo) {
+        Map<String, String> map = new HashMap<String, String>();
+        Iterator<String> iterator = jo.keys();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            map.put(key, jo.getString(key));
+        }
+        return map;
+    }
 }

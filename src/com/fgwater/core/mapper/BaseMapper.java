@@ -31,6 +31,10 @@ public interface BaseMapper<T extends BaseModel> {
 	@UpdateProvider(type = DynamicSqlGenerator.class, method = "update")
 	public void update(T obj);
 
+
+	@UpdateProvider(type = DynamicSqlGenerator.class, method = "updatemodel")
+	public void updatemodel(T obj);
+
 	@UpdateProvider(type = DynamicSqlGenerator.class, method = "deleteLogic")
 	public void deleteLogic(T obj);
 

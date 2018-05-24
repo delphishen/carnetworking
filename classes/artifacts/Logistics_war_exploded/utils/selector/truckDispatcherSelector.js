@@ -54,11 +54,12 @@ Ext.truckDispatcherSelector.grid = Ext.extend(Ext.grid.GridPanel, {
                 remark:remark,
                 carTypeId:carTypeID,
 				roleId:roleID,
+                companyID:companyID
             },
             listeners : {
                 'beforeload' : function() {
                     var params = {
-                        'empName' : Ext.getCmp('queryEmpName')
+                        'plateNo' : Ext.getCmp('queryEmpName')
                             .getValue()
                     };
                     Ext.apply(this.baseParams, params);
@@ -140,7 +141,7 @@ Ext.truckDispatcherSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 							}]
 				});
 		// 菜单条
-		this.tbar = new Ext.Toolbar(['&nbsp;姓名:', {
+		this.tbar = new Ext.Toolbar(['&nbsp;车牌号:', {
 					id : 'queryEmpName',
 					xtype : 'textfield',
 					width : 100

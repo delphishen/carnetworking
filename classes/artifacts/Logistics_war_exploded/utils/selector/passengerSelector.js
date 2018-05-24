@@ -43,6 +43,7 @@ Ext.passengerSelector.grid = Ext.extend(Ext.grid.GridPanel, {
 					autoDestroy : true,
 					autoLoad : true,
 					baseParams : {
+                        isPaging : true,
 						start : 0,
 						limit : 20,
 						fleetId:basefleedId,

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fgwater.frame.mapper.api.VehicleQuotaInfoMapper">
+
+    <select id="query" parameterType="HashMap" resultType="HashMap">
+		SELECT a.*,t.company,t.fleetName,t.fleetId FROM api_t_vehicleQuotaInfo a
+		LEFT JOIN  t_archives_company t ON a.orgnId = t.id
+		WHERE 1=1
+		<if test="fleetId!='root'">
+			AND t.fleetId = #{fleetId}
+		</if>
+		
+
+	</select>
+
+
+</mapper>

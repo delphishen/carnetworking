@@ -20,6 +20,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
                 console.log("=================="+val);
+                basefleedId = Ext.getCmp('fleetId').getValue();
 
                 if(val ==null && val == undefined){
                     Ext.ux.Toast.msg("信息", "请先选择所属平台");
@@ -53,6 +54,7 @@ Ext.customer.form = Ext.extend(Ext.FormPanel, {
             editable : false,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
+                basefleedId = Ext.getCmp('fleetId').getValue();
                 if(val == undefined){
                     Ext.ux.Toast.msg("信息", "请先选择所属平台");
 
@@ -340,7 +342,9 @@ Ext.customer.grid = Ext.extend(Ext.grid.GridPanel, {
                 isPaging : true,
                 start : 0,
                 limit : 40,
-                fleetId:fleedId
+                fleetId:fleedId,
+                roleId:roleID,
+                userId:userId
             },
             listeners : {
                 'beforeload' : function() {
@@ -568,6 +572,22 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
         });
         this.companyTypeDS.load();
 
+        this.fleetTypeDS = new Ext.data.Store({
+            proxy : new Ext.data.HttpProxy({
+                url : path + '/system/getTreeAllFleetList.do',
+                method : 'POST'
+            }),
+            reader : new Ext.data.JsonReader({},
+                [{name : 'id'}, {name : 'fleetName'}]),
+
+            baseParams : {
+                fleetId:fleedId
+            }
+
+        });
+        this.fleetTypeDS.load();
+
+
         // 在column布局的制约下，从左至右每个元素依次进行form布局
         this.items = [{
             width : 250,
@@ -586,6 +606,31 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
                 name:'tel',
                 anchor : '90%'
             }]
+        },{
+            width : 250,
+            items : [{
+                id:'querydriverfleetId',
+                fieldLabel : '按平台筛选',
+                width : 80,
+                xtype : 'combo',
+                hiddenName : 'queryfleetId',
+                submitValue : false,
+                anchor : '90%',
+                editable : true,
+                autoLoad : true,
+                triggerAction : 'all',
+                mode : 'local',
+                store : this.fleetTypeDS,
+                valueField : 'id',
+                displayField : 'fleetName',
+                listeners : {
+                    'select' : function(combo, record) {
+                        //	this.getForm().findField('linesName').setValue(record.data.id);
+                    },
+                    scope : this
+                }
+            }]
+
         }, {
             width : 65,
             items : [{
@@ -610,6 +655,32 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
                 },
                 scope : this
             }]
+        },{
+            width : 100,
+            items : [{
+                xtype : 'button',
+                id : 'exportExcel',
+                text : '导出excel',
+                iconCls : 'reset',
+                handler : function() {
+                    var driverName = Ext.getCmp("driverName").getValue();
+                    var tel = Ext.getCmp("tel1").getValue();
+                    var queryfleetId = Ext.getCmp("querydriverfleetId").value;
+                    console.log("司机姓名"+driverName +"电话号码"+tel);
+                    if (driverName == undefined){
+                        driverName = '';
+                    }
+                    if (tel == undefined){
+                        tel = '';
+                    }
+                    if (queryfleetId == undefined){
+                        queryfleetId = '';
+                    }
+                    window.location.href = path + '/logistics/exportDriver.do?fleetId=' +fleedId+'&driverName='
+                        +driverName+'&tel='+tel+'&queryfleetId='+queryfleetId;
+                },
+                scope : this
+            }]
         }];
         // panel定义
         Ext.customer.queryPanel.superclass.constructor.call(this, {
@@ -623,7 +694,7 @@ Ext.customer.queryPanel = Ext.extend(Ext.FormPanel, {
             labelAlign : 'right',
             defaults : {
                 layout : 'form',
-                labelWidth : 60
+                labelWidth : 80
             }
         });
     },
@@ -646,6 +717,8 @@ var driverView = function(params) {
     Ext.getCmp('buttonAddCustomerView').hidden=!params[0].isAdd;
     Ext.getCmp('buttonModifyCustomerView').hidden=!params[0].isModify;
     Ext.getCmp('buttonDelCustomerView').hidden=!params[0].isDel;
+
+    Ext.getCmp('querydriverfleetId').hidden= loginName != 'root';
 
 
     console.log(params);

@@ -43,23 +43,39 @@ public class BusTypePriceServiceImpl extends BaseServiceImpl implements BusTypeP
 		}
 	}
 
-
-
-
-
+	@Override
+	public List<Map<String, Object>> queryBusTypePriceList(Map<String, String> params) {
+		return busTypePriceMapper.queryBusTypePriceList(params);
+	}
 
 
 	public boolean saveOrUpdateBusType(BusTypePrice busTypePrice) {
 
+		 int count = 0;
 
-			if (StrUtils.isNullOrEmpty(busTypePrice.getId())) {
-				busTypePrice.setId(UUIDUtils.getUUID());
-				busTypePriceMapper.insert(busTypePrice);
-			} else {
-				busTypePriceMapper.update(busTypePrice);
-			}
+		 if (StrUtils.isNullOrEmpty(busTypePrice.getId())){
+		 	count = busTypePriceMapper.checkName(busTypePrice);
+		 }else {
+		 	count = busTypePriceMapper.checkNameById(busTypePrice);
+		 }
 
-		return true;
+		 if (count ==0){
+			 if (StrUtils.isNullOrEmpty(busTypePrice.getId())) {
+
+				 busTypePrice.setId(UUIDUtils.getUUID());
+
+				 busTypePriceMapper.insert(busTypePrice);
+			 } else {
+
+				 busTypePriceMapper.update(busTypePrice);
+			 }
+		 }
+
+
+
+
+
+		return count == 0;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -14,8 +14,9 @@ Ext.jq.grid = Ext.extend(Ext.grid.GridPanel, {
 					autoDestroy : true,
 					autoLoad : true,
 					baseParams : {
+                        isPaging: true,
 						start : 0,
-						limit : 20,
+						limit : 40,
 						roleId :20,
 					},
 					listeners : {
@@ -40,7 +41,7 @@ Ext.jq.grid = Ext.extend(Ext.grid.GridPanel, {
                                     userId = this.sortNode.id
                                     Ext.apply(this.getStore().baseParams, {
                                         'userId' : userId,
-                                        'fleetId' : 'root',
+                                        'fleetId' : fleedId,
                                     });
                                 }
                             }
@@ -111,7 +112,7 @@ Ext.jq.grid = Ext.extend(Ext.grid.GridPanel, {
 				}]);
 		// 页码条
 		this.bbar = new Ext.PagingToolbar({
-					pageSize : 20,
+					pageSize : 40,
 					displayInfo : true,
 					store : this.ds
 				});

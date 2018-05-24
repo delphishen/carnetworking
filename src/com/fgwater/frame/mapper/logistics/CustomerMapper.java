@@ -29,4 +29,9 @@ public interface CustomerMapper extends BaseMapper<Customer> {
 
     int checkById(Map<String, String> map);
 
+    List<Map<String,String>> queryexcel(Map<String, String> map);
+
+    @Paging
+    List<Map<String,String>> queryByUserId(Map<String, String> m);
+
 }

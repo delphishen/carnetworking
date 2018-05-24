@@ -30,6 +30,8 @@ public class CarTypePriceServiceImpl extends BaseServiceImpl implements CarTypeP
 		int count = 0;
 		if (StrUtils.isNullOrEmpty(carTypePrice.getId())){
 			count = carTypePriceMapper.checkName(carTypePrice);
+		}else {
+			count = carTypePriceMapper.checkNameById(carTypePrice);
 		}
 
 

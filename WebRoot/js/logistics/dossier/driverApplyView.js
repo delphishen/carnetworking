@@ -23,7 +23,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp("fleetId").value;
                 departureTime = Ext.getCmp("departureTime").value;
-                console.log("出发时间"+departureTime);
+                companyID = Ext.getCmp("companyId").value;
                 new driverDispatcherSelector(function(id, name) {
                     this.setValue(name);
                     Ext.getCmp('driverId').setValue(id);
@@ -53,6 +53,7 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
             onTriggerClick : function(e) {
                 basefleedId = Ext.getCmp("fleetId").value;
                 carTypeID = Ext.getCmp("carTypeId").value;
+                companyID = Ext.getCmp("companyId").value;
 
                 new truckDispatcherSelector(function(id, name,driverId,driverName) {
                     this.setValue(name);
@@ -89,6 +90,9 @@ Ext.driverApply.form = Ext.extend(Ext.FormPanel, {
         }, {
             xtype : 'hidden',
             id : 'plateNoId'
+        },{
+            xtype : 'hidden',
+            id : 'companyId'
         },{
             xtype : 'hidden',
             id : 'carTypeId'
@@ -306,7 +310,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             fields: ['carApplyNo', 'fleetId', 'companyId', 'userId', 'driverId','privateOrPublic', 'departureTime'
                 , 'startLocale', 'endLocale', 'carpoolYN', 'carTypeId','budgetCost','budgetKilometres', 'content'
                 , 'remark','businessType', 'statuesId', 'activityId','orderFrom','driverApplyNo', 'fleetName', 'passengerName'
-                ,'company','driverName','modelName','plateNoId','plateNo','localeName','applyDatetime'],
+                ,'company','driverName','modelName','plateNoId','plateNo','localeName','applyDatetime','name','passengerTel'],
             autoDestroy: true,
             autoLoad: true,
             baseParams: {
@@ -377,7 +381,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
                 dataIndex: 'applyDatetime'
             },{
                 header: '乘车用户',
-                dataIndex: 'passengerName'
+                dataIndex: 'name'
             },{
                 header: '业务类型',
                 dataIndex: 'businessType'
@@ -424,7 +428,14 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
             ]
         });
         // 菜单条
-        this.tbar = new Ext.Toolbar([ {
+        this.tbar = new Ext.Toolbar([{
+            id:'buttonAdddriverTypeView',
+            xtype : 'button',
+            iconCls : 'add',
+            text : '查看订单详情',
+            handler : this.onAdd,
+            scope : this
+        }, {
             id: 'buttonDeldriverApplyView',
             xtype: 'button',
             iconCls: 'modify',
@@ -452,6 +463,65 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
     },
 
 
+    onAdd : function(btn) {
+
+        var selects = Ext.eu.getSelects(this);
+        if (selects.length == 0) {
+            Ext.ux.Toast.msg("信息", "请选择要查看的记录！");
+            return;
+        }
+        if (selects.length > 1) {
+            Ext.ux.Toast.msg("信息", "只能选择一条记录！");
+            return;
+        }
+
+
+
+        var select = selects[0].data;
+        console.log(select);
+        var win = new Ext.carApply.win(this);
+        var form = win.form.getForm();
+        win.setTitle('查看订单详情', 'modify');
+        if(select.carpoolYN ==false){
+            select.carpoolYN = '否';
+        }
+        if (select.carpoolYN == true){
+            select.carpoolYN = '是';
+        }
+
+
+
+        form.findField('fleetName').setValue(select.fleetName);
+        form.findField('loginName').setValue(select.name);
+        form.findField('company').setValue(select.company);
+
+        form.findField('departureTime').setValue(select.departureTime);
+        form.findField('startLocale').setValue(select.startLocale);
+        form.findField('endLocale').setValue(select.endLocale);
+        form.findField('carpoolYN').setValue(select.carpoolYN);
+        form.findField('budgetCost').setValue(select.budgetCost);
+        form.findField('budgetKilometres').setValue(select.budgetKilometres);
+        form.findField('content').setValue(select.content);
+        form.findField('remark').setValue(select.remark);
+        form.findField('carApplyNo1').setValue(select.carApplyNo);
+        //form.findField('carApplyNo1').setValues("1111");
+        form.findField('modelName').setValue(select.modelName)
+
+
+
+        form.findField('localeName').setValue(select.localeName);
+
+        win.show();
+        Ext.getCmp('carApplyButton').setVisible(false);
+        Ext.getCmp('cancelCarApplyButton').setVisible(false);
+        Ext.getCmp('cancelButton').setVisible(true);
+
+
+
+
+
+
+    },
 
     onModify : function(btn) {
         var selects = Ext.eu.getSelects(this);
@@ -474,6 +544,7 @@ Ext.driverApply.cargrid = Ext.extend(Ext.grid.GridPanel, {
         form.findField('plateNoId').setValue(select.plateNoId);
         form.findField('userId').setValue(select.userId);
         form.findField('carTypeId').setValue(select.carTypeId);
+        form.findField('companyId').setValue(select.companyId);
 
         form.findField('privateOrPublic').setValue(select.privateOrPublic);
         form.findField('departureTime').setValue(select.departureTime);

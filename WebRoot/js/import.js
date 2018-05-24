@@ -11,6 +11,11 @@ App.importJs = {
 	infoView : [path + '/js/info/infoView.js'],
 
 
+
+    /** *************************车辆监控*************************** */
+    carLocationView : [path + '/carLocation.jsp'],
+
+
     mapView : [path + '/js/logistics/dossier/mapView.js'],
 
 	iconView : [path + '/jsLib/ext3/ux/uploadDialog/UploadDialog.js',
@@ -344,6 +349,42 @@ App.importJs = {
                     path + '/utils/selector/kqSelector.js',],
 
 
+
+
+    /** *************************维修厂基本信息*************************** */
+    maintenanceInfoView : [path + '/js/api/maintenanceInfoView.js',
+        path + '/utils/selector/kqSelector.js',],
+
+    /** *************************保险公司基本信息*************************** */
+    insuranceInfoView : [path + '/js/api/insuranceInfoView.js',
+        path + '/utils/selector/kqSelector.js',],
+
+    /** *************************加油站点基本信息*************************** */
+    oilStationInfoView : [path + '/js/api/oilStationInfoView.js',
+        path + '/utils/selector/kqSelector.js',],
+
+    /** *************************单位车辆编制信息*************************** */
+    vehicleQuotaInfoView : [path + '/js/api/vehicleQuotaInfoView.js',
+        path + '/utils/selector/kqSelector.js',],
+
+
+    /** *************************车辆申购审批信息*************************** */
+    applyApproveInfoView : [path + '/js/api/applyApproveInfoView.js',
+        path + '/utils/selector/kqSelector.js',],
+
+    /** *************************车辆调配审批信息*************************** */
+    deployApproveInfoView : [path + '/js/api/deployApproveInfoView.js',
+        path + '/utils/selector/kqSelector.js',],
+
+    /** *************************车辆报废审批信息*************************** */
+    acrapApproveInfoView : [path + '/js/api/acrapApproveInfoView.js',
+        path + '/utils/selector/kqSelector.js',],
+
+    /** *************************车辆保险信息*************************** */
+    vehicleInsuranceInfoView : [path + '/js/api/vehicleInsuranceInfoView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/truckSelector.js',
+        path + '/utils/selector/insuranceInfoSelector.js',],
 
 
 	rightView : [path + '/jsLib/ext3/ux/TreeCheckNodeUI.js',

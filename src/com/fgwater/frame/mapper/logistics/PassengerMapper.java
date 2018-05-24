@@ -30,6 +30,8 @@ public interface PassengerMapper extends BaseMapper<Passenger> {
 
     int checkPhone(Passenger passenger);
 
+    List<Map<String,String>> queryexcel(Map<String, String> map);
+
 }
 
 

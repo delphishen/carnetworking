@@ -22,4 +22,6 @@ public interface BusTypeMapper extends BaseMapper<BusType> {
 
     public int checkByFleetId(BusType busType);
 
+    int checkById(BusType busType);
+
 }

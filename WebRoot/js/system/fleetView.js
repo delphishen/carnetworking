@@ -182,7 +182,6 @@ Ext.fleet.menuWin = Ext.extend(Ext.Window, {
 			onSave : function(btn) {
 				var form = this.form.getForm();
 				if (form.isValid()) {
-					btn.setDisabled(true);
 					var param = {
 						fleet : Ext.encode(form.getValues())
 					};
@@ -196,7 +195,6 @@ Ext.fleet.menuWin = Ext.extend(Ext.Window, {
 									this.close();
 								} else {
 									Ext.ux.Toast.msg('提示', '保存的记录存在重名');
-									btn.setDisabled(false);
 								}
 							}, this);
 				}

@@ -22,4 +22,7 @@ public interface TruckService extends BaseService {
 
 	public List<Map<String,String>> queryTruckDispatcherByRoot(Map<String, String> params);
 
+	List<Map<String,String>> queryExcel(Map<String, String> map);
+
+
 }

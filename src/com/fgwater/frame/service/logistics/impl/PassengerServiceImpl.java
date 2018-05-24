@@ -97,4 +97,9 @@ public class PassengerServiceImpl extends BaseServiceImpl implements PassengerSe
 	public String findPhone(String userId) {
 		return this.passengerMapper.findPhone(userId);
 	}
+
+	@Override
+	public List<Map<String, String>> queryexcel(Map<String, String> map) {
+		return this.passengerMapper.queryexcel(map);
+	}
 }

@@ -37,6 +37,7 @@ Ext.passenger.form = Ext.extend(Ext.FormPanel, {
             editable : false,
             onTriggerClick : function(e) {
                 var val = Ext.getCmp("fleetName").value;
+                basefleedId = Ext.getCmp('fleetId').getValue();
                 console.log("=================="+val);
 
                 if(val ==null && val == undefined){
@@ -475,6 +476,23 @@ Ext.passenger.queryPanel = Ext.extend(Ext.FormPanel, {
 				this.app = app;
 
 
+                this.fleetTypeDS = new Ext.data.Store({
+                    proxy : new Ext.data.HttpProxy({
+                        url : path + '/system/getTreeAllFleetList.do',
+                        method : 'POST'
+                    }),
+                    reader : new Ext.data.JsonReader({},
+                        [{name : 'id'}, {name : 'fleetName'}]),
+
+                    baseParams : {
+                        fleetId:fleedId
+                    }
+
+                });
+                this.fleetTypeDS.load();
+
+
+
 
 
                 // 在column布局的制约下，从左至右每个元素依次进行form布局
@@ -495,6 +513,31 @@ Ext.passenger.queryPanel = Ext.extend(Ext.FormPanel, {
                         name : 'mobile',
                         anchor : '90%'
                     }]
+                },{
+                    width : 250,
+                    items : [{
+                        id:'querypassengerfleetId',
+                        fieldLabel : '按平台筛选',
+                        width : 80,
+                        xtype : 'combo',
+                        hiddenName : 'queryfleetId',
+                        submitValue : false,
+                        anchor : '90%',
+                        editable : true,
+                        autoLoad : true,
+                        triggerAction : 'all',
+                        mode : 'local',
+                        store : this.fleetTypeDS,
+                        valueField : 'id',
+                        displayField : 'fleetName',
+                        listeners : {
+                            'select' : function(combo, record) {
+                                //	this.getForm().findField('linesName').setValue(record.data.id);
+                            },
+                            scope : this
+                        }
+                    }]
+
                 }, {
 							width : 65,
 							items : [{
@@ -519,12 +562,37 @@ Ext.passenger.queryPanel = Ext.extend(Ext.FormPanel, {
 										},
 										scope : this
 									}]
-						}];
+						},{
+                    width : 100,
+                    items : [{
+                        xtype : 'button',
+                        id : 'exportExcel',
+                        text : '导出excel',
+                        iconCls : 'reset',
+                        handler : function() {
+                            var passengerName = Ext.getCmp("passengerName").getValue();
+                            var mobile = Ext.getCmp("querymobile").getValue();
+                            var queryfleetId = Ext.getCmp("querypassengerfleetId").value;
+                            if (passengerName == undefined){
+                                passengerName = '';
+                            }
+                            if (mobile == undefined){
+                                mobile = '';
+                            }
+                            if (queryfleetId == undefined){
+                                queryfleetId = '';
+                            }
+                            window.location.href = path + '/logistics/exportPassenger.do?fleetId=' +fleedId+'&passengerName='
+                                +passengerName+'&mobile='+mobile+'&queryfleetId='+queryfleetId;
+                        },
+                        scope : this
+                    }]
+                }];
 				// panel定义
 				Ext.passenger.queryPanel.superclass.constructor.call(this, {
 							id : 'passengerViewQueryPanel',
 							region : 'north',
-							height : 40,
+							height : 70,
 							frame : true,
 							split : true,
 							collapseMode : 'mini',
@@ -532,7 +600,7 @@ Ext.passenger.queryPanel = Ext.extend(Ext.FormPanel, {
 							labelAlign : 'right',
 							defaults : {
 								layout : 'form',
-								labelWidth : 60
+								labelWidth : 80
 							}
 						});
 			},
@@ -554,7 +622,9 @@ var passengerView = function(params) {
 
 	Ext.getCmp('buttonAdddriverTypeView').hidden=!params[0].isAdd;
 	Ext.getCmp('buttonModifydriverTypeView').hidden=!params[0].isModify;
-	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;	
+	Ext.getCmp('buttonDeldriverTypeView').hidden=!params[0].isDel;
+
+    Ext.getCmp('querypassengerfleetId').hidden= loginName != 'root';
 	
 	return new Ext.Panel({
 				id : 'passengerView',// 标签页ID，必须与入口方法一致，用于判断标签页是否已经打开

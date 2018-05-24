@@ -20,8 +20,7 @@ public interface BusTypePriceService extends BaseService {
     public void deleteTable(List<BusTypePrice> busTypePrices);
 
 
-
-
+    List<Map<String,Object>> queryBusTypePriceList(Map<String, String> params);
 
 
 }

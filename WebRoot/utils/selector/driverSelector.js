@@ -49,12 +49,14 @@ Ext.driverSelector.grid = Ext.extend(Ext.grid.GridPanel, {
                 isPaging : true,
                 start : 0,
                 limit : 80,
-                fleetId:basefleedId
+                fleetId:basefleedId,
+                roleId:roleID,
+                userId:userId
             },
             listeners : {
                 'beforeload' : function() {
                     var params = {
-                        'empName' : Ext.getCmp('queryEmpName')
+                        'driverName' : Ext.getCmp('queryEmpName')
                             .getValue()
                     };
                     Ext.apply(this.baseParams, params);

@@ -780,7 +780,7 @@ var modifyPassword = function() {
 					password : Ext.getCmp('password2').getValue()
 				});
 				Ext.apply(user, {
-					id : loginID
+					id : userId
 				});
 				//	alert(Ext.getCmp('oldPass').getValue());
 				//	alert(Ext.encode(user));

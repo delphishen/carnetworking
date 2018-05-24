@@ -43,6 +43,12 @@
 		SELECT COUNT(*) FROM t_charteredbus_type WHERE fleetId=#{fleetId} AND  charteredBusType = #{charteredBusType}
 	</select>
 
+	<select id="checkById" parameterType="BusType" resultType="int">
+		SELECT COUNT(*) FROM t_charteredbus_type WHERE fleetId=#{fleetId} AND  charteredBusType = #{charteredBusType} AND  id != #{id}
+	</select>
+
+
+
 
 
 

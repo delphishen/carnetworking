@@ -11,9 +11,37 @@
 		LEFT JOIN    t_system_fleet f  ON c.fleetId = f.id
 		LEFT   JOIN t_archives_car_type ct ON c.carType = ct.id
 		LEFT   JOIN t_archives_driver d  ON c.driverId = d.id
+		<if test="roleId=='30'">
+			INNER JOIN (SELECT companyId FROM t_archives_approve_company WHERE userId= #{userId}) kk ON c.companyId = kk.companyId
+		</if>
 		where 1=1
 		<if test="fleetId!='root'">
 			and c.fleetId = #{fleetId}
+		</if>
+		<if test="queryfleetId!=null and queryfleetId!=''">
+			and c.fleetId = #{queryfleetId}
+		</if>
+		<if test="plateNo!=null and plateNo!=''">
+			and c.plateNo like '%${plateNo}%'
+		</if>
+		<if test="driverId!=null and driverId!=''">
+			and c.driverId like '%${driverId}%'
+		</if>
+	</select>
+
+	<select id="queryExcel" parameterType="HashMap" resultType="HashMap">
+		select c.*,co.company,f.fleetName,ct.modelName,d.driverName,c.id as plateNoId
+		from t_archives_car c
+		LEFT  JOIN  t_archives_company co ON c.companyId = co.id
+		LEFT JOIN    t_system_fleet f  ON c.fleetId = f.id
+		LEFT   JOIN t_archives_car_type ct ON c.carType = ct.id
+		LEFT   JOIN t_archives_driver d  ON c.driverId = d.id
+		where 1=1
+		<if test="fleetId!='root'">
+			and c.fleetId = #{fleetId}
+		</if>
+		<if test="queryfleetId!=null and queryfleetId!=''">
+			and c.fleetId = #{queryfleetId}
 		</if>
 		<if test="plateNo!=null and plateNo!=''">
 			and c.plateNo like '%${plateNo}%'
@@ -42,6 +70,9 @@
 		<if test="fleetId!='root'">
 			and dp.fleetId = #{fleetId}
 		</if>
+		<if test="plateNo!=null and plateNo!=''">
+			and c.plateNo like '%${plateNo}%'
+		</if>
 	</select>
 
 
@@ -50,11 +81,17 @@
 		LEFT JOIN t_system_fleet f ON c.fleetId = f.id
 		LEFT JOIN t_archives_car_type ct ON c.carType = ct.id
 		LEFT JOIN t_archives_driver d ON c.driverId = d.id
+		<if test="roleId=='30'">
+			INNER JOIN (SELECT companyId FROM t_archives_approve_company WHERE userId= #{userId}) kk ON c.companyId = kk.companyId
+		</if>
 		WHERE  1=1
 		AND  carType = #{carTypeId}
 
 		<if test="fleetId!='root'">
 			and c.fleetId = #{fleetId}
+		</if>
+		<if test="plateNo!=null and plateNo!=''">
+			and c.plateNo like '%${plateNo}%'
 		</if>
 	</select>
 
@@ -100,7 +137,14 @@
 		<if test="id!=null and id!=''">
 			and id !=#{id}
 		</if>
-	</select>	
+	</select>
+
+
+
+	<select id="getChildTruck" parameterType="String" resultType="HashMap">
+
+		SELECT id,plateNo as text FROM t_archives_car WHERE fleetId =#{fleetId}
+	</select>
 
 
 </mapper>

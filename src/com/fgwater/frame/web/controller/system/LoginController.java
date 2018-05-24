@@ -2,8 +2,13 @@ package com.fgwater.frame.web.controller.system;
 
 import javax.annotation.Resource;
 
+import com.bolang.carnetworking.location.LocationHostConfig;
+import com.bolang.carnetworking.location.LocationUtil;
+import com.bolang.carnetworking.location.request.CarLocationHistoryRequest;
+import com.bolang.carnetworking.location.response.CarLocationHistoryResponse;
 import com.bolang.carnetworking.sms.SMSConfig;
 import com.bolang.carnetworking.sms.SMSUtil;
+import com.fgwater.core.utils.GetLocationUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -26,31 +31,27 @@ public class LoginController extends BaseController {
 
 	private String errMsg;
 
+
+	/**
+	 * 用户登录
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "login.do",method = RequestMethod.POST)
 	public String login() {
 
 
 
-//		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-SMS-Config.xml");
-//
-//		SMSConfig config= context.getBean("sMSConfig", SMSConfig.class);
-//		System.out.println(config);
-//
-//		SMSUtil smsUtil = context.getBean(SMSUtil.class);
-//
-//		boolean flag = smsUtil.Send("13788821021","111111小明");
-
-
-
-		//SMSUtil smsUtil = new SMSUtil();
-		//smsUtil.Send("18020874381","111111小明");
-
 
 		this.check();
 		this.responseModel.mount(this.getErrMsg(), MOUNT_TYPE_MSG);
 		return this.responseModel.serial();
 	}
+
+	/**
+	 * 用户退出
+	 * @return
+	 */
 
 	@ResponseBody
 	@RequestMapping(value = "logout.do")

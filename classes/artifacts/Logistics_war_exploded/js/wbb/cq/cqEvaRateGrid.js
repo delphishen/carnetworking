@@ -343,7 +343,7 @@ Ext.cqEvaRate.win = Ext.extend(Ext.Window, {
                     this.app.getStore().reload();
                     this.close();
                 } else {
-                    Ext.ux.Toast.msg('提示', '类型名称已经存在！！！');
+                    Ext.ux.Toast.msg('提示', '该信息已经存在！！！');
                     btn.setDisabled(false);
                 }
             }, this);
@@ -420,6 +420,9 @@ Ext.cqEvaRate.grid = Ext.extend(Ext.grid.GridPanel, {
             }, {
                 header: '所属机构',
                 dataIndex: 'company'
+            },{
+                header: '车辆归属',
+                dataIndex: 'ascription'
             }, {
                 header: '车型',
                 dataIndex: 'modelName'

@@ -10,7 +10,7 @@ Ext.dispatchLog.grid = Ext.extend(Ext.grid.GridPanel, {
 							idProperty : 'id',
 							root : 'rows',
 							totalProperty : 'results',							
-							fields : ['id',  'driverId','plateNoId','employeeId','fleetId','carApplyNo','dispatchDatetime', 'fleetName','plateNo','loginName','driverName'],
+							fields : ['id',  'driverId','plateNoId','employeeId','fleetId','carApplyNo','dispatchDatetime', 'fleetName','plateNo','loginName','driverName','dispatchType'],
 							autoDestroy : true,
 							autoLoad : true,
 							baseParams : {
@@ -65,7 +65,10 @@ Ext.dispatchLog.grid = Ext.extend(Ext.grid.GridPanel, {
 									},{
 										header : '调度时间',
 										dataIndex : 'dispatchDatetime'
-									}, {
+									},{
+                                header : '调度原因',
+                                dataIndex : 'dispatchType'
+                            }, {
 										header : '所属机构',
 										dataIndex : 'fleetName'
 									}]

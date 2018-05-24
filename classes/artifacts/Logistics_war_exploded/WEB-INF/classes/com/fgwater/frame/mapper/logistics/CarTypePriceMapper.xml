@@ -40,6 +40,16 @@
 
 	</select>
 
+	<select id="checkNameById" parameterType="CarTypePrice" resultType="int" >
+		SELECT COUNT(1) FROM t_archives_car_type_price_list
+		WHERE carTtypeId =#{carTtypeId}
+		AND ascription = #{ascription}
+		AND businessType = #{businessType}
+		AND  id !=#{id}
+
+	</select>
+
+
 
 
 	<delete id="deleteTable" parameterType="HashMap">

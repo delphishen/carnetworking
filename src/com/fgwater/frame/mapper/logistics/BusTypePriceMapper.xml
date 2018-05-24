@@ -40,6 +40,43 @@
 
 
 
+	<select id="queryBusTypePriceList" parameterType="HashMap" resultType="HashMap">
+		SELECT *  from t_charteredbus_type
+		WHERE  1=1
+		<if test="fleetId!='root'">
+			AND fleetId =#{fleetId}
+		</if>
+
+
+	</select>
+
+	<select id="checkName"   parameterType="BusTypePrice" resultType="int"  >
+		SELECT COUNT(1) FROM t_archives_car_type_chartered_bus_price_list
+		WHERE fleetId =#{fleetId}
+		AND carTtypeId= #{carTtypeId}
+		AND  charteredBusTypeId = #{charteredBusTypeId}
+		AND  ascription = #{ascription}
+	</select>
+
+
+
+	<select id="checkNameById"   parameterType="BusTypePrice" resultType="int"  >
+		SELECT COUNT(1) FROM t_archives_car_type_chartered_bus_price_list
+		WHERE fleetId =#{fleetId}
+		AND carTtypeId= #{carTtypeId}
+		AND  charteredBusTypeId = #{charteredBusTypeId}
+		AND  ascription = #{ascription}
+		AND  id != #{id}
+	</select>
+
+
+
+
+
+
+
+
+
 
 
 
