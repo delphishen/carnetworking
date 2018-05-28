@@ -387,6 +387,29 @@ App.importJs = {
         path + '/utils/selector/insuranceInfoSelector.js',],
 
 
+
+    /** *************************实物用车保障*************************** */
+    vehicleSupportInfoView : [path + '/js/api/vehicleSupportInfoView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/truckSelector.js',],
+
+    /** *************************加油记录信息*************************** */
+    vehicleOilInfoView : [path + '/js/api/vehicleOilInfoView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/truckSelector.js',],
+
+    /** *************************车辆事故信息*************************** */
+    vehicleAccidentInfoView : [path + '/js/api/vehicleAccidentInfoView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/truckSelector.js',],
+
+    /** *************************维修记录审批信息*************************** */
+    vehicleMaintenanceInfoView : [path + '/js/api/vehicleMaintenanceInfoView.js',
+        path + '/utils/selector/kqSelector.js',
+        path + '/utils/selector/truckSelector.js',
+        path + '/utils/selector/maintenanceInfoSelector.js',],
+
+
 	rightView : [path + '/jsLib/ext3/ux/TreeCheckNodeUI.js',
 	             path + '/js/system/rightView.js'],
 
